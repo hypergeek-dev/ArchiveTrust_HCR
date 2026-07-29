@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PcGts xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2019-07-15">
+  <Metadata>
+    <Creator>Transkribus</Creator>
+    <Created>2026-06-12T09:41:00</Created>
+    <LastChange>2026-06-12T09:44:17</LastChange>
+    <MetadataItem type="string" name="vendorReportedAccuracy" value="0.912"/>
+    <MetadataItem type="string" name="modelVersion" value="Swedish Lion I - v3"/>
+    <MetadataItem type="string" name="jobId" value="job_884215"/>
+    <MetadataItem type="string" name="transkribusDocId" value="doc_55201"/>
+  </Metadata>
+  <Page imageFilename="volume_12_folio_003r.jpg" imageWidth="2480" imageHeight="3508">
+    <ReadingOrder>
+      <OrderedGroup id="ro_1">
+        <RegionRefIndexed index="0" regionRef="r1"/>
+        <RegionRefIndexed index="1" regionRef="r2"/>
+      </OrderedGroup>
+    </ReadingOrder>
+    <TextRegion id="r1" type="paragraph">
+      <Coords points="120,140 2200,140 2200,900 120,900"/>
+      <TextLine id="r1_l1" custom="readingOrder {index:0;}">
+        <Coords points="130,150 2000,150 2000,220 130,220"/>
+        <Baseline points="130,210 2000,210"/>
+        <TextEquiv conf="0.93">
+          <Unicode>Anno 1712 den 3 Januarii holltes ting</Unicode>
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="r1_l2" custom="readingOrder {index:1;}">
+        <Coords points="130,240 2050,240 2050,310 130,310"/>
+        <Baseline points="130,300 2050,300"/>
+        <TextEquiv conf="0.87">
+          <Unicode>medh allmogen aff Sochnen</Unicode>
+        </TextEquiv>
+      </TextLine>
+    </TextRegion>
+    <TextRegion id="r2" type="marginalia">
+      <Coords points="120,950 2200,950 2200,1400 120,1400"/>
+      <TextLine id="r2_l1" custom="readingOrder {index:0;}">
+        <Coords points="130,960 1800,960 1800,1030 130,1030"/>
+        <TextEquiv conf="0.79">
+          <Unicode>NB dombook</Unicode>
+        </TextEquiv>
+      </TextLine>
+    </TextRegion>
+  </Page>
+</PcGts>

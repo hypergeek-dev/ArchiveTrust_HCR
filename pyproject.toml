@@ -1,0 +1,73 @@
+[project]
+name = "archivetrust"
+version = "0.1.0"
+description = "Provider-independent trust layer for document understanding"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+]
+dependencies = [
+    "pydantic>=2.6",
+]
+
+[project.scripts]
+archivetrust-replay = "archivetrust.replay.__main__:main"
+archivetrust-evaluate = "archivetrust.evaluation.__main__:main"
+archivetrust-admin = "archivetrust.admin.cli:main"
+archivetrust-worker = "archivetrust.worker.service:main"
+archivetrust-bootstrap = "archivetrust.bootstrap.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+# The PySide6 desktop client (Human Review application). Deliberately optional: the domain, the
+# Learning Platform services, and the ViewModels have zero GUI dependency, so the whole system
+# installs and its full test suite runs without Qt. Only the `clients/desktop` layer needs this.
+gui = [
+    "PySide6>=6.6",
+    "python-dotenv>=1.0",
+]
+# The Hugging Face Transformers inference runtime (runtime/transformers_runtime.py) and the
+# Florence-2 HTR adapter (providers/florence2_htr/, docs/htr-migration-plan.md Stage 7).
+# Deliberately optional and lazy-imported: no provider, domain, or Learning Platform module
+# depends on torch/transformers, so the whole system installs and its full test suite runs
+# without either. Retained past Stage 5's provider deletions -- Qwen2.5-VL, the previous
+# consumer, is gone, Florence-2 is the current one. `timm`/`einops` are Florence-2's own
+# `trust_remote_code` modeling file's runtime dependencies (its vision backbone + tensor
+# reshaping helpers), not this project's -- required for `AutoModelForCausalLM.from_pretrained`
+# to succeed on any Florence-2 checkpoint, verified during Stage 7's investigation
+# (`providers/florence2_htr/facade.py`'s module docstring). The upper bound on `transformers` is
+# tighter than the previous `<6.0`: `>=5.0` was verified broken for Florence-2's remote config
+# construction (`AttributeError: 'Florence2LanguageConfig' object has no attribute
+# 'forced_bos_token_id'`, see the same docstring) -- `<5.0` keeps this extra installable at a
+# version Florence-2 actually loads under, without guessing at an untested upper bound closer to
+# 6.0 that may or may not also be broken.
+transformers = [
+    "torch>=2.1",
+    "transformers>=4.40,<5.0",
+    "timm>=0.9",
+    "einops>=0.7",
+]
+# The Folder Watch Acquisition Source's real OS-level filesystem notifications (ROADMAP.md
+# §5.13.2, Revision 5). Deliberately optional and probed once at construction
+# (`acquisition/folder_watch.py::_watchdog_available`): no other module depends on it, and a
+# documented, honestly-labeled polling fallback is used when it is absent, so the whole system
+# installs and its full test suite runs without it.
+watch = [
+    "watchdog>=4.0",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "real_model: exercises a real downloaded model (network + GPU/CPU inference, slow) -- excluded by default via -m 'not real_model', run explicitly for real-inference verification (docs/htr-migration-plan.md Stage 6).",
+]

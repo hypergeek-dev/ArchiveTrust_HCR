@@ -1,0 +1,87 @@
+from __future__ import annotations
+
+import pytest
+from pydantic import ValidationError
+
+from archivetrust.domain.evidence.models import Evidence, ProcessingStage
+from archivetrust.domain.telemetry.events import (
+    EVENT_TYPE_BY_KIND,
+    EvidenceCreated,
+    ProviderObservationAttempted,
+    TelemetryEventKind,
+    parse_event,
+)
+
+
+def test_all_canonical_event_kinds_are_registered():
+    # ROADMAP.md S12's canonical set is exhaustive by design. 18 original event kinds + 3 added by
+    # the Alignment Observability refinement (Revision 4: AlignmentAttempted, ObservationAligned,
+    # ObservationLeftUnaligned) + 3 added by the Telemetry Architecture Standard (Constitution
+    # Article 32: ProvenanceContextEstablished; Article 27: CandidateExcluded; Article 30:
+    # ReviewOutcomeRecorded) = 24, plus F3's CandidateExcludedBatch compact encoding = 25, plus
+    # F4's created/dispatched/opened/closed lifecycle events = 29, plus docs/htr-migration-plan.md
+    # Stage 3's 5 HTR event kinds (SegmentationRunCompleted, MethodRunCompleted,
+    # ReviewSubmissionRecorded, AdjudicationRecorded, CanonicalResultCreated) = 34.
+    assert len(TelemetryEventKind) == 34
+    assert set(EVENT_TYPE_BY_KIND) == set(TelemetryEventKind)
+
+
+def test_event_is_immutable():
+    event = ProviderObservationAttempted(
+        event_id="event_1",
+        document_ref="doc-1",
+        provider_id="docling",
+        provider_version="1.0",
+        invocation_id="invocation_1",
+    )
+    with pytest.raises(ValidationError):
+        event.provider_id = "someone-else"  # type: ignore[misc]
+
+
+def test_round_trip_serialization_of_a_nested_domain_object():
+    evidence = Evidence.create(
+        provider="docling", provider_version="1.0", raw_output="x", processing_stage=ProcessingStage.OCR
+    )
+    event = EvidenceCreated(
+        event_id="event_1", document_ref="doc-1", invocation_id="invocation_1", evidence=evidence
+    )
+    restored = EvidenceCreated.model_validate(event.model_dump())
+    assert restored == event
+
+
+def test_event_can_carry_policy_and_matrix_versions():
+    event = ProviderObservationAttempted(
+        event_id="event_1",
+        document_ref="doc-1",
+        provider_id="docling",
+        provider_version="1.0",
+        invocation_id="invocation_1",
+        reconciliation_policy_version=3,
+        capability_matrix_version=2,
+    )
+    assert event.reconciliation_policy_version == 3
+    assert event.capability_matrix_version == 2
+
+
+def test_event_policy_and_matrix_versions_default_to_none():
+    event = ProviderObservationAttempted(
+        event_id="event_1",
+        document_ref="doc-1",
+        provider_id="docling",
+        provider_version="1.0",
+        invocation_id="invocation_1",
+    )
+    assert event.reconciliation_policy_version is None
+    assert event.capability_matrix_version is None
+
+
+def test_parse_event_dispatches_on_kind():
+    evidence = Evidence.create(
+        provider="docling", provider_version="1.0", raw_output="x", processing_stage=ProcessingStage.OCR
+    )
+    event = EvidenceCreated(
+        event_id="event_1", document_ref="doc-1", invocation_id="invocation_1", evidence=evidence
+    )
+    parsed = parse_event(event.model_dump())
+    assert isinstance(parsed, EvidenceCreated)
+    assert parsed == event

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Layout>
+    <Page ID="page_1" WIDTH="100" HEIGHT="100">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="100" HEIGHT="100">
+        <TextBlock ID="block_1" HPOS="0" VPOS="0" WIDTH="100" HEIGHT="20">
+          <TextLine ID="block_1_line_1" HPOS="0" VPOS="0" WIDTH="100" HEIGHT="20">
+            <String ID="s1" CONTENT="broken" HPOS="0" VPOS="0" WIDTH="50" HEIGHT="20" WC="0.9">
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+</alto>

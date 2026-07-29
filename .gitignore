@@ -141,3 +141,23 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Main project virtual environment and the isolated SATRN one (OpenMMLab stack, incompatible
+# with the main project venv -- see src/archivetrust/providers/satrn/README.md). Both large,
+# locally-assembled, never committed.
+.venv/
+.venv-satrn/
+
+# Claude Code / agent tooling working directories (worktrees, session state) -- not project source
+.claude/
+.agents/
+
+
+# Generated application runtime data / test-run artifacts (regenerated on demand, not source)
+archivetrust_data/
+test-artifacts/
+
+# Python bytecode caches
+__pycache__/
+*.py[cod]
+.pytest_cache/

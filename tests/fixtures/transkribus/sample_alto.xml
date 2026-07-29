@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alto xmlns="http://www.loc.gov/standards/alto/ns-v4#">
+  <Description>
+    <MeasurementUnit>pixel</MeasurementUnit>
+    <sourceImageInformation>
+      <fileName>volume_12_folio_003r.jpg</fileName>
+    </sourceImageInformation>
+    <OCRProcessing ID="OCR_1">
+      <ocrProcessingStep>
+        <processingDateTime>2026-06-12T09:44:17</processingDateTime>
+        <processingSoftware>
+          <softwareName>Transkribus</softwareName>
+        </processingSoftware>
+      </ocrProcessingStep>
+    </OCRProcessing>
+  </Description>
+  <Layout>
+    <Page ID="page_1" WIDTH="2480" HEIGHT="3508" PHYSICAL_IMG_NR="1">
+      <PrintSpace HPOS="0" VPOS="0" WIDTH="2480" HEIGHT="3508">
+        <TextBlock ID="block_1" HPOS="120" VPOS="140" WIDTH="2080" HEIGHT="760">
+          <TextLine ID="block_1_line_1" HPOS="130" VPOS="150" WIDTH="1870" HEIGHT="70">
+            <String ID="s1" CONTENT="Anno" HPOS="130" VPOS="150" WIDTH="150" HEIGHT="70" WC="0.95"/>
+            <SP WIDTH="15"/>
+            <String ID="s2" CONTENT="1712" HPOS="295" VPOS="150" WIDTH="140" HEIGHT="70" WC="0.91"/>
+            <SP WIDTH="15"/>
+            <String ID="s3" CONTENT="den" HPOS="450" VPOS="150" WIDTH="120" HEIGHT="70" WC="0.88"/>
+          </TextLine>
+          <TextLine ID="block_1_line_2" HPOS="130" VPOS="240" WIDTH="1920" HEIGHT="70">
+            <String ID="s4" CONTENT="medh" HPOS="130" VPOS="240" WIDTH="150" HEIGHT="70" WC="0.80"/>
+            <SP WIDTH="15"/>
+            <String ID="s5" CONTENT="allmogen" HPOS="295" VPOS="240" WIDTH="230" HEIGHT="70" WC="0.74"/>
+          </TextLine>
+        </TextBlock>
+        <TextBlock ID="block_2" HPOS="120" VPOS="950" WIDTH="2080" HEIGHT="450">
+          <TextLine ID="block_2_line_1" HPOS="130" VPOS="960" WIDTH="1670" HEIGHT="70">
+            <String ID="s6" CONTENT="NB" HPOS="130" VPOS="960" WIDTH="80" HEIGHT="70" WC="0.79"/>
+            <SP WIDTH="15"/>
+            <String ID="s7" CONTENT="dombook" HPOS="225" VPOS="960" WIDTH="260" HEIGHT="70" WC="0.72"/>
+          </TextLine>
+        </TextBlock>
+      </PrintSpace>
+    </Page>
+  </Layout>
+</alto>

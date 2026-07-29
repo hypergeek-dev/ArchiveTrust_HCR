@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PcGts xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2019-07-15">
+  <Page imageFilename="broken.jpg" imageWidth="100" imageHeight="100">
+    <TextRegion id="r1">
+      <Coords points="0,0 100,0 100,100 0,100"/>
+      <TextLine id="r1_l1">
+        <Coords points="0,0 100,0 100,20 0,20"/>
+        <TextEquiv conf="0.5">
+          <Unicode>unterminated element
+        </TextEquiv>
+      </TextLine>
+    </TextRegion>
+  </Page>
+<!-- missing closing tag for PcGts, and the Unicode element above is never closed either -->

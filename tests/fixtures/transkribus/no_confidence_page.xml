@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PcGts xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2019-07-15">
+  <Page imageFilename="unscored.jpg" imageWidth="1000" imageHeight="1000">
+    <TextRegion id="r1">
+      <Coords points="0,0 1000,0 1000,500 0,500"/>
+      <TextLine id="r1_l1">
+        <Coords points="10,10 900,10 900,60 10,60"/>
+        <TextEquiv>
+          <Unicode>text without any confidence attribute</Unicode>
+        </TextEquiv>
+      </TextLine>
+    </TextRegion>
+  </Page>
+</PcGts>

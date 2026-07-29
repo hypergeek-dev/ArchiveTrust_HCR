@@ -1,0 +1,26 @@
+Metadata-Version: 2.4
+Name: archivetrust
+Version: 0.1.0
+Summary: Provider-independent trust layer for document understanding
+Requires-Python: >=3.11
+Requires-Dist: pydantic>=2.6
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Provides-Extra: gui
+Requires-Dist: PySide6>=6.6; extra == "gui"
+Requires-Dist: python-dotenv>=1.0; extra == "gui"
+Provides-Extra: transformers
+Requires-Dist: torch>=2.1; extra == "transformers"
+Requires-Dist: transformers<6.0,>=4.40; extra == "transformers"
+Provides-Extra: vllm
+Requires-Dist: httpx>=0.27; extra == "vllm"
+Provides-Extra: paddle-layout
+Requires-Dist: paddlepaddle-gpu; extra == "paddle-layout"
+Requires-Dist: paddleocr>=3.0; extra == "paddle-layout"
+Provides-Extra: watch
+Requires-Dist: watchdog>=4.0; extra == "watch"
+Provides-Extra: docling
+Requires-Dist: docling>=2.0; extra == "docling"
+Provides-Extra: tesseract
+Requires-Dist: pytesseract>=0.3; extra == "tesseract"
+Requires-Dist: Pillow>=10.0; extra == "tesseract"
