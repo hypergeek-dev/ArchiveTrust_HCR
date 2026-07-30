@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PcGts xmlns="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15 http://schema.primaresearch.org/PAGE/gts/pagecontent/2013-07-15/pagecontent.xsd">
+  <Metadata>
+    <Creator>ArchiveTrust htr/segmentation</Creator>
+    <Created>2026-07-30T07:40:51.449834+00:00</Created>
+    <LastChange>2026-07-30T07:40:51.449834+00:00</LastChange>
+    <MetadataItem type="processingStep" name="layoutSource" value="ArchiveTrust htr/segmentation (pre-detected; do not re-segment)" />
+    <MetadataItem type="processingStep" name="textEquivPolicy" value="Every TextEquiv/Unicode is deliberately empty: this file carries layout only, for a recognition-only Transkribus run. Any text present after processing was produced by Transkribus, not by ArchiveTrust." />
+    <MetadataItem type="processingStep" name="baselineDerivation" value="Baselines are derived from the bottom edge of each detected axis-aligned line box, not measured from ink. The detector (htr/segmentation, Florence-2 &lt;OD&gt;) emits rectangles, not polygons or baselines." />
+    <MetadataItem type="processingStep" name="segmentationAdapter" value="florence2_line_od@48a18ecb7e6815c3a7d33dff53133ea87a33053f" />
+    <MetadataItem type="processingStep" name="archiveTrustPageId" value="page_6225362331d8097dce39100a9ed8a13099688ca630a98774d7b1c82d9ee49cf5" />
+    <MetadataItem type="processingStep" name="normalizedContentHash" value="normalized_page_b4fb5f0f821bf9259588fc2e02b179c9421dff171e4ac3e3c67c95145f498889" />
+    <MetadataItem type="processingStep" name="byteIdentityCaveat" value="This export gives Transkribus the same detected line GEOMETRY that SATRN and Florence-2 received as byte-identical InputCrops -- not the same bytes. Transkribus extracts its own pixels from the page image using these Coords and may deskew, pad or rescale a line before recognition. A comparison built on this export is controlled for segmentation; it must not be described as byte-identical-input controlled." />
+    <MetadataItem type="processingStep" name="segmentationConfound" value="The line crops produced by this stage are detected by a Florence-2-family model (nazounoryuu/florence_base__mixed__page__line_od) and are then fed byte-identically to both SATRN and Florence-2. One of the two screened methods therefore has its own model family in control of the input the other is judged on. This is an accepted, explicitly-flagged confound decided at Checkpoint 1, not an oversight, and must be restated in any output derived from these crops. It is not neutralized by anything in this stage." />
+  </Metadata>
+  <Page imageFilename="document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61_p0014.png" imageWidth="2688" imageHeight="3176">
+    <ReadingOrder>
+      <OrderedGroup id="reading_order_root">
+        <RegionRefIndexed regionRef="region_df5363952cb34df8ba53719585776ad2" index="0" />
+      </OrderedGroup>
+    </ReadingOrder>
+    <TextRegion id="region_df5363952cb34df8ba53719585776ad2" custom="readingOrder {index:0;}" type="paragraph">
+      <Coords points="0,0 2688,0 2688,3176 0,3176" />
+      <TextLine id="text_line_edf05fab849d40d4ad0c4344ef9cb19e" custom="readingOrder {index:0;}">
+        <Coords points="2230,268 2359,268 2359,430 2230,430" />
+        <Baseline points="2230,430 2359,430" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_0cb54b8e12ac4c74b9b95f407f01b215" custom="readingOrder {index:1;}">
+        <Coords points="372,414 2187,414 2187,656 372,656" />
+        <Baseline points="372,656 2187,656" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_cef17776be8e44f0bb7abef017509996" custom="readingOrder {index:2;}">
+        <Coords points="372,567 2200,567 2200,764 372,764" />
+        <Baseline points="372,764 2200,764" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_591493a280094d36842a6a5497cc6b54" custom="readingOrder {index:3;}">
+        <Coords points="372,684 2211,684 2211,881 372,881" />
+        <Baseline points="372,881 2211,881" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_e31162e4b5e44f5ea558d4c3a0fc572f" custom="readingOrder {index:4;}">
+        <Coords points="372,815 1133,815 1133,1024 372,1024" />
+        <Baseline points="372,1024 1133,1024" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_bdb6de444a1440b9af041226b8a88a7e" custom="readingOrder {index:5;}">
+        <Coords points="542,923 2165,923 2165,1116 542,1116" />
+        <Baseline points="542,1116 2165,1116" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_310a368ed4b24409a8ae497a7f21a048" custom="readingOrder {index:6;}">
+        <Coords points="364,1040 2122,1040 2122,1253 364,1253" />
+        <Baseline points="364,1253 2122,1253" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_01a24c074a3b4331b5249f6a9e9a6bb1" custom="readingOrder {index:7;}">
+        <Coords points="364,1161 2173,1161 2173,1370 364,1370" />
+        <Baseline points="364,1370 2173,1370" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_f7d3076825154aac88e48c10277e9838" custom="readingOrder {index:8;}">
+        <Coords points="364,1269 2219,1269 2219,1491 364,1491" />
+        <Baseline points="364,1491 2219,1491" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_411dd434159e45df92aee003a0f6495b" custom="readingOrder {index:9;}">
+        <Coords points="364,1399 2206,1399 2206,1609 364,1609" />
+        <Baseline points="364,1609 2206,1609" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_82f8faad364b41a8826f75a0bdbc010a" custom="readingOrder {index:10;}">
+        <Coords points="364,1513 2149,1513 2149,1717 364,1717" />
+        <Baseline points="364,1717 2149,1717" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_037e03eb698641408a154440f39847cd" custom="readingOrder {index:11;}">
+        <Coords points="364,1621 2206,1621 2206,1812 364,1812" />
+        <Baseline points="364,1812 2206,1812" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_55c05dc0ab154209b5e6cc961ac7eabb" custom="readingOrder {index:12;}">
+        <Coords points="364,1729 2181,1729 2181,1926 364,1926" />
+        <Baseline points="364,1926 2181,1926" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_d81a44a2662f46bf95c13da8bc632527" custom="readingOrder {index:13;}">
+        <Coords points="364,1828 2246,1828 2246,2037 364,2037" />
+        <Baseline points="364,2037 2246,2037" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_315e550ccb5f4ea7be406942cf9ae9cf" custom="readingOrder {index:14;}">
+        <Coords points="364,1955 2206,1955 2206,2161 364,2161" />
+        <Baseline points="364,2161 2206,2161" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_038c416aabf444efb838d93f1014e73b" custom="readingOrder {index:15;}">
+        <Coords points="364,2056 2206,2056 2206,2266 364,2266" />
+        <Baseline points="364,2266 2206,2266" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_e610adb405544f7aa7df3a87ae79f212" custom="readingOrder {index:16;}">
+        <Coords points="364,2158 2249,2158 2249,2374 364,2374" />
+        <Baseline points="364,2374 2249,2374" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_931e7279ca5344c4910be61089a6fcbd" custom="readingOrder {index:17;}">
+        <Coords points="364,2295 1711,2295 1711,2466 364,2466" />
+        <Baseline points="364,2466 1711,2466" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_514a0d0e446645a1ade3ca6b9bcbb699" custom="readingOrder {index:18;}">
+        <Coords points="625,2365 2162,2365 2162,2558 625,2558" />
+        <Baseline points="625,2558 2162,2558" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_18094770b22b4b2ab0618a5af31ce1b9" custom="readingOrder {index:19;}">
+        <Coords points="372,2476 2195,2476 2195,2682 372,2682" />
+        <Baseline points="372,2682 2195,2682" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+      <TextLine id="text_line_6e5c089225074788a075a0ab94a4dd87" custom="readingOrder {index:20;}">
+        <Coords points="501,2698 1192,2698 1192,2860 501,2860" />
+        <Baseline points="501,2860 1192,2860" />
+        <TextEquiv>
+          <Unicode />
+        </TextEquiv>
+      </TextLine>
+    </TextRegion>
+  </Page>
+</PcGts>

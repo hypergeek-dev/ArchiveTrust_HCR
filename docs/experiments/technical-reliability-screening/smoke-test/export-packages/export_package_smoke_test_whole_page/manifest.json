@@ -1,0 +1,71 @@
+{
+  "configuration_hash": "normalization_config_13abd1eef72e3a648fd5c1b9a165e28eeac0b5c37edfd246905fabdcd88f57e2",
+  "correspondence_caveat": "Transkribus does not preserve or return these content hashes. Any association between an imported Transkribus result and a normalized page below is a researcher-confirmed correspondence, not cryptographic proof.",
+  "created_at": "2026-07-30T07:40:43.586926+00:00",
+  "entries": [
+    {
+      "archive_object_ref": "document_87381d9e62e5e04b4e4f16b27f4905e31e53fdc4b91d5ce43037da4b881d642b",
+      "height": 2736,
+      "normalized_content_hash": "normalized_page_3e56f8732b287b035566f35ca730d706130166a70d12386891847ba8a0f50e75",
+      "original_content_hash": "page_image_c8df622f250e14907bbeddfdf94a113bdee8e255139591eb982ad828e5d2cc9f",
+      "original_filename": "Trolldom_och_annan_vidskepelse_-_Attester_\u00e5_g\u00e5vor_till_fru_Maria_Kristina_Fr\u00f6lich__1719-1720__A0060197_00013.png",
+      "output_filename": "document_87381d9e62e5e04b4e4f16b27f4905e31e53fdc4b91d5ce43037da4b881d642b_p0013.png",
+      "page_id": "page_d59a1007c06ee492f935de4f5cee31baf1ef85b46bc57fd0e43c077442b6e357",
+      "page_number": 13,
+      "source_color_mode": "RGB",
+      "width": 3816
+    },
+    {
+      "archive_object_ref": "document_7d5826729978b29c626a1b21bfe5d28599740a04fd9a9705135292ca004a2bc8",
+      "height": 4073,
+      "normalized_content_hash": "normalized_page_3eea40a30fb7eda8e2ac0f7278478ede69348e79c96b30193dc11792bddb5fe2",
+      "original_content_hash": "page_image_0c47f4ca3faf2af87c7106f36efa47720159fb5b5f121a8f3f6a4eccce7bb3ff",
+      "original_filename": "Kommission_ang__trolldomsv\u00e4sendet_i_S_ta_Katarina_f\u00f6rsamling_p\u00e5_S\u00f6dermalm__1675__R0001211_00050.png",
+      "output_filename": "document_7d5826729978b29c626a1b21bfe5d28599740a04fd9a9705135292ca004a2bc8_p0050.png",
+      "page_id": "page_725f61228115b9a3b05edfd0fe1ca2cc029c23b24c50e0d1700ccf4eef2a6866",
+      "page_number": 50,
+      "source_color_mode": "RGB",
+      "width": 5159
+    },
+    {
+      "archive_object_ref": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61",
+      "height": 3176,
+      "normalized_content_hash": "normalized_page_b4fb5f0f821bf9259588fc2e02b179c9421dff171e4ac3e3c67c95145f498889",
+      "original_content_hash": "page_image_8e823769e498adbc6853b1a39162eddcec15873a6ca0b100bed078b977fe32a1",
+      "original_filename": "Trolldom_och_annan_vidskepelse_-_Str\u00f6dda_handlingar__1595-1720__A0060187_00014.png",
+      "output_filename": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61_p0014.png",
+      "page_id": "page_6225362331d8097dce39100a9ed8a13099688ca630a98774d7b1c82d9ee49cf5",
+      "page_number": 14,
+      "source_color_mode": "RGB",
+      "width": 2688
+    },
+    {
+      "archive_object_ref": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61",
+      "height": 3176,
+      "normalized_content_hash": "normalized_page_144fee58b729b984bc104265281c3488df698eb7d2faaa646ba18defcfeafa92",
+      "original_content_hash": "page_image_2d11aa3eab4cc87acc297ac3cfa20360f6fa218effcfed5faff54f05a8830661",
+      "original_filename": "Trolldom_och_annan_vidskepelse_-_Str\u00f6dda_handlingar__1595-1720__A0060187_00015.png",
+      "output_filename": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61_p0015.png",
+      "page_id": "page_44158b3386823817998cecc37f413da3fa935f3749260ecc671ce9f7eaf95692",
+      "page_number": 15,
+      "source_color_mode": "RGB",
+      "width": 2744
+    },
+    {
+      "archive_object_ref": "document_f40d4746ae343d06b10c548ceca5118a7b21bfd4413d9f80a889ad8e8d84f8b4",
+      "height": 4736,
+      "normalized_content_hash": "normalized_page_9e5498deded813ee7076382084e864f6fc72dd64c5f4ffb2b9b03a23d67b92b5",
+      "original_content_hash": "page_image_3bd0a18d7a9539ab260ceb956db6907a9fb22f5e14b116fc67b4083f77d0e47e",
+      "original_filename": "Trolldom_och_annan_vidskepelse_-_R\u00e4tteg\u00e5ngshandlingar_samt_skrivelser_till_G\u00f6ta_Hovr\u00e4tt__1731-1754__A0060200_00081.png",
+      "output_filename": "document_f40d4746ae343d06b10c548ceca5118a7b21bfd4413d9f80a889ad8e8d84f8b4_p0081.png",
+      "page_id": "page_8d56e51fc9cf8cae5885b42f8d22530bd1231184a62c4a861e385afe451ce413",
+      "page_number": 81,
+      "source_color_mode": "RGB",
+      "width": 3352
+    }
+  ],
+  "external_processing_boundary": "Transkribus is an external service. ArchiveTrust performs no upload, holds no credential, and makes no network call: a researcher must manually upload the images in this package to Transkribus, run Swedish Lion I there, and manually export the result back to local disk.",
+  "normalization_version": "1.0.0",
+  "package_id": "export_package_smoke_test_whole_page",
+  "stage": "image_color_normalization"
+}

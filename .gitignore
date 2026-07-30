@@ -164,3 +164,11 @@ __pycache__/
 
 /dataset-rgb
 /.history
+
+# Technical reliability screening: large regenerable image output (crops, normalized-page blobs,
+# export-package PNGs) derived from dataset-rgb/ -- reproducible from committed hashes/config, not
+# committed itself. The small evidence records (telemetry JSONL, results JSON, PAGE XML, manifests)
+# ARE committed -- only the binary image bytes are excluded here.
+docs/experiments/technical-reliability-screening/**/blobs/
+docs/experiments/technical-reliability-screening/**/crops/
+docs/experiments/technical-reliability-screening/**/export-packages/**/*.png

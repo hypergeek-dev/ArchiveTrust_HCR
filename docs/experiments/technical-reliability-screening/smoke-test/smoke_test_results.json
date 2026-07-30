@@ -1,0 +1,1176 @@
+{
+  "confound": "The line crops produced by this stage are detected by a Florence-2-family model (nazounoryuu/florence_base__mixed__page__line_od) and are then fed byte-identically to both SATRN and Florence-2. One of the two screened methods therefore has its own model family in control of the input the other is judged on. This is an accepted, explicitly-flagged confound decided at Checkpoint 1, not an oversight, and must be restated in any output derived from these crops. It is not neutralized by anything in this stage.",
+  "correlation_id": "segmentation_smoke_test_run_1",
+  "crop_hash_equality": {
+    "all_equal_across_methods": true,
+    "checks": [
+      {
+        "crop_id": "input_crop_1d9a3a4f709a4472ac488189f154b5c4",
+        "equal": true,
+        "florence2_input_hash": "crop_3e840fc5bc49e708fa219cedb22b7f3aab36dd994fdc135f9ca0f328dc9da97f",
+        "recorded_hash": "crop_3e840fc5bc49e708fa219cedb22b7f3aab36dd994fdc135f9ca0f328dc9da97f",
+        "satrn_input_hash": "crop_3e840fc5bc49e708fa219cedb22b7f3aab36dd994fdc135f9ca0f328dc9da97f"
+      },
+      {
+        "crop_id": "input_crop_50dc8a1c4cbb493c9af29979b467f7dc",
+        "equal": true,
+        "florence2_input_hash": "crop_4a2061ba3756e73e9ea2c5ad4e4b791367f05db1b658e90f1a2b8938aee07f75",
+        "recorded_hash": "crop_4a2061ba3756e73e9ea2c5ad4e4b791367f05db1b658e90f1a2b8938aee07f75",
+        "satrn_input_hash": "crop_4a2061ba3756e73e9ea2c5ad4e4b791367f05db1b658e90f1a2b8938aee07f75"
+      },
+      {
+        "crop_id": "input_crop_377f189a2c5f491b81ec4964709a5a40",
+        "equal": true,
+        "florence2_input_hash": "crop_021e75f0e849d80e8536fe963d3835e1f4e04cb452b0b658302da705fb7f0528",
+        "recorded_hash": "crop_021e75f0e849d80e8536fe963d3835e1f4e04cb452b0b658302da705fb7f0528",
+        "satrn_input_hash": "crop_021e75f0e849d80e8536fe963d3835e1f4e04cb452b0b658302da705fb7f0528"
+      },
+      {
+        "crop_id": "input_crop_4f034275f85f42d8bdbf6659998939f7",
+        "equal": true,
+        "florence2_input_hash": "crop_7186b8cdb1cbc2c7e35d3627f81703b364a66b87e0bc1c6343b2a175577121c8",
+        "recorded_hash": "crop_7186b8cdb1cbc2c7e35d3627f81703b364a66b87e0bc1c6343b2a175577121c8",
+        "satrn_input_hash": "crop_7186b8cdb1cbc2c7e35d3627f81703b364a66b87e0bc1c6343b2a175577121c8"
+      },
+      {
+        "crop_id": "input_crop_0a37475cf52942bba20b31918530feea",
+        "equal": true,
+        "florence2_input_hash": "crop_3707f5d3e8de4a771aad7e92041fe10c447cf2f704d07a9dfc98bf3321a97c49",
+        "recorded_hash": "crop_3707f5d3e8de4a771aad7e92041fe10c447cf2f704d07a9dfc98bf3321a97c49",
+        "satrn_input_hash": "crop_3707f5d3e8de4a771aad7e92041fe10c447cf2f704d07a9dfc98bf3321a97c49"
+      },
+      {
+        "crop_id": "input_crop_1af212a49c2145b98c36a2cd7f98049e",
+        "equal": true,
+        "florence2_input_hash": "crop_3952b1461a1233dacb9965d3d77c109a1456d258413e5dc29f79740760f4384e",
+        "recorded_hash": "crop_3952b1461a1233dacb9965d3d77c109a1456d258413e5dc29f79740760f4384e",
+        "satrn_input_hash": "crop_3952b1461a1233dacb9965d3d77c109a1456d258413e5dc29f79740760f4384e"
+      },
+      {
+        "crop_id": "input_crop_0c89a9e029fb443eb4c368b47ece51f8",
+        "equal": true,
+        "florence2_input_hash": "crop_3c9ab5c936faf728265ff7337e29096c087c6f1fa6613d7f3ea39cd5634a1864",
+        "recorded_hash": "crop_3c9ab5c936faf728265ff7337e29096c087c6f1fa6613d7f3ea39cd5634a1864",
+        "satrn_input_hash": "crop_3c9ab5c936faf728265ff7337e29096c087c6f1fa6613d7f3ea39cd5634a1864"
+      },
+      {
+        "crop_id": "input_crop_2aab3b7726bc4fa5a1531687ace3f10a",
+        "equal": true,
+        "florence2_input_hash": "crop_4127622bef544eb5e6c7633a848cb987b95ad6d4ffc65b143a4428bdfa405f5a",
+        "recorded_hash": "crop_4127622bef544eb5e6c7633a848cb987b95ad6d4ffc65b143a4428bdfa405f5a",
+        "satrn_input_hash": "crop_4127622bef544eb5e6c7633a848cb987b95ad6d4ffc65b143a4428bdfa405f5a"
+      },
+      {
+        "crop_id": "input_crop_9dc3a7f35d71438391d8f93c32efc49e",
+        "equal": true,
+        "florence2_input_hash": "crop_5f10ba5a9952cc4f128165ffcb3c4aaf54c0a5f44fa6d54795700fba5d9e869e",
+        "recorded_hash": "crop_5f10ba5a9952cc4f128165ffcb3c4aaf54c0a5f44fa6d54795700fba5d9e869e",
+        "satrn_input_hash": "crop_5f10ba5a9952cc4f128165ffcb3c4aaf54c0a5f44fa6d54795700fba5d9e869e"
+      },
+      {
+        "crop_id": "input_crop_c1c74279326c4fa89c030fa55bb592af",
+        "equal": true,
+        "florence2_input_hash": "crop_24c3a196f02caf735978b76dc1c66c1a67fda8a69acf3ae83e2b9f388f9085bd",
+        "recorded_hash": "crop_24c3a196f02caf735978b76dc1c66c1a67fda8a69acf3ae83e2b9f388f9085bd",
+        "satrn_input_hash": "crop_24c3a196f02caf735978b76dc1c66c1a67fda8a69acf3ae83e2b9f388f9085bd"
+      },
+      {
+        "crop_id": "input_crop_c2253d155b8a4ae8acaccdb7587a2574",
+        "equal": true,
+        "florence2_input_hash": "crop_733691069a06284a1d72d4877c04b243d1befb7300d0df86890de78b7aea46b5",
+        "recorded_hash": "crop_733691069a06284a1d72d4877c04b243d1befb7300d0df86890de78b7aea46b5",
+        "satrn_input_hash": "crop_733691069a06284a1d72d4877c04b243d1befb7300d0df86890de78b7aea46b5"
+      },
+      {
+        "crop_id": "input_crop_91595c063b0b4842b8f61d664d71f99c",
+        "equal": true,
+        "florence2_input_hash": "crop_d300591d4a4fb3375b3145a8ad6da9ae3e92d37a523f03ceaf09e024db2ea468",
+        "recorded_hash": "crop_d300591d4a4fb3375b3145a8ad6da9ae3e92d37a523f03ceaf09e024db2ea468",
+        "satrn_input_hash": "crop_d300591d4a4fb3375b3145a8ad6da9ae3e92d37a523f03ceaf09e024db2ea468"
+      },
+      {
+        "crop_id": "input_crop_368077e5975c47bc9e4c1661442eab93",
+        "equal": true,
+        "florence2_input_hash": "crop_ed628bbb6d682a4465ad23f51434db600b65ef62bded37bcc3bf8fc248a45705",
+        "recorded_hash": "crop_ed628bbb6d682a4465ad23f51434db600b65ef62bded37bcc3bf8fc248a45705",
+        "satrn_input_hash": "crop_ed628bbb6d682a4465ad23f51434db600b65ef62bded37bcc3bf8fc248a45705"
+      },
+      {
+        "crop_id": "input_crop_5ea401d261f345de8ec874e634e925f6",
+        "equal": true,
+        "florence2_input_hash": "crop_12f88319f5cae206f7611126288c0e53a30890fa50ab8384110c3274fbed9131",
+        "recorded_hash": "crop_12f88319f5cae206f7611126288c0e53a30890fa50ab8384110c3274fbed9131",
+        "satrn_input_hash": "crop_12f88319f5cae206f7611126288c0e53a30890fa50ab8384110c3274fbed9131"
+      },
+      {
+        "crop_id": "input_crop_fb0310f8ad5a481da6e2f9e2a19ac9ad",
+        "equal": true,
+        "florence2_input_hash": "crop_c1fe5627ee76eecf1edae8c6a01fa32fd4b54e5e349ef36d8ff56b3762399059",
+        "recorded_hash": "crop_c1fe5627ee76eecf1edae8c6a01fa32fd4b54e5e349ef36d8ff56b3762399059",
+        "satrn_input_hash": "crop_c1fe5627ee76eecf1edae8c6a01fa32fd4b54e5e349ef36d8ff56b3762399059"
+      }
+    ],
+    "crops_checked": 15
+  },
+  "durable_telemetry": {
+    "event_counts": {
+      "DerivedImageArtifactCreated": 10,
+      "ImageNormalizationCompleted": 10,
+      "ImageNormalizationStarted": 10,
+      "InputCropCreated": 156,
+      "PageRegistered": 5,
+      "RegionDetected": 7,
+      "SegmentationRunCompleted": 5,
+      "TextLineDetected": 156
+    },
+    "file": "smoke_test_events.jsonl",
+    "replay_reconstruction_verified": true,
+    "total_events": 359
+  },
+  "finished_at": "2026-07-30T07:40:51.595706+00:00",
+  "hard_boundary": "The full ~60-page sample was NOT run and must not be run until a human has reviewed these smoke-test results.",
+  "no_accuracy_metric": "No CER, WER or accuracy is computed or reported. This corpus has no ground truth and none is planned; only reference-free technical-reliability signals are recorded.",
+  "pages": [
+    {
+      "archive_object_ref": "document_87381d9e62e5e04b4e4f16b27f4905e31e53fdc4b91d5ce43037da4b881d642b",
+      "aspect_ratio": 1.3947,
+      "category_automatic": "Structurally difficult",
+      "gutter_evidence": {
+        "gutter_contrast": 0.1014,
+        "gutter_darkness": 133.0,
+        "gutter_x": 1958,
+        "median_column_darkness": 148.0,
+        "naive_midpoint_x": 1908,
+        "offset_from_midpoint_px": 50,
+        "search_band_px": [
+          1336,
+          2480
+        ]
+      },
+      "height": 2736,
+      "normalization": {
+        "alpha_compositing_applied": false,
+        "exif_orientation_applied": false,
+        "normalized_content_hash": "normalized_page_3e56f8732b287b035566f35ca730d706130166a70d12386891847ba8a0f50e75",
+        "reencode_byte_identical": false,
+        "source_alpha_present": false,
+        "source_bit_depth": 8,
+        "source_channel_count": 3,
+        "source_color_mode": "RGB",
+        "source_content_hash": "page_image_c8df622f250e14907bbeddfdf94a113bdee8e255139591eb982ad828e5d2cc9f",
+        "source_exif_orientation": null,
+        "source_icc_profile_present": false,
+        "verified_already_compliant": true,
+        "warnings": []
+      },
+      "page_id": "page_d59a1007c06ee492f935de4f5cee31baf1ef85b46bc57fd0e43c077442b6e357",
+      "recognition_crops": [
+        {
+          "crop_hash": "crop_3e840fc5bc49e708fa219cedb22b7f3aab36dd994fdc135f9ca0f328dc9da97f",
+          "crop_height": 170,
+          "crop_id": "input_crop_1d9a3a4f709a4472ac488189f154b5c4",
+          "crop_width": 1353,
+          "florence2": {
+            "adapter_reported_ms": 224.48350000195205,
+            "confidence_proxy": 0.4093561331141604,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "Till Fürförnombde Aspring",
+            "output_length": 25,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "Till Fürförnombde Aspring",
+            "wall_seconds": 2.631
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1247.523307800293,
+            "confidence": 0.5366043906658888,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "staden den 27 dennes",
+            "output_length": 20,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "staden den 27 dennes",
+            "wall_seconds": 10.041
+          }
+        },
+        {
+          "crop_hash": "crop_4a2061ba3756e73e9ea2c5ad4e4b791367f05db1b658e90f1a2b8938aee07f75",
+          "crop_height": 153,
+          "crop_id": "input_crop_50dc8a1c4cbb493c9af29979b467f7dc",
+          "crop_width": 1303,
+          "florence2": {
+            "adapter_reported_ms": 245.63940000371076,
+            "confidence_proxy": 0.47288063726700824,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "resonder siukel. Fru är giftiat",
+            "output_length": 31,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "resonder siukel. Fru är giftiat",
+            "wall_seconds": 0.249
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1128.7238597869873,
+            "confidence": 0.536318052560091,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "staden den 27 dennes",
+            "output_length": 20,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "staden den 27 dennes",
+            "wall_seconds": 9.849
+          }
+        },
+        {
+          "crop_hash": "crop_021e75f0e849d80e8536fe963d3835e1f4e04cb452b0b658302da705fb7f0528",
+          "crop_height": 189,
+          "crop_id": "input_crop_377f189a2c5f491b81ec4964709a5a40",
+          "crop_width": 1291,
+          "florence2": {
+            "adapter_reported_ms": 219.80589999293443,
+            "confidence_proxy": 0.5033019244506346,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "af bränflo Kyrackios fattig",
+            "output_length": 27,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "af bränflo Kyrackios fattig",
+            "wall_seconds": 0.224
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1144.3305015563965,
+            "confidence": 0.5346601057797671,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "staden den 27 dennes",
+            "output_length": 20,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "staden den 27 dennes",
+            "wall_seconds": 9.74
+          }
+        }
+      ],
+      "regions": [
+        {
+          "boxes_discarded_wrong_side": 0,
+          "boxes_in_edge_band": 0,
+          "boxes_returned": 19,
+          "detection_suspect": false,
+          "device_used": "cuda",
+          "inference_seconds": 1.336,
+          "lines_detected": 19,
+          "output_truncated": false,
+          "peak_gpu_memory_mb": 1211,
+          "region_id": "region_73be552b9da1406f83a135b28cac97ce",
+          "region_type": "page_side_left",
+          "window_x": [
+            0.0,
+            1958.0
+          ],
+          "zero_lines": false
+        },
+        {
+          "boxes_discarded_wrong_side": 0,
+          "boxes_in_edge_band": 0,
+          "boxes_returned": 19,
+          "detection_suspect": false,
+          "device_used": "cuda",
+          "inference_seconds": 1.037,
+          "lines_detected": 19,
+          "output_truncated": false,
+          "peak_gpu_memory_mb": 1211,
+          "region_id": "region_53ac867f51144ca6be94a40b571b3d8f",
+          "region_type": "page_side_right",
+          "window_x": [
+            1958.0,
+            3816.0
+          ],
+          "zero_lines": false
+        }
+      ],
+      "segmentation_detect_seconds": 2.372,
+      "segmentation_failed": false,
+      "segmentation_peak_gpu_memory_mb": 1211,
+      "segmentation_run_id": "segmentation_run_63db122b89f34995806164c8f46454f4",
+      "segmentation_stage_seconds": 8.364,
+      "source_file": "dataset-rgb/Trolldom_och_annan_vidskepelse_-_Attester_å_gåvor_till_fru_Maria_Kristina_Frölich__1719-1720_/Trolldom_och_annan_vidskepelse_-_Attester_å_gåvor_till_fru_Maria_Kristina_Frölich__1719-1720__A0060197_00013.png",
+      "spread_detected": true,
+      "total_crops_written": 38,
+      "total_lines_detected": 38,
+      "width": 3816
+    },
+    {
+      "archive_object_ref": "document_7d5826729978b29c626a1b21bfe5d28599740a04fd9a9705135292ca004a2bc8",
+      "aspect_ratio": 1.2666,
+      "category_automatic": "Structurally difficult",
+      "gutter_evidence": {
+        "gutter_contrast": 0.1628,
+        "gutter_darkness": 180.0,
+        "gutter_x": 2580,
+        "median_column_darkness": 215.0,
+        "naive_midpoint_x": 2579,
+        "offset_from_midpoint_px": 1,
+        "search_band_px": [
+          1806,
+          3353
+        ]
+      },
+      "height": 4073,
+      "normalization": {
+        "alpha_compositing_applied": false,
+        "exif_orientation_applied": false,
+        "normalized_content_hash": "normalized_page_3eea40a30fb7eda8e2ac0f7278478ede69348e79c96b30193dc11792bddb5fe2",
+        "reencode_byte_identical": false,
+        "source_alpha_present": false,
+        "source_bit_depth": 8,
+        "source_channel_count": 3,
+        "source_color_mode": "RGB",
+        "source_content_hash": "page_image_0c47f4ca3faf2af87c7106f36efa47720159fb5b5f121a8f3f6a4eccce7bb3ff",
+        "source_exif_orientation": null,
+        "source_icc_profile_present": false,
+        "verified_already_compliant": true,
+        "warnings": []
+      },
+      "page_id": "page_725f61228115b9a3b05edfd0fe1ca2cc029c23b24c50e0d1700ccf4eef2a6866",
+      "recognition_crops": [
+        {
+          "crop_hash": "crop_7186b8cdb1cbc2c7e35d3627f81703b364a66b87e0bc1c6343b2a175577121c8",
+          "crop_height": 208,
+          "crop_id": "input_crop_4f034275f85f42d8bdbf6659998939f7",
+          "crop_width": 222,
+          "florence2": {
+            "adapter_reported_ms": 149.13089999754447,
+            "confidence_proxy": 0.8689780661399503,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "63.",
+            "output_length": 3,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "63.",
+            "wall_seconds": 0.151
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1132.5385570526123,
+            "confidence": 0.5230167284607887,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "staden den 22 dennes",
+            "output_length": 20,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "staden den 22 dennes",
+            "wall_seconds": 9.811
+          }
+        },
+        {
+          "crop_hash": "crop_3707f5d3e8de4a771aad7e92041fe10c447cf2f704d07a9dfc98bf3321a97c49",
+          "crop_height": 273,
+          "crop_id": "input_crop_0a37475cf52942bba20b31918530feea",
+          "crop_width": 2190,
+          "florence2": {
+            "adapter_reported_ms": 291.96639999281615,
+            "confidence_proxy": 0.42730633173114696,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "Tillming om NätTERNA i Stuffwin, igenandes Wäg",
+            "output_length": 46,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "Tillming om NätTERNA i Stuffwin, igenandes Wäg",
+            "wall_seconds": 0.302
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1231.414794921875,
+            "confidence": 0.5659244267836862,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "tala till den 22 dennes",
+            "output_length": 23,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "tala till den 22 dennes",
+            "wall_seconds": 9.762
+          }
+        },
+        {
+          "crop_hash": "crop_3952b1461a1233dacb9965d3d77c109a1456d258413e5dc29f79740760f4384e",
+          "crop_height": 257,
+          "crop_id": "input_crop_1af212a49c2145b98c36a2cd7f98049e",
+          "crop_width": 2131,
+          "florence2": {
+            "adapter_reported_ms": 240.93280000670347,
+            "confidence_proxy": 0.6767725772055704,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "gen med sitt finger, hwarigenom hon tager",
+            "output_length": 41,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "gen med sitt finger, hwarigenom hon tager",
+            "wall_seconds": 0.251
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1135.1244449615479,
+            "confidence": 0.5660757340490818,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "staden den 27 dennes",
+            "output_length": 20,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "staden den 27 dennes",
+            "wall_seconds": 9.687
+          }
+        }
+      ],
+      "regions": [
+        {
+          "boxes_discarded_wrong_side": 0,
+          "boxes_in_edge_band": 1,
+          "boxes_returned": 27,
+          "detection_suspect": false,
+          "device_used": "cuda",
+          "inference_seconds": 1.389,
+          "lines_detected": 27,
+          "output_truncated": false,
+          "peak_gpu_memory_mb": 2095,
+          "region_id": "region_2b679b0b77104e608031987a7c1f9b5c",
+          "region_type": "page_side_left",
+          "window_x": [
+            0.0,
+            2580.0
+          ],
+          "zero_lines": false
+        },
+        {
+          "boxes_discarded_wrong_side": 0,
+          "boxes_in_edge_band": 0,
+          "boxes_returned": 27,
+          "detection_suspect": false,
+          "device_used": "cuda",
+          "inference_seconds": 1.413,
+          "lines_detected": 27,
+          "output_truncated": false,
+          "peak_gpu_memory_mb": 2095,
+          "region_id": "region_9dcfaba697174d9cbe1c3fed3bb6febc",
+          "region_type": "page_side_right",
+          "window_x": [
+            2580.0,
+            5159.0
+          ],
+          "zero_lines": false
+        }
+      ],
+      "segmentation_detect_seconds": 2.801,
+      "segmentation_failed": false,
+      "segmentation_peak_gpu_memory_mb": 2095,
+      "segmentation_run_id": "segmentation_run_aea1eb893d0742ccb2154b6a3f05d5a3",
+      "segmentation_stage_seconds": 9.153,
+      "source_file": "dataset-rgb/Kommission_ang__trolldomsväsendet_i_S_ta_Katarina_församling_på_Södermalm__1675_/Kommission_ang__trolldomsväsendet_i_S_ta_Katarina_församling_på_Södermalm__1675__R0001211_00050.png",
+      "spread_detected": true,
+      "total_crops_written": 54,
+      "total_lines_detected": 54,
+      "width": 5159
+    },
+    {
+      "archive_object_ref": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61",
+      "aspect_ratio": 0.8463,
+      "category_automatic": "Ordinary",
+      "gutter_evidence": {
+        "reason": "aspect ratio below spread threshold; page not split"
+      },
+      "height": 3176,
+      "normalization": {
+        "alpha_compositing_applied": false,
+        "exif_orientation_applied": false,
+        "normalized_content_hash": "normalized_page_b4fb5f0f821bf9259588fc2e02b179c9421dff171e4ac3e3c67c95145f498889",
+        "reencode_byte_identical": false,
+        "source_alpha_present": false,
+        "source_bit_depth": 8,
+        "source_channel_count": 3,
+        "source_color_mode": "RGB",
+        "source_content_hash": "page_image_8e823769e498adbc6853b1a39162eddcec15873a6ca0b100bed078b977fe32a1",
+        "source_exif_orientation": null,
+        "source_icc_profile_present": false,
+        "verified_already_compliant": true,
+        "warnings": []
+      },
+      "page_id": "page_6225362331d8097dce39100a9ed8a13099688ca630a98774d7b1c82d9ee49cf5",
+      "recognition_crops": [
+        {
+          "crop_hash": "crop_3c9ab5c936faf728265ff7337e29096c087c6f1fa6613d7f3ea39cd5634a1864",
+          "crop_height": 162,
+          "crop_id": "input_crop_0c89a9e029fb443eb4c368b47ece51f8",
+          "crop_width": 129,
+          "florence2": {
+            "adapter_reported_ms": 140.61259999289177,
+            "confidence_proxy": 0.5596481044102892,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "156.",
+            "output_length": 4,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "156.",
+            "wall_seconds": 0.142
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1117.0368194580078,
+            "confidence": 0.5310136713087559,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "stånd till",
+            "output_length": 10,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "stånd till",
+            "wall_seconds": 9.783
+          }
+        },
+        {
+          "crop_hash": "crop_4127622bef544eb5e6c7633a848cb987b95ad6d4ffc65b143a4428bdfa405f5a",
+          "crop_height": 242,
+          "crop_id": "input_crop_2aab3b7726bc4fa5a1531687ace3f10a",
+          "crop_width": 1815,
+          "florence2": {
+            "adapter_reported_ms": 257.19699999899603,
+            "confidence_proxy": 0.7585555600905616,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "Menniska, hwarigenom hördes ett",
+            "output_length": 31,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "Menniska, hwarigenom hördes ett",
+            "wall_seconds": 0.264
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1110.1229190826416,
+            "confidence": 0.55534986525774,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "stånd till den till denna",
+            "output_length": 25,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "stånd till den till denna",
+            "wall_seconds": 9.691
+          }
+        },
+        {
+          "crop_hash": "crop_5f10ba5a9952cc4f128165ffcb3c4aaf54c0a5f44fa6d54795700fba5d9e869e",
+          "crop_height": 197,
+          "crop_id": "input_crop_9dc3a7f35d71438391d8f93c32efc49e",
+          "crop_width": 1828,
+          "florence2": {
+            "adapter_reported_ms": 235.83639999560546,
+            "confidence_proxy": 0.6302650039896527,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "starckt lind af alla slags Instrumenten",
+            "output_length": 39,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "starckt lind af alla slags Instrumenten",
+            "wall_seconds": 0.242
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1127.4135112762451,
+            "confidence": 0.5613289028406143,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "stånd till den 27 dennes",
+            "output_length": 24,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "stånd till den 27 dennes",
+            "wall_seconds": 9.732
+          }
+        }
+      ],
+      "regions": [
+        {
+          "boxes_discarded_wrong_side": 0,
+          "boxes_in_edge_band": 0,
+          "boxes_returned": 21,
+          "detection_suspect": false,
+          "device_used": "cuda",
+          "inference_seconds": 1.091,
+          "lines_detected": 21,
+          "output_truncated": false,
+          "peak_gpu_memory_mb": 2095,
+          "region_id": "region_df5363952cb34df8ba53719585776ad2",
+          "region_type": "page_full",
+          "window_x": [
+            0.0,
+            2688.0
+          ],
+          "zero_lines": false
+        }
+      ],
+      "segmentation_detect_seconds": 1.091,
+      "segmentation_failed": false,
+      "segmentation_peak_gpu_memory_mb": 2095,
+      "segmentation_run_id": "segmentation_run_e1e4c3b74e0b406db94af488ece1bb37",
+      "segmentation_stage_seconds": 2.41,
+      "source_file": "dataset-rgb/Trolldom_och_annan_vidskepelse_-_Strödda_handlingar__1595-1720_/Trolldom_och_annan_vidskepelse_-_Strödda_handlingar__1595-1720__A0060187_00014.png",
+      "spread_detected": false,
+      "total_crops_written": 21,
+      "total_lines_detected": 21,
+      "width": 2688
+    },
+    {
+      "archive_object_ref": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61",
+      "aspect_ratio": 0.864,
+      "category_automatic": "Ordinary",
+      "gutter_evidence": {
+        "reason": "aspect ratio below spread threshold; page not split"
+      },
+      "height": 3176,
+      "normalization": {
+        "alpha_compositing_applied": false,
+        "exif_orientation_applied": false,
+        "normalized_content_hash": "normalized_page_144fee58b729b984bc104265281c3488df698eb7d2faaa646ba18defcfeafa92",
+        "reencode_byte_identical": false,
+        "source_alpha_present": false,
+        "source_bit_depth": 8,
+        "source_channel_count": 3,
+        "source_color_mode": "RGB",
+        "source_content_hash": "page_image_2d11aa3eab4cc87acc297ac3cfa20360f6fa218effcfed5faff54f05a8830661",
+        "source_exif_orientation": null,
+        "source_icc_profile_present": false,
+        "verified_already_compliant": true,
+        "warnings": []
+      },
+      "page_id": "page_44158b3386823817998cecc37f413da3fa935f3749260ecc671ce9f7eaf95692",
+      "recognition_crops": [
+        {
+          "crop_hash": "crop_24c3a196f02caf735978b76dc1c66c1a67fda8a69acf3ae83e2b9f388f9085bd",
+          "crop_height": 177,
+          "crop_id": "input_crop_c1c74279326c4fa89c030fa55bb592af",
+          "crop_width": 124,
+          "florence2": {
+            "adapter_reported_ms": 134.203499997966,
+            "confidence_proxy": 0.7293684289571079,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "16.",
+            "output_length": 3,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "16.",
+            "wall_seconds": 0.135
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1128.9548873901367,
+            "confidence": 0.5236199896782636,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "staden den 27 dennes",
+            "output_length": 20,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "staden den 27 dennes",
+            "wall_seconds": 9.745
+          }
+        },
+        {
+          "crop_hash": "crop_733691069a06284a1d72d4877c04b243d1befb7300d0df86890de78b7aea46b5",
+          "crop_height": 190,
+          "crop_id": "input_crop_c2253d155b8a4ae8acaccdb7587a2574",
+          "crop_width": 1820,
+          "florence2": {
+            "adapter_reported_ms": 257.094300002791,
+            "confidence_proxy": 0.8098424185086501,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "LEmnade det till Capitaine Elin i Mal¬",
+            "output_length": 38,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "LEmnade det till Capitaine Elin i Mal¬",
+            "wall_seconds": 0.262
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1110.1291179656982,
+            "confidence": 0.3814932828148206,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "talan att",
+            "output_length": 9,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "talan att",
+            "wall_seconds": 9.595
+          }
+        },
+        {
+          "crop_hash": "crop_d300591d4a4fb3375b3145a8ad6da9ae3e92d37a523f03ceaf09e024db2ea468",
+          "crop_height": 194,
+          "crop_id": "input_crop_91595c063b0b4842b8f61d664d71f99c",
+          "crop_width": 1809,
+          "florence2": {
+            "adapter_reported_ms": 238.25599999690894,
+            "confidence_proxy": 0.7131090624196135,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "fiskarudd, af hwilket horn Hon sedan",
+            "output_length": 36,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "fiskarudd, af hwilket horn Hon sedan",
+            "wall_seconds": 0.244
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1123.1374740600586,
+            "confidence": 0.3798314208785693,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "talan att",
+            "output_length": 9,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "talan att",
+            "wall_seconds": 9.831
+          }
+        }
+      ],
+      "regions": [
+        {
+          "boxes_discarded_wrong_side": 0,
+          "boxes_in_edge_band": 0,
+          "boxes_returned": 19,
+          "detection_suspect": false,
+          "device_used": "cuda",
+          "inference_seconds": 1.004,
+          "lines_detected": 19,
+          "output_truncated": false,
+          "peak_gpu_memory_mb": 2095,
+          "region_id": "region_415ca1344f5544d9a216757917b96eea",
+          "region_type": "page_full",
+          "window_x": [
+            0.0,
+            2744.0
+          ],
+          "zero_lines": false
+        }
+      ],
+      "segmentation_detect_seconds": 1.004,
+      "segmentation_failed": false,
+      "segmentation_peak_gpu_memory_mb": 2095,
+      "segmentation_run_id": "segmentation_run_24c60a17b27f409fac043b7f815b61e0",
+      "segmentation_stage_seconds": 2.855,
+      "source_file": "dataset-rgb/Trolldom_och_annan_vidskepelse_-_Strödda_handlingar__1595-1720_/Trolldom_och_annan_vidskepelse_-_Strödda_handlingar__1595-1720__A0060187_00015.png",
+      "spread_detected": false,
+      "total_crops_written": 19,
+      "total_lines_detected": 19,
+      "width": 2744
+    },
+    {
+      "archive_object_ref": "document_f40d4746ae343d06b10c548ceca5118a7b21bfd4413d9f80a889ad8e8d84f8b4",
+      "aspect_ratio": 0.7078,
+      "category_automatic": "Technically difficult",
+      "gutter_evidence": {
+        "reason": "aspect ratio below spread threshold; page not split"
+      },
+      "height": 4736,
+      "normalization": {
+        "alpha_compositing_applied": false,
+        "exif_orientation_applied": false,
+        "normalized_content_hash": "normalized_page_9e5498deded813ee7076382084e864f6fc72dd64c5f4ffb2b9b03a23d67b92b5",
+        "reencode_byte_identical": false,
+        "source_alpha_present": false,
+        "source_bit_depth": 8,
+        "source_channel_count": 3,
+        "source_color_mode": "RGB",
+        "source_content_hash": "page_image_3bd0a18d7a9539ab260ceb956db6907a9fb22f5e14b116fc67b4083f77d0e47e",
+        "source_exif_orientation": null,
+        "source_icc_profile_present": false,
+        "verified_already_compliant": true,
+        "warnings": []
+      },
+      "page_id": "page_8d56e51fc9cf8cae5885b42f8d22530bd1231184a62c4a861e385afe451ce413",
+      "recognition_crops": [
+        {
+          "crop_hash": "crop_ed628bbb6d682a4465ad23f51434db600b65ef62bded37bcc3bf8fc248a45705",
+          "crop_height": 260,
+          "crop_id": "input_crop_368077e5975c47bc9e4c1661442eab93",
+          "crop_width": 701,
+          "florence2": {
+            "adapter_reported_ms": 160.60419999121223,
+            "confidence_proxy": 0.571290576134092,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "117 May 1750.",
+            "output_length": 13,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "117 May 1750.",
+            "wall_seconds": 0.163
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1120.4984188079834,
+            "confidence": 0.38571450610955554,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "talan att",
+            "output_length": 9,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "talan att",
+            "wall_seconds": 9.701
+          }
+        },
+        {
+          "crop_hash": "crop_12f88319f5cae206f7611126288c0e53a30890fa50ab8384110c3274fbed9131",
+          "crop_height": 308,
+          "crop_id": "input_crop_5ea401d261f345de8ec874e634e925f6",
+          "crop_width": 1860,
+          "florence2": {
+            "adapter_reported_ms": 201.06040000973735,
+            "confidence_proxy": 0.37933798578915284,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "extract et Loseto HerresORD:",
+            "output_length": 28,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "extract et Loseto HerresORD:",
+            "wall_seconds": 0.209
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1112.8952503204346,
+            "confidence": 0.3832441709107823,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "talan att",
+            "output_length": 9,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "talan att",
+            "wall_seconds": 9.641
+          }
+        },
+        {
+          "crop_hash": "crop_c1fe5627ee76eecf1edae8c6a01fa32fd4b54e5e349ef36d8ff56b3762399059",
+          "crop_height": 222,
+          "crop_id": "input_crop_fb0310f8ad5a481da6e2f9e2a19ac9ad",
+          "crop_width": 1877,
+          "florence2": {
+            "adapter_reported_ms": 227.99509999458678,
+            "confidence_proxy": 0.5166112689733777,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "nera Hyttings Brotonoll hållit",
+            "output_length": 30,
+            "peak_gpu_memory_mb": 2094.865234375,
+            "produced_output": true,
+            "text": "nera Hyttings Brotonoll hållit",
+            "wall_seconds": 0.234
+          },
+          "hash_equal_across_methods": true,
+          "satrn": {
+            "adapter_reported_ms": 1142.2903537750244,
+            "confidence": 0.5265959832817316,
+            "degenerate_repetition": false,
+            "device": "cuda",
+            "empty_or_whitespace_only": false,
+            "failure_category": null,
+            "failure_message": null,
+            "normalized_text": "staden den 27 dennes",
+            "output_length": 20,
+            "peak_gpu_memory_mb": 438.78173828125,
+            "produced_output": true,
+            "text": "staden den 27 dennes",
+            "wall_seconds": 9.612
+          }
+        }
+      ],
+      "regions": [
+        {
+          "boxes_discarded_wrong_side": 0,
+          "boxes_in_edge_band": 0,
+          "boxes_returned": 24,
+          "detection_suspect": false,
+          "device_used": "cuda",
+          "inference_seconds": 1.292,
+          "lines_detected": 24,
+          "output_truncated": false,
+          "peak_gpu_memory_mb": 2095,
+          "region_id": "region_b634928cafc44d66947f066132a89b98",
+          "region_type": "page_full",
+          "window_x": [
+            0.0,
+            3352.0
+          ],
+          "zero_lines": false
+        }
+      ],
+      "segmentation_detect_seconds": 1.292,
+      "segmentation_failed": false,
+      "segmentation_peak_gpu_memory_mb": 2095,
+      "segmentation_run_id": "segmentation_run_2d78bb48783c434986a7c98d76b278c3",
+      "segmentation_stage_seconds": 2.782,
+      "source_file": "dataset-rgb/Trolldom_och_annan_vidskepelse_-_Rättegångshandlingar_samt_skrivelser_till_Göta_Hovrätt__1731-1754_/Trolldom_och_annan_vidskepelse_-_Rättegångshandlingar_samt_skrivelser_till_Göta_Hovrätt__1731-1754__A0060200_00081.png",
+      "spread_detected": false,
+      "total_crops_written": 24,
+      "total_lines_detected": 24,
+      "width": 3352
+    }
+  ],
+  "pages_attempted": 5,
+  "pages_segmented_successfully": 5,
+  "recognition_crop_cap_per_page": 3,
+  "recognition_totals": {
+    "crops_recognized": 15,
+    "florence2_degenerate": 0,
+    "florence2_empty_output": 0,
+    "florence2_failed": 0,
+    "florence2_output_constancy": {
+      "distinct_outputs": 15,
+      "distinct_ratio": 1.0,
+      "most_repeated_count": 1,
+      "most_repeated_output": "Till Fürförnombde Aspring",
+      "outputs": 15
+    },
+    "florence2_succeeded": 15,
+    "satrn_degenerate": 0,
+    "satrn_empty_output": 0,
+    "satrn_failed": 0,
+    "satrn_output_constancy": {
+      "distinct_outputs": 7,
+      "distinct_ratio": 0.4667,
+      "most_repeated_count": 6,
+      "most_repeated_output": "staden den 27 dennes",
+      "outputs": 15
+    },
+    "satrn_succeeded": 15
+  },
+  "segmentation_configuration": {
+    "adapter_id": "florence2_line_od",
+    "adapter_version": "1.0.0",
+    "confound_statement": "The line crops produced by this stage are detected by a Florence-2-family model (nazounoryuu/florence_base__mixed__page__line_od) and are then fed byte-identically to both SATRN and Florence-2. One of the two screened methods therefore has its own model family in control of the input the other is judged on. This is an accepted, explicitly-flagged confound decided at Checkpoint 1, not an oversight, and must be restated in any output derived from these crops. It is not neutralized by anything in this stage.",
+    "device_request": "auto",
+    "max_new_tokens": 1024,
+    "model_id": "nazounoryuu/florence_base__mixed__page__line_od",
+    "model_revision": "48a18ecb7e6815c3a7d33dff53133ea87a33053f",
+    "processor_model_id": "microsoft/Florence-2-base-ft",
+    "processor_revision": "e0b8f375661041228a6431c950adac1a5c539b98",
+    "spread_handling": "split_at_gutter_before_detection",
+    "task_prompt": "<OD>"
+  },
+  "segmentation_reliability": {
+    "regions_flagged_edge_crowded_suspect": 0,
+    "regions_output_truncated": 0,
+    "regions_total": 7,
+    "regions_with_zero_lines": 0
+  },
+  "stage": "Stage 2 + Checkpoint 3 -- smoke test only. STOPPED HERE BY DESIGN.",
+  "started_at": "2026-07-30T07:37:34.354704+00:00",
+  "total_crops_written": 156,
+  "total_lines_detected": 156,
+  "transkribus_preparation": {
+    "byte_identity_caveat": "This export gives Transkribus the same detected line GEOMETRY that SATRN and Florence-2 received as byte-identical InputCrops -- not the same bytes. Transkribus extracts its own pixels from the page image using these Coords and may deskew, pad or rescale a line before recognition. A comparison built on this export is controlled for segmentation; it must not be described as byte-identical-input controlled.",
+    "line_targeted_package": {
+      "directory": "export-packages\\export_package_smoke_test_line_targeted",
+      "entries": [
+        {
+          "image_filename": "document_87381d9e62e5e04b4e4f16b27f4905e31e53fdc4b91d5ce43037da4b881d642b_p0013.png",
+          "line_count": 38,
+          "page_id": "page_d59a1007c06ee492f935de4f5cee31baf1ef85b46bc57fd0e43c077442b6e357",
+          "page_xml_filename": "document_87381d9e62e5e04b4e4f16b27f4905e31e53fdc4b91d5ce43037da4b881d642b_p0013.xml",
+          "region_count": 2
+        },
+        {
+          "image_filename": "document_7d5826729978b29c626a1b21bfe5d28599740a04fd9a9705135292ca004a2bc8_p0050.png",
+          "line_count": 54,
+          "page_id": "page_725f61228115b9a3b05edfd0fe1ca2cc029c23b24c50e0d1700ccf4eef2a6866",
+          "page_xml_filename": "document_7d5826729978b29c626a1b21bfe5d28599740a04fd9a9705135292ca004a2bc8_p0050.xml",
+          "region_count": 2
+        },
+        {
+          "image_filename": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61_p0014.png",
+          "line_count": 21,
+          "page_id": "page_6225362331d8097dce39100a9ed8a13099688ca630a98774d7b1c82d9ee49cf5",
+          "page_xml_filename": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61_p0014.xml",
+          "region_count": 1
+        },
+        {
+          "image_filename": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61_p0015.png",
+          "line_count": 19,
+          "page_id": "page_44158b3386823817998cecc37f413da3fa935f3749260ecc671ce9f7eaf95692",
+          "page_xml_filename": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61_p0015.xml",
+          "region_count": 1
+        },
+        {
+          "image_filename": "document_f40d4746ae343d06b10c548ceca5118a7b21bfd4413d9f80a889ad8e8d84f8b4_p0081.png",
+          "line_count": 24,
+          "page_id": "page_8d56e51fc9cf8cae5885b42f8d22530bd1231184a62c4a861e385afe451ce413",
+          "page_xml_filename": "document_f40d4746ae343d06b10c548ceca5118a7b21bfd4413d9f80a889ad8e8d84f8b4_p0081.xml",
+          "region_count": 1
+        }
+      ],
+      "package_id": "export_package_smoke_test_line_targeted",
+      "pages": 5,
+      "total_lines_exported": 156
+    },
+    "note": "Two packages are prepared, both local files only. The whole-page package exercises Lion I's real end-to-end workflow (Transkribus does its own segmentation). The line-targeted package hands Transkribus the same detected lines SATRN and Florence-2 received, as layout-only PAGE XML with empty TextEquiv, for a recognition-only run. The latter makes a three-way segmentation-controlled comparison POSSIBLE; it does not obtain one -- a human must still upload, run Lion I, and export manually.",
+    "upload_performed": false,
+    "upload_possible": false,
+    "whole_page_package": {
+      "directory": "export-packages\\export_package_smoke_test_whole_page",
+      "entries": [
+        {
+          "dimensions": "3816x2736",
+          "normalized_content_hash": "normalized_page_3e56f8732b287b035566f35ca730d706130166a70d12386891847ba8a0f50e75",
+          "original_content_hash": "page_image_c8df622f250e14907bbeddfdf94a113bdee8e255139591eb982ad828e5d2cc9f",
+          "output_filename": "document_87381d9e62e5e04b4e4f16b27f4905e31e53fdc4b91d5ce43037da4b881d642b_p0013.png",
+          "page_id": "page_d59a1007c06ee492f935de4f5cee31baf1ef85b46bc57fd0e43c077442b6e357",
+          "source_color_mode": "RGB"
+        },
+        {
+          "dimensions": "5159x4073",
+          "normalized_content_hash": "normalized_page_3eea40a30fb7eda8e2ac0f7278478ede69348e79c96b30193dc11792bddb5fe2",
+          "original_content_hash": "page_image_0c47f4ca3faf2af87c7106f36efa47720159fb5b5f121a8f3f6a4eccce7bb3ff",
+          "output_filename": "document_7d5826729978b29c626a1b21bfe5d28599740a04fd9a9705135292ca004a2bc8_p0050.png",
+          "page_id": "page_725f61228115b9a3b05edfd0fe1ca2cc029c23b24c50e0d1700ccf4eef2a6866",
+          "source_color_mode": "RGB"
+        },
+        {
+          "dimensions": "2688x3176",
+          "normalized_content_hash": "normalized_page_b4fb5f0f821bf9259588fc2e02b179c9421dff171e4ac3e3c67c95145f498889",
+          "original_content_hash": "page_image_8e823769e498adbc6853b1a39162eddcec15873a6ca0b100bed078b977fe32a1",
+          "output_filename": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61_p0014.png",
+          "page_id": "page_6225362331d8097dce39100a9ed8a13099688ca630a98774d7b1c82d9ee49cf5",
+          "source_color_mode": "RGB"
+        },
+        {
+          "dimensions": "2744x3176",
+          "normalized_content_hash": "normalized_page_144fee58b729b984bc104265281c3488df698eb7d2faaa646ba18defcfeafa92",
+          "original_content_hash": "page_image_2d11aa3eab4cc87acc297ac3cfa20360f6fa218effcfed5faff54f05a8830661",
+          "output_filename": "document_4fd016638e32679b9e9dac78bd7e1ae1605bf4d6e52767ed57df2fbde489eb61_p0015.png",
+          "page_id": "page_44158b3386823817998cecc37f413da3fa935f3749260ecc671ce9f7eaf95692",
+          "source_color_mode": "RGB"
+        },
+        {
+          "dimensions": "3352x4736",
+          "normalized_content_hash": "normalized_page_9e5498deded813ee7076382084e864f6fc72dd64c5f4ffb2b9b03a23d67b92b5",
+          "original_content_hash": "page_image_3bd0a18d7a9539ab260ceb956db6907a9fb22f5e14b116fc67b4083f77d0e47e",
+          "output_filename": "document_f40d4746ae343d06b10c548ceca5118a7b21bfd4413d9f80a889ad8e8d84f8b4_p0081.png",
+          "page_id": "page_8d56e51fc9cf8cae5885b42f8d22530bd1231184a62c4a861e385afe451ce413",
+          "source_color_mode": "RGB"
+        }
+      ],
+      "package_id": "export_package_smoke_test_whole_page",
+      "pages": 5
+    }
+  }
+}
