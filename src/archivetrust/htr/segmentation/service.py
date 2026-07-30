@@ -110,8 +110,18 @@ class SegmentationService:
         page_number: int,
         correlation_id: str | None = None,
         caused_by: str | None = None,
+        crop_directory_name: str | None = None,
     ) -> SegmentedPage:
-        """Segments one page and records every entity and event it produced."""
+        """Segments one page and records every entity and event it produced.
+
+        `crop_directory_name` overrides the per-page crop subdirectory name, which defaults to the
+        `page_id`. A `page_id` is `page_<sha256>` -- 69 characters -- and on Windows a run over a
+        60-page sample writes several hundred crops beneath it, which pushed the smoke test's paths
+        close enough to `MAX_PATH` that `git worktree add` failed on this repository. A caller may
+        therefore pass a short, still-unique per-page name (e.g. a sequential index). It affects the
+        *filesystem location only*: the `InputCrop.storage_path` recorded in telemetry is the real
+        path written, and the `page_id` remains the identity everywhere it is an identity.
+        """
         decoded = page_image.open()
         page = Page(
             page_id=page_image.page_id,
@@ -152,7 +162,7 @@ class SegmentationService:
         crops = self._adapter.crop_lines(
             ordered_lines,
             page_image=page_image,
-            destination=self._crop_directory / page_image.page_id,
+            destination=self._crop_directory / (crop_directory_name or page_image.page_id),
         )
         for crop in crops:
             self._store.register_input_crop(

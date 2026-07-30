@@ -75,6 +75,15 @@ class PageImageSelection:
     """The source file's own name, when there was one -- recorded for the researcher's benefit so
     they can tell which archival file a package entry came from. `None` when the bytes did not come
     from a named file; never invented."""
+    output_stem: str | None = None
+    """Overrides the package filename stem, which defaults to
+    `<archive_object_ref>_p<page_number>`. An `archive_object_ref` is `document_<sha256>`, so the
+    default stem is 79 characters; a 60-page package of those sits close enough to Windows'
+    `MAX_PATH` to have already broken `git worktree add` on this repository. A caller may supply a
+    short, still-unique stem instead. The manifest continues to record the real
+    `archive_object_ref` in its own field, so shortening the *filename* loses no identity -- the
+    entry still states which archival document it came from, and `output_filename` still states
+    exactly what the researcher uploads."""
 
 
 class ExportPackageEntry(BaseModel):
@@ -197,10 +206,11 @@ def build_export_package(
             caused_by=caused_by,
         )
         artifact = recorded.normalized_artifact
-        output_filename = (
-            f"{selection.archive_object_ref}_p{selection.page_number:04d}"
-            f".{service.config.output_format.lower()}"
+        stem = (
+            selection.output_stem
+            or f"{selection.archive_object_ref}_p{selection.page_number:04d}"
         )
+        output_filename = f"{stem}.{service.config.output_format.lower()}"
         target = directory / output_filename
         try:
             # Read back through the content-addressed store rather than reusing an in-memory copy:

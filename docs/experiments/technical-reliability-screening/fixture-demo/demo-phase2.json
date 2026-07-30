@@ -1,0 +1,22 @@
+{
+  "run_id": "reliability-2026-07-30",
+  "completed_before": {
+    "satrn": 2,
+    "florence2_htr": 1
+  },
+  "completed_after": {
+    "satrn": 4,
+    "florence2_htr": 4
+  },
+  "adapter_calls": {
+    "satrn": 2,
+    "florence2_htr": 3
+  },
+  "newly_completed": {
+    "satrn": 2,
+    "florence2_htr": 3
+  },
+  "no_work_repeated": true,
+  "tasks_skipped": 3,
+  "completed": true
+}

@@ -1,0 +1,12 @@
+{
+  "run_id": "reliability-2026-07-30",
+  "completed_by_method": {
+    "satrn": 2,
+    "florence2_htr": 1
+  },
+  "adapter_calls": {
+    "satrn": 2,
+    "florence2_htr": 1
+  },
+  "stopped": true
+}

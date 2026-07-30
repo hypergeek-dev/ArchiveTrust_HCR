@@ -1,0 +1,371 @@
+{
+  "completed_at": "2026-07-30T19:33:17.845069+00:00",
+  "configuration": {
+    "corpus_digest_sha256": "0ec46b47d661001bcfe6bb9d94f0a30ddfc8cb94fc0c8e047a652896ef46058d",
+    "corpus_page_count": 766,
+    "crop_selection_rule": "evenly-spaced-over-detected-lines/v1",
+    "crops_per_page": 2,
+    "dataset_id": "dataset_f7dfd857275e7c253a5aba4730f93428121e5156bd4281c4101fd79514b0d8d9",
+    "dataset_root_relative_path": "dataset-rgb",
+    "dataset_version_id": "dataset_version_a51bddcb369babc7d5f603d6c6a465de9505061bc876c2d3fdecdc2bcf5eee6e",
+    "method_ids": [
+      "satrn",
+      "florence2_htr"
+    ],
+    "model_revisions": {
+      "florence2_htr": "nazounoryuu/florence_base__mixed__line_bbox__ocr@994f47e8a0e8d77cb2e11528665efd07a855c3af",
+      "satrn": "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+    },
+    "pages": [
+      {
+        "automatic_category": "Structurally difficult",
+        "content_hash": "page_image_e66a2067e3a06deb15802490add1ae551ae03a129d2c40f0c83cda1c173d3688",
+        "document_id": "document_87381d9e62e5e04b4e4f16b27f4905e31e53fdc4b91d5ce43037da4b881d642b",
+        "height": 2808,
+        "page_id": "page_cd55e0cf883d15faacac0fec5a23b113b76aa583ff62cb92ff581d3960b62165",
+        "page_number": 21,
+        "relative_path": "dataset-rgb/Trolldom_och_annan_vidskepelse_-_Attester_å_gåvor_till_fru_Maria_Kristina_Frölich__1719-1720_/Trolldom_och_annan_vidskepelse_-_Attester_å_gåvor_till_fru_Maria_Kristina_Frölich__1719-1720__A0060197_00021.png",
+        "width": 3768
+      },
+      {
+        "automatic_category": "Ordinary",
+        "content_hash": "page_image_13cd67f1fd87f57c1bc79268ae179bf6ce91899151c5b8e1fff3c0b67e34dfbf",
+        "document_id": "document_97aaaba7d87445ba6b84d3e1d03b389eb2ef1ca5a639f8b6e63cdcf490528632",
+        "height": 3811,
+        "page_id": "page_ce27a23e3ced90c188bad2f79e07f565312dc91940cf29b042ebb6170dc7a35c",
+        "page_number": 3,
+        "relative_path": "dataset-rgb/Kommissorialrätt_i_Stockholm_ang__trolldomsväsendet__nr_5__1676_/Kommissorialrätt_i_Stockholm_ang__trolldomsväsendet__nr_5__1676__R0001207_00003.png",
+        "width": 2507
+      }
+    ],
+    "preprocessing_configuration_hash": "normalization_config_13abd1eef72e3a648fd5c1b9a165e28eeac0b5c37edfd246905fabdcd88f57e2",
+    "preprocessing_version": "1.0.0",
+    "profile": "fixture",
+    "reliability_heuristics_version": "1.0.0",
+    "reliability_thresholds_hash": "reliability_thresholds_9f735180567f0e640978f29b07b097936711040245540e78ef43c417dad87fda",
+    "sampling_seed": 20260730,
+    "sampling_version": "stratified-proposal/seed-20260730/v1",
+    "schema_version": "1.0.0",
+    "segmentation_adapter_name": "florence2_line_od@48a18ecb7e6815c3a7d33dff53133ea87a33053f",
+    "segmentation_configuration_hash": "segmentation_config_d737388adb9c1be43ff254623069b59c00864b3aefae33255d592463f799e74e"
+  },
+  "configuration_hash": "reliability_config_ab7d5e8fcc33d757400344ade1b54b496abcb278719e597bb5e95fd0e956871b",
+  "confound": "The line detector is a Florence-2-family model, so one screened method's own model family controls the input the other is judged on. Accepted and flagged; not neutralized here.",
+  "generated_from": "durable telemetry only (events.jsonl)",
+  "heuristic_catalog": [
+    {
+      "detects": "The adapter returned no text at all: a hard failure with a typed cause.",
+      "does_not_mean": "Not necessarily a method defect -- an environment failure (missing venv, OOM, timeout) is recorded here too and is separated by the failure category, never collapsed into 'the method failed'.",
+      "heuristic_id": "execution_failed",
+      "scope": "output"
+    },
+    {
+      "detects": "Execution succeeded but the returned text is empty or only whitespace.",
+      "does_not_mean": "Not proof the crop is blank. A blank crop *should* produce empty output; this signal cannot distinguish the two without looking at the image, which is a human-review task.",
+      "heuristic_id": "empty_or_whitespace_only",
+      "scope": "output"
+    },
+    {
+      "detects": "A character or n-gram repetition loop within a single output -- a known VLM/seq2seq decoder degradation mode.",
+      "does_not_mean": "Distinct from `repeated_output_across_inputs`: this is repetition *inside* one output. The two are independent and an output can trip either, both, or neither.",
+      "heuristic_id": "degenerate_repetition",
+      "scope": "output"
+    },
+    {
+      "detects": "An output of at most `very_short_output_max_length` characters.",
+      "does_not_mean": "Not a defect. Folio numbers and marginal marks are legitimately this short. It is recorded because it marks the input regime where degradation was already observed.",
+      "heuristic_id": "very_short_output",
+      "scope": "output"
+    },
+    {
+      "detects": "An output whose length is a median/MAD outlier against that same method's own observed length distribution on this run.",
+      "does_not_mean": "Never compared across methods. The two recognizers have different decoders and different length behaviour; pooling their lengths would manufacture outliers that are only differences between methods.",
+      "heuristic_id": "output_length_outlier",
+      "scope": "run"
+    },
+    {
+      "detects": "An output at or above the method's configured character ceiling, or a run the adapter itself reported as truncated.",
+      "does_not_mean": "Not confirmed truncation. Without ground truth there is no way to know whether text was lost; this flags the outputs where it is possible.",
+      "heuristic_id": "truncation_suspected",
+      "scope": "output"
+    },
+    {
+      "detects": "The same output string returned for two or more *demonstrably different* input crops (different content hashes), aggregated into repeat groups and a distinct-output ratio.",
+      "does_not_mean": "Not an accuracy statement, and not automatically a bug: the SATRN repetition diagnostic established this behaviour as genuine model behaviour on short and distorted crops, not an integration defect. It is a reliability signal about how much the output depends on the input.",
+      "heuristic_id": "repeated_output_across_inputs",
+      "scope": "run"
+    },
+    {
+      "detects": "A crop whose width/height is below `crop_min_aspect_ratio` -- not line-shaped.",
+      "does_not_mean": "A segmentation signal, not a recognizer signal. It says the detector produced something that is probably not a text line; it says nothing about what any recognizer then did with it.",
+      "heuristic_id": "crop_geometry_implausible",
+      "scope": "crop"
+    },
+    {
+      "detects": "Median and p90 wall-clock per method, plus min/max. Descriptive, never a flag.",
+      "does_not_mean": "Not comparable between methods as a quality signal: SATRN restarts a subprocess and reloads its model on every call while Florence-2 caches in-process, so their timings measure different execution models, not different efficiencies.",
+      "heuristic_id": "timing_distribution",
+      "scope": "run"
+    },
+    {
+      "detects": "Peak GPU memory observed per method, where the runtime reported it.",
+      "does_not_mean": "Descriptive only. No threshold, no flag, and absent where unreported.",
+      "heuristic_id": "gpu_memory",
+      "scope": "run"
+    }
+  ],
+  "method_runs": [
+    {
+      "completed_at": "2026-07-30T19:33:06.926818+00:00",
+      "failure_reason": null,
+      "input_crop_id": "input_crop_5cbac3ba2ccd4e6b9f2eac8160555a86",
+      "input_hash": "crop_495996ddae4361adc5fb99070e6859887b7a6cf10549d4140a6a6224f985625f",
+      "method_id": "florence2_htr",
+      "method_run_id": "method_run_1af44509423d13e520f412cecefe2fb7aae8ec67c5c0fdeb4d5350184194d626",
+      "model_version_id": "994f47e8a0e8d77cb2e11528665efd07a855c3af",
+      "outcome": "succeeded",
+      "output_length": 49,
+      "started_at": "2026-07-30T19:33:06.572139+00:00",
+      "text": "HörbEDROFIrat är öfwer den grofwa bestyllning for",
+      "wall_seconds": 0.354679
+    },
+    {
+      "completed_at": "2026-07-30T19:32:26.720343+00:00",
+      "failure_reason": null,
+      "input_crop_id": "input_crop_b7e7187c88c4417ea7eda6a4ea689fc9",
+      "input_hash": "crop_46c4bff21327a2cac4ec5775f824992ae25d9f8b9a4e5516b332d2d1ce5aba78",
+      "method_id": "satrn",
+      "method_run_id": "method_run_3239bbd044beaf1223ef99f46e1d8b4583ad6ba187163c94d51d183e01e705e0",
+      "model_version_id": "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+      "outcome": "succeeded",
+      "output_length": 20,
+      "started_at": "2026-07-30T19:32:16.760949+00:00",
+      "text": "staden den 27 dennes",
+      "wall_seconds": 9.959394
+    },
+    {
+      "completed_at": "2026-07-30T19:32:50.170702+00:00",
+      "failure_reason": null,
+      "input_crop_id": "input_crop_c780bd180d9644d295e638f915420ff9",
+      "input_hash": "crop_179b8d61373d4cebe6f793d7cce7e6d45c7ab3e7e6e3558231b742236adbae1b",
+      "method_id": "florence2_htr",
+      "method_run_id": "method_run_7a24c5f0b79162fdcb06eaa63ee03a41688edfba75e9d8485db06897a92b8c54",
+      "model_version_id": "994f47e8a0e8d77cb2e11528665efd07a855c3af",
+      "outcome": "succeeded",
+      "output_length": 26,
+      "started_at": "2026-07-30T19:32:41.044489+00:00",
+      "text": "elephant till bemucke freu",
+      "wall_seconds": 9.126213
+    },
+    {
+      "completed_at": "2026-07-30T19:32:29.265213+00:00",
+      "failure_reason": null,
+      "input_crop_id": "input_crop_b7e7187c88c4417ea7eda6a4ea689fc9",
+      "input_hash": "crop_46c4bff21327a2cac4ec5775f824992ae25d9f8b9a4e5516b332d2d1ce5aba78",
+      "method_id": "florence2_htr",
+      "method_run_id": "method_run_88c1e590f84bb2d4b0a88e26121f66dcd2adf74a4bedf3e954ac51d18a2d62c9",
+      "model_version_id": "994f47e8a0e8d77cb2e11528665efd07a855c3af",
+      "outcome": "succeeded",
+      "output_length": 20,
+      "started_at": "2026-07-30T19:32:26.726137+00:00",
+      "text": "UTHAfsigtuna Kyrikia",
+      "wall_seconds": 2.539076
+    },
+    {
+      "completed_at": "2026-07-30T19:33:17.822865+00:00",
+      "failure_reason": null,
+      "input_crop_id": "input_crop_450ad592a2524a2496fd6a3e09a0df8c",
+      "input_hash": "crop_adc2b15609db488881c83b213e6ca53383061c94f45377b8ce2a036f22cbe6f3",
+      "method_id": "florence2_htr",
+      "method_run_id": "method_run_a64ce0d4369a591dbe5f2966c893429ad58dbbdc251378382710d63a49d376cc",
+      "model_version_id": "994f47e8a0e8d77cb2e11528665efd07a855c3af",
+      "outcome": "succeeded",
+      "output_length": 52,
+      "started_at": "2026-07-30T19:33:17.308559+00:00",
+      "text": "umgange medh oss rysctat hafwer, uthi 18 åhr, tå han",
+      "wall_seconds": 0.514306
+    },
+    {
+      "completed_at": "2026-07-30T19:32:39.773583+00:00",
+      "failure_reason": null,
+      "input_crop_id": "input_crop_c780bd180d9644d295e638f915420ff9",
+      "input_hash": "crop_179b8d61373d4cebe6f793d7cce7e6d45c7ab3e7e6e3558231b742236adbae1b",
+      "method_id": "satrn",
+      "method_run_id": "method_run_d54932f7c4cbe4716ac02bba3b54ba2c1f1553bd92629c9fb3450a4218f7515f",
+      "model_version_id": "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+      "outcome": "succeeded",
+      "output_length": 24,
+      "started_at": "2026-07-30T19:32:29.277071+00:00",
+      "text": "stånd till den 27 dennes",
+      "wall_seconds": 10.496512
+    },
+    {
+      "completed_at": "2026-07-30T19:33:17.302226+00:00",
+      "failure_reason": null,
+      "input_crop_id": "input_crop_450ad592a2524a2496fd6a3e09a0df8c",
+      "input_hash": "crop_adc2b15609db488881c83b213e6ca53383061c94f45377b8ce2a036f22cbe6f3",
+      "method_id": "satrn",
+      "method_run_id": "method_run_d89a55c83fcf806e6236df200405906ae74303b37a9fad5a9015f8daf2c517d6",
+      "model_version_id": "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+      "outcome": "succeeded",
+      "output_length": 20,
+      "started_at": "2026-07-30T19:33:06.938651+00:00",
+      "text": "staden den 27 dennes",
+      "wall_seconds": 10.363575
+    },
+    {
+      "completed_at": "2026-07-30T19:33:06.566433+00:00",
+      "failure_reason": null,
+      "input_crop_id": "input_crop_5cbac3ba2ccd4e6b9f2eac8160555a86",
+      "input_hash": "crop_495996ddae4361adc5fb99070e6859887b7a6cf10549d4140a6a6224f985625f",
+      "method_id": "satrn",
+      "method_run_id": "method_run_f97c781400474c93c39dd1ac28a32028be1f8d4985e4bb001783bd6e6b27b52f",
+      "model_version_id": "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+      "outcome": "succeeded",
+      "output_length": 20,
+      "started_at": "2026-07-30T19:32:56.171741+00:00",
+      "text": "staden den 27 dennes",
+      "wall_seconds": 10.394692
+    }
+  ],
+  "no_accuracy_metric": "No CER, WER or accuracy is computed or reported. This corpus has no ground truth and none is planned; only reference-free technical-reliability signals are recorded.",
+  "per_method": {
+    "florence2_htr": {
+      "failed": 0,
+      "heuristic_flag_counts": {},
+      "output_length_outlier_bounds": {
+        "assessable": false,
+        "reason": "only 4 successful outputs; the rule requires at least 20",
+        "sample_size": 4
+      },
+      "repeated_output_across_inputs": {
+        "distinct_inputs": 4,
+        "distinct_outputs": 4,
+        "distinct_ratio": 1.0,
+        "flagged": false,
+        "largest_repeat_group_size": 0,
+        "most_repeated_output": null,
+        "outputs": 4,
+        "outputs_in_repeat_groups": 0,
+        "repeat_group_count": 0,
+        "repeat_groups": [],
+        "repeat_rate": 0.0
+      },
+      "runs_recorded": 4,
+      "succeeded": 4,
+      "timing_seconds": {
+        "count": 4,
+        "max": 9.126213,
+        "median": 1.526691,
+        "min": 0.354679,
+        "p90": 7.150071900000001,
+        "total": 12.534
+      }
+    },
+    "satrn": {
+      "failed": 0,
+      "heuristic_flag_counts": {},
+      "output_length_outlier_bounds": {
+        "assessable": false,
+        "reason": "only 4 successful outputs; the rule requires at least 20",
+        "sample_size": 4
+      },
+      "repeated_output_across_inputs": {
+        "distinct_inputs": 4,
+        "distinct_outputs": 2,
+        "distinct_ratio": 0.5,
+        "flagged": true,
+        "largest_repeat_group_size": 3,
+        "most_repeated_output": "staden den 27 dennes",
+        "outputs": 4,
+        "outputs_in_repeat_groups": 3,
+        "repeat_group_count": 1,
+        "repeat_groups": [
+          {
+            "distinct_inputs": 3,
+            "output": "staden den 27 dennes"
+          }
+        ],
+        "repeat_rate": 0.75
+      },
+      "runs_recorded": 4,
+      "succeeded": 4,
+      "timing_seconds": {
+        "count": 4,
+        "max": 10.496512,
+        "median": 10.3791335,
+        "min": 9.959394,
+        "p90": 10.465966,
+        "total": 41.214
+      }
+    }
+  },
+  "reliability_heuristics_version": "1.0.0",
+  "reliability_issues": [],
+  "reliability_thresholds": {
+    "crop_min_aspect_ratio": 2.0,
+    "degenerate_max_distinct_characters": 2,
+    "degenerate_min_length": 12,
+    "degenerate_min_ngram_repeats": 6,
+    "degenerate_ngram_sizes": [
+      2,
+      3,
+      4
+    ],
+    "distinct_output_ratio_floor": 0.9,
+    "length_outlier_min_sample": 20,
+    "length_outlier_modified_z": 3.5,
+    "repeat_group_min_size": 2,
+    "truncation_char_length": {
+      "florence2": 900,
+      "satrn": 95
+    },
+    "very_short_output_max_length": 2
+  },
+  "run_id": "reliability-2026-07-30",
+  "schema": "archivetrust.reliability_run_report.v1",
+  "sealed": true,
+  "segmentation": {
+    "pages": [
+      {
+        "adapter": "florence2_line_od@48a18ecb7e6815c3a7d33dff53133ea87a33053f",
+        "input_crops": 55,
+        "page_id": "page_cd55e0cf883d15faacac0fec5a23b113b76aa583ff62cb92ff581d3960b62165",
+        "regions": 2,
+        "segmentation_run_id": "segmentation_run_79675667fd35c9603c4332401004e9032127abeae1771a5e470f4cad38b9500e",
+        "text_lines": 55
+      },
+      {
+        "adapter": "florence2_line_od@48a18ecb7e6815c3a7d33dff53133ea87a33053f",
+        "input_crops": 20,
+        "page_id": "page_ce27a23e3ced90c188bad2f79e07f565312dc91940cf29b042ebb6170dc7a35c",
+        "regions": 1,
+        "segmentation_run_id": "segmentation_run_213a3c022fea6a737c15f402c700b4809aabbcfe187acdd64eb4e781a8a3ea84",
+        "text_lines": 20
+      }
+    ],
+    "pages_segmented": 2,
+    "total_crops_written": 75,
+    "total_lines_detected": 75
+  },
+  "started_at": "2026-07-30T19:32:03.042508+00:00",
+  "telemetry_event_counts": {
+    "EvidenceCreated": 8,
+    "ExperimentCreated": 1,
+    "ExperimentRunCompleted": 1,
+    "ExperimentRunStarted": 1,
+    "ExperimentVersionCreated": 1,
+    "InputCropCreated": 75,
+    "MethodRunCompleted": 8,
+    "MethodRunStarted": 8,
+    "NormalizedMethodResultRecorded": 8,
+    "PageRegistered": 2,
+    "ParsedMethodResultRecorded": 4,
+    "RawMethodResultRecorded": 8,
+    "RegionDetected": 3,
+    "ReproducibilityManifestRecorded": 1,
+    "ResearchProjectCreated": 1,
+    "SegmentationRunCompleted": 2,
+    "TextLineDetected": 75
+  }
+}

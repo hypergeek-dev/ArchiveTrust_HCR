@@ -221,6 +221,13 @@ class LineTargetedSelection:
     regions: tuple[Region, ...]
     text_lines: tuple[TextLine, ...]
     input_crops: tuple[InputCrop, ...]
+    output_stem: str | None = None
+    """Overrides the package filename stem for this page's `.png`/`.xml` pair, defaulting to
+    `<archive_object_ref>_p<page_number>`. Same rationale as
+    `export_package.py::PageImageSelection.output_stem`: the default stem is 79 characters and a
+    60-page package of them approaches Windows' `MAX_PATH`. The manifest entry continues to record
+    the real `archive_object_ref`, `page_id` and both content hashes, so the shorter filename costs
+    no identity."""
 
 
 @dataclass(frozen=True)
@@ -276,7 +283,10 @@ def build_line_targeted_export(
                 )
             lines_by_region.setdefault(line.region_id, []).append(line)
 
-        stem = f"{selection.archive_object_ref}_p{selection.page_number:04d}"
+        stem = (
+            selection.output_stem
+            or f"{selection.archive_object_ref}_p{selection.page_number:04d}"
+        )
         image_filename = f"{stem}.png"
         page_xml_filename = f"{stem}.xml"
 
