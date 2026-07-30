@@ -43,6 +43,26 @@ class MethodCapabilities(BaseModel):
     page_level_supported: bool
     local_execution_supported: bool
     external_upload_required: bool
+    image_color_normalization_required: bool = False
+    """Whether this method's input images must pass through the versioned RGB-normalization stage
+    (`htr/preprocessing/`, docs/methods/transkribus-swedish-lion-1.md) before being handed to it.
+
+    Added 2026-07-30 with that stage. **The one defaulted flag on this model**, and the exception is
+    deliberate rather than a convenience: every other flag describes what a method *can produce* and
+    must be an explicit `True`/`False` per the class docstring, whereas this one describes a
+    *pipeline obligation* that only applies to a method whose input ArchiveTrust prepares and hands
+    to an external service. Defaulting it to `False` means "this method's inputs are not prepared by
+    that stage", which is the correct and true statement for every local recognizer -- including any
+    future one -- and avoids forcing an unrelated adapter to answer a question about a stage it has
+    nothing to do with.
+
+    `True` for Transkribus Swedish Lion I page-level workflows: what is uploaded *is* the
+    experimental input, so its colour representation is an experimental variable and must be a
+    recorded fact. `False` for SATRN and Florence-2, whose controlled line crops are deliberately
+    **not** routed through the stage -- doing so would change the bytes they read relative to the
+    committed baseline and invalidate its recorded results. Florence-2's own inline
+    `convert("RGB")` is its model's separate input requirement, not this stage (see
+    `providers/florence2_htr/facade.py` and the method doc §8)."""
 
 
 class EnvironmentValidation(BaseModel):

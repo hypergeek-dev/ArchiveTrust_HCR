@@ -165,6 +165,11 @@ class TranskribusAdapter:
             # output, zero network calls made by this adapter". False is the least-misleading
             # available value; the gap is documented, not silently accepted.
             external_upload_required=False,
+            # Page-level Swedish Lion I runs consume an image ArchiveTrust prepares and a researcher
+            # hands to an external service, so that image's colour representation is an experimental
+            # variable and must be a recorded fact rather than whatever the source file carried. See
+            # docs/methods/transkribus-swedish-lion-1.md §2.
+            image_color_normalization_required=True,
         )
 
     def validate_environment(self) -> EnvironmentValidation:

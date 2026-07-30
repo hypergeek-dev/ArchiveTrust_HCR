@@ -56,6 +56,7 @@ from archivetrust.domain.telemetry.events import (
     CollectionCreated,
     DatasetCreated,
     DatasetVersionCreated,
+    DerivedImageArtifactCreated,
     DocumentRegistered,
     EvidenceCreated,
     ExperimentCreated,
@@ -70,6 +71,9 @@ from archivetrust.domain.telemetry.events import (
     GroundTruthTextRecorded,
     HtrActorType,
     HtrTelemetryEvent,
+    ImageNormalizationCompleted,
+    ImageNormalizationFailed,
+    ImageNormalizationStarted,
     InputCropCreated,
     MethodRunCompleted,
     MethodRunFailed,
@@ -125,6 +129,11 @@ from archivetrust.htr.knowledge.models import (
     ResearchFinding,
     ResearchObservation,
     ResearchQuestion,
+)
+from archivetrust.htr.preprocessing.models import (
+    NormalizationFailure,
+    NormalizedPageArtifact,
+    PageImageArtifact,
 )
 from archivetrust.htr.research_store import (
     DuplicateRegistrationError,
@@ -512,6 +521,125 @@ class DurableHtrResearchStore(HtrResearchStore):
             key=crop.crop_id,
             kind="InputCrop",
             project=lambda: HtrResearchStore.register_input_crop(self, crop),
+        )
+
+    # -- Image preprocessing: the versioned RGB-normalization stage -------------------------------
+    #
+    # Four real producers for the four new event kinds. They live here rather than in
+    # `htr/preprocessing/` for the same reason every other producer does: this class is the single
+    # place that owns the validate -> append -> project ordering, the `_emit_lock`, and the
+    # correlation/causation scoping. A second emitter inside the preprocessing package would be a
+    # parallel telemetry path with its own ordering bugs. `htr/preprocessing/normalization_service.py`
+    # is the orchestration *over* these methods -- it decides what to normalize and in what order, and
+    # calls these to record it.
+
+    def record_normalization_started(
+        self,
+        source_artifact: PageImageArtifact,
+        *,
+        configuration_hash: str,
+        normalization_version: str,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """Opens a normalization attempt, registering the *original* artifact.
+
+        Appended **before** the transform runs, deliberately: an attempt that then fails still leaves
+        the source image identified in the durable log, so a failure record has something to point at.
+        """
+        return self._emit(
+            ImageNormalizationStarted(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    subject_id=source_artifact.artifact_id,
+                ),
+                source_artifact=source_artifact,
+                configuration_hash=configuration_hash,
+                normalization_version=normalization_version,
+            ),
+            bucket=self._page_image_artifacts,
+            key=source_artifact.artifact_id,
+            kind="PageImageArtifact",
+            project=lambda: HtrResearchStore.register_page_image_artifact(self, source_artifact),
+        )
+
+    def record_derived_image_artifact(
+        self,
+        artifact: NormalizedPageArtifact,
+        *,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """Records the derived, normalized artifact and its full provenance.
+
+        The hashes are `NormalizedPageArtifact`'s own, computed and validated by that model before
+        this event existed -- neither recomputed nor reinterpreted here (event-model doc §2's "no
+        second hashing scheme introduced", the same discipline `register_input_crop` follows).
+        """
+        return self._emit(
+            DerivedImageArtifactCreated(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    subject_id=artifact.normalized_artifact_id,
+                ),
+                normalized_artifact=artifact,
+            ),
+            bucket=self._normalized_page_artifacts,
+            key=artifact.normalized_artifact_id,
+            kind="NormalizedPageArtifact",
+            project=lambda: HtrResearchStore.register_normalized_page_artifact(self, artifact),
+        )
+
+    def record_normalization_completed(
+        self,
+        artifact: NormalizedPageArtifact,
+        *,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """Terminal success marker. Establishes no projection entry of its own -- both artifacts were
+        already established by the two events above -- so it goes through `_emit_only`, exactly as
+        `record_method_run_completed` does."""
+        return self._emit_only(
+            ImageNormalizationCompleted(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    subject_id=artifact.normalized_artifact_id,
+                ),
+                source_artifact_id=artifact.source_artifact_id,
+                source_content_hash=artifact.source_content_hash,
+                normalized_artifact_id=artifact.normalized_artifact_id,
+                normalized_content_hash=artifact.normalized_content_hash,
+                configuration_hash=artifact.configuration_hash,
+                normalization_version=artifact.normalization_version,
+            )
+        )
+
+    def record_normalization_failed(
+        self,
+        failure: NormalizationFailure,
+        *,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """Preserves a failed normalization attempt as durable evidence -- never a swallowed
+        exception (docs/htr-domain-design.md §1's "preserved, never excluded")."""
+        return self._emit(
+            ImageNormalizationFailed(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    subject_id=failure.page_id,
+                ),
+                failure=failure,
+            ),
+            bucket=self._normalization_failures,
+            key=failure.failure_id,
+            kind="NormalizationFailure",
+            project=lambda: HtrResearchStore.register_normalization_failure(self, failure),
         )
 
     def record_segmentation_run(

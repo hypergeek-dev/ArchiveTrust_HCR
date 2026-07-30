@@ -1,0 +1,149 @@
+{
+  "artifacts": [
+    {
+      "alpha_compositing_applied": false,
+      "compositing_background": "#FFFFFF",
+      "exif_orientation_applied": false,
+      "normalized_content_hash": "normalized_page_cd0812bf97713fb68a3ac3b35e3ce85babff085c5c39f89b767486065b77f364",
+      "output_bit_depth": 8,
+      "output_color_mode": "RGB",
+      "output_dimensions": "12x8",
+      "page_id": "page_demo_16bit_gray",
+      "source_alpha_present": false,
+      "source_bit_depth": 16,
+      "source_channel_count": 1,
+      "source_color_mode": "I;16",
+      "source_content_hash": "page_image_a7862c63340acc447494aa49e83b8f15776237a64638d78b433d8d77edf288ea",
+      "source_exif_orientation": null,
+      "source_format": "PNG",
+      "source_icc_profile_present": false,
+      "warnings": []
+    },
+    {
+      "alpha_compositing_applied": false,
+      "compositing_background": "#FFFFFF",
+      "exif_orientation_applied": false,
+      "normalized_content_hash": "normalized_page_457c0ecba7ca0301d34bcee3b8813fc5a7185a304b9a4e1ca1f31abbd257b596",
+      "output_bit_depth": 8,
+      "output_color_mode": "RGB",
+      "output_dimensions": "12x8",
+      "page_id": "page_demo_cmyk",
+      "source_alpha_present": false,
+      "source_bit_depth": 8,
+      "source_channel_count": 4,
+      "source_color_mode": "CMYK",
+      "source_content_hash": "page_image_770c9016b85a2a1a4170b8ad51c09ded2f5653b028e9bfb13660d6717ba821b8",
+      "source_exif_orientation": null,
+      "source_format": "TIFF",
+      "source_icc_profile_present": false,
+      "warnings": []
+    },
+    {
+      "alpha_compositing_applied": true,
+      "compositing_background": "#FFFFFF",
+      "exif_orientation_applied": false,
+      "normalized_content_hash": "normalized_page_fad584fec027d2d9ab53e6eddb1273be0df287409886842df1a0e0e201ec0f1c",
+      "output_bit_depth": 8,
+      "output_color_mode": "RGB",
+      "output_dimensions": "12x8",
+      "page_id": "page_demo_palette_transparency",
+      "source_alpha_present": true,
+      "source_bit_depth": 8,
+      "source_channel_count": 1,
+      "source_color_mode": "P",
+      "source_content_hash": "page_image_b4689a0bd52bcd61c0fd2afb66c7dbf9ab43e8cfc87eefa89d9f1594c7db1770",
+      "source_exif_orientation": null,
+      "source_format": "PNG",
+      "source_icc_profile_present": false,
+      "warnings": []
+    },
+    {
+      "alpha_compositing_applied": false,
+      "compositing_background": "#FFFFFF",
+      "exif_orientation_applied": false,
+      "normalized_content_hash": "normalized_page_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+      "output_bit_depth": 8,
+      "output_color_mode": "RGB",
+      "output_dimensions": "2568x231",
+      "page_id": "page_demo_real_line_as_page",
+      "source_alpha_present": false,
+      "source_bit_depth": 8,
+      "source_channel_count": 3,
+      "source_color_mode": "RGB",
+      "source_content_hash": "page_image_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+      "source_exif_orientation": null,
+      "source_format": "PNG",
+      "source_icc_profile_present": false,
+      "warnings": []
+    }
+  ],
+  "configuration_hash": "normalization_config_13abd1eef72e3a648fd5c1b9a165e28eeac0b5c37edfd246905fabdcd88f57e2",
+  "demonstration": "RGB normalization stage, end to end",
+  "experiment_version_id": "experiment_version_77dbf0ac2a6c4d4cae147a12cca622f3",
+  "experiment_version_requires_normalization": true,
+  "export_package": {
+    "entries": [
+      {
+        "dimensions": "2568x231",
+        "normalized_content_hash": "normalized_page_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+        "original_content_hash": "page_image_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+        "original_filename": "trolldomskommissionen_sample_line.jpg",
+        "output_filename": "archive_object_rgb_normalization_demo_p0001.png",
+        "page_id": "page_demo_real_line_as_page",
+        "source_color_mode": "RGB"
+      },
+      {
+        "dimensions": "12x8",
+        "normalized_content_hash": "normalized_page_457c0ecba7ca0301d34bcee3b8813fc5a7185a304b9a4e1ca1f31abbd257b596",
+        "original_content_hash": "page_image_770c9016b85a2a1a4170b8ad51c09ded2f5653b028e9bfb13660d6717ba821b8",
+        "original_filename": "synthetic_cmyk.tif",
+        "output_filename": "archive_object_rgb_normalization_demo_p0002.png",
+        "page_id": "page_demo_cmyk",
+        "source_color_mode": "CMYK"
+      },
+      {
+        "dimensions": "12x8",
+        "normalized_content_hash": "normalized_page_cd0812bf97713fb68a3ac3b35e3ce85babff085c5c39f89b767486065b77f364",
+        "original_content_hash": "page_image_a7862c63340acc447494aa49e83b8f15776237a64638d78b433d8d77edf288ea",
+        "original_filename": "synthetic_i16.png",
+        "output_filename": "archive_object_rgb_normalization_demo_p0003.png",
+        "page_id": "page_demo_16bit_gray",
+        "source_color_mode": "I;16"
+      },
+      {
+        "dimensions": "12x8",
+        "normalized_content_hash": "normalized_page_fad584fec027d2d9ab53e6eddb1273be0df287409886842df1a0e0e201ec0f1c",
+        "original_content_hash": "page_image_b4689a0bd52bcd61c0fd2afb66c7dbf9ab43e8cfc87eefa89d9f1594c7db1770",
+        "original_filename": "synthetic_palette_transparency.png",
+        "output_filename": "archive_object_rgb_normalization_demo_p0004.png",
+        "page_id": "page_demo_palette_transparency",
+        "source_color_mode": "P"
+      }
+    ],
+    "manifest": "export-packages\\export_package_rgb_normalization_demo\\manifest.json",
+    "package_id": "export_package_rgb_normalization_demo"
+  },
+  "import_association": {
+    "caveat": "Researcher-confirmed correspondence, NOT cryptographic proof: Transkribus does not preserve or return ArchiveTrust's content hashes.",
+    "confirmed_by": "rgb-normalization-demo",
+    "correspondence_basis": "researcher_confirmed",
+    "note": "The ExternalImport here points at the hand-authored PAGE XML test fixture. No real Transkribus upload or export occurred in this demonstration.",
+    "target_id": "normalized_page_artifact_a1ccfdba4bd647bdb53751b3ca266de7",
+    "target_kind": "normalized_page_artifact"
+  },
+  "normalization_version": "1.0.0",
+  "not_the_committed_baseline": "This directory is separate from docs/experiments/baseline-comparison/, which was not read, written, or modified by this run. That baseline's Transkribus MethodRun had no page image (input_crop_id=None) and no normalization event was added to it.",
+  "recorded_failure": {
+    "category": "undecodable_image",
+    "page_id": "page_demo_undecodable",
+    "reason": "UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x0000022F78DEB420>"
+  },
+  "replay_verified": true,
+  "telemetry_event_counts": {
+    "DerivedImageArtifactCreated": 4,
+    "ImageNormalizationCompleted": 4,
+    "ImageNormalizationFailed": 1,
+    "ImageNormalizationStarted": 5
+  },
+  "telemetry_file": "normalization_events.jsonl"
+}

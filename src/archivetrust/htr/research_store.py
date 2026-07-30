@@ -75,6 +75,11 @@ from archivetrust.htr.knowledge.models import (
     ResearchObservation,
     ResearchQuestion,
 )
+from archivetrust.htr.preprocessing.models import (
+    NormalizationFailure,
+    NormalizedPageArtifact,
+    PageImageArtifact,
+)
 from archivetrust.providers.transkribus.external_import import ExternalImport
 
 
@@ -183,6 +188,16 @@ class HtrResearchStore:
         new experiment (`htr/knowledge/questions.py`). Advanced by `advance_research_question` for the
         same reason `_findings` is: drafting an experiment from a question, or answering it, produces a
         later state of the same entity, and every earlier state stays in the durable log."""
+        self._page_image_artifacts: dict[str, PageImageArtifact] = {}
+        """`artifact_id -> PageImageArtifact` -- the *original*, un-normalized page images
+        (`htr/preprocessing/`). Distinct from `_crops`: those are line-level segmentation outputs,
+        these are whole-page source images."""
+        self._normalized_page_artifacts: dict[str, NormalizedPageArtifact] = {}
+        """`normalized_artifact_id -> NormalizedPageArtifact` -- derived, RGB-normalized page images
+        with their full provenance."""
+        self._normalization_failures: dict[str, NormalizationFailure] = {}
+        """`failure_id -> NormalizationFailure` -- preserved, never excluded, and the thing the
+        export path refuses on (docs/methods/transkribus-swedish-lion-1.md §5)."""
         self._ground_truth: dict[str, str] = {}
         """`text_line_id -> reference transcription`. Reference text for a line, from whatever
         authority produced it (a closed blind dual review, an imported gold standard). Kept as a
@@ -224,6 +239,24 @@ class HtrResearchStore:
 
     def register_input_crop(self, crop: InputCrop) -> None:
         self._put(self._crops, crop.crop_id, crop, "InputCrop")
+
+    def register_page_image_artifact(self, artifact: PageImageArtifact) -> None:
+        self._put(
+            self._page_image_artifacts, artifact.artifact_id, artifact, "PageImageArtifact"
+        )
+
+    def register_normalized_page_artifact(self, artifact: NormalizedPageArtifact) -> None:
+        self._put(
+            self._normalized_page_artifacts,
+            artifact.normalized_artifact_id,
+            artifact,
+            "NormalizedPageArtifact",
+        )
+
+    def register_normalization_failure(self, failure: NormalizationFailure) -> None:
+        self._put(
+            self._normalization_failures, failure.failure_id, failure, "NormalizationFailure"
+        )
 
     def register_experiment(self, experiment: Experiment) -> None:
         self._put(self._experiments, experiment.experiment_id, experiment, "Experiment")
@@ -361,6 +394,9 @@ class HtrResearchStore:
         "_regions",
         "_text_lines",
         "_crops",
+        "_page_image_artifacts",
+        "_normalized_page_artifacts",
+        "_normalization_failures",
         "_experiments",
         "_experiment_versions",
         "_experiment_runs",
@@ -565,6 +601,49 @@ class HtrResearchStore:
     def external_imports(self) -> tuple[ExternalImport, ...]:
         with self._lock:
             return tuple(sorted(self._external_imports.values(), key=lambda e: e.imported_at))
+
+    # -- Image preprocessing (htr/preprocessing/) ------------------------------------------------
+
+    def page_image_artifacts(self, *, page_id: str | None = None) -> tuple[PageImageArtifact, ...]:
+        with self._lock:
+            rows = [
+                a
+                for a in self._page_image_artifacts.values()
+                if page_id is None or a.page_id == page_id
+            ]
+        return tuple(sorted(rows, key=lambda a: a.artifact_id))
+
+    def normalized_page_artifacts(
+        self, *, page_id: str | None = None
+    ) -> tuple[NormalizedPageArtifact, ...]:
+        with self._lock:
+            rows = [
+                a
+                for a in self._normalized_page_artifacts.values()
+                if page_id is None or a.page_id == page_id
+            ]
+        return tuple(sorted(rows, key=lambda a: a.executed_at))
+
+    def normalization_failures(
+        self, *, page_id: str | None = None
+    ) -> tuple[NormalizationFailure, ...]:
+        with self._lock:
+            rows = [
+                f
+                for f in self._normalization_failures.values()
+                if page_id is None or f.page_id == page_id
+            ]
+        return tuple(sorted(rows, key=lambda f: f.occurred_at))
+
+    def normalized_artifact_by_hash(self, content_hash: str) -> NormalizedPageArtifact | None:
+        """Looks a normalized artifact up by its content address -- the lookup the import-association
+        workflow needs, since a researcher confirming a Transkribus result's correspondence has the
+        normalized page's *hash* (from the export manifest) rather than its internal id."""
+        with self._lock:
+            for artifact in self._normalized_page_artifacts.values():
+                if artifact.normalized_content_hash == content_hash:
+                    return artifact
+        return None
 
     def conventions(self) -> tuple[TranscriptionConvention, ...]:
         with self._lock:

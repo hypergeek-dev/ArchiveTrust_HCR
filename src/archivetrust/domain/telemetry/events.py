@@ -54,12 +54,23 @@ from archivetrust.htr.knowledge.models import (
     ResearchObservation,
     ResearchQuestion,
 )
+from archivetrust.htr.preprocessing.models import (
+    NormalizationFailure,
+    NormalizedPageArtifact,
+    PageImageArtifact,
+)
 
-# `htr.corpus.models`/`htr.experiment.models`/`htr.knowledge.models` are pure frozen Pydantic domain
-# types whose only imports are `domain.evidence.models` and `domain.shared.ids` (verified: their
-# packages' `__init__` files pull nothing else, and `htr/__init__.py` is docstring-only), so
-# importing them here introduces no cycle and violates neither guard in
-# `tests/domain/test_dependency_direction.py`. Events embed the *full* domain object they announce
+# `htr.corpus.models`/`htr.experiment.models`/`htr.knowledge.models`/`htr.preprocessing.models` are
+# pure frozen Pydantic domain types whose only imports are `domain.evidence.models` and
+# `domain.shared.ids` (verified: their packages' `__init__` files pull nothing else, and
+# `htr/__init__.py` is docstring-only), so importing them here introduces no cycle and violates
+# neither guard in `tests/domain/test_dependency_direction.py`.
+#
+# `htr.preprocessing.models` specifically: its sibling `htr/preprocessing/rgb_normalization.py` does
+# import Pillow, which is why `htr/preprocessing/__init__.py` re-exports the models module *only*.
+# That is load-bearing for the second guard here
+# (`test_domain_layer_has_zero_third_party_runtime_dependencies_beyond_pydantic`): importing this
+# events module must never pull an image library into the domain layer. Events embed the *full* domain object they announce
 # -- this module's own docstring requires it, "because replay must reconstruct [state] from
 # telemetry alone".
 #
@@ -222,6 +233,45 @@ class TelemetryEventKind(str, Enum):
     drafted. Folding the link into `ExperimentVersionCreated` would have put an optional
     knowledge-layer pointer on the event that announces execution configuration."""
     RESEARCH_REPORT_GENERATED = "ResearchReportGenerated"
+
+    # -- Image preprocessing (htr/preprocessing/, docs/methods/transkribus-swedish-lion-1.md) ----
+    #
+    # **Why four new kinds rather than reusing an existing one.** Every candidate already in this set
+    # was checked and none fits:
+    #
+    # * `SEGMENTATION_RUN_COMPLETED` announces regions/lines/crops detected *within* a page -- a
+    #   different stage, over an already-decoded image, producing geometry rather than a derived
+    #   image. Reusing it would make "the page was colour-normalized" indistinguishable from "the
+    #   page was segmented" in every query and every replay branch.
+    # * `INPUT_CROP_CREATED` is line-granular and is the *output* of segmentation; a normalized page
+    #   image is neither a crop nor line-scoped.
+    # * `EVIDENCE_CREATED`/`PROVENANCE_CONTEXT_ESTABLISHED` concern provider output and execution
+    #   environment, not a derived artifact.
+    # * `METHOD_RUN_*` would claim a recognition method ran. Normalization is not a recognition
+    #   method and must never be counted as one.
+    #
+    # There is deliberately no generic "PipelineStageCompleted" in this set and none is added here:
+    # this module's docstring forbids process-oriented events, and a generic stage event would be
+    # exactly that. These four are knowledge events -- what became true about a page's image
+    # representation -- which is why they name the artifact rather than the function that ran.
+    IMAGE_NORMALIZATION_STARTED = "ImageNormalizationStarted"
+    """One page image entered the versioned RGB-normalization stage. Carries the *source*
+    `PageImageArtifact`, so replay reconstructs the original's identity from the event that opens the
+    attempt rather than needing a separate registration kind."""
+    IMAGE_NORMALIZATION_COMPLETED = "ImageNormalizationCompleted"
+    """Terminal success marker for one normalization attempt, referencing the artifacts by id. A
+    no-op on replay for the same reason `METHOD_RUN_COMPLETED` is: the entities it refers to were
+    already fully established by the events it chains from."""
+    IMAGE_NORMALIZATION_FAILED = "ImageNormalizationFailed"
+    """One normalization attempt failed before export. Carries the full `NormalizationFailure`, which
+    is what makes "never fall back to submitting the unnormalized original" enforceable: the export
+    path has a recorded failure to refuse on rather than an absence it could misread as success."""
+    DERIVED_IMAGE_ARTIFACT_CREATED = "DerivedImageArtifactCreated"
+    """A new, content-addressed image artifact was derived from an existing one. Carries the full
+    `NormalizedPageArtifact` -- the provenance record replay projects. Named for the general fact
+    (a derived image exists, linked to its original by id and hash) rather than for RGB normalization
+    specifically, because that is what the event asserts; a future derivation stage that produced a
+    differently-configured artifact would legitimately reuse it."""
 
 
 class ReviewOutcome(str, Enum):
@@ -1221,6 +1271,80 @@ class ExternalResultImported(HtrTelemetryEvent):
     record: dict[str, Any] | None = None
 
 
+# -- Image preprocessing: the versioned RGB-normalization stage ---------------------------------
+#
+# Real producers from the outset, in `htr/preprocessing/normalization_service.py` -- none of these
+# four is a schema-only placeholder. See that module for the emit-then-project ordering and
+# `application/htr_journal.py` for the replay branches.
+#
+# All four carry their typed domain object rather than a `record` dict, matching `InputCropCreated`
+# rather than `ExternalResultImported`: `htr.preprocessing.models` is a pure Pydantic module this
+# layer is allowed to import (see the import-block comment above), so there is no reason to
+# round-trip these through an untyped dict and lose validation on replay.
+
+
+class ImageNormalizationStarted(HtrTelemetryEvent):
+    """One page image entered the RGB-normalization stage.
+
+    Carries the *source* `PageImageArtifact` in full, which is what lets replay reconstruct the
+    original's content address without a separate registration kind -- and means a failed attempt
+    still leaves the original identified in the log, since this event is appended before the
+    transform runs.
+
+    `configuration_hash` and `normalization_version` are recorded on the opening event as well as on
+    the resulting artifact, so an attempt that never produced an artifact still records which
+    configuration was attempted."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.IMAGE_NORMALIZATION_STARTED
+
+    source_artifact: PageImageArtifact
+    configuration_hash: str
+    normalization_version: str
+
+
+class DerivedImageArtifactCreated(HtrTelemetryEvent):
+    """A content-addressed derived image artifact was created from an existing one.
+
+    Carries the full `NormalizedPageArtifact` -- the complete provenance record, including the source
+    hash it was derived from. The hashes were computed and validated by the model itself before this
+    event existed; nothing is re-hashed on replay (event-model doc §2: no second hashing scheme)."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.DERIVED_IMAGE_ARTIFACT_CREATED
+
+    normalized_artifact: NormalizedPageArtifact
+
+
+class ImageNormalizationCompleted(HtrTelemetryEvent):
+    """Terminal success marker for one normalization attempt.
+
+    References both artifacts by id and hash, never embedded: the source arrived with
+    `ImageNormalizationStarted` and the derived artifact with `DerivedImageArtifactCreated`, so
+    embedding either here would put two copies of one entity in the log and give replay a choice
+    about which to believe. A deliberate no-op in `HtrJournal`, exactly as `MethodRunCompleted` is."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.IMAGE_NORMALIZATION_COMPLETED
+
+    source_artifact_id: str
+    source_content_hash: str
+    normalized_artifact_id: str
+    normalized_content_hash: str
+    configuration_hash: str
+    normalization_version: str
+
+
+class ImageNormalizationFailed(HtrTelemetryEvent):
+    """One normalization attempt failed before export, preserved as durable evidence.
+
+    The whole point of this kind is that the failure is *recorded*, not raised-and-forgotten: the
+    export path refuses to package a page for which this event is the latest normalization outcome,
+    which is how "never fall back to submitting the unnormalized original" is enforced by evidence
+    rather than by hoping every caller wrote a correct `except` block."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.IMAGE_NORMALIZATION_FAILED
+
+    failure: NormalizationFailure
+
+
 # -- Research-knowledge lifecycle: schema only, no producer yet ---------------------------------
 #
 # These five kinds complete event-model doc §3's required list, whose layers 10-12 are the
@@ -1661,6 +1785,10 @@ EVENT_TYPE_BY_KIND: dict[TelemetryEventKind, type[TelemetryEvent]] = {
         ResearchQuestionRaised,
         ExperimentDraftedFromQuestion,
         ResearchReportGenerated,
+        ImageNormalizationStarted,
+        DerivedImageArtifactCreated,
+        ImageNormalizationCompleted,
+        ImageNormalizationFailed,
     )
 }
 

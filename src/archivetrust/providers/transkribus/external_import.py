@@ -94,6 +94,38 @@ class ImportTargetKind(str, Enum):
     PAGE = "page"
     REGION = "region"
     EXPERIMENT = "experiment"
+    NORMALIZED_PAGE_ARTIFACT = "normalized_page_artifact"
+    """Added with the RGB-normalization stage (`htr/preprocessing/`). The target is a specific
+    `NormalizedPageArtifact` -- the exact derived image that was handed to Transkribus -- identified
+    by its content hash. Distinct from `PAGE` on purpose: a page may have several normalized
+    artifacts over time (a new normalization version produces a new one), and "this result came from
+    that page" is a weaker, less useful claim than "this result came from those exact bytes"."""
+
+
+class CorrespondenceBasis(str, Enum):
+    """*How well established* an association is -- the honest epistemic status of the link.
+
+    Added with the RGB-normalization stage because the export/import round trip creates a link that
+    genuinely cannot be proven, and the type system should say so rather than let a reader assume a
+    content hash on both sides means the hashes were compared.
+    """
+
+    RESEARCHER_CONFIRMED = "researcher_confirmed"
+    """A human asserts this imported result was produced from this normalized artifact, on the basis
+    of their own record of which file they uploaded.
+
+    **This is not cryptographic proof and must never be presented as such.** Transkribus does not
+    preserve, echo, or return ArchiveTrust's content hashes, so nothing in the imported PAGE/ALTO
+    file can be checked against the normalized image's hash. The export manifest
+    (`htr/preprocessing/export_package.py`) records which normalized hash was written to which
+    filename, which is what makes the researcher's claim *auditable* -- but the final link is still
+    testimony, not verification."""
+
+    HASH_VERIFIED = "hash_verified"
+    """The imported artifact itself carries a content hash that was recomputed and matched. No
+    Transkribus import can currently use this value -- it exists so that `RESEARCHER_CONFIRMED` is a
+    meaningful, contrastive choice rather than the only option the enum offers, and so a future
+    import path that *can* verify has somewhere honest to record it."""
 
 
 class ImportAssociation(BaseModel):
@@ -117,11 +149,32 @@ class ImportAssociation(BaseModel):
     target_id: str
     associated_at: str
     associated_by: str | None = None
+    correspondence_basis: CorrespondenceBasis | None = None
+    """How well established this link is -- see `CorrespondenceBasis`. Added with the
+    RGB-normalization stage and additive: `None` on every association recorded before this field
+    existed, which honestly means "the basis was not recorded", never a retroactive claim that one was
+    verified. Always set for a `NORMALIZED_PAGE_ARTIFACT` association, enforced below."""
+    source_content_hash: str | None = None
+    """The normalized artifact's content hash this result is claimed to have come from. Recorded
+    alongside `target_id` because the hash is what the export manifest gave the researcher and
+    therefore what they actually confirmed against."""
+    export_package_id: str | None = None
+    """Which export package the uploaded file came from, when known -- the audit trail from an
+    imported result back to the handover it belongs to."""
 
     @model_validator(mode="after")
     def _validate(self) -> "ImportAssociation":
         if not self.target_id:
             raise ValueError("ImportAssociation.target_id must be non-empty")
+        if (
+            self.target_kind is ImportTargetKind.NORMALIZED_PAGE_ARTIFACT
+            and self.correspondence_basis is None
+        ):
+            raise ValueError(
+                "ImportAssociation.correspondence_basis is required when target_kind is "
+                "NORMALIZED_PAGE_ARTIFACT -- an unqualified link to specific image bytes would "
+                "read as verified when it is researcher-confirmed testimony"
+            )
         return self
 
 
@@ -149,4 +202,50 @@ def associate_external_import(
         target_id=target_id,
         associated_at=associated_at,
         associated_by=associated_by,
+    )
+
+
+def associate_imported_result_with_normalized_page(
+    external_import: ExternalImport,
+    *,
+    normalized_artifact_id: str,
+    normalized_content_hash: str,
+    confirmed_by: str,
+    associated_at: str,
+    export_package_id: str | None = None,
+) -> ImportAssociation:
+    """Records that an imported Transkribus result corresponds to a specific normalized page image.
+
+    The closing step of the export/import round trip
+    (`htr/preprocessing/export_package.py` -> external, manual Transkribus processing -> import).
+    Returns an `ImportAssociation` whose `correspondence_basis` is fixed to
+    `RESEARCHER_CONFIRMED` -- there is no parameter to override it, because no Transkribus import can
+    honestly claim anything stronger: Transkribus never sees or returns ArchiveTrust's content hashes,
+    so the link rests on the researcher's own record of which file they uploaded, cross-checkable
+    against the export manifest but not verifiable from the imported file itself.
+
+    `confirmed_by` is required, not optional. An unattributed "researcher-confirmed" correspondence
+    would be a claim with no claimant, which is worse than no record: the whole value of this
+    association is knowing *who* vouched for it.
+    """
+    if not confirmed_by.strip():
+        raise ValueError(
+            "associate_imported_result_with_normalized_page requires confirmed_by -- a "
+            "researcher-confirmed correspondence must name the researcher who confirmed it"
+        )
+    if not normalized_content_hash.startswith("normalized_page_"):
+        raise ValueError(
+            "normalized_content_hash must be a NormalizedPageArtifact content address "
+            f"('normalized_page_...'); got {normalized_content_hash!r}"
+        )
+    return ImportAssociation(
+        association_id=new_id("import_association"),
+        external_import_id=external_import.external_import_id,
+        target_kind=ImportTargetKind.NORMALIZED_PAGE_ARTIFACT,
+        target_id=normalized_artifact_id,
+        associated_at=associated_at,
+        associated_by=confirmed_by,
+        correspondence_basis=CorrespondenceBasis.RESEARCHER_CONFIRMED,
+        source_content_hash=normalized_content_hash,
+        export_package_id=export_package_id,
     )

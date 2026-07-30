@@ -84,15 +84,19 @@ def test_read_model_survives_destruction_of_the_store(tmp_path):
     assert original_store.method_run(corpus.method_run.method_run_id) == corpus.method_run
 
     # 3. Destroy the in-memory store entirely. Nothing below may reach it.
-    store_id = id(original_store)
     del original_store
     gc.collect()
 
     # 4./5. A brand-new sink over the same file, and a fresh projection replayed from it alone.
     reopened_sink = FileTelemetrySink(path)
     reconstructed = HtrJournal().replay(reopened_sink.all_events())
-    assert id(reconstructed) != store_id
+    # Deliberately *not* an `id()` comparison against the destroyed store: once it is freed, CPython
+    # may hand the same address to the replacement, so that check passes or fails by allocator luck.
+    # `HtrJournal.replay` builds a plain `HtrResearchStore`, never the `DurableHtrResearchStore`
+    # subclass that was registered through -- which proves this is a different object *by type*, and
+    # cannot flake.
     assert isinstance(reconstructed, HtrResearchStore)
+    assert not isinstance(reconstructed, DurableHtrResearchStore)
 
     # 6. Field-for-field equality, not merely "an object with the same id exists".
     assert reconstructed.project(corpus.project.project_id) == corpus.project

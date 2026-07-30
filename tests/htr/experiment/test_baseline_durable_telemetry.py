@@ -101,28 +101,32 @@ def _durable_run(tmp_path_factory):
     }
 
     # Destroy every in-memory object. Nothing below may reach the store, its sink, or the result.
-    store_id = id(store)
     del store
     del result
     gc.collect()
 
-    return path, live, store_id
+    return path, live
 
 
 @pytest.fixture(name="reconstructed")
 def _reconstructed(durable_run):
     """A brand-new `FileTelemetrySink` over the same path, replayed into a fresh projection."""
-    path, live, store_id = durable_run
+    path, live = durable_run
     events = list(FileTelemetrySink(path).all_events())
     store = HtrJournal().replay(events)
+    # Deliberately *not* an `id()` comparison against the destroyed store: once it is freed, CPython
+    # may hand the same address to the replacement, so that check passes or fails by allocator luck.
+    # `HtrJournal.replay` builds a plain `HtrResearchStore`, never the `DurableHtrResearchStore`
+    # subclass that was registered through -- which proves this is a different object *by type*, and
+    # cannot flake.
     assert isinstance(store, HtrResearchStore)
-    assert id(store) != store_id
+    assert not isinstance(store, DurableHtrResearchStore)
     return store, events, live
 
 
 @requires_local_methods
 def test_the_real_run_wrote_a_real_file_with_its_hash_chain(durable_run):
-    path, live, _ = durable_run
+    path, live = durable_run
     assert path.exists()
     lines = [line for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
     assert len(lines) == live["events_on_disk"] > 50

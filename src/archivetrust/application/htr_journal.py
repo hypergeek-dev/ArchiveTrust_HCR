@@ -38,6 +38,7 @@ from archivetrust.domain.telemetry.events import (
     CollectionCreated,
     DatasetCreated,
     DatasetVersionCreated,
+    DerivedImageArtifactCreated,
     DocumentRegistered,
     ExperimentCreated,
     ExperimentRunCompleted,
@@ -49,6 +50,9 @@ from archivetrust.domain.telemetry.events import (
     FindingReviewed,
     FindingStatusChanged,
     GroundTruthTextRecorded,
+    ImageNormalizationCompleted,
+    ImageNormalizationFailed,
+    ImageNormalizationStarted,
     InputCropCreated,
     MethodRunCompleted,
     MethodRunFailed,
@@ -135,6 +139,21 @@ class HtrJournal:
         elif isinstance(event, TranscriptionConventionRegistered):
             if event.record is not None:
                 store.register_convention(TranscriptionConvention.model_validate(event.record))
+
+        # -- Image preprocessing (htr/preprocessing/) -------------------------------------------
+        # Three projecting branches for the four new kinds; `ImageNormalizationCompleted` is the
+        # deliberate no-op named in the closing comment below. Each of these carries its full typed
+        # artifact, so a replay rebuilds an original image's content address, a derived artifact's
+        # entire provenance record, and every failed attempt, from the log alone.
+        elif isinstance(event, ImageNormalizationStarted):
+            store.register_page_image_artifact(event.source_artifact)
+        elif isinstance(event, DerivedImageArtifactCreated):
+            # The artifact's hashes were computed and validated by `NormalizedPageArtifact` itself
+            # before the event was constructed; nothing is re-hashed here (event-model doc §2).
+            store.register_normalized_page_artifact(event.normalized_artifact)
+        elif isinstance(event, ImageNormalizationFailed):
+            # Preserved, never excluded -- and the record the export path refuses on.
+            store.register_normalization_failure(event.failure)
 
         # -- Experiment execution ---------------------------------------------------------------
         elif isinstance(event, ExperimentCreated):
@@ -237,6 +256,10 @@ class HtrJournal:
         #    from, so there is nothing further to reconstruct:
         #      `MethodRunCompleted` (a MethodRun is constructed once, already terminal -- see
         #      `advance_experiment_run`'s docstring for why it has no MethodRun counterpart).
+        #      `ImageNormalizationCompleted` (both artifacts it names were already fully established
+        #      by the `ImageNormalizationStarted`/`DerivedImageArtifactCreated` it chains from; it
+        #      carries only their ids and hashes precisely so replay has no second copy to choose
+        #      between).
         # 2. Summary events that reference by id entities which are each announced individually
         #    with their full object, so replaying the summary would duplicate them:
         #      `SegmentationRunCompleted` (its regions/lines/crops arrive as `RegionDetected`/
@@ -261,6 +284,7 @@ class HtrJournal:
             event,
             (
                 MethodRunCompleted,
+                ImageNormalizationCompleted,
                 SegmentationRunCompleted,
                 DocumentRegistered,
                 ExperimentRunFailed,

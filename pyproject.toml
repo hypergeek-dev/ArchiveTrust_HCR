@@ -9,6 +9,28 @@ classifiers = [
 ]
 dependencies = [
     "pydantic>=2.6",
+    # Pillow: the image decoder/encoder behind the versioned RGB-normalization preprocessing stage
+    # (`htr/preprocessing/rgb_normalization.py`, docs/methods/transkribus-swedish-lion-1.md).
+    #
+    # **A core dependency, deliberately, and the only non-pydantic one.** Every other third-party
+    # package in this project is an optional extra (`gui`, `transformers`, `watch`) under one
+    # consistent rule: an extra is for a dependency that is heavy, environment-specific, or whose
+    # absence must still leave the full test suite runnable (Qt needs a display, torch needs a
+    # GPU/large download, watchdog needs OS-level filesystem notifications -- each has a documented
+    # fallback or a whole layer that is skipped). Pillow fits none of that: it is a small pure
+    # install with no GPU, no network, and no system service, and the stage it powers is a
+    # *mandatory* pipeline stage whose entire purpose is that it cannot be skipped. An export
+    # package that silently shipped un-normalized originals because an optional extra was missing
+    # is precisely the failure mode this stage exists to prevent, so there is no honest fallback to
+    # write and therefore no reason to make it optional.
+    #
+    # It is emphatically NOT a domain-layer dependency: `domain/telemetry/events.py` imports only
+    # `htr/preprocessing/models.py` (pure frozen Pydantic + stdlib `hashlib`), never
+    # `rgb_normalization.py`, and `htr/preprocessing/__init__.py` re-exports models only for exactly
+    # that reason. ROADMAP.md S11's "domain layer has zero third-party runtime dependencies beyond
+    # schema/validation library" therefore still holds, and
+    # `tests/domain/test_dependency_direction.py` still enforces it.
+    "Pillow>=10.0",
 ]
 
 [project.scripts]

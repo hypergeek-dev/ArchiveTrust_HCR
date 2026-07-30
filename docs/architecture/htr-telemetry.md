@@ -187,9 +187,9 @@ optional `record` dict for the same reason. All three additions are optional wit
 pre-existing construction shapes in `tests/domain/telemetry/test_htr_events.py` still validate
 unchanged.
 
-## 6. The event vocabulary: 70 kinds
+## 6. The event vocabulary: 74 kinds
 
-34 pre-existing + 36 new. Of the 36 new, 30 are exactly the list in event-model doc §3. Six are
+34 pre-existing + 36 new + **4 added with the image-preprocessing stage** (see §14). Of the 36 new, 30 are exactly the list in event-model doc §3. Six are
 documented additions that list omitted, each justified in its own enum-member docstring — the four
 below, plus `ResearchQuestionRaised` and `ExperimentDraftedFromQuestion`, added 2026-07-30 with the
 research-question feedback loop (§13). Those last two are beyond §3's list because §3's layers 10-12 run
@@ -540,3 +540,61 @@ sentinel), and an `external_document` reference names a committed repository fil
 this application stores. Those two are why a `telemetry_event` or `evidence_record` reference comes back
 `resolved=False` **with the reason it is a property of the read model rather than of the evidence** —
 which is not the same fact as a dangling id, and the two are reported differently.
+
+## 14. Image preprocessing: the RGB-normalization stage (added 2026-07-30)
+
+Four new event kinds, all with real producers from the outset — none is a schema-only placeholder.
+Full stage documentation: `docs/methods/transkribus-swedish-lion-1.md`.
+
+| Kind | Carries | Replay branch |
+|---|---|---|
+| `ImageNormalizationStarted` | the source `PageImageArtifact` (full object) | registers the original artifact |
+| `DerivedImageArtifactCreated` | the `NormalizedPageArtifact` (full object) | registers the derived artifact |
+| `ImageNormalizationCompleted` | both artifacts' ids + hashes only | **deliberate no-op** |
+| `ImageNormalizationFailed` | the `NormalizationFailure` (full object) | registers the failure |
+
+Producers: `DurableHtrResearchStore.record_normalization_started` /
+`record_derived_image_artifact` / `record_normalization_completed` / `record_normalization_failed`.
+They live on the durable store, not in `htr/preprocessing/`, for the same reason every other producer
+does: that class owns the validate → append → project ordering and the `_emit_lock`, and a second
+emitter would be a parallel telemetry path with its own ordering bugs.
+`htr/preprocessing/normalization_service.py` is the orchestration *over* those methods.
+
+### Why four new kinds rather than reusing an existing one
+
+Every candidate was checked. `SEGMENTATION_RUN_COMPLETED` announces geometry detected *within* an
+already-decoded page — reusing it would make "colour-normalized" indistinguishable from "segmented" in
+every query. `INPUT_CROP_CREATED` is line-granular and is segmentation's output. `EVIDENCE_CREATED` and
+`PROVENANCE_CONTEXT_ESTABLISHED` concern provider output and execution environment. `METHOD_RUN_*`
+would claim a recognition method ran — normalization is not one and must never be counted as one.
+
+There is deliberately no generic `PipelineStageCompleted`, and none was added: `events.py`'s own
+docstring forbids process-oriented events, and a generic stage event would be exactly that. These four
+are knowledge events — what became true about a page's image representation — which is why they name the
+artifact rather than the function that ran.
+
+### Ordering guarantee
+
+`ImageNormalizationStarted` is appended **before** the transform runs. A failed attempt therefore still
+leaves its source image identified in the durable log, so `ImageNormalizationFailed` has a real
+recorded input to point at rather than referencing an artifact that was never announced.
+
+### Typed objects, not `record` dicts
+
+All four carry their typed domain object, following `InputCropCreated` rather than
+`ExternalResultImported`. `htr/preprocessing/models.py` is a pure frozen-Pydantic module (stdlib
+`hashlib` + pydantic only), so `domain/telemetry/events.py` may import it directly under §5's rules.
+This is load-bearing and slightly delicate: its sibling `rgb_normalization.py` *does* import Pillow, so
+`htr/preprocessing/__init__.py` re-exports the models module **only**. Importing
+`domain.telemetry.events` must never pull an image library into the domain layer, and
+`tests/domain/test_dependency_direction.py` still enforces that it does not.
+
+### Proven by test
+
+`tests/htr/preprocessing/test_telemetry_and_reconstruction.py` includes the
+destroy-and-reconstruct proof this codebase requires of every new HTR entity: the store, sink, and
+service are deleted, a brand-new `FileTelemetrySink` over the same path is replayed, and the
+reconstructed artifacts and failures must equal the originals field for field.
+`tests/htr/preprocessing/test_baseline_history_not_fabricated.py` separately asserts that **no**
+normalization event was added to the pre-existing committed baseline, whose Transkribus run had no page
+image at all.

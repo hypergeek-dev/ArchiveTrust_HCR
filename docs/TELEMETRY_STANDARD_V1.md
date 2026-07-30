@@ -134,6 +134,10 @@ the same `FileTelemetrySink`, and replayed by `application/htr_journal.py::HtrJo
 | `ResearchQuestionRaised` | Records a research question raised by an observation, finding or contradiction; carries the full `ResearchQuestion` including its attached hypotheses. `actor_type` is `human`. |
 | `ExperimentDraftedFromQuestion` | Records that an `ExperimentVersion` was drafted from a research question. Carries the post-draft question, and the experiment/version by id only — both are announced with their full objects by `ExperimentCreated`/`ExperimentVersionCreated`. Records no execution: a drafted version has no `ExperimentRun`. |
 | `ResearchReportGenerated` | Schema-ready: records generation of a research report. No producer yet. |
+| `ImageNormalizationStarted` | Records the start of the versioned `RgbNormalization` preprocessing stage for one source page image. |
+| `ImageNormalizationCompleted` | Records successful RGB normalization; carries the full `NormalizedPageArtifact` provenance (original/normalized hashes, source and output color modes, configuration hash). |
+| `ImageNormalizationFailed` | Records a failed normalization attempt (decode failure, invalid output, unwritable artifact) as durable evidence — never silently swallowed, and the unnormalized original is never substituted for the failed derivative. |
+| `DerivedImageArtifactCreated` | Records that a normalized page image artifact now exists as a distinct, hash-addressed derivative of its original, never overwriting it. |
 
 **Updated 2026-07-30.** The four knowledge kinds above previously read "Schema-ready … No producer
 yet", and this section previously said "the last five are deliberately declared without producers …

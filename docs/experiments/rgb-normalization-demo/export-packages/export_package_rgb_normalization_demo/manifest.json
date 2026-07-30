@@ -1,0 +1,59 @@
+{
+  "configuration_hash": "normalization_config_13abd1eef72e3a648fd5c1b9a165e28eeac0b5c37edfd246905fabdcd88f57e2",
+  "correspondence_caveat": "Transkribus does not preserve or return these content hashes. Any association between an imported Transkribus result and a normalized page below is a researcher-confirmed correspondence, not cryptographic proof.",
+  "created_at": "2026-07-30T05:46:03.314616+00:00",
+  "entries": [
+    {
+      "archive_object_ref": "archive_object_rgb_normalization_demo",
+      "height": 231,
+      "normalized_content_hash": "normalized_page_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+      "original_content_hash": "page_image_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+      "original_filename": "trolldomskommissionen_sample_line.jpg",
+      "output_filename": "archive_object_rgb_normalization_demo_p0001.png",
+      "page_id": "page_demo_real_line_as_page",
+      "page_number": 1,
+      "source_color_mode": "RGB",
+      "width": 2568
+    },
+    {
+      "archive_object_ref": "archive_object_rgb_normalization_demo",
+      "height": 8,
+      "normalized_content_hash": "normalized_page_457c0ecba7ca0301d34bcee3b8813fc5a7185a304b9a4e1ca1f31abbd257b596",
+      "original_content_hash": "page_image_770c9016b85a2a1a4170b8ad51c09ded2f5653b028e9bfb13660d6717ba821b8",
+      "original_filename": "synthetic_cmyk.tif",
+      "output_filename": "archive_object_rgb_normalization_demo_p0002.png",
+      "page_id": "page_demo_cmyk",
+      "page_number": 2,
+      "source_color_mode": "CMYK",
+      "width": 12
+    },
+    {
+      "archive_object_ref": "archive_object_rgb_normalization_demo",
+      "height": 8,
+      "normalized_content_hash": "normalized_page_cd0812bf97713fb68a3ac3b35e3ce85babff085c5c39f89b767486065b77f364",
+      "original_content_hash": "page_image_a7862c63340acc447494aa49e83b8f15776237a64638d78b433d8d77edf288ea",
+      "original_filename": "synthetic_i16.png",
+      "output_filename": "archive_object_rgb_normalization_demo_p0003.png",
+      "page_id": "page_demo_16bit_gray",
+      "page_number": 3,
+      "source_color_mode": "I;16",
+      "width": 12
+    },
+    {
+      "archive_object_ref": "archive_object_rgb_normalization_demo",
+      "height": 8,
+      "normalized_content_hash": "normalized_page_fad584fec027d2d9ab53e6eddb1273be0df287409886842df1a0e0e201ec0f1c",
+      "original_content_hash": "page_image_b4689a0bd52bcd61c0fd2afb66c7dbf9ab43e8cfc87eefa89d9f1594c7db1770",
+      "original_filename": "synthetic_palette_transparency.png",
+      "output_filename": "archive_object_rgb_normalization_demo_p0004.png",
+      "page_id": "page_demo_palette_transparency",
+      "page_number": 4,
+      "source_color_mode": "P",
+      "width": 12
+    }
+  ],
+  "external_processing_boundary": "Transkribus is an external service. ArchiveTrust performs no upload, holds no credential, and makes no network call: a researcher must manually upload the images in this package to Transkribus, run Swedish Lion I there, and manually export the result back to local disk.",
+  "normalization_version": "1.0.0",
+  "package_id": "export_package_rgb_normalization_demo",
+  "stage": "image_color_normalization"
+}

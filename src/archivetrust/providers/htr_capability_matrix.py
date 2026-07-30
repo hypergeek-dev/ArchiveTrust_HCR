@@ -51,6 +51,7 @@ CAPABILITY_FLAGS = (
     ("page_level_supported", "Page-level input"),
     ("local_execution_supported", "Runs locally"),
     ("external_upload_required", "Requires external upload"),
+    ("image_color_normalization_required", "Requires RGB normalization"),
 )
 """`(field_name, column_heading)` for every field on `MethodCapabilities`.
 

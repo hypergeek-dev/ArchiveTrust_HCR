@@ -106,10 +106,17 @@ modes with different causes. In the baseline run SATRN produced `0 / 38 / 8` cha
 it and got most characters wrong. Two CERs alone (0.7931 vs 0.4310) do not distinguish those shapes, and
 `ReliabilityFlag.OMITTED_TEXT` fires on the first and not the second.
 
-## 4. Normalization: exactly one profile, named in every scope
+## 4. Text normalization: exactly one profile, named in every scope
 
-There is one normalization function, `evaluation/metrics.py::normalize_text`, and it does exactly two
-things:
+> **Not to be confused with image normalization.** Since 2026-07-30 this system also has an
+> `image_color_normalization` stage (`htr/preprocessing/`, §4.1 below), which normalizes an input
+> *image's colour representation*. The two are unrelated, operate on different things, and are
+> versioned independently: this section is about normalizing *text* before comparing it to a reference.
+> Where a document or a field name could be ambiguous, prefer "text normalization" and "image
+> normalization" explicitly.
+
+There is one text normalization function, `evaluation/metrics.py::normalize_text`, and it does exactly
+two things:
 
 1. Unicode **NFC** composition;
 2. collapse every whitespace run to a single space, then strip.
@@ -133,6 +140,42 @@ sequence — a real result worth stating, and not evidence that normalization is
 **Unsupported normalization is a reliability finding, not a silent adjustment.**
 `ReliabilityFlag.UNSUPPORTED_NORMALIZATION` fires when a method's output carries normalization this
 profile does not model, rather than the engine quietly reconciling it.
+
+## 4.1 Image colour normalization is an input variable, not a metric adjustment
+
+Added 2026-07-30 with the `image_color_normalization` stage (`htr/preprocessing/`, full documentation in
+`docs/methods/transkribus-swedish-lion-1.md`).
+
+**It computes no metric and adjusts no score.** It normalizes the *input image's colour
+representation* — to 8-bit RGB, alpha composited over a recorded background, ICC recorded-and-stripped,
+EXIF orientation applied — before that image is handed to a method. It performs no enhancement of any
+kind (machine-checked, not merely asserted), so it cannot improve or degrade a recognition result by
+adjusting appearance; it can only make the representation a stated fact instead of an accident.
+
+**Why that matters for evaluation.** For a page-level, externally-processed method such as Transkribus
+Swedish Lion I, the image handed over *is* the experimental input. Its colour representation is
+therefore an experimental variable, and an unrecorded variable is exactly what makes two runs
+non-comparable. The stage's `configuration_hash` and implementation version are recorded on
+`ExperimentVersion.pipeline_configuration_ref`, so:
+
+> **A result is not comparable across image-normalization configurations**, for the same structural
+> reason a CER is not comparable across text-normalization profiles (§4). Changing the normalization
+> configuration forces a new `ExperimentVersion` — enforced through the existing
+> `to_ref()`/`assert_experiment_mutable` mechanism, proven in
+> `tests/htr/preprocessing/test_experiment_versioning.py` — so two runs with different image
+> normalization cannot be presented as the same pipeline configuration.
+
+**Scope limits, stated plainly:**
+
+- The committed baseline (`docs/experiments/baseline-comparison/`) ran **without** this stage. Its
+  Transkribus run had no page image at all, and no normalization event was added to it retroactively
+  (§7 of the method doc). Any comparison against that baseline must not claim normalized input.
+- A page whose normalization *failed* is excluded from its export package and never submitted in
+  un-normalized form. The exclusion is durable evidence (`ImageNormalizationFailed`), not a silent
+  omission — the same discipline §7 applies to comparison boundaries.
+- The stage is **not** applied to controlled line-level `InputCrop`s. Doing so would change the bytes
+  the local recognizers read relative to the committed baseline and would invalidate its recorded
+  results. Line-level controlled comparison remains governed by §1 and §2.
 
 ## 5. The four transcript stages, and which of them metrics attach to
 

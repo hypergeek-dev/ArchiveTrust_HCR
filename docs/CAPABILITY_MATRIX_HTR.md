@@ -40,16 +40,17 @@ Source of truth: each adapter's `get_capabilities()` / `get_metadata()`, not thi
 | Page-level input (`page_level_supported`) | no | no | yes |
 | Runs locally (`local_execution_supported`) | yes | yes | no |
 | Requires external upload (`external_upload_required`) | no | no | no |
+| Requires RGB normalization (`image_color_normalization_required`) | no | no | yes |
 
 <!-- END GENERATED FROM ADAPTERS -->
 
 ## What the flags do *not* say — read before comparing anything
 
-`MethodCapabilities` has six boolean fields and every one is required, so an unsupported capability is
-always an explicit `no` and never a silent omission (`providers/htr_adapter.py`). Booleans are still
-booleans, and four of the cells above are true in a way that would mislead a reader who stopped at the
-table. Each is documented on the adapter that reports it; they are collected here because a *matrix* is
-exactly where the flattening happens.
+`MethodCapabilities` has seven boolean fields and every one is required, so an unsupported capability
+is always an explicit `no` and never a silent omission (`providers/htr_adapter.py`). Booleans are still
+booleans, and several of the cells above are true (or false) in a way that would mislead a reader who
+stopped at the table. Each is documented on the adapter that reports it; they are collected here because
+a *matrix* is exactly where the flattening happens.
 
 ### 1. All three report `confidence_supported = yes`, and the three numbers are not comparable
 
@@ -117,6 +118,26 @@ That, plus the fixture's content not corresponding to the shared ground-truth li
 comparison boundary declared in advance by the experiment's own `exclusion_criteria`, not a post-hoc
 excuse. See `docs/EVALUATION_PROTOCOL.md` §7 and
 `docs/research-findings.md`'s `transkribus_not_comparable`.
+
+### 5. `image_color_normalization_required` is `yes` only for Transkribus, and only for page-level input
+
+`satrn` and `florence2_htr` never see this flag matter in practice: both consume pre-segmented line
+crops the experiment builds directly from a fixture's own bytes, never a raw decoded page image, so
+there is nothing for `htr/preprocessing/rgb_normalization.py` to normalize on their path. Transkribus
+Swedish Lion I reports `yes` because it does not reliably process source pages that are not RGB
+(bilevel, grayscale, palette, CMYK and 16-bit-grayscale scans are all real inputs an archival
+collection can contain), so **every page prepared for Transkribus — manual upload today, API upload in
+a future phase — is required to pass through the versioned `RgbNormalization` stage first**, never
+optionally.
+
+This is a fixed technical compatibility transform, not image enhancement: it does not contrast-enhance,
+sharpen, denoise, threshold, resize, deskew, crop, or lossy-compress. It produces a **separate derived
+artifact** or the original page is never overwritten. See `docs/methods/transkribus-swedish-lion-1.md`
+for the full pipeline (`Original source page → image decode → RGB normalization → normalized page
+artifact → external Swedish Lion I processing → PAGE/ALTO import → evaluation`), the versioned
+configuration contract, and why the existing 2026-07-30 baseline's Transkribus fixture — which never
+went through this stage, because it did not exist yet — is documented as unnormalized rather than
+retroactively credited with a normalization event that never happened.
 
 ## Model revisions in full
 

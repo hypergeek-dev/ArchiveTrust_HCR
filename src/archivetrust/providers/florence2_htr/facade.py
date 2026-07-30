@@ -150,6 +150,34 @@ class _RealFlorence2Facade:
         else:  # "auto"
             device = "cuda" if torch.cuda.is_available() else "cpu"
 
+        # **This is NOT the versioned `RgbNormalization` preprocessing stage**
+        # (`htr/preprocessing/rgb_normalization.py`). It is deliberately a separate, simpler,
+        # Florence-2-specific conversion, and the two must not be confused:
+        #
+        # * *What this is*: Florence-2's own input requirement. Its processor demands a 3-channel
+        #   RGB tensor, so a line crop that arrives as grayscale (which SATRN-shared crops often
+        #   are) must be widened before the model will accept it. It is unversioned, unrecorded, and
+        #   produces no artifact, because nothing downstream reasons about it -- the converted pixels
+        #   exist only inside this worker call and are never stored, hashed, or handed to anyone.
+        # * *What the stage is*: a first-class, versioned, content-addressed pipeline stage that
+        #   produces a durable `NormalizedPageArtifact` with a full provenance record and telemetry,
+        #   for *page* images leaving ArchiveTrust for external Transkribus processing.
+        #
+        # Florence-2 is deliberately **not** refactored to call the stage, and the reason is not
+        # convenience. The stage operates on whole pages and emits page-scoped telemetry
+        # (`ImageNormalizationStarted`/`DerivedImageArtifactCreated`) plus a stored artifact per
+        # call; routing every line crop of every method run through it would emit a derived artifact
+        # per crop per run, inflating the telemetry log and the blob store with page-level provenance
+        # records about line crops -- and would silently change the bytes Florence-2 sees relative to
+        # the committed baseline (the stage composites alpha over white and re-encodes to canonical
+        # PNG), which would invalidate that baseline's recorded results. The task's own scope
+        # instruction is explicit that the stage must not be applied retroactively to controlled line
+        # crops unless their own documented input requirements demand it; Florence-2's requirement is
+        # satisfied by this one line, so it stays.
+        #
+        # What *was* wrong here and is now fixed: this conversion was undocumented, which is the
+        # anti-pattern ("do not hide this conversion inside an undocumented image-loading helper").
+        # It is now documented in place. See docs/methods/transkribus-swedish-lion-1.md §8.
         try:
             image = Image.open(image_path).convert("RGB")
         except (UnidentifiedImageError, OSError) as exc:

@@ -38,7 +38,7 @@ def test_adapter_version_comes_from_the_adapter_module_constant() -> None:
 
 
 def test_every_capability_flag_is_listed_including_the_false_ones() -> None:
-    """`MethodCapabilities` declares all six as required booleans precisely so an unsupported
+    """`MethodCapabilities` declares all seven as required booleans precisely so an unsupported
     capability is an explicit False, never an omission. The surface must preserve that."""
     rows = MethodOverviewViewModel(_real_adapters()).method_rows()
     satrn = next(row for row in rows if row.method_id == "satrn")
@@ -51,7 +51,12 @@ def test_every_capability_flag_is_listed_including_the_false_ones() -> None:
         "page_level_supported",
         "local_execution_supported",
         "external_upload_required",
+        "image_color_normalization_required",
     }
+    # SATRN and Florence-2 consume pre-segmented line crops directly -- the RGB-normalization
+    # preprocessing stage is a Transkribus page-level requirement, not a general one (see
+    # docs/methods/transkribus-swedish-lion-1.md).
+    assert by_field["image_color_normalization_required"].supported is False
     assert by_field["line_level_supported"].supported is True
     assert by_field["page_level_supported"].supported is False  # present, and false
     assert by_field["page_level_supported"].label == "Page-level input"
