@@ -1,0 +1,165 @@
+{
+  "affected_dataset_versions": [
+    "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e"
+  ],
+  "affected_datasets": [
+    "dataset_014079548fb34741b8b3334bbb7587f7"
+  ],
+  "affected_document_types": [
+    "swedish_court_record_line"
+  ],
+  "affected_handwriting_periods": [
+    "17th_century_swedish"
+  ],
+  "affected_methods": [
+    "transkribus_swedish_lion_1"
+  ],
+  "affected_model_versions": [
+    "Swedish Lion I - v3"
+  ],
+  "author": "htr.knowledge.baseline_knowledge",
+  "confidence_level": "high",
+  "contradictory_evidence": [],
+  "creation_date": "2026-07-30T03:30:00+00:00",
+  "evidence_references": [
+    {
+      "kind": "experiment_run",
+      "note": "is_end_to_end = true",
+      "reference_id": "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+    },
+    {
+      "kind": "method_run",
+      "note": "input_crop_id = null -- page-level, never bound to the shared crop",
+      "reference_id": "method_run_fa544c4adb9d44d89439c8e85d1b8565",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "MethodRunStarted carrying the MethodRun with input_crop_id = null",
+      "reference_id": "event_ee5448b140e14320b256028fb86fee03",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "ParsedMethodResultRecorded, first line 'Anno 1712 den 3 Januarii holltes ting'",
+      "reference_id": "event_cd394580328a4189a005cf8aea842da5",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "NormalizedMethodResultRecorded -- the last text stage; no MetricCalculated follows it for CER or WER",
+      "reference_id": "event_ec65ed1b1a1746959b91965739a2a1a7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+    },
+    {
+      "kind": "ground_truth_text",
+      "note": "the controlled reference this fixture does not correspond to",
+      "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+    },
+    {
+      "kind": "input_crop",
+      "note": "the controlled crop, not read by this method run",
+      "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+    },
+    {
+      "kind": "external_document",
+      "note": "the pre-declared exclusion criterion",
+      "reference_id": "src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria",
+      "stream": null,
+      "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+    },
+    {
+      "kind": "external_document",
+      "note": "the fixture itself -- hand-authored, not genuine vendor output",
+      "reference_id": "tests/fixtures/transkribus/sample_page.xml",
+      "stream": null,
+      "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+    }
+  ],
+  "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+  "hypothesis_relationship": "no_hypothesis_asserted",
+  "limitations": [
+    "N=1: one line crop, one experiment run, one checkpoint per method. No aggregate over more than this crop exists in this repository.",
+    "No general ranking of methods can be inferred from this scope.",
+    "The ground truth is a single external annotation from the upstream published dataset -- no blind dual annotation and no adjudication was performed for it.",
+    "No versioned TranscriptionConvention record exists for this ground truth, so the transcription rules the reference was authored under are not themselves versioned here.",
+    "Metrics hold only under the normalization profile named in scope; a different profile could produce different values from the same texts.",
+    "A statement about experiment validity, not about method performance. It says nothing about Transkribus's accuracy, which this run did not and could not measure.",
+    "Scoped to the *current* fixture. A genuine vendor export of the controlled line would be a different fixture and this finding would not apply to it.",
+    "supporting_metrics is deliberately empty: the evidence is the *absence* of a CER/WER metric, and there is no metric id for a metric that was never computed."
+  ],
+  "research_question": "How do SATRN (Riksarkivet), Florence-2 (fine-tuned OCR checkpoint) and Transkribus Swedish Lion I compare on Swedish historical handwriting recognition, under a controlled line-level comparison on byte-identical input crops and an end-to-end page-level comparison?",
+  "review_status": "Provisionally supported",
+  "reviewer": "hypergeek-dev",
+  "revision_history": [
+    {
+      "actor": "hypergeek-dev",
+      "contradicting_finding_id": null,
+      "evidence_refs": [],
+      "from_status": "Candidate",
+      "reasoning": "Reviewed against the committed log. The claim is verifiable by inspection rather than by measurement: the fixture's own content is an unrelated passage, the method run carries input_crop_id = null, and no MetricCalculated for CER or WER exists for it anywhere in the log (asserted by tests/htr/persistence/test_real_baseline_reconstruction.py::test_no_invalid_transkribus_cer_or_wer_exists_anywhere_in_the_log against every recorded metric *and* every MetricCalculated event). The exclusion was also declared in advance by the experiment's own exclusion_criteria, so it is not a post-hoc rationalisation of an inconvenient result. Advancing to Under review to record that a human has examined it.",
+      "revised_at": "2026-07-30T03:30:00+00:00",
+      "revision_id": "finding_revision_7aa5f33748824dceb6e0b8a5bdfdd6e1",
+      "superseding_finding_id": null,
+      "to_status": "Under review"
+    },
+    {
+      "actor": "hypergeek-dev",
+      "contradicting_finding_id": null,
+      "evidence_refs": [],
+      "from_status": "Under review",
+      "reasoning": "Provisionally supported, and deliberately not Supported. The evidence in scope is as strong as this kind of claim gets -- the fixture's non-correspondence is a fact about a file, not an estimate, and it is independently asserted by a test -- but 'Supported' in this lifecycle requires reproduction in an experiment run outside the finding's own scope, and only one end-to-end run exists. The honest ceiling is therefore Provisionally supported. It would reach Supported the moment a second run over the same fixture recorded the same absence, which costs no GPU time; nobody has run it.",
+      "revised_at": "2026-07-30T03:30:00+00:00",
+      "revision_id": "finding_revision_9325de2a211444f5be76fedb55ac215b",
+      "superseding_finding_id": null,
+      "to_status": "Provisionally supported"
+    }
+  ],
+  "scope": {
+    "configuration_ref": "src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria",
+    "covered_unit_ids": [
+      "page_68aa5147bfd544d9816ecb5e9f3f0d74"
+    ],
+    "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+    "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+    "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+    "experiment_run_ids": [
+      "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73"
+    ],
+    "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "ground_truth_ref": null,
+    "method_ids": [
+      "transkribus_swedish_lion_1"
+    ],
+    "method_run_ids": [
+      "method_run_fa544c4adb9d44d89439c8e85d1b8565"
+    ],
+    "model_version_ids": [
+      "Swedish Lion I - v3"
+    ],
+    "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+    "unit_of_analysis": "page"
+  },
+  "statement": "The current Transkribus fixture cannot be included in the controlled recognizer comparison because it does not correspond to the shared ground-truth line: method run method_run_fa544c4adb9d44d89439c8e85d1b8565 ran page-level with input_crop_id = null on tests/fixtures/transkribus/sample_page.xml, whose content is an unrelated passage, and no CER or WER was computed for it anywhere in the run's log.",
+  "status_qualified_statement": "[Provisionally supported] The current Transkribus fixture cannot be included in the controlled recognizer comparison because it does not correspond to the shared ground-truth line: method run method_run_fa544c4adb9d44d89439c8e85d1b8565 ran page-level with input_crop_id = null on tests/fixtures/transkribus/sample_page.xml, whose content is an unrelated passage, and no CER or WER was computed for it anywhere in the run's log.",
+  "superseded_by": null,
+  "supporting_experiments": [
+    "experiment_fa667e22afe241b8b27f9aa3998edb0f"
+  ],
+  "supporting_metrics": [],
+  "supporting_observations": [
+    "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+  ],
+  "transcription_convention": null,
+  "unresolved_supporting_observations": []
+}

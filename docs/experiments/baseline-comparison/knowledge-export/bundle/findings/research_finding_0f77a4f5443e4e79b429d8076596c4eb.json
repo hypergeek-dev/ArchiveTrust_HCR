@@ -1,0 +1,152 @@
+{
+  "affected_dataset_versions": [
+    "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e"
+  ],
+  "affected_datasets": [
+    "dataset_014079548fb34741b8b3334bbb7587f7"
+  ],
+  "affected_document_types": [
+    "swedish_court_record_line"
+  ],
+  "affected_handwriting_periods": [
+    "17th_century_swedish"
+  ],
+  "affected_methods": [
+    "satrn"
+  ],
+  "affected_model_versions": [
+    "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+  ],
+  "author": "htr.knowledge.baseline_knowledge",
+  "confidence_level": "moderate",
+  "contradictory_evidence": [],
+  "creation_date": "2026-07-30T03:30:00+00:00",
+  "evidence_references": [
+    {
+      "kind": "experiment_run",
+      "note": null,
+      "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+    },
+    {
+      "kind": "method_run",
+      "note": null,
+      "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+    },
+    {
+      "kind": "evidence_record",
+      "note": "provider_confidence = 0.6666051723062992 (the model's own scalar)",
+      "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+    },
+    {
+      "kind": "metric_result",
+      "note": "character_error_rate_normalized = 0.7931034482758621",
+      "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+    },
+    {
+      "kind": "metric_result",
+      "note": "word_error_rate_normalized = 1.0",
+      "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+    },
+    {
+      "kind": "metric_result",
+      "note": "exact_word_accuracy = 0.0",
+      "reference_id": "metric_result_d462f57778f84cbc97cacc3805aa56a0",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+    },
+    {
+      "kind": "reliability_classification",
+      "note": "confidence_calibration_disagreement -- reported confidence 0.667 vs. measured similarity 0.207 against ground truth (disagreement 0.460 > threshold 0.35)",
+      "reference_id": "failure_record_544c359478124a9cb401b57798641c14",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "ReliabilityIssueClassified carrying the confidence_calibration_disagreement classification",
+      "reference_id": "event_b8cb85b68ae94a41811c737c85470e6e",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+    },
+    {
+      "kind": "input_crop",
+      "note": null,
+      "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+    },
+    {
+      "kind": "ground_truth_text",
+      "note": null,
+      "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+    }
+  ],
+  "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+  "hypothesis_relationship": "no_hypothesis_asserted",
+  "limitations": [
+    "N=1: one line crop, one experiment run, one checkpoint per method. No aggregate over more than this crop exists in this repository.",
+    "No general ranking of methods can be inferred from this scope.",
+    "The ground truth is a single external annotation from the upstream published dataset -- no blind dual annotation and no adjudication was performed for it.",
+    "No versioned TranscriptionConvention record exists for this ground truth, so the transcription rules the reference was authored under are not themselves versioned here.",
+    "Metrics hold only under the normalization profile named in scope; a different profile could produce different values from the same texts.",
+    "A statement about one confidence value on one sample. Calibration is a distributional property and one sample cannot measure it.",
+    "The disagreement threshold (0.35) and the similarity measure are classify_reliability's own parameters; a different threshold would not have flagged the run."
+  ],
+  "research_question": "How do SATRN (Riksarkivet), Florence-2 (fine-tuned OCR checkpoint) and Transkribus Swedish Lion I compare on Swedish historical handwriting recognition, under a controlled line-level comparison on byte-identical input crops and an end-to-end page-level comparison?",
+  "review_status": "Candidate",
+  "reviewer": null,
+  "revision_history": [],
+  "scope": {
+    "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "covered_unit_ids": [
+      "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+    ],
+    "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+    "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+    "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+    "experiment_run_ids": [
+      "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+    ],
+    "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+    "method_ids": [
+      "satrn"
+    ],
+    "method_run_ids": [
+      "method_run_5bd842b5b850442daa0d701b63c3e545"
+    ],
+    "model_version_ids": [
+      "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+    ],
+    "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+    "unit_of_analysis": "line_crop"
+  },
+  "statement": "The SATRN confidence value on this sample was not aligned with the observed transcription accuracy: reported confidence 0.6666051723062992 against measured CER 0.7931034482758621 and WER 1.0 on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, flagged confidence_calibration_disagreement.",
+  "status_qualified_statement": "[Candidate] The SATRN confidence value on this sample was not aligned with the observed transcription accuracy: reported confidence 0.6666051723062992 against measured CER 0.7931034482758621 and WER 1.0 on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, flagged confidence_calibration_disagreement.",
+  "superseded_by": null,
+  "supporting_experiments": [
+    "experiment_fa667e22afe241b8b27f9aa3998edb0f"
+  ],
+  "supporting_metrics": [
+    "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+    "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+    "metric_result_d462f57778f84cbc97cacc3805aa56a0"
+  ],
+  "supporting_observations": [
+    "research_observation_067cd6a4ae80439289aa8256efffa835"
+  ],
+  "transcription_convention": null,
+  "unresolved_supporting_observations": []
+}

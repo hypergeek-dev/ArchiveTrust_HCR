@@ -1,0 +1,136 @@
+{
+  "affected_dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+  "affected_dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+  "affected_document_or_segment_ids": [
+    "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+    "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+  ],
+  "affected_method": null,
+  "affected_model_version": null,
+  "author_or_source_component": "htr.knowledge.baseline_knowledge",
+  "creation_timestamp": "2026-07-30T03:30:00+00:00",
+  "description": "On the one shared, byte-identical, hash-verified line crop input_crop_8f36c0e77f914386ad917c09d5ef9947 (content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261), in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 of experiment version experiment_version_088916c194ad4aecbb5b8578cb405dc3, against the reference 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt' and under evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding): Florence-2 at model revision 994f47e8a0e8d77cb2e11528665efd07a855c3af produced 'Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff' with CER 0.43103448275862066 and WER 0.9, while SATRN at model revision a40c7093232eaa47a83ce6469fc4abd033486bdc produced 'till den 23 Januarii' with CER 0.7931034482758621 and WER 1.0. Both values are lower for Florence-2 on this crop under these exact model revisions, this exact ground truth, this exact experiment configuration and these exact normalization rules. Change any one of those five and this observation says nothing about the result. It is a measurement on one sample, not a ranking of the two methods, and no aggregate over more than this one crop exists in this repository.",
+  "observation_confidence": "high",
+  "observation_id": "research_observation_9716f54778994a3fb868f8b40beea064",
+  "observation_type": "unexpected_method_disagreement",
+  "review_status": "Unreviewed",
+  "scope": {
+    "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "covered_unit_ids": [
+      "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+    ],
+    "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+    "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+    "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+    "experiment_run_ids": [
+      "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+    ],
+    "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+    "method_ids": [
+      "satrn",
+      "florence2_htr"
+    ],
+    "method_run_ids": [
+      "method_run_5bd842b5b850442daa0d701b63c3e545",
+      "method_run_e3209c63bb90458ea8d7a0673dd5c706"
+    ],
+    "model_version_ids": [
+      "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+      "994f47e8a0e8d77cb2e11528665efd07a855c3af"
+    ],
+    "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+    "unit_of_analysis": "line_crop"
+  },
+  "source_experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+  "source_experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+  "supporting_evidence": [
+    {
+      "kind": "experiment_run",
+      "note": null,
+      "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "input_crop",
+      "note": "one shared crop, content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261 verified identical for both method runs",
+      "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "method_run",
+      "note": null,
+      "reference_id": "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "method_run",
+      "note": null,
+      "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "Florence-2 character_error_rate_normalized = 0.43103448275862066",
+      "reference_id": "metric_result_25048768c1024dbf8bf9b0e1c91f598e",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "Florence-2 word_error_rate_normalized = 0.9",
+      "reference_id": "metric_result_ddbf925f834f4c1483f5708384e9a0b7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "SATRN character_error_rate_normalized = 0.7931034482758621",
+      "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "SATRN word_error_rate_normalized = 1.0",
+      "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "ParsedMethodResultRecorded: 'Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff'",
+      "reference_id": "event_f76ae5e0525e4d51ae9624a757135cb4",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "NormalizedMethodResultRecorded: 'till den 23 Januarii'",
+      "reference_id": "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "ground_truth_text",
+      "note": null,
+      "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "evidence_record",
+      "note": null,
+      "reference_id": "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "evidence_record",
+      "note": null,
+      "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    }
+  ],
+  "tags": [
+    "n=1",
+    "one_shared_line_crop",
+    "not_a_method_ranking",
+    "controlled_comparison",
+    "hash_verified_input"
+  ],
+  "title": "Florence-2 produced lower CER and WER than SATRN on one shared line crop (input_crop_8f36c0e77f914386ad917c09d5ef9947) in baseline experiment version experiment_version_088916c194ad4aecbb5b8578cb405dc3 under configuration experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+  "unverified_hypothesis": null
+}

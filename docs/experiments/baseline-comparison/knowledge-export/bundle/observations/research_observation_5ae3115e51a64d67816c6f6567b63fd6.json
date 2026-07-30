@@ -1,0 +1,133 @@
+{
+  "affected_dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+  "affected_dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+  "affected_document_or_segment_ids": [
+    "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+    "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+  ],
+  "affected_method": "satrn",
+  "affected_model_version": "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+  "author_or_source_component": "htr.knowledge.baseline_knowledge",
+  "creation_timestamp": "2026-07-30T03:30:00+00:00",
+  "description": "On the one hash-verified shared line crop (input_crop_8f36c0e77f914386ad917c09d5ef9947, content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261), SATRN at model revision a40c7093232eaa47a83ce6469fc4abd033486bdc produced 'till den 23 Januarii' against the reference 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt'. Measured against that reference under evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding): CER 0.7931034482758621, WER 1.0 (every word wrong), exact word accuracy 0.0, 38 character deletions and 6 word deletions. htr/evaluation/failures.py::classify_reliability independently flagged the run omitted_text: '6 deleted words out of 10 reference words'. The output is not a partial or degraded reading of the line -- it has no lexical overlap with it. Recorded for this run and this sample only; no recurrence is established by any record in this repository. Note that SATRN emitted no ParsedMethodResultRecorded event: the adapter has no separate parsed stage, so the raw and normalized stages are the only two text stages that exist to link.",
+  "observation_confidence": "high",
+  "observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6",
+  "observation_type": "model_limitation",
+  "review_status": "Unreviewed",
+  "scope": {
+    "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "covered_unit_ids": [
+      "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+    ],
+    "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+    "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+    "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+    "experiment_run_ids": [
+      "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+    ],
+    "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+    "method_ids": [
+      "satrn"
+    ],
+    "method_run_ids": [
+      "method_run_5bd842b5b850442daa0d701b63c3e545"
+    ],
+    "model_version_ids": [
+      "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+    ],
+    "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+    "unit_of_analysis": "line_crop"
+  },
+  "source_experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+  "source_experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+  "supporting_evidence": [
+    {
+      "kind": "experiment_run",
+      "note": null,
+      "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "method_run",
+      "note": null,
+      "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "input_crop",
+      "note": "content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+      "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "RawMethodResultRecorded: 'till den 23 Januarii'",
+      "reference_id": "event_b53e520f7a8745c4ab7c32772e07a888",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "NormalizedMethodResultRecorded -- SATRN's only other text stage; there is no ParsedMethodResultRecorded for this method run",
+      "reference_id": "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "ground_truth_text",
+      "note": "GroundTruthTextRecorded for text_line_aa805ef122b54d1e961e0f6ec11e266e: 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt'",
+      "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "character_error_rate_normalized = 0.7931034482758621",
+      "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "word_error_rate_normalized = 1.0",
+      "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "character_deletions = 38.0",
+      "reference_id": "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "word_deletions = 6.0",
+      "reference_id": "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "reliability_classification",
+      "note": "omitted_text -- 6 deleted words out of 10 reference words",
+      "reference_id": "failure_record_c17788ac55564906921a9d3a393183b8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "ReliabilityIssueClassified carrying the omitted_text classification",
+      "reference_id": "event_aca5554290d149fe85d9332ec32e3802",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "evidence_record",
+      "note": null,
+      "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    }
+  ],
+  "tags": [
+    "omitted_text",
+    "n=1",
+    "single_occurrence",
+    "controlled_comparison",
+    "swedish_17c"
+  ],
+  "title": "SATRN omitted 6 of 10 reference words on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+  "unverified_hypothesis": null
+}

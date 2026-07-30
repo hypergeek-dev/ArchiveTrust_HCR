@@ -67,8 +67,17 @@ from archivetrust.providers.transkribus.external_import import (
 )
 
 ARCHIVE_OBJECT_REF = "archive_object_court_1"
-GROUND_TRUTH_LINE_0 = "till den 23 Januarii"
-GROUND_TRUTH_LINE_1 = "waritt i Stockholm"
+
+# Synthetic UI-test fixture values, NOT the real ground truth. `"till den 23 Januarii"` is SATRN's real
+# documented *output* on the baseline line crop -- and it is wrong: the actual ground truth for that
+# fixture is `"bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt"`
+# (`tests/fixtures/htr/README.md`), against which SATRN scores CER 0.7931 / WER 1.0
+# (`docs/experiments/baseline-comparison/README.md`). These constants were named `GROUND_TRUTH_LINE_0`
+# and `GROUND_TRUTH_LINE_1`, which read -- to anyone encountering them without that context -- as a
+# claim that SATRN transcribes this line correctly. Renamed 2026-07-30; the values are unchanged,
+# because as arbitrary reference strings for a ViewModel test they were never wrong.
+SYNTHETIC_FIXTURE_LINE_0 = "till den 23 Januarii"
+SYNTHETIC_FIXTURE_LINE_1 = "waritt i Stockholm"
 
 
 class FixtureCorpus(BaseModel):
@@ -167,8 +176,8 @@ def build_fixture_corpus() -> FixtureCorpus:
     store.register_input_crop(crop_a)
     store.register_input_crop(crop_b)
 
-    store.register_ground_truth(text_line_id=line_0.text_line_id, text=GROUND_TRUTH_LINE_0)
-    store.register_ground_truth(text_line_id=line_1.text_line_id, text=GROUND_TRUTH_LINE_1)
+    store.register_ground_truth(text_line_id=line_0.text_line_id, text=SYNTHETIC_FIXTURE_LINE_0)
+    store.register_ground_truth(text_line_id=line_1.text_line_id, text=SYNTHETIC_FIXTURE_LINE_1)
 
     experiment = Experiment.create(
         name="SATRN vs Florence-2 vs Transkribus",

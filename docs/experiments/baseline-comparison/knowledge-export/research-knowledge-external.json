@@ -1,0 +1,1576 @@
+{
+  "export_schema": "archivetrust.research_knowledge.v1",
+  "findings": [
+    {
+      "affected_dataset_versions": [
+        "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e"
+      ],
+      "affected_datasets": [
+        "dataset_014079548fb34741b8b3334bbb7587f7"
+      ],
+      "affected_document_types": [
+        "swedish_court_record_line"
+      ],
+      "affected_handwriting_periods": [
+        "17th_century_swedish"
+      ],
+      "affected_methods": [
+        "florence2_htr",
+        "satrn"
+      ],
+      "affected_model_versions": [
+        "994f47e8a0e8d77cb2e11528665efd07a855c3af",
+        "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+      ],
+      "author": "htr.knowledge.baseline_knowledge",
+      "confidence_level": "low",
+      "contradictory_evidence": [],
+      "creation_date": "2026-07-30T03:30:00+00:00",
+      "evidence_references": [
+        {
+          "kind": "experiment_run",
+          "note": null,
+          "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "input_crop",
+          "note": "one shared crop, content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261 verified identical for both method runs",
+          "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "metric_result",
+          "note": "Florence-2 character_error_rate_normalized = 0.43103448275862066",
+          "reference_id": "metric_result_25048768c1024dbf8bf9b0e1c91f598e",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "metric_result",
+          "note": "Florence-2 word_error_rate_normalized = 0.9",
+          "reference_id": "metric_result_ddbf925f834f4c1483f5708384e9a0b7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "metric_result",
+          "note": "SATRN character_error_rate_normalized = 0.7931034482758621",
+          "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "metric_result",
+          "note": "SATRN word_error_rate_normalized = 1.0",
+          "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "ParsedMethodResultRecorded: 'Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff'",
+          "reference_id": "event_f76ae5e0525e4d51ae9624a757135cb4",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "NormalizedMethodResultRecorded: 'till den 23 Januarii'",
+          "reference_id": "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "ground_truth_text",
+          "note": null,
+          "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "evidence_record",
+          "note": null,
+          "reference_id": "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "evidence_record",
+          "note": null,
+          "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "kind": "experiment_run",
+          "note": null,
+          "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "input_crop",
+          "note": "content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+          "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "RawMethodResultRecorded: 'till den 23 Januarii'",
+          "reference_id": "event_b53e520f7a8745c4ab7c32772e07a888",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "NormalizedMethodResultRecorded -- SATRN's only other text stage; there is no ParsedMethodResultRecorded for this method run",
+          "reference_id": "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "ground_truth_text",
+          "note": "GroundTruthTextRecorded for text_line_aa805ef122b54d1e961e0f6ec11e266e: 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt'",
+          "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "metric_result",
+          "note": "character_error_rate_normalized = 0.7931034482758621",
+          "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "metric_result",
+          "note": "word_error_rate_normalized = 1.0",
+          "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "metric_result",
+          "note": "character_deletions = 38.0",
+          "reference_id": "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "metric_result",
+          "note": "word_deletions = 6.0",
+          "reference_id": "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "reliability_classification",
+          "note": "omitted_text -- 6 deleted words out of 10 reference words",
+          "reference_id": "failure_record_c17788ac55564906921a9d3a393183b8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "ReliabilityIssueClassified carrying the omitted_text classification",
+          "reference_id": "event_aca5554290d149fe85d9332ec32e3802",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "evidence_record",
+          "note": null,
+          "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+      "hypothesis_relationship": "no_hypothesis_asserted",
+      "limitations": [
+        "N=1: one line crop, one experiment run, one checkpoint per method. No aggregate over more than this crop exists in this repository.",
+        "No general ranking of methods can be inferred from this scope.",
+        "The ground truth is a single external annotation from the upstream published dataset -- no blind dual annotation and no adjudication was performed for it.",
+        "No versioned TranscriptionConvention record exists for this ground truth, so the transcription rules the reference was authored under are not themselves versioned here.",
+        "Metrics hold only under the normalization profile named in scope; a different profile could produce different values from the same texts.",
+        "Says nothing about which method is better at Swedish historical HTR. Two error rates on one crop are two measurements, not a ranking.",
+        "The two methods' reported confidence values are not comparable to each other: SATRN's is the model's own scalar, Florence-2's is a proxy exp(sequences_scores). This finding rests on CER/WER only, not on either confidence."
+      ],
+      "research_question": "How do SATRN (Riksarkivet), Florence-2 (fine-tuned OCR checkpoint) and Transkribus Swedish Lion I compare on Swedish historical handwriting recognition, under a controlled line-level comparison on byte-identical input crops and an end-to-end page-level comparison?",
+      "review_status": "Candidate",
+      "reviewer": null,
+      "revision_history": [],
+      "scope": {
+        "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "covered_unit_ids": [
+          "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+        ],
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+        "experiment_run_ids": [
+          "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+        ],
+        "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "method_ids": [
+          "satrn",
+          "florence2_htr"
+        ],
+        "method_run_ids": [
+          "method_run_5bd842b5b850442daa0d701b63c3e545",
+          "method_run_e3209c63bb90458ea8d7a0673dd5c706"
+        ],
+        "model_version_ids": [
+          "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+          "994f47e8a0e8d77cb2e11528665efd07a855c3af"
+        ],
+        "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+        "unit_of_analysis": "line_crop"
+      },
+      "statement": "On the single controlled baseline line, Florence-2 produced lower CER and WER than SATRN (CER 0.43103448275862066 vs. 0.7931034482758621; WER 0.9 vs. 1.0), on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment version experiment_version_088916c194ad4aecbb5b8578cb405dc3, experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, at model revisions 994f47e8a0e8d77cb2e11528665efd07a855c3af and a40c7093232eaa47a83ce6469fc4abd033486bdc respectively, under evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding).",
+      "status_qualified_statement": "[Candidate] On the single controlled baseline line, Florence-2 produced lower CER and WER than SATRN (CER 0.43103448275862066 vs. 0.7931034482758621; WER 0.9 vs. 1.0), on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment version experiment_version_088916c194ad4aecbb5b8578cb405dc3, experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, at model revisions 994f47e8a0e8d77cb2e11528665efd07a855c3af and a40c7093232eaa47a83ce6469fc4abd033486bdc respectively, under evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding).",
+      "superseded_by": null,
+      "supporting_experiments": [
+        "experiment_fa667e22afe241b8b27f9aa3998edb0f"
+      ],
+      "supporting_metrics": [
+        "metric_result_25048768c1024dbf8bf9b0e1c91f598e",
+        "metric_result_ddbf925f834f4c1483f5708384e9a0b7",
+        "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+        "metric_result_16be0b552e5844c7b1a9f1db0fffd031"
+      ],
+      "supporting_observations": [
+        "research_observation_9716f54778994a3fb868f8b40beea064",
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+      ],
+      "transcription_convention": null,
+      "unresolved_supporting_observations": []
+    },
+    {
+      "affected_dataset_versions": [
+        "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e"
+      ],
+      "affected_datasets": [
+        "dataset_014079548fb34741b8b3334bbb7587f7"
+      ],
+      "affected_document_types": [
+        "swedish_court_record_line"
+      ],
+      "affected_handwriting_periods": [
+        "17th_century_swedish"
+      ],
+      "affected_methods": [
+        "satrn"
+      ],
+      "affected_model_versions": [
+        "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+      ],
+      "author": "htr.knowledge.baseline_knowledge",
+      "confidence_level": "moderate",
+      "contradictory_evidence": [],
+      "creation_date": "2026-07-30T03:30:00+00:00",
+      "evidence_references": [
+        {
+          "kind": "experiment_run",
+          "note": null,
+          "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "kind": "evidence_record",
+          "note": "provider_confidence = 0.6666051723062992 (the model's own scalar)",
+          "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "kind": "metric_result",
+          "note": "character_error_rate_normalized = 0.7931034482758621",
+          "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "kind": "metric_result",
+          "note": "word_error_rate_normalized = 1.0",
+          "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "kind": "metric_result",
+          "note": "exact_word_accuracy = 0.0",
+          "reference_id": "metric_result_d462f57778f84cbc97cacc3805aa56a0",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "kind": "reliability_classification",
+          "note": "confidence_calibration_disagreement -- reported confidence 0.667 vs. measured similarity 0.207 against ground truth (disagreement 0.460 > threshold 0.35)",
+          "reference_id": "failure_record_544c359478124a9cb401b57798641c14",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "ReliabilityIssueClassified carrying the confidence_calibration_disagreement classification",
+          "reference_id": "event_b8cb85b68ae94a41811c737c85470e6e",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "kind": "input_crop",
+          "note": null,
+          "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "kind": "ground_truth_text",
+          "note": null,
+          "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        }
+      ],
+      "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+      "hypothesis_relationship": "no_hypothesis_asserted",
+      "limitations": [
+        "N=1: one line crop, one experiment run, one checkpoint per method. No aggregate over more than this crop exists in this repository.",
+        "No general ranking of methods can be inferred from this scope.",
+        "The ground truth is a single external annotation from the upstream published dataset -- no blind dual annotation and no adjudication was performed for it.",
+        "No versioned TranscriptionConvention record exists for this ground truth, so the transcription rules the reference was authored under are not themselves versioned here.",
+        "Metrics hold only under the normalization profile named in scope; a different profile could produce different values from the same texts.",
+        "A statement about one confidence value on one sample. Calibration is a distributional property and one sample cannot measure it.",
+        "The disagreement threshold (0.35) and the similarity measure are classify_reliability's own parameters; a different threshold would not have flagged the run."
+      ],
+      "research_question": "How do SATRN (Riksarkivet), Florence-2 (fine-tuned OCR checkpoint) and Transkribus Swedish Lion I compare on Swedish historical handwriting recognition, under a controlled line-level comparison on byte-identical input crops and an end-to-end page-level comparison?",
+      "review_status": "Candidate",
+      "reviewer": null,
+      "revision_history": [],
+      "scope": {
+        "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "covered_unit_ids": [
+          "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+        ],
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+        "experiment_run_ids": [
+          "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+        ],
+        "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "method_ids": [
+          "satrn"
+        ],
+        "method_run_ids": [
+          "method_run_5bd842b5b850442daa0d701b63c3e545"
+        ],
+        "model_version_ids": [
+          "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+        ],
+        "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+        "unit_of_analysis": "line_crop"
+      },
+      "statement": "The SATRN confidence value on this sample was not aligned with the observed transcription accuracy: reported confidence 0.6666051723062992 against measured CER 0.7931034482758621 and WER 1.0 on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, flagged confidence_calibration_disagreement.",
+      "status_qualified_statement": "[Candidate] The SATRN confidence value on this sample was not aligned with the observed transcription accuracy: reported confidence 0.6666051723062992 against measured CER 0.7931034482758621 and WER 1.0 on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, flagged confidence_calibration_disagreement.",
+      "superseded_by": null,
+      "supporting_experiments": [
+        "experiment_fa667e22afe241b8b27f9aa3998edb0f"
+      ],
+      "supporting_metrics": [
+        "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+        "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+        "metric_result_d462f57778f84cbc97cacc3805aa56a0"
+      ],
+      "supporting_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835"
+      ],
+      "transcription_convention": null,
+      "unresolved_supporting_observations": []
+    },
+    {
+      "affected_dataset_versions": [
+        "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e"
+      ],
+      "affected_datasets": [
+        "dataset_014079548fb34741b8b3334bbb7587f7"
+      ],
+      "affected_document_types": [
+        "swedish_court_record_line"
+      ],
+      "affected_handwriting_periods": [
+        "17th_century_swedish"
+      ],
+      "affected_methods": [
+        "satrn"
+      ],
+      "affected_model_versions": [
+        "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+      ],
+      "author": "htr.knowledge.baseline_knowledge",
+      "confidence_level": "moderate",
+      "contradictory_evidence": [],
+      "creation_date": "2026-07-30T03:30:00+00:00",
+      "evidence_references": [
+        {
+          "kind": "experiment_run",
+          "note": null,
+          "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "input_crop",
+          "note": "content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+          "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "RawMethodResultRecorded: 'till den 23 Januarii'",
+          "reference_id": "event_b53e520f7a8745c4ab7c32772e07a888",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "NormalizedMethodResultRecorded -- SATRN's only other text stage; there is no ParsedMethodResultRecorded for this method run",
+          "reference_id": "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "ground_truth_text",
+          "note": "GroundTruthTextRecorded for text_line_aa805ef122b54d1e961e0f6ec11e266e: 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt'",
+          "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "metric_result",
+          "note": "character_error_rate_normalized = 0.7931034482758621",
+          "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "metric_result",
+          "note": "word_error_rate_normalized = 1.0",
+          "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "metric_result",
+          "note": "character_deletions = 38.0",
+          "reference_id": "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "metric_result",
+          "note": "word_deletions = 6.0",
+          "reference_id": "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "reliability_classification",
+          "note": "omitted_text -- 6 deleted words out of 10 reference words",
+          "reference_id": "failure_record_c17788ac55564906921a9d3a393183b8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "ReliabilityIssueClassified carrying the omitted_text classification",
+          "reference_id": "event_aca5554290d149fe85d9332ec32e3802",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "kind": "evidence_record",
+          "note": null,
+          "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+      "hypothesis_relationship": "no_hypothesis_asserted",
+      "limitations": [
+        "N=1: one line crop, one experiment run, one checkpoint per method. No aggregate over more than this crop exists in this repository.",
+        "No general ranking of methods can be inferred from this scope.",
+        "The ground truth is a single external annotation from the upstream published dataset -- no blind dual annotation and no adjudication was performed for it.",
+        "No versioned TranscriptionConvention record exists for this ground truth, so the transcription rules the reference was authored under are not themselves versioned here.",
+        "Metrics hold only under the normalization profile named in scope; a different profile could produce different values from the same texts.",
+        "One occurrence. 'Omission' here is the measured edit-distance category on this sample, not an established behaviour of the checkpoint.",
+        "The output has no lexical overlap with the line, so 'omitted' understates it -- but 'omitted_text' is the classification the evaluation engine actually recorded, and this finding does not substitute a different word for it."
+      ],
+      "research_question": "How do SATRN (Riksarkivet), Florence-2 (fine-tuned OCR checkpoint) and Transkribus Swedish Lion I compare on Swedish historical handwriting recognition, under a controlled line-level comparison on byte-identical input crops and an end-to-end page-level comparison?",
+      "review_status": "Candidate",
+      "reviewer": null,
+      "revision_history": [],
+      "scope": {
+        "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "covered_unit_ids": [
+          "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+        ],
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+        "experiment_run_ids": [
+          "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+        ],
+        "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "method_ids": [
+          "satrn"
+        ],
+        "method_run_ids": [
+          "method_run_5bd842b5b850442daa0d701b63c3e545"
+        ],
+        "model_version_ids": [
+          "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+        ],
+        "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+        "unit_of_analysis": "line_crop"
+      },
+      "statement": "On the single controlled baseline line, SATRN omitted a substantial portion of the reference text: 6 of 10 reference words and 38 characters were deleted, on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 at model revision a40c7093232eaa47a83ce6469fc4abd033486bdc, flagged omitted_text by htr/evaluation/failures.py::classify_reliability.",
+      "status_qualified_statement": "[Candidate] On the single controlled baseline line, SATRN omitted a substantial portion of the reference text: 6 of 10 reference words and 38 characters were deleted, on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 at model revision a40c7093232eaa47a83ce6469fc4abd033486bdc, flagged omitted_text by htr/evaluation/failures.py::classify_reliability.",
+      "superseded_by": null,
+      "supporting_experiments": [
+        "experiment_fa667e22afe241b8b27f9aa3998edb0f"
+      ],
+      "supporting_metrics": [
+        "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+        "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+        "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+        "metric_result_16be0b552e5844c7b1a9f1db0fffd031"
+      ],
+      "supporting_observations": [
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+      ],
+      "transcription_convention": null,
+      "unresolved_supporting_observations": []
+    },
+    {
+      "affected_dataset_versions": [
+        "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e"
+      ],
+      "affected_datasets": [
+        "dataset_014079548fb34741b8b3334bbb7587f7"
+      ],
+      "affected_document_types": [
+        "swedish_court_record_line"
+      ],
+      "affected_handwriting_periods": [
+        "17th_century_swedish"
+      ],
+      "affected_methods": [
+        "florence2_htr"
+      ],
+      "affected_model_versions": [
+        "994f47e8a0e8d77cb2e11528665efd07a855c3af"
+      ],
+      "author": "htr.knowledge.baseline_knowledge",
+      "confidence_level": "low",
+      "contradictory_evidence": [
+        {
+          "contradiction_id": "contradiction_b3f70dd3b3d94687b560ee0f3e467a31",
+          "description": "The two figures differ by a factor of ~3.3 and are therefore not reproductions of one another: 3983 MB documented in src/archivetrust/providers/florence2_htr/README.md#peak-gpu-memory against 1210.64111328125 MiB measured as metric result metric_result_6b3a191d07074ddebf21e2bf9ef27894 in run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8. The SATRN control reproduced to within 0.3 MB over the same pair of sessions (439 MB documented vs. 438.78173828125 MiB measured, metric result metric_result_11954d828f2742059dfd81a324347008), so the divergence cannot be attributed to the measurement method in general. Whether the earlier figure, the later figure, or both are environment-dependent is not established -- which is precisely why the finding is Disputed rather than Rejected.",
+          "evidence_refs": [
+            {
+              "kind": "metric_result",
+              "note": "gpu_memory_mb = 1210.64111328125",
+              "reference_id": "metric_result_6b3a191d07074ddebf21e2bf9ef27894",
+              "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+            },
+            {
+              "kind": "external_document",
+              "note": "~3983 MB",
+              "reference_id": "src/archivetrust/providers/florence2_htr/README.md#peak-gpu-memory",
+              "stream": null
+            },
+            {
+              "kind": "metric_result",
+              "note": "the SATRN control, which did reproduce",
+              "reference_id": "metric_result_11954d828f2742059dfd81a324347008",
+              "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+            },
+            {
+              "kind": "research_observation",
+              "note": "the observation recording both figures and holding the allocator explanation as an unverified hypothesis",
+              "reference_id": "research_observation_fdddf9997a9f456b964ef04694f0f118",
+              "stream": "docs/experiments/baseline-comparison/htr_knowledge_events.jsonl"
+            }
+          ],
+          "recorded_at": "2026-07-30T03:30:00+00:00",
+          "recorded_by": "reviewer_cb7c502be63f383d",
+          "source_id": "research_observation_fdddf9997a9f456b964ef04694f0f118",
+          "source_kind": "research_observation"
+        }
+      ],
+      "creation_date": "2026-07-30T03:30:00+00:00",
+      "evidence_references": [
+        {
+          "kind": "experiment_run",
+          "note": null,
+          "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        },
+        {
+          "kind": "metric_result",
+          "note": "gpu_memory_mb = 1210.64111328125 (2026-07-30 run)",
+          "reference_id": "metric_result_6b3a191d07074ddebf21e2bf9ef27894",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "MetricCalculated carrying the measured figure",
+          "reference_id": "event_2301532626da4c4da50acb91957ad9ea",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        },
+        {
+          "kind": "evidence_record",
+          "note": "Evidence.gpu_memory_mb = 1210.64111328125, execution_device='cuda', torch 2.13.0+cu130",
+          "reference_id": "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        },
+        {
+          "kind": "external_document",
+          "note": "'Peak GPU memory: ~3983 MB' -- the earlier session, which has no durable telemetry record",
+          "reference_id": "src/archivetrust/providers/florence2_htr/README.md#peak-gpu-memory",
+          "stream": null,
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        },
+        {
+          "kind": "metric_result",
+          "note": "SATRN control: gpu_memory_mb = 438.78173828125, against a documented ~439 MB -- reproduced",
+          "reference_id": "metric_result_11954d828f2742059dfd81a324347008",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        }
+      ],
+      "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+      "hypothesis_relationship": "no_hypothesis_asserted",
+      "limitations": [
+        "N=1: one line crop, one experiment run, one checkpoint per method. No aggregate over more than this crop exists in this repository.",
+        "No general ranking of methods can be inferred from this scope.",
+        "The ground truth is a single external annotation from the upstream published dataset -- no blind dual annotation and no adjudication was performed for it.",
+        "No versioned TranscriptionConvention record exists for this ground truth, so the transcription rules the reference was authored under are not themselves versioned here.",
+        "Metrics hold only under the normalization profile named in scope; a different profile could produce different values from the same texts.",
+        "The earlier session has no durable telemetry record, so its torch version, device state and process history are unknown and the two measurements cannot be compared under matched conditions.",
+        "This is the reproducibility claim implicit in documenting a resource measurement in a README at all, made explicit here so it can be examined rather than assumed."
+      ],
+      "research_question": "How do SATRN (Riksarkivet), Florence-2 (fine-tuned OCR checkpoint) and Transkribus Swedish Lion I compare on Swedish historical handwriting recognition, under a controlled line-level comparison on byte-identical input crops and an end-to-end page-level comparison?",
+      "review_status": "Disputed",
+      "reviewer": "reviewer_cb7c502be63f383d",
+      "revision_history": [
+        {
+          "actor": "reviewer_cb7c502be63f383d",
+          "contradicting_finding_id": null,
+          "evidence_refs": [],
+          "from_status": "Candidate",
+          "reasoning": "Reviewed against the two committed records this claim rests on: the Florence-2 adapter README's documented peak GPU memory from an earlier session, and this run's measured figure. They do not agree. Advancing to Under review so the disagreement is examined rather than left implicit in a README.",
+          "revised_at": "2026-07-30T03:30:00+00:00",
+          "revision_id": "finding_revision_33642df0ceaa4b70b8b40ba2da5c1d62",
+          "superseding_finding_id": null,
+          "to_status": "Under review"
+        },
+        {
+          "actor": "reviewer_cb7c502be63f383d",
+          "contradicting_finding_id": "research_observation_fdddf9997a9f456b964ef04694f0f118",
+          "evidence_refs": [],
+          "from_status": "Under review",
+          "reasoning": "Disputed. The two measurements differ by a factor of ~3.3 (3983 MB documented vs. 1210.64 MiB measured), so the reproducibility this finding claims is contradicted by the repository's own records. Disputed rather than Rejected because which figure is representative is genuinely unknown: the earlier session left no durable record of its torch version or device state, so there is no basis for declaring either measurement wrong. The SATRN control reproduced to within 0.3 MB across the same pair of sessions, which rules out 'this repository cannot measure GPU memory' as the explanation and is why the dispute is specific to Florence-2. The candidate finding, its supporting observation, and the contradiction all remain readable -- nothing was deleted to resolve this.",
+          "revised_at": "2026-07-30T03:30:00+00:00",
+          "revision_id": "finding_revision_d35d0dc1f3774d4fbb12fed6cf7ac39c",
+          "superseding_finding_id": null,
+          "to_status": "Disputed"
+        }
+      ],
+      "scope": {
+        "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "covered_unit_ids": [
+          "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+        ],
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+        "experiment_run_ids": [
+          "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+        ],
+        "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "method_ids": [
+          "florence2_htr"
+        ],
+        "method_run_ids": [
+          "method_run_e3209c63bb90458ea8d7a0673dd5c706"
+        ],
+        "model_version_ids": [
+          "994f47e8a0e8d77cb2e11528665efd07a855c3af"
+        ],
+        "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+        "unit_of_analysis": "line_crop"
+      },
+      "statement": "Florence-2's peak-GPU-memory measurement on the shared baseline line crop is reproducible across sessions: the adapter README documents ~3983 MB for this fixture, and the controlled run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 re-measures the same quantity for method run method_run_e3209c63bb90458ea8d7a0673dd5c706 at model revision 994f47e8a0e8d77cb2e11528665efd07a855c3af.",
+      "status_qualified_statement": "[Disputed] Florence-2's peak-GPU-memory measurement on the shared baseline line crop is reproducible across sessions: the adapter README documents ~3983 MB for this fixture, and the controlled run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 re-measures the same quantity for method run method_run_e3209c63bb90458ea8d7a0673dd5c706 at model revision 994f47e8a0e8d77cb2e11528665efd07a855c3af.",
+      "superseded_by": null,
+      "supporting_experiments": [
+        "experiment_fa667e22afe241b8b27f9aa3998edb0f"
+      ],
+      "supporting_metrics": [
+        "metric_result_6b3a191d07074ddebf21e2bf9ef27894"
+      ],
+      "supporting_observations": [
+        "research_observation_fdddf9997a9f456b964ef04694f0f118"
+      ],
+      "transcription_convention": null,
+      "unresolved_supporting_observations": []
+    },
+    {
+      "affected_dataset_versions": [
+        "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e"
+      ],
+      "affected_datasets": [
+        "dataset_014079548fb34741b8b3334bbb7587f7"
+      ],
+      "affected_document_types": [
+        "swedish_court_record_line"
+      ],
+      "affected_handwriting_periods": [
+        "17th_century_swedish"
+      ],
+      "affected_methods": [
+        "transkribus_swedish_lion_1"
+      ],
+      "affected_model_versions": [
+        "Swedish Lion I - v3"
+      ],
+      "author": "htr.knowledge.baseline_knowledge",
+      "confidence_level": "high",
+      "contradictory_evidence": [],
+      "creation_date": "2026-07-30T03:30:00+00:00",
+      "evidence_references": [
+        {
+          "kind": "experiment_run",
+          "note": "is_end_to_end = true",
+          "reference_id": "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        },
+        {
+          "kind": "method_run",
+          "note": "input_crop_id = null -- page-level, never bound to the shared crop",
+          "reference_id": "method_run_fa544c4adb9d44d89439c8e85d1b8565",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "MethodRunStarted carrying the MethodRun with input_crop_id = null",
+          "reference_id": "event_ee5448b140e14320b256028fb86fee03",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "ParsedMethodResultRecorded, first line 'Anno 1712 den 3 Januarii holltes ting'",
+          "reference_id": "event_cd394580328a4189a005cf8aea842da5",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "NormalizedMethodResultRecorded -- the last text stage; no MetricCalculated follows it for CER or WER",
+          "reference_id": "event_ec65ed1b1a1746959b91965739a2a1a7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        },
+        {
+          "kind": "ground_truth_text",
+          "note": "the controlled reference this fixture does not correspond to",
+          "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        },
+        {
+          "kind": "input_crop",
+          "note": "the controlled crop, not read by this method run",
+          "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        },
+        {
+          "kind": "external_document",
+          "note": "the pre-declared exclusion criterion",
+          "reference_id": "src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria",
+          "stream": null,
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        },
+        {
+          "kind": "external_document",
+          "note": "the fixture itself -- hand-authored, not genuine vendor output",
+          "reference_id": "tests/fixtures/transkribus/sample_page.xml",
+          "stream": null,
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        }
+      ],
+      "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+      "hypothesis_relationship": "no_hypothesis_asserted",
+      "limitations": [
+        "N=1: one line crop, one experiment run, one checkpoint per method. No aggregate over more than this crop exists in this repository.",
+        "No general ranking of methods can be inferred from this scope.",
+        "The ground truth is a single external annotation from the upstream published dataset -- no blind dual annotation and no adjudication was performed for it.",
+        "No versioned TranscriptionConvention record exists for this ground truth, so the transcription rules the reference was authored under are not themselves versioned here.",
+        "Metrics hold only under the normalization profile named in scope; a different profile could produce different values from the same texts.",
+        "A statement about experiment validity, not about method performance. It says nothing about Transkribus's accuracy, which this run did not and could not measure.",
+        "Scoped to the *current* fixture. A genuine vendor export of the controlled line would be a different fixture and this finding would not apply to it.",
+        "supporting_metrics is deliberately empty: the evidence is the *absence* of a CER/WER metric, and there is no metric id for a metric that was never computed."
+      ],
+      "research_question": "How do SATRN (Riksarkivet), Florence-2 (fine-tuned OCR checkpoint) and Transkribus Swedish Lion I compare on Swedish historical handwriting recognition, under a controlled line-level comparison on byte-identical input crops and an end-to-end page-level comparison?",
+      "review_status": "Provisionally supported",
+      "reviewer": "reviewer_cb7c502be63f383d",
+      "revision_history": [
+        {
+          "actor": "reviewer_cb7c502be63f383d",
+          "contradicting_finding_id": null,
+          "evidence_refs": [],
+          "from_status": "Candidate",
+          "reasoning": "Reviewed against the committed log. The claim is verifiable by inspection rather than by measurement: the fixture's own content is an unrelated passage, the method run carries input_crop_id = null, and no MetricCalculated for CER or WER exists for it anywhere in the log (asserted by tests/htr/persistence/test_real_baseline_reconstruction.py::test_no_invalid_transkribus_cer_or_wer_exists_anywhere_in_the_log against every recorded metric *and* every MetricCalculated event). The exclusion was also declared in advance by the experiment's own exclusion_criteria, so it is not a post-hoc rationalisation of an inconvenient result. Advancing to Under review to record that a human has examined it.",
+          "revised_at": "2026-07-30T03:30:00+00:00",
+          "revision_id": "finding_revision_7aa5f33748824dceb6e0b8a5bdfdd6e1",
+          "superseding_finding_id": null,
+          "to_status": "Under review"
+        },
+        {
+          "actor": "reviewer_cb7c502be63f383d",
+          "contradicting_finding_id": null,
+          "evidence_refs": [],
+          "from_status": "Under review",
+          "reasoning": "Provisionally supported, and deliberately not Supported. The evidence in scope is as strong as this kind of claim gets -- the fixture's non-correspondence is a fact about a file, not an estimate, and it is independently asserted by a test -- but 'Supported' in this lifecycle requires reproduction in an experiment run outside the finding's own scope, and only one end-to-end run exists. The honest ceiling is therefore Provisionally supported. It would reach Supported the moment a second run over the same fixture recorded the same absence, which costs no GPU time; nobody has run it.",
+          "revised_at": "2026-07-30T03:30:00+00:00",
+          "revision_id": "finding_revision_9325de2a211444f5be76fedb55ac215b",
+          "superseding_finding_id": null,
+          "to_status": "Provisionally supported"
+        }
+      ],
+      "scope": {
+        "configuration_ref": "src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria",
+        "covered_unit_ids": [
+          "page_68aa5147bfd544d9816ecb5e9f3f0d74"
+        ],
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+        "experiment_run_ids": [
+          "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73"
+        ],
+        "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "ground_truth_ref": null,
+        "method_ids": [
+          "transkribus_swedish_lion_1"
+        ],
+        "method_run_ids": [
+          "method_run_fa544c4adb9d44d89439c8e85d1b8565"
+        ],
+        "model_version_ids": [
+          "Swedish Lion I - v3"
+        ],
+        "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+        "unit_of_analysis": "page"
+      },
+      "statement": "The current Transkribus fixture cannot be included in the controlled recognizer comparison because it does not correspond to the shared ground-truth line: method run method_run_fa544c4adb9d44d89439c8e85d1b8565 ran page-level with input_crop_id = null on tests/fixtures/transkribus/sample_page.xml, whose content is an unrelated passage, and no CER or WER was computed for it anywhere in the run's log.",
+      "status_qualified_statement": "[Provisionally supported] The current Transkribus fixture cannot be included in the controlled recognizer comparison because it does not correspond to the shared ground-truth line: method run method_run_fa544c4adb9d44d89439c8e85d1b8565 ran page-level with input_crop_id = null on tests/fixtures/transkribus/sample_page.xml, whose content is an unrelated passage, and no CER or WER was computed for it anywhere in the run's log.",
+      "superseded_by": null,
+      "supporting_experiments": [
+        "experiment_fa667e22afe241b8b27f9aa3998edb0f"
+      ],
+      "supporting_metrics": [],
+      "supporting_observations": [
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ],
+      "transcription_convention": null,
+      "unresolved_supporting_observations": []
+    }
+  ],
+  "generated_at": "2026-07-30T03:30:00+00:00",
+  "observations": [
+    {
+      "affected_dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+      "affected_dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+      "affected_document_or_segment_ids": [
+        "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+      ],
+      "affected_method": "satrn",
+      "affected_model_version": "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+      "author_or_source_component": "htr.knowledge.baseline_knowledge",
+      "creation_timestamp": "2026-07-30T03:30:00+00:00",
+      "description": "For method run method_run_5bd842b5b850442daa0d701b63c3e545 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, on the single crop input_crop_8f36c0e77f914386ad917c09d5ef9947, SATRN's own reported confidence scalar was 0.6666051723062992 (recorded as Evidence.provider_confidence on evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7) while the measured accuracy of the same output against ground truth was CER 0.7931034482758621 and WER 1.0. classify_reliability flagged confidence_calibration_disagreement: reported confidence 0.667 vs. measured similarity 0.207 against ground truth (disagreement 0.460 > threshold 0.35). This is a statement about this run and this sample. It is not a claim about SATRN's confidence calibration, which one sample cannot measure -- and it must not be read as one: the scope covers exactly one line crop in exactly one experiment run at exactly one model revision, and no record in this repository extends it further.",
+      "observation_confidence": "high",
+      "observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835",
+      "observation_type": "confidence_anomaly",
+      "review_status": "Unreviewed",
+      "scope": {
+        "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "covered_unit_ids": [
+          "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+        ],
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+        "experiment_run_ids": [
+          "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+        ],
+        "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "method_ids": [
+          "satrn"
+        ],
+        "method_run_ids": [
+          "method_run_5bd842b5b850442daa0d701b63c3e545"
+        ],
+        "model_version_ids": [
+          "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+        ],
+        "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+        "unit_of_analysis": "line_crop"
+      },
+      "source_experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+      "source_experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "supporting_evidence": [
+        {
+          "kind": "experiment_run",
+          "note": null,
+          "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "evidence_record",
+          "note": "provider_confidence = 0.6666051723062992 (the model's own scalar)",
+          "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "character_error_rate_normalized = 0.7931034482758621",
+          "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "word_error_rate_normalized = 1.0",
+          "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "exact_word_accuracy = 0.0",
+          "reference_id": "metric_result_d462f57778f84cbc97cacc3805aa56a0",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "reliability_classification",
+          "note": "confidence_calibration_disagreement -- reported confidence 0.667 vs. measured similarity 0.207 against ground truth (disagreement 0.460 > threshold 0.35)",
+          "reference_id": "failure_record_544c359478124a9cb401b57798641c14",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "ReliabilityIssueClassified carrying the confidence_calibration_disagreement classification",
+          "reference_id": "event_b8cb85b68ae94a41811c737c85470e6e",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "input_crop",
+          "note": null,
+          "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "ground_truth_text",
+          "note": null,
+          "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        }
+      ],
+      "tags": [
+        "confidence_calibration_disagreement",
+        "n=1",
+        "this_run_and_this_sample_only",
+        "not_a_calibration_claim"
+      ],
+      "title": "SATRN reported confidence 0.6666 on a transcription with CER 0.7931 and WER 1.0 -- one crop, one run",
+      "unverified_hypothesis": null
+    },
+    {
+      "affected_dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+      "affected_dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+      "affected_document_or_segment_ids": [
+        "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+      ],
+      "affected_method": "satrn",
+      "affected_model_version": "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+      "author_or_source_component": "htr.knowledge.baseline_knowledge",
+      "creation_timestamp": "2026-07-30T03:30:00+00:00",
+      "description": "On the one hash-verified shared line crop (input_crop_8f36c0e77f914386ad917c09d5ef9947, content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261), SATRN at model revision a40c7093232eaa47a83ce6469fc4abd033486bdc produced 'till den 23 Januarii' against the reference 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt'. Measured against that reference under evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding): CER 0.7931034482758621, WER 1.0 (every word wrong), exact word accuracy 0.0, 38 character deletions and 6 word deletions. htr/evaluation/failures.py::classify_reliability independently flagged the run omitted_text: '6 deleted words out of 10 reference words'. The output is not a partial or degraded reading of the line -- it has no lexical overlap with it. Recorded for this run and this sample only; no recurrence is established by any record in this repository. Note that SATRN emitted no ParsedMethodResultRecorded event: the adapter has no separate parsed stage, so the raw and normalized stages are the only two text stages that exist to link.",
+      "observation_confidence": "high",
+      "observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6",
+      "observation_type": "model_limitation",
+      "review_status": "Unreviewed",
+      "scope": {
+        "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "covered_unit_ids": [
+          "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+        ],
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+        "experiment_run_ids": [
+          "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+        ],
+        "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "method_ids": [
+          "satrn"
+        ],
+        "method_run_ids": [
+          "method_run_5bd842b5b850442daa0d701b63c3e545"
+        ],
+        "model_version_ids": [
+          "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+        ],
+        "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+        "unit_of_analysis": "line_crop"
+      },
+      "source_experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+      "source_experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "supporting_evidence": [
+        {
+          "kind": "experiment_run",
+          "note": null,
+          "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "input_crop",
+          "note": "content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+          "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "RawMethodResultRecorded: 'till den 23 Januarii'",
+          "reference_id": "event_b53e520f7a8745c4ab7c32772e07a888",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "NormalizedMethodResultRecorded -- SATRN's only other text stage; there is no ParsedMethodResultRecorded for this method run",
+          "reference_id": "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "ground_truth_text",
+          "note": "GroundTruthTextRecorded for text_line_aa805ef122b54d1e961e0f6ec11e266e: 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt'",
+          "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "character_error_rate_normalized = 0.7931034482758621",
+          "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "word_error_rate_normalized = 1.0",
+          "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "character_deletions = 38.0",
+          "reference_id": "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "word_deletions = 6.0",
+          "reference_id": "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "reliability_classification",
+          "note": "omitted_text -- 6 deleted words out of 10 reference words",
+          "reference_id": "failure_record_c17788ac55564906921a9d3a393183b8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "ReliabilityIssueClassified carrying the omitted_text classification",
+          "reference_id": "event_aca5554290d149fe85d9332ec32e3802",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "evidence_record",
+          "note": null,
+          "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        }
+      ],
+      "tags": [
+        "omitted_text",
+        "n=1",
+        "single_occurrence",
+        "controlled_comparison",
+        "swedish_17c"
+      ],
+      "title": "SATRN omitted 6 of 10 reference words on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "unverified_hypothesis": null
+    },
+    {
+      "affected_dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+      "affected_dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+      "affected_document_or_segment_ids": [
+        "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+      ],
+      "affected_method": null,
+      "affected_model_version": null,
+      "author_or_source_component": "htr.knowledge.baseline_knowledge",
+      "creation_timestamp": "2026-07-30T03:30:00+00:00",
+      "description": "On the one shared, byte-identical, hash-verified line crop input_crop_8f36c0e77f914386ad917c09d5ef9947 (content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261), in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 of experiment version experiment_version_088916c194ad4aecbb5b8578cb405dc3, against the reference 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt' and under evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding): Florence-2 at model revision 994f47e8a0e8d77cb2e11528665efd07a855c3af produced 'Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff' with CER 0.43103448275862066 and WER 0.9, while SATRN at model revision a40c7093232eaa47a83ce6469fc4abd033486bdc produced 'till den 23 Januarii' with CER 0.7931034482758621 and WER 1.0. Both values are lower for Florence-2 on this crop under these exact model revisions, this exact ground truth, this exact experiment configuration and these exact normalization rules. Change any one of those five and this observation says nothing about the result. It is a measurement on one sample, not a ranking of the two methods, and no aggregate over more than this one crop exists in this repository.",
+      "observation_confidence": "high",
+      "observation_id": "research_observation_9716f54778994a3fb868f8b40beea064",
+      "observation_type": "unexpected_method_disagreement",
+      "review_status": "Unreviewed",
+      "scope": {
+        "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "covered_unit_ids": [
+          "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+        ],
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+        "experiment_run_ids": [
+          "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+        ],
+        "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "method_ids": [
+          "satrn",
+          "florence2_htr"
+        ],
+        "method_run_ids": [
+          "method_run_5bd842b5b850442daa0d701b63c3e545",
+          "method_run_e3209c63bb90458ea8d7a0673dd5c706"
+        ],
+        "model_version_ids": [
+          "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+          "994f47e8a0e8d77cb2e11528665efd07a855c3af"
+        ],
+        "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+        "unit_of_analysis": "line_crop"
+      },
+      "source_experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+      "source_experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "supporting_evidence": [
+        {
+          "kind": "experiment_run",
+          "note": null,
+          "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "input_crop",
+          "note": "one shared crop, content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261 verified identical for both method runs",
+          "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "Florence-2 character_error_rate_normalized = 0.43103448275862066",
+          "reference_id": "metric_result_25048768c1024dbf8bf9b0e1c91f598e",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "Florence-2 word_error_rate_normalized = 0.9",
+          "reference_id": "metric_result_ddbf925f834f4c1483f5708384e9a0b7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "SATRN character_error_rate_normalized = 0.7931034482758621",
+          "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "SATRN word_error_rate_normalized = 1.0",
+          "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "ParsedMethodResultRecorded: 'Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff'",
+          "reference_id": "event_f76ae5e0525e4d51ae9624a757135cb4",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "NormalizedMethodResultRecorded: 'till den 23 Januarii'",
+          "reference_id": "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "ground_truth_text",
+          "note": null,
+          "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "evidence_record",
+          "note": null,
+          "reference_id": "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "evidence_record",
+          "note": null,
+          "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        }
+      ],
+      "tags": [
+        "n=1",
+        "one_shared_line_crop",
+        "not_a_method_ranking",
+        "controlled_comparison",
+        "hash_verified_input"
+      ],
+      "title": "Florence-2 produced lower CER and WER than SATRN on one shared line crop (input_crop_8f36c0e77f914386ad917c09d5ef9947) in baseline experiment version experiment_version_088916c194ad4aecbb5b8578cb405dc3 under configuration experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+      "unverified_hypothesis": null
+    },
+    {
+      "affected_dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+      "affected_dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+      "affected_document_or_segment_ids": [
+        "page_68aa5147bfd544d9816ecb5e9f3f0d74"
+      ],
+      "affected_method": "transkribus_swedish_lion_1",
+      "affected_model_version": "Swedish Lion I - v3",
+      "author_or_source_component": "htr.knowledge.baseline_knowledge",
+      "creation_timestamp": "2026-07-30T03:30:00+00:00",
+      "description": "Method run method_run_fa544c4adb9d44d89439c8e85d1b8565 (Transkribus Swedish Lion I - v3) ran on the separate end-to-end experiment run experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73 with input_crop_id = null, page-level only, parsing tests/fixtures/transkribus/sample_page.xml. That fixture transcribes a different, unrelated Swedish court-record passage -- its first line is 'Anno 1712 den 3 Januarii holltes ting' -- with no established line-to-line correspondence to the controlled reference 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt'. No CER and no WER exists for it anywhere in the run's log: not a null written over a computed value, but a metric that was never computed, because a CER between two unrelated texts would measure nothing. The exclusion is declared in advance by the experiment's own exclusion_criteria (src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria) rather than applied after seeing results. THIS IS NOT A METHOD-PERFORMANCE OBSERVATION. It records where the controlled comparison's boundary lies. Nothing here says anything about Transkribus's recognition accuracy, and nothing could: the fixture it read has no ground truth at all, and is itself hand-authored rather than genuine vendor output (tests/fixtures/transkribus/README.md).",
+      "observation_confidence": "high",
+      "observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482",
+      "observation_type": "experiment_validity_boundary",
+      "review_status": "Unreviewed",
+      "scope": {
+        "configuration_ref": "src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria",
+        "covered_unit_ids": [
+          "page_68aa5147bfd544d9816ecb5e9f3f0d74"
+        ],
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+        "experiment_run_ids": [
+          "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73"
+        ],
+        "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "ground_truth_ref": null,
+        "method_ids": [
+          "transkribus_swedish_lion_1"
+        ],
+        "method_run_ids": [
+          "method_run_fa544c4adb9d44d89439c8e85d1b8565"
+        ],
+        "model_version_ids": [
+          "Swedish Lion I - v3"
+        ],
+        "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+        "unit_of_analysis": "page"
+      },
+      "source_experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+      "source_experiment_run_id": "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73",
+      "supporting_evidence": [
+        {
+          "kind": "experiment_run",
+          "note": "is_end_to_end = true",
+          "reference_id": "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "method_run",
+          "note": "input_crop_id = null -- page-level, never bound to the shared crop",
+          "reference_id": "method_run_fa544c4adb9d44d89439c8e85d1b8565",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "MethodRunStarted carrying the MethodRun with input_crop_id = null",
+          "reference_id": "event_ee5448b140e14320b256028fb86fee03",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "ParsedMethodResultRecorded, first line 'Anno 1712 den 3 Januarii holltes ting'",
+          "reference_id": "event_cd394580328a4189a005cf8aea842da5",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "NormalizedMethodResultRecorded -- the last text stage; no MetricCalculated follows it for CER or WER",
+          "reference_id": "event_ec65ed1b1a1746959b91965739a2a1a7",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "ground_truth_text",
+          "note": "the controlled reference this fixture does not correspond to",
+          "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "input_crop",
+          "note": "the controlled crop, not read by this method run",
+          "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "external_document",
+          "note": "the pre-declared exclusion criterion",
+          "reference_id": "src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria",
+          "stream": null
+        },
+        {
+          "kind": "external_document",
+          "note": "the fixture itself -- hand-authored, not genuine vendor output",
+          "reference_id": "tests/fixtures/transkribus/sample_page.xml",
+          "stream": null
+        }
+      ],
+      "tags": [
+        "experiment_validity",
+        "comparison_boundary",
+        "not_a_method_performance_observation",
+        "excluded_from_controlled_set",
+        "no_ground_truth_exists"
+      ],
+      "title": "The Transkribus fixture tests/fixtures/transkribus/sample_page.xml does not correspond to the controlled ground-truth line and was correctly excluded from CER/WER",
+      "unverified_hypothesis": null
+    },
+    {
+      "affected_dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+      "affected_dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+      "affected_document_or_segment_ids": [
+        "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+      ],
+      "affected_method": "florence2_htr",
+      "affected_model_version": "994f47e8a0e8d77cb2e11528665efd07a855c3af",
+      "author_or_source_component": "htr.knowledge.baseline_knowledge",
+      "creation_timestamp": "2026-07-30T03:30:00+00:00",
+      "description": "Two committed records in this repository state different peak-GPU-memory figures for Florence-2 on the same fixture. src/archivetrust/providers/florence2_htr/README.md documents ~3983 MB from an earlier CUDA session. The 2026-07-30 run (experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, method run method_run_e3209c63bb90458ea8d7a0673dd5c706) measured 1210.64111328125 MiB, recorded as metric result metric_result_6b3a191d07074ddebf21e2bf9ef27894 and as Evidence.gpu_memory_mb on evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc. Both figures are real measurements; the earlier session has no durable telemetry record at all, which is itself part of this observation -- it predates the persistence this project now has, so there is no way to compare the two runs' environments beyond what each wrote down. The same comparison for SATRN did NOT diverge: its README documents ~439 MB and this run measured 438.78173828125 MiB (metric result metric_result_11954d828f2742059dfd81a324347008), so the divergence is specific to Florence-2 rather than a general property of how this repository measures GPU memory. Both methods' text outputs reproduced exactly across the two sessions, so this is an operational/reproducibility observation about resource measurement, not about recognition output.",
+      "observation_confidence": "moderate",
+      "observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118",
+      "observation_type": "reproducibility_anomaly",
+      "review_status": "Unreviewed",
+      "scope": {
+        "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "covered_unit_ids": [
+          "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+        ],
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+        "experiment_run_ids": [
+          "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+        ],
+        "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+        "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+        "method_ids": [
+          "florence2_htr"
+        ],
+        "method_run_ids": [
+          "method_run_e3209c63bb90458ea8d7a0673dd5c706"
+        ],
+        "model_version_ids": [
+          "994f47e8a0e8d77cb2e11528665efd07a855c3af"
+        ],
+        "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+        "unit_of_analysis": "line_crop"
+      },
+      "source_experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+      "source_experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "supporting_evidence": [
+        {
+          "kind": "experiment_run",
+          "note": null,
+          "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "method_run",
+          "note": null,
+          "reference_id": "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "metric_result",
+          "note": "gpu_memory_mb = 1210.64111328125 (2026-07-30 run)",
+          "reference_id": "metric_result_6b3a191d07074ddebf21e2bf9ef27894",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "telemetry_event",
+          "note": "MetricCalculated carrying the measured figure",
+          "reference_id": "event_2301532626da4c4da50acb91957ad9ea",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "evidence_record",
+          "note": "Evidence.gpu_memory_mb = 1210.64111328125, execution_device='cuda', torch 2.13.0+cu130",
+          "reference_id": "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "external_document",
+          "note": "'Peak GPU memory: ~3983 MB' -- the earlier session, which has no durable telemetry record",
+          "reference_id": "src/archivetrust/providers/florence2_htr/README.md#peak-gpu-memory",
+          "stream": null
+        },
+        {
+          "kind": "metric_result",
+          "note": "SATRN control: gpu_memory_mb = 438.78173828125, against a documented ~439 MB -- reproduced",
+          "reference_id": "metric_result_11954d828f2742059dfd81a324347008",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        }
+      ],
+      "tags": [
+        "reproducibility",
+        "operational",
+        "gpu_memory",
+        "environment_not_fully_captured",
+        "outputs_reproduced_exactly"
+      ],
+      "title": "Florence-2 peak GPU memory on the shared baseline crop differs by ~3.3x between two documented sessions (3983 MB documented vs. 1210.64 MiB measured)",
+      "unverified_hypothesis": "UNVERIFIED. One candidate explanation is CUDA caching-allocator state: torch.cuda.max_memory_allocated (or reserved) reflects allocator history within a process, so a session that had already run other models, or that used a different torch build (2.13.0+cu130 here vs. whatever the earlier session used -- not recorded), can report a substantially different peak for identical work. THIS PROJECT HAS NOT MEASURED THAT. No controlled experiment varying allocator state exists, the earlier session's torch version and process history were never captured, and this explanation is therefore a hypothesis to test, not a cause to cite. Testing it would need two runs in this repository's own durable persistence with the environment fields populated for both."
+    }
+  ],
+  "research_questions": [
+    {
+      "answered_by_finding_id": null,
+      "created_at": "2026-07-30T03:30:00+00:00",
+      "created_by": "reviewer_cb7c502be63f383d",
+      "created_experiment_id": "experiment_f590cff12db94b29bfe1588a691ef832",
+      "created_experiment_version_id": "experiment_version_1be05a170466424b966b2c66458470cf",
+      "hypotheses": [
+        {
+          "author": "reviewer_cb7c502be63f383d",
+          "created_at": "2026-07-30T03:30:00+00:00",
+          "falsification_criterion": "Refuted if, over a sample of ground-truthed lines large enough to estimate a rank correlation, reported confidence and measured CER are monotonically related (higher confidence accompanying lower CER) with the relationship holding across the sample rather than only in aggregate. Refuted equally by the disagreement failing to recur at all: a single non-recurring disagreement is evidence about one crop, which is what the originating observation already says.",
+          "hypothesis_id": "hypothesis_cdf572be0a4c4794836ba2e7564dd260",
+          "research_question_id": "research_question_0ce2e1c1f1284af093512384a36c9047",
+          "statement": "SATRN's reported confidence is not monotonically related to its measured character error rate on 17th-century Swedish court-record lines at this checkpoint."
+        }
+      ],
+      "motivation": "The observation records reported confidence 0.6666051723062992 against measured CER 0.7931034482758621 and WER 1.0 on one crop in one run, and states explicitly that this is not a claim about SATRN's confidence calibration because one sample cannot measure a distributional property. htr/evaluation/failures.py::classify_reliability flagged the run only because the disagreement (0.460) exceeded its own 0.35 threshold, and the candidate finding derived from the observation carries that threshold sensitivity as a stated limitation. The gap is therefore named in the record rather than inferred: what is unknown is whether the disagreement recurs.",
+      "originating_contradiction_id": null,
+      "originating_finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+      "originating_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835",
+      "question_id": "research_question_0ce2e1c1f1284af093512384a36c9047",
+      "statement": "Does SATRN's reported confidence track its measured transcription accuracy on a sample larger than one line crop -- i.e. is the confidence/accuracy disagreement recorded on the single controlled baseline line a property of this checkpoint's calibration, or a property of that one crop?",
+      "status": "Being investigated"
+    }
+  ],
+  "source_description": "Replayed from the committed append-only logs docs/experiments/baseline-comparison/{htr_research_events, htr_knowledge_events, htr_knowledge_feedback_events}.jsonl (2026-07-30 baseline run) — Reviewer identities in this export are pseudonyms (archivetrust.htr.knowledge.redaction.strip_reviewer_identities). The pseudonym-to-identity ledger is held internally and is not part of this export.",
+  "status_counts": {
+    "Candidate": 3,
+    "Disputed": 1,
+    "Provisionally supported": 1
+  }
+}

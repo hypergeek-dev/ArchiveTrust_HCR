@@ -1,0 +1,96 @@
+{
+  "affected_dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+  "affected_dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+  "affected_document_or_segment_ids": [
+    "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+  ],
+  "affected_method": "florence2_htr",
+  "affected_model_version": "994f47e8a0e8d77cb2e11528665efd07a855c3af",
+  "author_or_source_component": "htr.knowledge.baseline_knowledge",
+  "creation_timestamp": "2026-07-30T03:30:00+00:00",
+  "description": "Two committed records in this repository state different peak-GPU-memory figures for Florence-2 on the same fixture. src/archivetrust/providers/florence2_htr/README.md documents ~3983 MB from an earlier CUDA session. The 2026-07-30 run (experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, method run method_run_e3209c63bb90458ea8d7a0673dd5c706) measured 1210.64111328125 MiB, recorded as metric result metric_result_6b3a191d07074ddebf21e2bf9ef27894 and as Evidence.gpu_memory_mb on evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc. Both figures are real measurements; the earlier session has no durable telemetry record at all, which is itself part of this observation -- it predates the persistence this project now has, so there is no way to compare the two runs' environments beyond what each wrote down. The same comparison for SATRN did NOT diverge: its README documents ~439 MB and this run measured 438.78173828125 MiB (metric result metric_result_11954d828f2742059dfd81a324347008), so the divergence is specific to Florence-2 rather than a general property of how this repository measures GPU memory. Both methods' text outputs reproduced exactly across the two sessions, so this is an operational/reproducibility observation about resource measurement, not about recognition output.",
+  "observation_confidence": "moderate",
+  "observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118",
+  "observation_type": "reproducibility_anomaly",
+  "review_status": "Unreviewed",
+  "scope": {
+    "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "covered_unit_ids": [
+      "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+    ],
+    "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+    "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+    "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+    "experiment_run_ids": [
+      "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+    ],
+    "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+    "method_ids": [
+      "florence2_htr"
+    ],
+    "method_run_ids": [
+      "method_run_e3209c63bb90458ea8d7a0673dd5c706"
+    ],
+    "model_version_ids": [
+      "994f47e8a0e8d77cb2e11528665efd07a855c3af"
+    ],
+    "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+    "unit_of_analysis": "line_crop"
+  },
+  "source_experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+  "source_experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+  "supporting_evidence": [
+    {
+      "kind": "experiment_run",
+      "note": null,
+      "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "method_run",
+      "note": null,
+      "reference_id": "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "gpu_memory_mb = 1210.64111328125 (2026-07-30 run)",
+      "reference_id": "metric_result_6b3a191d07074ddebf21e2bf9ef27894",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "MetricCalculated carrying the measured figure",
+      "reference_id": "event_2301532626da4c4da50acb91957ad9ea",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "evidence_record",
+      "note": "Evidence.gpu_memory_mb = 1210.64111328125, execution_device='cuda', torch 2.13.0+cu130",
+      "reference_id": "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "external_document",
+      "note": "'Peak GPU memory: ~3983 MB' -- the earlier session, which has no durable telemetry record",
+      "reference_id": "src/archivetrust/providers/florence2_htr/README.md#peak-gpu-memory",
+      "stream": null
+    },
+    {
+      "kind": "metric_result",
+      "note": "SATRN control: gpu_memory_mb = 438.78173828125, against a documented ~439 MB -- reproduced",
+      "reference_id": "metric_result_11954d828f2742059dfd81a324347008",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    }
+  ],
+  "tags": [
+    "reproducibility",
+    "operational",
+    "gpu_memory",
+    "environment_not_fully_captured",
+    "outputs_reproduced_exactly"
+  ],
+  "title": "Florence-2 peak GPU memory on the shared baseline crop differs by ~3.3x between two documented sessions (3983 MB documented vs. 1210.64 MiB measured)",
+  "unverified_hypothesis": "UNVERIFIED. One candidate explanation is CUDA caching-allocator state: torch.cuda.max_memory_allocated (or reserved) reflects allocator history within a process, so a session that had already run other models, or that used a different torch build (2.13.0+cu130 here vs. whatever the earlier session used -- not recorded), can report a substantially different peak for identical work. THIS PROJECT HAS NOT MEASURED THAT. No controlled experiment varying allocator state exists, the earlier session's torch version and process history were never captured, and this explanation is therefore a hypothesis to test, not a cause to cite. Testing it would need two runs in this repository's own durable persistence with the environment fields populated for both."
+}

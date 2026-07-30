@@ -1,0 +1,174 @@
+{
+  "affected_dataset_versions": [
+    "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e"
+  ],
+  "affected_datasets": [
+    "dataset_014079548fb34741b8b3334bbb7587f7"
+  ],
+  "affected_document_types": [
+    "swedish_court_record_line"
+  ],
+  "affected_handwriting_periods": [
+    "17th_century_swedish"
+  ],
+  "affected_methods": [
+    "satrn"
+  ],
+  "affected_model_versions": [
+    "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+  ],
+  "author": "htr.knowledge.baseline_knowledge",
+  "confidence_level": "moderate",
+  "contradictory_evidence": [],
+  "creation_date": "2026-07-30T03:30:00+00:00",
+  "evidence_references": [
+    {
+      "kind": "experiment_run",
+      "note": null,
+      "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "method_run",
+      "note": null,
+      "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "input_crop",
+      "note": "content hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+      "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "RawMethodResultRecorded: 'till den 23 Januarii'",
+      "reference_id": "event_b53e520f7a8745c4ab7c32772e07a888",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "NormalizedMethodResultRecorded -- SATRN's only other text stage; there is no ParsedMethodResultRecorded for this method run",
+      "reference_id": "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "ground_truth_text",
+      "note": "GroundTruthTextRecorded for text_line_aa805ef122b54d1e961e0f6ec11e266e: 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt'",
+      "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "metric_result",
+      "note": "character_error_rate_normalized = 0.7931034482758621",
+      "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "metric_result",
+      "note": "word_error_rate_normalized = 1.0",
+      "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "metric_result",
+      "note": "character_deletions = 38.0",
+      "reference_id": "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "metric_result",
+      "note": "word_deletions = 6.0",
+      "reference_id": "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "reliability_classification",
+      "note": "omitted_text -- 6 deleted words out of 10 reference words",
+      "reference_id": "failure_record_c17788ac55564906921a9d3a393183b8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "ReliabilityIssueClassified carrying the omitted_text classification",
+      "reference_id": "event_aca5554290d149fe85d9332ec32e3802",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    },
+    {
+      "kind": "evidence_record",
+      "note": null,
+      "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+    }
+  ],
+  "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+  "hypothesis_relationship": "no_hypothesis_asserted",
+  "limitations": [
+    "N=1: one line crop, one experiment run, one checkpoint per method. No aggregate over more than this crop exists in this repository.",
+    "No general ranking of methods can be inferred from this scope.",
+    "The ground truth is a single external annotation from the upstream published dataset -- no blind dual annotation and no adjudication was performed for it.",
+    "No versioned TranscriptionConvention record exists for this ground truth, so the transcription rules the reference was authored under are not themselves versioned here.",
+    "Metrics hold only under the normalization profile named in scope; a different profile could produce different values from the same texts.",
+    "One occurrence. 'Omission' here is the measured edit-distance category on this sample, not an established behaviour of the checkpoint.",
+    "The output has no lexical overlap with the line, so 'omitted' understates it -- but 'omitted_text' is the classification the evaluation engine actually recorded, and this finding does not substitute a different word for it."
+  ],
+  "research_question": "How do SATRN (Riksarkivet), Florence-2 (fine-tuned OCR checkpoint) and Transkribus Swedish Lion I compare on Swedish historical handwriting recognition, under a controlled line-level comparison on byte-identical input crops and an end-to-end page-level comparison?",
+  "review_status": "Candidate",
+  "reviewer": null,
+  "revision_history": [],
+  "scope": {
+    "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "covered_unit_ids": [
+      "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+    ],
+    "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+    "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+    "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+    "experiment_run_ids": [
+      "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+    ],
+    "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+    "method_ids": [
+      "satrn"
+    ],
+    "method_run_ids": [
+      "method_run_5bd842b5b850442daa0d701b63c3e545"
+    ],
+    "model_version_ids": [
+      "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+    ],
+    "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+    "unit_of_analysis": "line_crop"
+  },
+  "statement": "On the single controlled baseline line, SATRN omitted a substantial portion of the reference text: 6 of 10 reference words and 38 characters were deleted, on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 at model revision a40c7093232eaa47a83ce6469fc4abd033486bdc, flagged omitted_text by htr/evaluation/failures.py::classify_reliability.",
+  "status_qualified_statement": "[Candidate] On the single controlled baseline line, SATRN omitted a substantial portion of the reference text: 6 of 10 reference words and 38 characters were deleted, on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 at model revision a40c7093232eaa47a83ce6469fc4abd033486bdc, flagged omitted_text by htr/evaluation/failures.py::classify_reliability.",
+  "superseded_by": null,
+  "supporting_experiments": [
+    "experiment_fa667e22afe241b8b27f9aa3998edb0f"
+  ],
+  "supporting_metrics": [
+    "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+    "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+    "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+    "metric_result_16be0b552e5844c7b1a9f1db0fffd031"
+  ],
+  "supporting_observations": [
+    "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+  ],
+  "transcription_convention": null,
+  "unresolved_supporting_observations": []
+}

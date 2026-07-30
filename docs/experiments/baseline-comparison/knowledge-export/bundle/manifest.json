@@ -1,0 +1,117 @@
+{
+  "bundle_schema": "archivetrust.research_knowledge_bundle.v1",
+  "counts": {
+    "findings": 5,
+    "observations": 5,
+    "research_questions": 1
+  },
+  "export_schema": "archivetrust.research_knowledge.v1",
+  "files": [
+    {
+      "algorithm": "sha256",
+      "digest": "05d98130a5efdc11a3467c926370a0eba2ff3bfcf3888c0564d0292d47b7d8b0",
+      "path": "findings/research_finding_0a8f60fd19444221bdfcd89c32ad58ef.json",
+      "size_bytes": 14492
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "372f9bca0b37d7ef252f94f724ab17d708e94a0627f880ed71ef4254c25bd7fe",
+      "path": "findings/research_finding_0f77a4f5443e4e79b429d8076596c4eb.json",
+      "size_bytes": 8017
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "5c51e63e2fcd355c0fda71d21d527d992698e633e3c172bdcf7032d65930e87b",
+      "path": "findings/research_finding_49e83783e393448abd9e6661b65a3cf9.json",
+      "size_bytes": 9379
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "5f2712588cc1611aaa33e9efa309282d537dd47d8288a0751757c0cbe0b4f9f4",
+      "path": "findings/research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5.json",
+      "size_bytes": 11174
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "f37e2f357c25f2df0249a7200fe8093ad7f5c79a5500dd1a2bc2aec1185f02c6",
+      "path": "findings/research_finding_839388b4d62642359c535ea4e4b29226.json",
+      "size_bytes": 9829
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "d76f9167392ca1af523d945fcd1d5976a630600447b2ccf4313e978359812e4e",
+      "path": "observations/research_observation_067cd6a4ae80439289aa8256efffa835.json",
+      "size_bytes": 5925
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "bd0ee3cb6732d6a312b0b34de42846f3a24153e377d510d22c2b17bf4c1e3a2e",
+      "path": "observations/research_observation_5ae3115e51a64d67816c6f6567b63fd6.json",
+      "size_bytes": 7002
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "eaac1a913f000a80c8fa6e22b3cadeb897cd93a5788e4a98918d1d9eac1f8095",
+      "path": "observations/research_observation_9716f54778994a3fb868f8b40beea064.json",
+      "size_bytes": 7216
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "02d8f4a3f5bd0dcd79c62d0810b814188edf71166cf714fd27e8046234d0ca64",
+      "path": "observations/research_observation_c4cac4cbd6274815a17d7123b8cf4482.json",
+      "size_bytes": 6010
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "8c9f03685f2773cad6dfcc4d3545ae48820efa942a75a45739292f24c43ae3d2",
+      "path": "observations/research_observation_fdddf9997a9f456b964ef04694f0f118.json",
+      "size_bytes": 6285
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "46b3cad6df3cf44ed64fcbff77a2065223083db9e66fb30a47fcc3c206b38ec2",
+      "path": "research_questions/research_question_0ce2e1c1f1284af093512384a36c9047.json",
+      "size_bytes": 2536
+    },
+    {
+      "algorithm": "sha256",
+      "digest": "73a0c350335bb20a7365bce9224fc34e1be576b0d087e5b25c49106a79e1875b",
+      "path": "evidence_index.json",
+      "size_bytes": 36367
+    }
+  ],
+  "generated_at": "2026-07-30T03:30:00+00:00",
+  "source_description": "Replayed from the committed append-only logs docs/experiments/baseline-comparison/{htr_research_events, htr_knowledge_events, htr_knowledge_feedback_events}.jsonl (2026-07-30 baseline run)",
+  "status_counts": {
+    "Candidate": 3,
+    "Disputed": 1,
+    "Provisionally supported": 1
+  },
+  "status_index": [
+    {
+      "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+      "review_status": "Candidate",
+      "status_qualified_statement": "[Candidate] On the single controlled baseline line, Florence-2 produced lower CER and WER than SATRN (CER 0.43103448275862066 vs. 0.7931034482758621; WER 0.9 vs. 1.0), on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment version experiment_version_088916c194ad4aecbb5b8578cb405dc3, experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, at model revisions 994f47e8a0e8d77cb2e11528665efd07a855c3af and a40c7093232eaa47a83ce6469fc4abd033486bdc respectively, under evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)."
+    },
+    {
+      "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+      "review_status": "Candidate",
+      "status_qualified_statement": "[Candidate] The SATRN confidence value on this sample was not aligned with the observed transcription accuracy: reported confidence 0.6666051723062992 against measured CER 0.7931034482758621 and WER 1.0 on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, flagged confidence_calibration_disagreement."
+    },
+    {
+      "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+      "review_status": "Candidate",
+      "status_qualified_statement": "[Candidate] On the single controlled baseline line, SATRN omitted a substantial portion of the reference text: 6 of 10 reference words and 38 characters were deleted, on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 at model revision a40c7093232eaa47a83ce6469fc4abd033486bdc, flagged omitted_text by htr/evaluation/failures.py::classify_reliability."
+    },
+    {
+      "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+      "review_status": "Disputed",
+      "status_qualified_statement": "[Disputed] Florence-2's peak-GPU-memory measurement on the shared baseline line crop is reproducible across sessions: the adapter README documents ~3983 MB for this fixture, and the controlled run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 re-measures the same quantity for method run method_run_e3209c63bb90458ea8d7a0673dd5c706 at model revision 994f47e8a0e8d77cb2e11528665efd07a855c3af."
+    },
+    {
+      "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+      "review_status": "Provisionally supported",
+      "status_qualified_statement": "[Provisionally supported] The current Transkribus fixture cannot be included in the controlled recognizer comparison because it does not correspond to the shared ground-truth line: method run method_run_fa544c4adb9d44d89439c8e85d1b8565 ran page-level with input_crop_id = null on tests/fixtures/transkribus/sample_page.xml, whose content is an unrelated passage, and no CER or WER was computed for it anywhere in the run's log."
+    }
+  ]
+}

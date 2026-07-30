@@ -5,16 +5,28 @@ Scope: Production Closure
 Governs: Meaning of readiness claims  
 Applies to version: 0.1.0 / Production Closure working tree  
 Supersedes: undifferentiated implemented claims  
-Superseded by: **not yet rebuilt for SATRN/Florence-2/Transkribus** — see `docs/htr-migration-plan.md`  
-Last verified against code: 2026-07-17
+Superseded by: **[`docs/CAPABILITY_MATRIX_HTR.md`](CAPABILITY_MATRIX_HTR.md)** (SATRN / Florence-2 / Transkribus)  
+Last verified against code: 2026-07-17; supersession pointer updated 2026-07-30
 
 > **HTR transformation notice:** The `(provider_id, provider_version, observation_type)` ratings
 > below are for the deleted OCR providers (Docling, Tesseract+LayoutParser) and are no longer
-> applicable — those providers do not exist in the codebase anymore. A capability matrix for
-> SATRN/Florence-2/Transkribus has not yet been built as a standalone document; the closest
-> current equivalent is each adapter's `get_capabilities()` (`providers/satrn/adapter.py`,
-> `providers/florence2_htr/adapter.py`, `providers/transkribus/adapter.py`) plus their READMEs.
-> Kept here as a reference for the Capability Matrix *concept* the Comparison Engine still uses.
+> applicable — those providers do not exist in the codebase anymore.
+>
+> **The HTR capability matrix now exists as a standalone document:
+> [`docs/CAPABILITY_MATRIX_HTR.md`](CAPABILITY_MATRIX_HTR.md)** (2026-07-30). Its tables are
+> *generated* from each adapter's `get_capabilities()`/`get_metadata()` by
+> `scripts/generate_capability_matrix.py`, and `tests/providers/test_htr_capability_matrix.py` fails if
+> they ever drift — specifically so it cannot go stale the way this file did. The adapters
+> (`providers/satrn/adapter.py`, `providers/florence2_htr/adapter.py`,
+> `providers/transkribus/adapter.py`) remain the machine-readable source of truth; that document is a
+> rendering of them plus prose on where the boolean flags mislead.
+>
+> **This file is not deleted and its table below is not corrected.** It is an accurate historical
+> record of ratings that were really assigned to providers that really existed, and it is still the
+> reference for the Capability Matrix *concept* the Comparison Engine uses
+> (`domain/comparison/capability_matrix_data.py`, deliberately retained in Stage 5 for
+> `application/pipeline.py`'s still-live legacy path). Read the rows below as history, never as a claim
+> about the current codebase.
 
 | Capability | Implemented/runtime | UI | Operational evidence | Qualified |
 |---|---|---|---|---|

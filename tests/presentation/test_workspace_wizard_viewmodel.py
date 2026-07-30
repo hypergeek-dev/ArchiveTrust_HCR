@@ -66,27 +66,50 @@ def test_create_without_name_raises(tmp_path) -> None:
         pass
 
 
-def test_new_workspace_defaults_inherit_paddleocr_vl(tmp_path) -> None:
-    """Multi-Provider Activation milestone: a freshly-constructed wizard already has the default
-    Vision Provider filled in -- the operator can create a Workspace by pressing through every
-    step without typing anything into the Models step."""
+def test_new_workspace_defaults_pre_fill_no_vision_provider(tmp_path) -> None:
+    """Was `test_new_workspace_defaults_inherit_paddleocr_vl` (2026-07-30 residual cleanup).
+
+    A freshly-constructed wizard used to arrive with `paddleocr-vl` / `PaddlePaddle/PaddleOCR-VL`
+    pre-filled -- a provider whose adapter was deleted in migration Stage 5, so pressing through every
+    step persisted a binding nothing could ever activate. Both defaults are now empty. The principle
+    the old test asserted (the wizard's defaults come from `first_launch_viewmodel`'s constants, never
+    a second hardcoded copy) is unchanged and still asserted here."""
     vm = _context(tmp_path).workspace_wizard_viewmodel()
-    assert vm.model_identifier == DEFAULT_VISION_MODEL_ID
-    assert vm.model_provider_id == DEFAULT_VISION_PROVIDER_ID
+    assert vm.model_identifier == DEFAULT_VISION_MODEL_ID is None
+    assert vm.model_provider_id == DEFAULT_VISION_PROVIDER_ID == ""
 
 
-def test_new_workspace_binds_paddleocr_vl_by_default(tmp_path) -> None:
+def test_new_workspace_binds_no_vision_provider_by_default(tmp_path) -> None:
+    """The behavioural half of the change: no binding at all, rather than a binding for a deleted
+    provider. `create()`'s existing `if self.model_identifier:` guard is what makes this true -- the
+    same guard that has always implemented "leave blank to skip"."""
     context = _context(tmp_path)
     vm = context.workspace_wizard_viewmodel()
     vm.name = "Engineering Drawings"
 
     vm.create()
 
+    assert not any(
+        b.logical_name == "Primary Vision Provider" for b in context.model_registry.bindings()
+    )
+
+
+def test_an_operator_supplied_model_identifier_still_binds(tmp_path) -> None:
+    """The default going empty must not break the path that actually works: a caller naming a real
+    model still gets a binding, on the runtime `runtime_kind_for_provider` derives."""
+    context = _context(tmp_path)
+    vm = context.workspace_wizard_viewmodel()
+    vm.name = "Bound Workspace"
+    vm.model_identifier = "microsoft/Florence-2-base-ft"
+
+    vm.create()
+
     binding = next(
         b for b in context.model_registry.bindings() if b.logical_name == "Primary Vision Provider"
     )
+    assert binding.descriptor.model_id == "microsoft/Florence-2-base-ft"
+    assert binding.descriptor.runtime_kind == "transformers"
     assert binding.provider_id == DEFAULT_VISION_PROVIDER_ID
-    assert binding.descriptor.model_id == DEFAULT_VISION_MODEL_ID
 
 
 def test_operator_can_override_default_by_clearing_the_model_field(tmp_path) -> None:
@@ -104,50 +127,35 @@ def test_operator_can_override_default_by_clearing_the_model_field(tmp_path) -> 
     )
 
 
-def test_new_workspace_binds_paddleocr_vl_on_the_vllm_runtime_by_default(tmp_path) -> None:
-    """Runtime Architecture Completion milestone: the wizard has no runtime selector at all
-    (`model_runtime_kind` was removed) -- the binding's runtime is always derived from whichever
-    provider was chosen, via `runtime_kind_for_provider()`."""
+def test_operator_can_explicitly_select_a_provider_instead_of_the_default(tmp_path) -> None:
+    """Was `test_operator_can_explicitly_select_qwen_instead_of_the_default` (2026-07-30 residual
+    cleanup). The principle -- an explicitly-set `model_provider_id` reaches the persisted binding
+    rather than being overwritten by the default -- is preserved with a provider id that is not a
+    deleted adapter's. `"future-provider"` is deliberately unregistered: this asserts the wizard
+    *records* the operator's choice, which is a different question from whether anything can activate
+    it."""
     context = _context(tmp_path)
     vm = context.workspace_wizard_viewmodel()
-    vm.name = "Engineering Drawings"
+    vm.name = "Explicit Provider Workspace"
+    vm.model_provider_id = "future-provider"
+    vm.model_identifier = "some-org/some-model"
 
     vm.create()
 
     binding = next(
         b for b in context.model_registry.bindings() if b.logical_name == "Primary Vision Provider"
     )
-    assert binding.descriptor.runtime_kind == "vllm"
+    assert binding.provider_id == "future-provider"
 
 
-def test_operator_can_explicitly_select_qwen_instead_of_the_default(tmp_path) -> None:
-    context = _context(tmp_path)
-    vm = context.workspace_wizard_viewmodel()
-    vm.name = "Large-Model Workspace"
-    vm.model_provider_id = "qwen2.5-vl"
-    vm.model_identifier = "Qwen/Qwen2.5-VL-7B-Instruct"
-
-    vm.create()
-
-    binding = next(
-        b for b in context.model_registry.bindings() if b.logical_name == "Primary Vision Provider"
-    )
-    assert binding.provider_id == "qwen2.5-vl"
-
-
-def test_surya_appears_in_available_providers_once_registered(tmp_path) -> None:
-    """Provider Discovery milestone (2026-07-13): Surya was absent from the wizard's old
-    hardcoded `WIZARD_PROVIDER_CHOICES` list because that list predates Surya's provider module
-    (an incomplete integration, not a targeted removal) -- `available_providers()` now derives its
-    id set from the provider registry / Vision Provider catalog instead, so Surya (not yet
-    activated in a fresh context) still appears via the catalog branch."""
-    context = _context(tmp_path)
-    vm = context.workspace_wizard_viewmodel()
-
-    choices = {c.provider_id: c for c in vm.available_providers()}
-
-    assert "surya" in choices
-    assert choices["surya"].group == "Vision-Language Models"
+# `test_surya_appears_in_available_providers_once_registered` (2026-07-30 residual cleanup) was
+# deleted. It asserted that `surya` appears in `available_providers()` via the Vision Provider catalog
+# branch -- which is now the defect rather than the feature: `surya`'s adapter was deleted in migration
+# Stage 5 and `VISION_PROVIDER_CHOICES` is deliberately empty, so nothing may appear from that branch.
+# The generic principle it was written for ("adding a future provider requires no UI change --
+# registration alone should make it appear") is asserted, unchanged and provider-agnostically, by
+# `test_a_newly_registered_provider_appears_with_no_wizard_code_change` below, which exercises the
+# provider-registry branch of the same function. Nothing is left untested by the deletion.
 
 
 def test_a_newly_registered_provider_appears_with_no_wizard_code_change(tmp_path) -> None:

@@ -5,7 +5,7 @@ from __future__ import annotations
 from archivetrust.htr.evaluation.recognition import compute_recognition_metrics
 from archivetrust.htr.research_store import MethodRunTranscript
 from archivetrust.presentation.htr_comparison_viewmodel import STAGE_ORDER, ComparisonViewModel
-from tests.presentation._htr_fixtures import GROUND_TRUTH_LINE_0, build_fixture_corpus
+from tests.presentation._htr_fixtures import SYNTHETIC_FIXTURE_LINE_0, build_fixture_corpus
 
 
 def _cell(row, method_id: str):
@@ -22,7 +22,7 @@ def test_line_row_has_one_cell_per_method_that_ran_on_that_crop() -> None:
         "florence2_htr",
         "transkribus_swedish_lion_1",
     }
-    assert row.ground_truth == GROUND_TRUTH_LINE_0
+    assert row.ground_truth == SYNTHETIC_FIXTURE_LINE_0
     assert row.page_id == corpus.page_id
 
 
@@ -93,7 +93,7 @@ def test_metrics_match_the_recognition_engine_exactly_and_are_not_recomputed_her
     row = ComparisonViewModel(corpus.store).line_comparison(corpus.line_0_id)
     cell = _cell(row, "florence2_htr")
 
-    expected = compute_recognition_metrics(GROUND_TRUTH_LINE_0, "till den 23 Januari")
+    expected = compute_recognition_metrics(SYNTHETIC_FIXTURE_LINE_0, "till den 23 Januari")
     assert cell.character_error_rate_normalized == expected.character_error_rate_normalized
     assert cell.character_error_rate_raw == expected.character_error_rate_raw
     assert cell.word_error_rate_normalized == expected.word_error_rate_normalized

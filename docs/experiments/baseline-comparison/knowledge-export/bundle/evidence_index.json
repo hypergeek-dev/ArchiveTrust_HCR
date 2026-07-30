@@ -1,0 +1,810 @@
+{
+  "bundle_schema": "archivetrust.research_knowledge_bundle.v1",
+  "by_finding": [
+    {
+      "evidence_reference_ids": [
+        "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+        "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+        "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+        "method_run_5bd842b5b850442daa0d701b63c3e545",
+        "metric_result_25048768c1024dbf8bf9b0e1c91f598e",
+        "metric_result_ddbf925f834f4c1483f5708384e9a0b7",
+        "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+        "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+        "event_f76ae5e0525e4d51ae9624a757135cb4",
+        "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+        "event_cc9e4261bca841c69565b4e30552c977",
+        "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+        "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+        "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+        "method_run_5bd842b5b850442daa0d701b63c3e545",
+        "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+        "event_b53e520f7a8745c4ab7c32772e07a888",
+        "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+        "event_cc9e4261bca841c69565b4e30552c977",
+        "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+        "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+        "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+        "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+        "failure_record_c17788ac55564906921a9d3a393183b8",
+        "event_aca5554290d149fe85d9332ec32e3802",
+        "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7"
+      ],
+      "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+      "review_status": "Candidate",
+      "status_qualified_statement": "[Candidate] On the single controlled baseline line, Florence-2 produced lower CER and WER than SATRN (CER 0.43103448275862066 vs. 0.7931034482758621; WER 0.9 vs. 1.0), on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment version experiment_version_088916c194ad4aecbb5b8578cb405dc3, experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, at model revisions 994f47e8a0e8d77cb2e11528665efd07a855c3af and a40c7093232eaa47a83ce6469fc4abd033486bdc respectively, under evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding).",
+      "supporting_metrics": [
+        "metric_result_25048768c1024dbf8bf9b0e1c91f598e",
+        "metric_result_ddbf925f834f4c1483f5708384e9a0b7",
+        "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+        "metric_result_16be0b552e5844c7b1a9f1db0fffd031"
+      ],
+      "supporting_observations": [
+        "research_observation_9716f54778994a3fb868f8b40beea064",
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+      ]
+    },
+    {
+      "evidence_reference_ids": [
+        "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+        "method_run_5bd842b5b850442daa0d701b63c3e545",
+        "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+        "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+        "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+        "metric_result_d462f57778f84cbc97cacc3805aa56a0",
+        "failure_record_544c359478124a9cb401b57798641c14",
+        "event_b8cb85b68ae94a41811c737c85470e6e",
+        "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+        "event_cc9e4261bca841c69565b4e30552c977"
+      ],
+      "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+      "review_status": "Candidate",
+      "status_qualified_statement": "[Candidate] The SATRN confidence value on this sample was not aligned with the observed transcription accuracy: reported confidence 0.6666051723062992 against measured CER 0.7931034482758621 and WER 1.0 on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, flagged confidence_calibration_disagreement.",
+      "supporting_metrics": [
+        "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+        "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+        "metric_result_d462f57778f84cbc97cacc3805aa56a0"
+      ],
+      "supporting_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835"
+      ]
+    },
+    {
+      "evidence_reference_ids": [
+        "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+        "method_run_5bd842b5b850442daa0d701b63c3e545",
+        "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+        "event_b53e520f7a8745c4ab7c32772e07a888",
+        "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+        "event_cc9e4261bca841c69565b4e30552c977",
+        "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+        "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+        "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+        "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+        "failure_record_c17788ac55564906921a9d3a393183b8",
+        "event_aca5554290d149fe85d9332ec32e3802",
+        "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7"
+      ],
+      "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+      "review_status": "Candidate",
+      "status_qualified_statement": "[Candidate] On the single controlled baseline line, SATRN omitted a substantial portion of the reference text: 6 of 10 reference words and 38 characters were deleted, on input crop input_crop_8f36c0e77f914386ad917c09d5ef9947 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 at model revision a40c7093232eaa47a83ce6469fc4abd033486bdc, flagged omitted_text by htr/evaluation/failures.py::classify_reliability.",
+      "supporting_metrics": [
+        "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+        "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+        "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+        "metric_result_16be0b552e5844c7b1a9f1db0fffd031"
+      ],
+      "supporting_observations": [
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+      ]
+    },
+    {
+      "evidence_reference_ids": [
+        "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+        "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+        "metric_result_6b3a191d07074ddebf21e2bf9ef27894",
+        "event_2301532626da4c4da50acb91957ad9ea",
+        "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+        "src/archivetrust/providers/florence2_htr/README.md#peak-gpu-memory",
+        "metric_result_11954d828f2742059dfd81a324347008"
+      ],
+      "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+      "review_status": "Disputed",
+      "status_qualified_statement": "[Disputed] Florence-2's peak-GPU-memory measurement on the shared baseline line crop is reproducible across sessions: the adapter README documents ~3983 MB for this fixture, and the controlled run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 re-measures the same quantity for method run method_run_e3209c63bb90458ea8d7a0673dd5c706 at model revision 994f47e8a0e8d77cb2e11528665efd07a855c3af.",
+      "supporting_metrics": [
+        "metric_result_6b3a191d07074ddebf21e2bf9ef27894"
+      ],
+      "supporting_observations": [
+        "research_observation_fdddf9997a9f456b964ef04694f0f118"
+      ]
+    },
+    {
+      "evidence_reference_ids": [
+        "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73",
+        "method_run_fa544c4adb9d44d89439c8e85d1b8565",
+        "event_ee5448b140e14320b256028fb86fee03",
+        "event_cd394580328a4189a005cf8aea842da5",
+        "event_ec65ed1b1a1746959b91965739a2a1a7",
+        "event_cc9e4261bca841c69565b4e30552c977",
+        "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+        "src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria",
+        "tests/fixtures/transkribus/sample_page.xml"
+      ],
+      "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+      "review_status": "Provisionally supported",
+      "status_qualified_statement": "[Provisionally supported] The current Transkribus fixture cannot be included in the controlled recognizer comparison because it does not correspond to the shared ground-truth line: method run method_run_fa544c4adb9d44d89439c8e85d1b8565 ran page-level with input_crop_id = null on tests/fixtures/transkribus/sample_page.xml, whose content is an unrelated passage, and no CER or WER was computed for it anywhere in the run's log.",
+      "supporting_metrics": [],
+      "supporting_observations": [
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ]
+    }
+  ],
+  "by_reference": [
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+          "review_status": "Disputed",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_fdddf9997a9f456b964ef04694f0f118"
+      ],
+      "kind": "telemetry_event",
+      "reference_id": "event_2301532626da4c4da50acb91957ad9ea",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6",
+        "research_observation_9716f54778994a3fb868f8b40beea064"
+      ],
+      "kind": "telemetry_event",
+      "reference_id": "event_5c24fe2d39da4dfd9e8feb1f0772816a",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+      ],
+      "kind": "telemetry_event",
+      "reference_id": "event_aca5554290d149fe85d9332ec32e3802",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+      ],
+      "kind": "telemetry_event",
+      "reference_id": "event_b53e520f7a8745c4ab7c32772e07a888",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835"
+      ],
+      "kind": "telemetry_event",
+      "reference_id": "event_b8cb85b68ae94a41811c737c85470e6e",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+          "review_status": "Provisionally supported",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835",
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6",
+        "research_observation_9716f54778994a3fb868f8b40beea064",
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ],
+      "kind": "ground_truth_text",
+      "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+          "review_status": "Provisionally supported",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ],
+      "kind": "telemetry_event",
+      "reference_id": "event_cd394580328a4189a005cf8aea842da5",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+          "review_status": "Provisionally supported",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ],
+      "kind": "telemetry_event",
+      "reference_id": "event_ec65ed1b1a1746959b91965739a2a1a7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+          "review_status": "Provisionally supported",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ],
+      "kind": "telemetry_event",
+      "reference_id": "event_ee5448b140e14320b256028fb86fee03",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_9716f54778994a3fb868f8b40beea064"
+      ],
+      "kind": "telemetry_event",
+      "reference_id": "event_f76ae5e0525e4d51ae9624a757135cb4",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+          "review_status": "Disputed",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_9716f54778994a3fb868f8b40beea064",
+        "research_observation_fdddf9997a9f456b964ef04694f0f118"
+      ],
+      "kind": "evidence_record",
+      "reference_id": "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835",
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6",
+        "research_observation_9716f54778994a3fb868f8b40beea064"
+      ],
+      "kind": "evidence_record",
+      "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+          "review_status": "Disputed",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835",
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6",
+        "research_observation_9716f54778994a3fb868f8b40beea064",
+        "research_observation_fdddf9997a9f456b964ef04694f0f118"
+      ],
+      "kind": "experiment_run",
+      "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+          "review_status": "Provisionally supported",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ],
+      "kind": "experiment_run",
+      "reference_id": "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835"
+      ],
+      "kind": "reliability_classification",
+      "reference_id": "failure_record_544c359478124a9cb401b57798641c14",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+      ],
+      "kind": "reliability_classification",
+      "reference_id": "failure_record_c17788ac55564906921a9d3a393183b8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+          "review_status": "Provisionally supported",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835",
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6",
+        "research_observation_9716f54778994a3fb868f8b40beea064",
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ],
+      "kind": "input_crop",
+      "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835",
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6",
+        "research_observation_9716f54778994a3fb868f8b40beea064"
+      ],
+      "kind": "method_run",
+      "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+          "review_status": "Disputed",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_9716f54778994a3fb868f8b40beea064",
+        "research_observation_fdddf9997a9f456b964ef04694f0f118"
+      ],
+      "kind": "method_run",
+      "reference_id": "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+          "review_status": "Provisionally supported",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ],
+      "kind": "method_run",
+      "reference_id": "method_run_fa544c4adb9d44d89439c8e85d1b8565",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+          "review_status": "Disputed",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_fdddf9997a9f456b964ef04694f0f118"
+      ],
+      "kind": "metric_result",
+      "reference_id": "metric_result_11954d828f2742059dfd81a324347008",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835",
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6",
+        "research_observation_9716f54778994a3fb868f8b40beea064"
+      ],
+      "kind": "metric_result",
+      "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_9716f54778994a3fb868f8b40beea064"
+      ],
+      "kind": "metric_result",
+      "reference_id": "metric_result_25048768c1024dbf8bf9b0e1c91f598e",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+      ],
+      "kind": "metric_result",
+      "reference_id": "metric_result_3b006aa6bce2425c8826cc9f260b7eda",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        },
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835",
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6",
+        "research_observation_9716f54778994a3fb868f8b40beea064"
+      ],
+      "kind": "metric_result",
+      "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+          "review_status": "Disputed",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_fdddf9997a9f456b964ef04694f0f118"
+      ],
+      "kind": "metric_result",
+      "reference_id": "metric_result_6b3a191d07074ddebf21e2bf9ef27894",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0f77a4f5443e4e79b429d8076596c4eb",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_067cd6a4ae80439289aa8256efffa835"
+      ],
+      "kind": "metric_result",
+      "reference_id": "metric_result_d462f57778f84cbc97cacc3805aa56a0",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_9716f54778994a3fb868f8b40beea064"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_9716f54778994a3fb868f8b40beea064"
+      ],
+      "kind": "metric_result",
+      "reference_id": "metric_result_ddbf925f834f4c1483f5708384e9a0b7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_0a8f60fd19444221bdfcd89c32ad58ef",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        },
+        {
+          "finding_id": "research_finding_49e83783e393448abd9e6661b65a3cf9",
+          "review_status": "Candidate",
+          "via_observation_id": "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_5ae3115e51a64d67816c6f6567b63fd6"
+      ],
+      "kind": "metric_result",
+      "reference_id": "metric_result_fc94177ea53e4a969b8a1fc5907aabc1",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+          "review_status": "Provisionally supported",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ],
+      "kind": "external_document",
+      "reference_id": "src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria",
+      "stream": null
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+          "review_status": "Disputed",
+          "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_fdddf9997a9f456b964ef04694f0f118"
+      ],
+      "kind": "external_document",
+      "reference_id": "src/archivetrust/providers/florence2_htr/README.md#peak-gpu-memory",
+      "stream": null
+    },
+    {
+      "cited_by_findings": [
+        {
+          "finding_id": "research_finding_839388b4d62642359c535ea4e4b29226",
+          "review_status": "Provisionally supported",
+          "via_observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+        }
+      ],
+      "cited_by_observations": [
+        "research_observation_c4cac4cbd6274815a17d7123b8cf4482"
+      ],
+      "kind": "external_document",
+      "reference_id": "tests/fixtures/transkribus/sample_page.xml",
+      "stream": null
+    }
+  ],
+  "generated_at": "2026-07-30T03:30:00+00:00"
+}

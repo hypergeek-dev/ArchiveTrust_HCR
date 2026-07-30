@@ -1,0 +1,187 @@
+{
+  "affected_dataset_versions": [
+    "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e"
+  ],
+  "affected_datasets": [
+    "dataset_014079548fb34741b8b3334bbb7587f7"
+  ],
+  "affected_document_types": [
+    "swedish_court_record_line"
+  ],
+  "affected_handwriting_periods": [
+    "17th_century_swedish"
+  ],
+  "affected_methods": [
+    "florence2_htr"
+  ],
+  "affected_model_versions": [
+    "994f47e8a0e8d77cb2e11528665efd07a855c3af"
+  ],
+  "author": "htr.knowledge.baseline_knowledge",
+  "confidence_level": "low",
+  "contradictory_evidence": [
+    {
+      "contradiction_id": "contradiction_b3f70dd3b3d94687b560ee0f3e467a31",
+      "description": "The two figures differ by a factor of ~3.3 and are therefore not reproductions of one another: 3983 MB documented in src/archivetrust/providers/florence2_htr/README.md#peak-gpu-memory against 1210.64111328125 MiB measured as metric result metric_result_6b3a191d07074ddebf21e2bf9ef27894 in run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8. The SATRN control reproduced to within 0.3 MB over the same pair of sessions (439 MB documented vs. 438.78173828125 MiB measured, metric result metric_result_11954d828f2742059dfd81a324347008), so the divergence cannot be attributed to the measurement method in general. Whether the earlier figure, the later figure, or both are environment-dependent is not established -- which is precisely why the finding is Disputed rather than Rejected.",
+      "evidence_refs": [
+        {
+          "kind": "metric_result",
+          "note": "gpu_memory_mb = 1210.64111328125",
+          "reference_id": "metric_result_6b3a191d07074ddebf21e2bf9ef27894",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "external_document",
+          "note": "~3983 MB",
+          "reference_id": "src/archivetrust/providers/florence2_htr/README.md#peak-gpu-memory",
+          "stream": null
+        },
+        {
+          "kind": "metric_result",
+          "note": "the SATRN control, which did reproduce",
+          "reference_id": "metric_result_11954d828f2742059dfd81a324347008",
+          "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+        },
+        {
+          "kind": "research_observation",
+          "note": "the observation recording both figures and holding the allocator explanation as an unverified hypothesis",
+          "reference_id": "research_observation_fdddf9997a9f456b964ef04694f0f118",
+          "stream": "docs/experiments/baseline-comparison/htr_knowledge_events.jsonl"
+        }
+      ],
+      "recorded_at": "2026-07-30T03:30:00+00:00",
+      "recorded_by": "hypergeek-dev",
+      "source_id": "research_observation_fdddf9997a9f456b964ef04694f0f118",
+      "source_kind": "research_observation"
+    }
+  ],
+  "creation_date": "2026-07-30T03:30:00+00:00",
+  "evidence_references": [
+    {
+      "kind": "experiment_run",
+      "note": null,
+      "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+    },
+    {
+      "kind": "method_run",
+      "note": null,
+      "reference_id": "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+    },
+    {
+      "kind": "metric_result",
+      "note": "gpu_memory_mb = 1210.64111328125 (2026-07-30 run)",
+      "reference_id": "metric_result_6b3a191d07074ddebf21e2bf9ef27894",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "MetricCalculated carrying the measured figure",
+      "reference_id": "event_2301532626da4c4da50acb91957ad9ea",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+    },
+    {
+      "kind": "evidence_record",
+      "note": "Evidence.gpu_memory_mb = 1210.64111328125, execution_device='cuda', torch 2.13.0+cu130",
+      "reference_id": "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+    },
+    {
+      "kind": "external_document",
+      "note": "'Peak GPU memory: ~3983 MB' -- the earlier session, which has no durable telemetry record",
+      "reference_id": "src/archivetrust/providers/florence2_htr/README.md#peak-gpu-memory",
+      "stream": null,
+      "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+    },
+    {
+      "kind": "metric_result",
+      "note": "SATRN control: gpu_memory_mb = 438.78173828125, against a documented ~439 MB -- reproduced",
+      "reference_id": "metric_result_11954d828f2742059dfd81a324347008",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl",
+      "via_observation_id": "research_observation_fdddf9997a9f456b964ef04694f0f118"
+    }
+  ],
+  "finding_id": "research_finding_4b7b1aff39d3426f87ec5e4cc4b7cbe5",
+  "hypothesis_relationship": "no_hypothesis_asserted",
+  "limitations": [
+    "N=1: one line crop, one experiment run, one checkpoint per method. No aggregate over more than this crop exists in this repository.",
+    "No general ranking of methods can be inferred from this scope.",
+    "The ground truth is a single external annotation from the upstream published dataset -- no blind dual annotation and no adjudication was performed for it.",
+    "No versioned TranscriptionConvention record exists for this ground truth, so the transcription rules the reference was authored under are not themselves versioned here.",
+    "Metrics hold only under the normalization profile named in scope; a different profile could produce different values from the same texts.",
+    "The earlier session has no durable telemetry record, so its torch version, device state and process history are unknown and the two measurements cannot be compared under matched conditions.",
+    "This is the reproducibility claim implicit in documenting a resource measurement in a README at all, made explicit here so it can be examined rather than assumed."
+  ],
+  "research_question": "How do SATRN (Riksarkivet), Florence-2 (fine-tuned OCR checkpoint) and Transkribus Swedish Lion I compare on Swedish historical handwriting recognition, under a controlled line-level comparison on byte-identical input crops and an end-to-end page-level comparison?",
+  "review_status": "Disputed",
+  "reviewer": "hypergeek-dev",
+  "revision_history": [
+    {
+      "actor": "hypergeek-dev",
+      "contradicting_finding_id": null,
+      "evidence_refs": [],
+      "from_status": "Candidate",
+      "reasoning": "Reviewed against the two committed records this claim rests on: the Florence-2 adapter README's documented peak GPU memory from an earlier session, and this run's measured figure. They do not agree. Advancing to Under review so the disagreement is examined rather than left implicit in a README.",
+      "revised_at": "2026-07-30T03:30:00+00:00",
+      "revision_id": "finding_revision_33642df0ceaa4b70b8b40ba2da5c1d62",
+      "superseding_finding_id": null,
+      "to_status": "Under review"
+    },
+    {
+      "actor": "hypergeek-dev",
+      "contradicting_finding_id": "research_observation_fdddf9997a9f456b964ef04694f0f118",
+      "evidence_refs": [],
+      "from_status": "Under review",
+      "reasoning": "Disputed. The two measurements differ by a factor of ~3.3 (3983 MB documented vs. 1210.64 MiB measured), so the reproducibility this finding claims is contradicted by the repository's own records. Disputed rather than Rejected because which figure is representative is genuinely unknown: the earlier session left no durable record of its torch version or device state, so there is no basis for declaring either measurement wrong. The SATRN control reproduced to within 0.3 MB across the same pair of sessions, which rules out 'this repository cannot measure GPU memory' as the explanation and is why the dispute is specific to Florence-2. The candidate finding, its supporting observation, and the contradiction all remain readable -- nothing was deleted to resolve this.",
+      "revised_at": "2026-07-30T03:30:00+00:00",
+      "revision_id": "finding_revision_d35d0dc1f3774d4fbb12fed6cf7ac39c",
+      "superseding_finding_id": null,
+      "to_status": "Disputed"
+    }
+  ],
+  "scope": {
+    "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "covered_unit_ids": [
+      "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+    ],
+    "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+    "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+    "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+    "experiment_run_ids": [
+      "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+    ],
+    "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+    "method_ids": [
+      "florence2_htr"
+    ],
+    "method_run_ids": [
+      "method_run_e3209c63bb90458ea8d7a0673dd5c706"
+    ],
+    "model_version_ids": [
+      "994f47e8a0e8d77cb2e11528665efd07a855c3af"
+    ],
+    "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+    "unit_of_analysis": "line_crop"
+  },
+  "statement": "Florence-2's peak-GPU-memory measurement on the shared baseline line crop is reproducible across sessions: the adapter README documents ~3983 MB for this fixture, and the controlled run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 re-measures the same quantity for method run method_run_e3209c63bb90458ea8d7a0673dd5c706 at model revision 994f47e8a0e8d77cb2e11528665efd07a855c3af.",
+  "status_qualified_statement": "[Disputed] Florence-2's peak-GPU-memory measurement on the shared baseline line crop is reproducible across sessions: the adapter README documents ~3983 MB for this fixture, and the controlled run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8 re-measures the same quantity for method run method_run_e3209c63bb90458ea8d7a0673dd5c706 at model revision 994f47e8a0e8d77cb2e11528665efd07a855c3af.",
+  "superseded_by": null,
+  "supporting_experiments": [
+    "experiment_fa667e22afe241b8b27f9aa3998edb0f"
+  ],
+  "supporting_metrics": [
+    "metric_result_6b3a191d07074ddebf21e2bf9ef27894"
+  ],
+  "supporting_observations": [
+    "research_observation_fdddf9997a9f456b964ef04694f0f118"
+  ],
+  "transcription_convention": null,
+  "unresolved_supporting_observations": []
+}

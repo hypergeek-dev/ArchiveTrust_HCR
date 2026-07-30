@@ -1,0 +1,108 @@
+{
+  "affected_dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+  "affected_dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+  "affected_document_or_segment_ids": [
+    "page_68aa5147bfd544d9816ecb5e9f3f0d74"
+  ],
+  "affected_method": "transkribus_swedish_lion_1",
+  "affected_model_version": "Swedish Lion I - v3",
+  "author_or_source_component": "htr.knowledge.baseline_knowledge",
+  "creation_timestamp": "2026-07-30T03:30:00+00:00",
+  "description": "Method run method_run_fa544c4adb9d44d89439c8e85d1b8565 (Transkribus Swedish Lion I - v3) ran on the separate end-to-end experiment run experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73 with input_crop_id = null, page-level only, parsing tests/fixtures/transkribus/sample_page.xml. That fixture transcribes a different, unrelated Swedish court-record passage -- its first line is 'Anno 1712 den 3 Januarii holltes ting' -- with no established line-to-line correspondence to the controlled reference 'bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt'. No CER and no WER exists for it anywhere in the run's log: not a null written over a computed value, but a metric that was never computed, because a CER between two unrelated texts would measure nothing. The exclusion is declared in advance by the experiment's own exclusion_criteria (src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria) rather than applied after seeing results. THIS IS NOT A METHOD-PERFORMANCE OBSERVATION. It records where the controlled comparison's boundary lies. Nothing here says anything about Transkribus's recognition accuracy, and nothing could: the fixture it read has no ground truth at all, and is itself hand-authored rather than genuine vendor output (tests/fixtures/transkribus/README.md).",
+  "observation_confidence": "high",
+  "observation_id": "research_observation_c4cac4cbd6274815a17d7123b8cf4482",
+  "observation_type": "experiment_validity_boundary",
+  "review_status": "Unreviewed",
+  "scope": {
+    "configuration_ref": "src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria",
+    "covered_unit_ids": [
+      "page_68aa5147bfd544d9816ecb5e9f3f0d74"
+    ],
+    "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+    "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+    "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+    "experiment_run_ids": [
+      "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73"
+    ],
+    "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "ground_truth_ref": null,
+    "method_ids": [
+      "transkribus_swedish_lion_1"
+    ],
+    "method_run_ids": [
+      "method_run_fa544c4adb9d44d89439c8e85d1b8565"
+    ],
+    "model_version_ids": [
+      "Swedish Lion I - v3"
+    ],
+    "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+    "unit_of_analysis": "page"
+  },
+  "source_experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+  "source_experiment_run_id": "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73",
+  "supporting_evidence": [
+    {
+      "kind": "experiment_run",
+      "note": "is_end_to_end = true",
+      "reference_id": "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "method_run",
+      "note": "input_crop_id = null -- page-level, never bound to the shared crop",
+      "reference_id": "method_run_fa544c4adb9d44d89439c8e85d1b8565",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "MethodRunStarted carrying the MethodRun with input_crop_id = null",
+      "reference_id": "event_ee5448b140e14320b256028fb86fee03",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "ParsedMethodResultRecorded, first line 'Anno 1712 den 3 Januarii holltes ting'",
+      "reference_id": "event_cd394580328a4189a005cf8aea842da5",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "NormalizedMethodResultRecorded -- the last text stage; no MetricCalculated follows it for CER or WER",
+      "reference_id": "event_ec65ed1b1a1746959b91965739a2a1a7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "ground_truth_text",
+      "note": "the controlled reference this fixture does not correspond to",
+      "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "input_crop",
+      "note": "the controlled crop, not read by this method run",
+      "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "external_document",
+      "note": "the pre-declared exclusion criterion",
+      "reference_id": "src/archivetrust/htr/experiment/baseline_template.py#exclusion_criteria",
+      "stream": null
+    },
+    {
+      "kind": "external_document",
+      "note": "the fixture itself -- hand-authored, not genuine vendor output",
+      "reference_id": "tests/fixtures/transkribus/sample_page.xml",
+      "stream": null
+    }
+  ],
+  "tags": [
+    "experiment_validity",
+    "comparison_boundary",
+    "not_a_method_performance_observation",
+    "excluded_from_controlled_set",
+    "no_ground_truth_exists"
+  ],
+  "title": "The Transkribus fixture tests/fixtures/transkribus/sample_page.xml does not correspond to the controlled ground-truth line and was correctly excluded from CER/WER",
+  "unverified_hypothesis": null
+}

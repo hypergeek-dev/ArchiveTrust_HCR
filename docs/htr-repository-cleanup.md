@@ -276,3 +276,216 @@ omitted. No test was deleted or skipped.
 * Five event kinds (`ResearchObservationCreated`, `CandidateFindingCreated`, `FindingReviewed`,
   `FindingStatusChanged`, `ResearchReportGenerated`) are schema-only with no producer, disclosed in
   their docstrings and in `docs/TELEMETRY_STANDARD_V1.md` -- the knowledge lifecycle is a later phase.
+
+## Residual-item cleanup execution record (2026-07-30)
+
+Scope: **exactly the four residual items** listed in this document's "Residual gaps honestly carried
+forward" section that were still open, plus one misleading test-fixture constant. Deliberately not a
+broad sweep — nothing outside these five items was touched. Existing content above is unchanged.
+
+Of the gaps that section lists, **three are now closed and two remain open**:
+
+| Gap, as this document stated it | Status after this pass |
+|---|---|
+| `first_launch_viewmodel.py`'s `VISION_PROVIDER_CHOICES` lists three deleted providers | **Closed** — item 1 below |
+| No standalone HTR capability-matrix document exists | **Closed** — item 2 below |
+| `EVALUATION_PROTOCOL.md` annotated rather than rewritten | **Closed** — item 3 below |
+| `ARCHITECTURAL_CONSTITUTION.md`'s provenance citations name pre-archival root-level paths | **Still open, deliberately.** Out of this pass's stated scope, and that row's reasoning still holds. Worse now, not better: the files it cites were subsequently *deleted outright* (see the post-closure amendment above), so the citations name paths that exist nowhere rather than paths that merely moved. Recorded here so the change in the underlying fact is not lost. |
+| No production dependency lockfile | Still not applicable — nothing changed about this project's pip/`pyproject.toml`-only convention. |
+
+### 1. `presentation/first_launch_viewmodel.py` — the unactivatable provider wizard
+
+Flagged in the Stage 11 record ("**Requires investigation -- flagged, not fixed**") and again in the
+residual-gaps list. **Resolved by removing the selection, not by re-populating it.**
+
+The decisive fact, found by reading the whole flow rather than the constant: `composition.py`'s
+`_VISION_PROVIDER_ADAPTER_FACTORIES` is an **empty dict**, so even a *correct* catalog entry could not
+produce a registered adapter — `activate_configured_vision_provider` constructs the runtime, finds no
+factory, and returns. The wizard's problem was never three wrong entries; it was a catalog with no
+possible valid entry.
+
+| Item | Classification | What changed |
+|---|---|---|
+| `VISION_PROVIDER_CHOICES` | Replace → `()` | Emptied, with the **precondition for re-adding an entry** documented on the constant: an entry is activatable only if `_VISION_PROVIDER_ADAPTER_FACTORIES` holds a factory for the same `provider_id`. The catalog *mechanism* is retained (correct and generic — it is why this was a one-line fix rather than a wizard rewrite); only its contents are gone. |
+| `DEFAULT_VISION_PROVIDER_ID` | Replace → `NO_VISION_PROVIDER` (`""`) | Was `"paddleocr-vl"`. **A default naming a deleted provider is worse than a selectable option naming one**: an operator pressing through the Workspace Wizard untouched used to persist a binding for a provider that cannot exist. Kept under its existing name (four modules import it). |
+| `DEFAULT_VISION_MODEL_ID` | Replace → `None` | Was `"PaddlePaddle/PaddleOCR-VL"`, pre-filled into the Workspace Wizard's model field. `None` routes through `create()`'s existing "leave blank to skip" guard, so a new Workspace now binds nothing instead of binding a deleted provider. |
+| `DEFAULT_VISION_RUNTIME_KIND` | Replace → `"transformers"` | Was `"vllm"` — a runtime kind this build **cannot construct**, since `runtime/vllm_runtime.py` was deleted in Stage 5 and both its factory and its availability probe are documented always-unavailable placeholders. `"transformers"` is the only kind with a real registered factory. |
+| `declared_runtime_kind_for_provider()` | **Add** | A non-defaulting lookup returning `None` when the catalog declares nothing. Required by the emptying, not cosmetic: `composition.py::_activate_vision_binding` *overwrites* a persisted binding's `runtime_kind` toward the catalog's declaration, and with an empty catalog the defaulting lookup would have rewritten **every** binding's runtime to the fallback on every workspace open — silently retargeting a deliberate `openai_compatible` binding, which is the exact class of bug that heal exists to fix. That heal now runs only where a declaration exists. |
+| `HtrMethodReadiness` + `htr_method_readiness()` | **Add** | The HTR-relevant replacement. Calls each real adapter's `get_metadata()`, `get_capabilities()` and **real `validate_environment()`**, reporting readiness per method. It reports and configures nothing, because there is nothing configurable: the three methods are `HtrMethodAdapter`s and never pass through the Model Registry. An adapter that raises is reported as `ready=False` with the exception text, never propagated (Part 12: no tracebacks). Adapters are injected; `AppContext.first_launch_viewmodel()` supplies the real three. |
+| The module's `.. warning::` block | Replace | The Stage 11 "flagged, not fixed" warning is replaced by a description of what was actually done, including the `_VISION_PROVIDER_ADAPTER_FACTORIES` reasoning. |
+| `clients/desktop/workspace_wizard.py` | Reuse with modification | The "Vision Provider" combo **row is omitted entirely** when the catalog is empty — an empty combo under that label implies a choice that does not exist, whereas no row states the truth. The loop is retained so re-populating the catalog re-shows the row with no UI change; `_on_model_provider_changed` gained a bounds guard. Its "leave blank" status message, which promised that "**Docling and Tesseract** still run" (both deleted in Stage 5), now points at the HTR Methods page instead. |
+
+**Tests updated rather than deleted**, per this document's established rule. Two files:
+
+* `tests/presentation/test_first_launch_viewmodel.py`:
+  `test_runtime_kind_for_provider_resolves_paddleocr_vl_and_surya_to_vllm` was **replaced, not
+  deleted** — it asserted the runtimes of three deleted providers, i.e. it locked in the defect. The
+  principle it was reaching for ("offered choices come from a catalog, never hardcoded") is preserved as
+  the stronger `test_every_offered_vision_provider_has_an_adapter_factory`, which checks
+  catalog-versus-factory agreement **in both directions** and is vacuous today but not later. Nine tests
+  added (readiness mapping, a raising adapter, the real three adapters, the no-deleted-defaults
+  assertion, the declared-versus-defaulting distinction).
+* `tests/presentation/test_workspace_wizard_viewmodel.py` — a **direct necessary consequence** of the
+  default change, not a scope expansion:
+  `test_new_workspace_defaults_inherit_paddleocr_vl` → `…_pre_fill_no_vision_provider`;
+  `test_new_workspace_binds_paddleocr_vl_by_default` → `…_binds_no_vision_provider_by_default`;
+  `test_new_workspace_binds_paddleocr_vl_on_the_vllm_runtime_by_default` → folded into a new
+  `test_an_operator_supplied_model_identifier_still_binds`, which keeps the "runtime is derived, never
+  selected" principle on a path that still works;
+  `test_operator_can_explicitly_select_qwen_instead_of_the_default` → `…_select_a_provider_…`, same
+  principle on a provider id that is not a deleted adapter's.
+  **One test deleted**: `test_surya_appears_in_available_providers_once_registered` — it asserted that
+  `surya` appears via the Vision Provider catalog branch, which is now the defect rather than the
+  feature. Its generic principle ("registration alone should make a provider appear") is already
+  asserted provider-agnostically by the retained
+  `test_a_newly_registered_provider_appears_with_no_wizard_code_change`, so nothing is left uncovered.
+
+**Nothing was deleted from `first_launch_viewmodel.py`.** `SECONDARY_VISION_PROVIDER`,
+`runtime_kind_for_provider`, `default_model_id_for_provider`, `SetupSourceKind`, `needs_first_launch`
+and the whole model-binding half are retained: `ModelRegistry` bindings are generic runtime plumbing
+that `admin/qualification.py` and the Settings page still administer, and the binding flow was never
+the defect.
+
+### 2. `docs/CAPABILITY_MATRIX_HTR.md` — new, and generated rather than written
+
+| Item | Classification | Notes |
+|---|---|---|
+| `docs/CAPABILITY_MATRIX_HTR.md` | **Add** | New file. `docs/CAPABILITY_MATRIX.md` was **not** overwritten. |
+| `docs/CAPABILITY_MATRIX.md` | Retain, amend notice only | Its "Superseded by: **not yet rebuilt for SATRN/Florence-2/Transkribus**" line now names the new file. Its historical Docling/Tesseract rating table is **left uncorrected on purpose** — it is an accurate record of ratings really assigned to providers that really existed, and `domain/comparison/capability_matrix_data.py` still uses the concept for `application/pipeline.py`'s live legacy path. |
+| `src/archivetrust/providers/htr_capability_matrix.py` | **Add** | The renderer. In `providers/` rather than `scripts/` so a test can import it (`scripts/` is not a package) and because it reads only the adapter Protocol. |
+| `scripts/generate_capability_matrix.py` | **Add** | Thin CLI: rewrite, or `--check` to fail on drift. |
+| `tests/providers/test_htr_capability_matrix.py` | **Add** | 10 tests. |
+
+Per the brief, **the adapters' `get_capabilities()`/`get_metadata()` remain the machine-readable source
+of truth**: the document's two tables sit between `BEGIN/END GENERATED FROM ADAPTERS` markers and are
+rendered from the live adapters. Four kinds of drift fail a test — the tables disagreeing with the
+adapters (either direction), a method present in `composition.py::_build_htr_adapters` but not in the
+matrix, a new field on `MethodCapabilities` with no column, and **a capability that differs across
+methods with no prose explaining it**. The last of those caught a real gap while the document was being
+written (`local_execution_supported` had no discussion), which is the evidence it is not a tautology.
+
+The prose half is human-written and outside the markers, because a generator cannot state that
+Transkribus's `external_upload_required = no` is "the least-misleading available value" for output that
+originated externally, that all three methods' `confidence_supported = yes` values are mutually
+**incomparable** (SATRN 0.66661 vs. Florence-2 0.24904 on the same crop, with Florence-2 the more
+accurate of the two), or that Transkribus's `model_revision` is honestly unpinnable.
+
+### 3. `docs/EVALUATION_PROTOCOL.md` — content rewritten
+
+Classification: **Replace (content), retain file.** Previously a supersession notice plus four
+paragraphs of OCR-era protocol summary. Now 14 sections, each naming the real module and function that
+implements what it describes: `htr/evaluation/recognition.py` (raw *and* normalized CER/WER carried
+simultaneously, `_classify_edits`' backtrace and its tested cross-check against
+`evaluation/metrics.py::levenshtein`), `evaluation/metrics.py::normalize_text` (NFC + whitespace
+collapse, **no case folding**, and why), `htr/evaluation/segmentation.py` (all five metric groups, and
+why merged/split are counted apart from missed/duplicated), `htr/evaluation/failures.py` (all eleven
+`ReliabilityFlag`s, adapter-failure passthrough, and the `0.35` disagreement value as a *parameter*
+rather than a law), `historical_features.py`, `operational.py`, and `review/blind_review/` with
+`AgreementPolicy`'s real `0.02`/`0.15` constants and their documented placeholder status.
+
+§7 is the real comparison boundary, not a generic one: **Transkribus excluded from all CER/WER**, quoted
+verbatim from `baseline_template.py::exclusion_criteria`, with the four facts that make it a boundary
+rather than an excuse — declared in advance inside `pipeline_configuration_ref`, asserted by
+`test_no_invalid_transkribus_cer_or_wer_exists_anywhere_in_the_log` against every metric *and* every
+event, a null never computed rather than one written over a value, and capability-driven rather than
+vendor-driven. The retained blind dual-review/adjudication workflow the old text described is **not**
+discarded — it is §11.
+
+### 4. `runtime/transformers_runtime.py` — investigated, documented, deliberately not rewritten
+
+This document's Stage 5 record deferred this file's Qwen-specific assumptions "for Florence-2's
+implementation phase", on an **unstated and never-checked premise that Florence-2 would run through this
+shared runtime**. It does not. Verified now:
+
+* `providers/florence2_htr/facade.py` loads its own model — `from transformers import
+  AutoModelForCausalLM, AutoProcessor` inside its own `run_inference`. `grep -rn "from
+  archivetrust.runtime" src/archivetrust/providers/` returns **zero hits**; neither SATRN (isolated
+  subprocess venv) nor Transkribus (file parsing) touch it either. The two mentions of this module in
+  those facades are docstring citations of its test-seam discipline, not imports.
+* `_VISION_MODEL_CLASS_NAMES` no longer contains `AutoModelForCausalLM` — exactly the Auto class
+  Florence-2 needs. Routing Florence-2 through here could not work even accidentally.
+* **Nothing in `src/` calls `.infer()` on any runtime** (AST-verified). The only path that would have —
+  `activate_configured_vision_provider` wrapping a runtime in a VLM adapter — looks the adapter up in
+  the empty `_VISION_PROVIDER_ADAPTER_FACTORIES`. So `real_torch_and_transformers_facade`'s `generate`,
+  where every Qwen-flavoured line lives, is unreachable from application code.
+
+**Two of the three assumptions this document flagged do not exist in code, and that is corrected on the
+record rather than repeated:**
+
+| Flagged as | Reality |
+|---|---|
+| "attention-implementation quirks" | `from_pretrained` is called with **no** `attn_implementation` argument. The `sdpa` experiment was tried and reverted; only a comment remains. |
+| "`Qwen2_5_VLForConditionalGeneration` class-name matching" | **No Qwen class name is matched anywhere.** `_VISION_MODEL_CLASS_NAMES` holds two *generic* Auto class names and each is *tried against the model* rather than matched by name. The Qwen class name appears only in a comment about a `load_in_8bit` kwarg incompatibility. |
+| "a decode pattern tuned to Qwen's chat template" | **Real.** `generate()` applies `apply_chat_template` and decodes only the newly-generated token span — guarded, with a documented plain-text fallback, but genuinely written around that family's usage. |
+
+Classification: **Retain unchanged (behaviour); Replace (module docstring); one comment corrected.**
+The runtime was **not** generalized and Florence-2 was **not** re-isolated — it already stands alone.
+Generalizing a code path no caller reaches would be speculative work against an unknown future consumer,
+guided by no failing test and no second real model, inside the one runtime a future non-HTR VLM binding
+would still depend on.
+
+* **Deleted**: nothing.
+* **Corrected**: one comment cited `QwenPageResponse.model_validate_json` as the downstream parser
+  motivating the decode pattern. That class was deleted with `providers/qwen_vl/` in Stage 5, so the
+  citation named a symbol existing nowhere in `src/` — a dangling reference, now stated generically.
+* **Added** (`tests/runtime/test_transformers_runtime.py`, 3 tests): the isolation is **enforced, not
+  merely documented** — no `providers/` module may import `archivetrust.runtime`; Florence-2 must keep
+  loading via `AutoModelForCausalLM` while this runtime keeps *not* offering it; nothing may call
+  `.infer()`. If a future phase routes an HTR method through here, that suite fails first and the
+  assumptions stop being inert at exactly the right moment. That guarantee is what the Stage 5 deferral
+  lacked.
+
+### 5. The ground-truth-fixture naming trap
+
+Classification: **Reuse with modification** (rename + comment; values unchanged).
+
+`tests/presentation/_htr_fixtures.py`'s `GROUND_TRUTH_LINE_0 = "till den 23 Januarii"` /
+`GROUND_TRUTH_LINE_1` were SATRN's real documented *output* used as a stand-in **ground truth** across
+three ViewModel test files — implying, to anyone reading them without the baseline README's context, that
+SATRN transcribes that line correctly. It scores CER 0.7931 / WER 1.0 against the real ground truth
+(`bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt`, `tests/fixtures/htr/README.md`).
+
+Renamed to `SYNTHETIC_FIXTURE_LINE_0` / `SYNTHETIC_FIXTURE_LINE_1`, with a comment at the definition
+site stating that they are synthetic UI-test values, that the string is SATRN's real *wrong* output, and
+what the real ground truth is. **Values unchanged** — as arbitrary reference strings for a ViewModel test
+they were never wrong; only the names were. All call sites updated
+(`test_htr_comparison_viewmodel.py` ×3, `test_htr_dataset_viewmodel.py` ×2, the fixture's own two
+`register_ground_truth` calls), plus the pointer in
+`docs/experiments/baseline-comparison/README.md`, whose "A related trap worth flagging" section named
+the old constant and now records the closure. Note that
+`tests/review/blind_review/*::GROUND_TRUTH_LINE` is a **different, correctly-named** constant holding
+the real ground truth and was deliberately left alone.
+
+### What remained intentionally
+
+* `docs/CAPABILITY_MATRIX.md`'s historical rating table — an accurate record of a real past decision.
+* `runtime/transformers_runtime.py`'s behaviour — working, tested code for a chat-templated VLM,
+  currently with no consumer.
+* `runtime/vllm_runtime.py`'s placeholder factory and availability probe in `composition.py` — out of
+  scope; they already report unavailable honestly.
+* `providers/base.py`, `providers/registry.py`, `clients/desktop/` — the Stage 5 judgment calls
+  recorded above stand unchanged.
+* `ARCHITECTURAL_CONSTITUTION.md`'s stale citations — still open, now recorded as having got worse (the
+  cited files were deleted outright, not merely moved).
+* `presentation/first_launch_viewmodel.py`'s model-binding flow — generic plumbing, never the defect.
+
+### Validation performed
+
+Run from `D:\ArchiveTrust_HCR` after copying every changed file back:
+
+```
+QT_QPA_PLATFORM=offscreen PYTHONPATH=src .venv/Scripts/python.exe -c "import archivetrust; print('ok')"
+ok
+
+PYTHONPATH=src .venv/Scripts/python.exe scripts/generate_capability_matrix.py --check
+OK: docs\CAPABILITY_MATRIX_HTR.md matches what 3 adapters report.
+
+QT_QPA_PLATFORM=offscreen PYTHONPATH=src .venv/Scripts/python.exe -m pytest tests -q
+1555 passed, 2 skipped in 155.33s (0:02:35)
+```
+
+From a `1501 passed, 2 skipped` pre-pass baseline: **+54 tests, zero regressions, nothing skipped.**
+The 54 are 34 knowledge-export/redaction tests (Parts A and B of this same follow-up — recorded in
+`docs/telemetry-retention.md` and in the knowledge-export artifact rather than here, since this document
+records deletions and replacements), 10 capability-matrix drift tests, 3 runtime-isolation tests, and a
+net +7 across the two rewritten wizard test files (9 added, 1 deleted, 4 replaced in place).

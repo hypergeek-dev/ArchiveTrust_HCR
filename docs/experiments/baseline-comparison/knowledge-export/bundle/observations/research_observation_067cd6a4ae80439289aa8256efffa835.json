@@ -1,0 +1,114 @@
+{
+  "affected_dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+  "affected_dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+  "affected_document_or_segment_ids": [
+    "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+    "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+  ],
+  "affected_method": "satrn",
+  "affected_model_version": "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+  "author_or_source_component": "htr.knowledge.baseline_knowledge",
+  "creation_timestamp": "2026-07-30T03:30:00+00:00",
+  "description": "For method run method_run_5bd842b5b850442daa0d701b63c3e545 in experiment run experiment_run_30ba2bcc18a14c06af0f9ca291442cf8, on the single crop input_crop_8f36c0e77f914386ad917c09d5ef9947, SATRN's own reported confidence scalar was 0.6666051723062992 (recorded as Evidence.provider_confidence on evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7) while the measured accuracy of the same output against ground truth was CER 0.7931034482758621 and WER 1.0. classify_reliability flagged confidence_calibration_disagreement: reported confidence 0.667 vs. measured similarity 0.207 against ground truth (disagreement 0.460 > threshold 0.35). This is a statement about this run and this sample. It is not a claim about SATRN's confidence calibration, which one sample cannot measure -- and it must not be read as one: the scope covers exactly one line crop in exactly one experiment run at exactly one model revision, and no record in this repository extends it further.",
+  "observation_confidence": "high",
+  "observation_id": "research_observation_067cd6a4ae80439289aa8256efffa835",
+  "observation_type": "confidence_anomaly",
+  "review_status": "Unreviewed",
+  "scope": {
+    "configuration_ref": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "covered_unit_ids": [
+      "input_crop_8f36c0e77f914386ad917c09d5ef9947"
+    ],
+    "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+    "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+    "experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+    "experiment_run_ids": [
+      "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8"
+    ],
+    "experiment_version_id": "experiment_version_088916c194ad4aecbb5b8578cb405dc3",
+    "ground_truth_ref": "text_line_aa805ef122b54d1e961e0f6ec11e266e",
+    "method_ids": [
+      "satrn"
+    ],
+    "method_run_ids": [
+      "method_run_5bd842b5b850442daa0d701b63c3e545"
+    ],
+    "model_version_ids": [
+      "a40c7093232eaa47a83ce6469fc4abd033486bdc"
+    ],
+    "normalization_profile": "evaluation.metrics.normalize_text v1 (Unicode NFC composition + whitespace-run collapse, no case folding)",
+    "unit_of_analysis": "line_crop"
+  },
+  "source_experiment_id": "experiment_fa667e22afe241b8b27f9aa3998edb0f",
+  "source_experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+  "supporting_evidence": [
+    {
+      "kind": "experiment_run",
+      "note": null,
+      "reference_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "method_run",
+      "note": null,
+      "reference_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "evidence_record",
+      "note": "provider_confidence = 0.6666051723062992 (the model's own scalar)",
+      "reference_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "character_error_rate_normalized = 0.7931034482758621",
+      "reference_id": "metric_result_40f23f7723b54c6f92ab4d2d14c6b85a",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "word_error_rate_normalized = 1.0",
+      "reference_id": "metric_result_16be0b552e5844c7b1a9f1db0fffd031",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "metric_result",
+      "note": "exact_word_accuracy = 0.0",
+      "reference_id": "metric_result_d462f57778f84cbc97cacc3805aa56a0",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "reliability_classification",
+      "note": "confidence_calibration_disagreement -- reported confidence 0.667 vs. measured similarity 0.207 against ground truth (disagreement 0.460 > threshold 0.35)",
+      "reference_id": "failure_record_544c359478124a9cb401b57798641c14",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "telemetry_event",
+      "note": "ReliabilityIssueClassified carrying the confidence_calibration_disagreement classification",
+      "reference_id": "event_b8cb85b68ae94a41811c737c85470e6e",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "input_crop",
+      "note": null,
+      "reference_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    },
+    {
+      "kind": "ground_truth_text",
+      "note": null,
+      "reference_id": "event_cc9e4261bca841c69565b4e30552c977",
+      "stream": "docs/experiments/baseline-comparison/htr_research_events.jsonl"
+    }
+  ],
+  "tags": [
+    "confidence_calibration_disagreement",
+    "n=1",
+    "this_run_and_this_sample_only",
+    "not_a_calibration_claim"
+  ],
+  "title": "SATRN reported confidence 0.6666 on a transcription with CER 0.7931 and WER 1.0 -- one crop, one run",
+  "unverified_hypothesis": null
+}

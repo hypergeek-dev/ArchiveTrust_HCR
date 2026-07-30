@@ -941,7 +941,14 @@ class AppContext:
         )
 
     def first_launch_viewmodel(self) -> FirstLaunchViewModel:
-        return FirstLaunchViewModel(layout=self._current_layout.deployment_layout, model_registry=self.model_registry)
+        """The three real HTR adapters are injected so the wizard can report each one's real
+        `validate_environment()` (2026-07-30 residual cleanup -- see that module's docstring).
+        `htr_method_adapters()` constructs them inertly: no model load, no network, no subprocess."""
+        return FirstLaunchViewModel(
+            layout=self._current_layout.deployment_layout,
+            model_registry=self.model_registry,
+            htr_method_adapters=self.htr_method_adapters(),
+        )
 
     def workspace_manager_viewmodel(self) -> WorkspaceManagerViewModel:
         return WorkspaceManagerViewModel(
@@ -1098,8 +1105,8 @@ class AppContext:
         inline for `PRIMARY_VISION_PROVIDER` only -- extracted, unchanged, so it can run once per
         vision-provider logical name instead."""
         from archivetrust.presentation.first_launch_viewmodel import (
+            declared_runtime_kind_for_provider,
             default_model_id_for_provider,
-            runtime_kind_for_provider,
         )
 
         binding = next(
@@ -1126,9 +1133,19 @@ class AppContext:
         # A binding whose `model_id` already matches its `provider_id` (including every genuine
         # legacy Qwen binding, where both correctly name Qwen) is left untouched -- this only
         # corrects a `provider_id`/`model_id` pairing that could not have been a deliberate choice.
-        correct_runtime_kind = runtime_kind_for_provider(provider_id)
+        #
+        # `declared_runtime_kind_for_provider`, not `runtime_kind_for_provider` (2026-07-30 residual
+        # cleanup): this heal *overwrites* stored state, so "the catalog declares nothing for this
+        # provider" must not be read as "the default is correct". With `VISION_PROVIDER_CHOICES` now
+        # empty, the defaulting lookup would have rewritten every persisted binding's runtime_kind to
+        # `DEFAULT_VISION_RUNTIME_KIND` on every workspace open -- silently retargeting a deliberate
+        # `openai_compatible` binding, which is the exact class of bug this heal exists to fix.
+        correct_runtime_kind = declared_runtime_kind_for_provider(provider_id)
         correct_model_id = default_model_id_for_provider(provider_id)
-        needs_runtime_fix = binding.descriptor.runtime_kind != correct_runtime_kind
+        needs_runtime_fix = (
+            correct_runtime_kind is not None
+            and binding.descriptor.runtime_kind != correct_runtime_kind
+        )
         needs_model_fix = (
             correct_model_id is not None and binding.descriptor.model_id != correct_model_id
         )

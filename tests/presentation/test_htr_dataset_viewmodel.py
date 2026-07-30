@@ -9,7 +9,7 @@ from archivetrust.htr.research_store import HtrResearchStore
 from archivetrust.presentation.htr_dataset_viewmodel import DatasetExplorerViewModel
 from tests.presentation._htr_fixtures import (
     ARCHIVE_OBJECT_REF,
-    GROUND_TRUTH_LINE_0,
+    SYNTHETIC_FIXTURE_LINE_0,
     build_fixture_corpus,
 )
 
@@ -61,7 +61,7 @@ def test_line_detail_reports_ground_truth_and_every_method_that_ran() -> None:
     detail = _viewmodel(corpus).line_detail(corpus.line_0_id)
 
     assert detail is not None
-    assert detail.ground_truth == GROUND_TRUTH_LINE_0
+    assert detail.ground_truth == SYNTHETIC_FIXTURE_LINE_0
     assert detail.reading_order_index == 0
     assert detail.page_id == corpus.page_id
     assert set(detail.method_outputs) == {

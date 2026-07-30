@@ -195,13 +195,19 @@ tracks the real text. SATRN's own reliability classification independently flagg
 (`confidence_calibration_disagreement`: it reported 0.667 confidence on an almost entirely wrong
 line; `omitted_text`: 38 character deletions).
 
-**A related trap worth flagging.** Several *synthetic UI test fixtures* in this repository use the
-string `till den 23 Januarii` as a stand-in **ground truth** (e.g.
-`tests/presentation/_htr_fixtures.py::GROUND_TRUTH_LINE_0`). Those are ViewModel fixtures and are not
-wrong for their purpose, but a reader moving between them and this experiment could easily conclude
-SATRN transcribes this line correctly. It does not. The real ground truth for the real fixture is the
-`bekiendt. Säger …` line above, and this is the first executed run to state SATRN's error rate
-against it.
+**A related trap, now closed.** Several *synthetic UI test fixtures* in this repository use the string
+`till den 23 Januarii` as a stand-in **ground truth**. Those are ViewModel fixtures and are not wrong
+for their purpose, but a reader moving between them and this experiment could easily conclude SATRN
+transcribes this line correctly. It does not. The real ground truth for the real fixture is the
+`bekiendt. Säger …` line above, and this is the first executed run to state SATRN's error rate against
+it.
+
+The constants that carried the trap were **renamed on 2026-07-30**:
+`tests/presentation/_htr_fixtures.py::GROUND_TRUTH_LINE_0`/`_LINE_1` became
+`SYNTHETIC_FIXTURE_LINE_0`/`SYNTHETIC_FIXTURE_LINE_1`, with a comment at the definition site stating
+that they are synthetic UI-test values, that `till den 23 Januarii` is SATRN's real (wrong) *output*,
+and what the real ground truth is. The values are unchanged — as arbitrary reference strings for a
+ViewModel test they were never wrong; only the names were misleading when read in isolation.
 
 Nothing here should be read as SATRN being worse than Florence-2 in general: **N=1**, one line, one
 checkpoint each.

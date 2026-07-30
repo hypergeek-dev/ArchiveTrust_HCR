@@ -1,15 +1,75 @@
-"""`TransformersRuntime` — the production Hugging Face Transformers runtime (Part 2).
+"""`TransformersRuntime` — the general-purpose Hugging Face Transformers runtime (Part 2).
 
-No Ollama dependency anywhere in this codebase to begin with (verified before writing this
-milestone: `providers/qwen_vl/backends.py` already only depends on injected Protocols). This is a
-genuinely new runtime, not a replacement of one.
+`torch`/`transformers` are **lazy-imported** inside `warm_up()`, never at module import time. The
+mapping/orchestration logic here is fully real and tested via dependency injection
+(`TorchAndTransformersFacade` is an injectable seam standing in for the two real libraries), while the
+actual library call is a swappable integration point.
 
-`torch`/`transformers` are **lazy-imported** inside `warm_up()`, never at module import time — this
-sandbox (like the one that built the OCR/VLM provider adapters in Milestone 3) has neither
-installed, and the same discipline applies: the mapping/orchestration logic here is fully real and
-tested via dependency injection (`_TorchAndTransformers` is an injectable seam standing in for the
-two real libraries), while the actual library call is a documented, swappable integration point
-exercised for real once a GPU-bearing deployment installs the `transformers` extra.
+.. note::
+
+   **No HTR method uses this module, and the Qwen-shaped assumptions in it are therefore inert.
+   Verified by inspection on 2026-07-30, not assumed.**
+
+   `docs/htr-repository-cleanup.md`'s Stage 5 record flagged this file as still carrying
+   *"attention-implementation quirks, `Qwen2_5_VLForConditionalGeneration` class-name matching, a
+   decode pattern tuned to Qwen's chat template"* and deferred the fix to "Florence-2's implementation
+   phase" — on the unstated premise that Florence-2 would run through here. **It does not.** The
+   premise was never checked. It is checked now, and two of the three flagged items turn out not to
+   exist in code at all:
+
+   1. **Florence-2 does not use this runtime.** `providers/florence2_htr/facade.py` loads its own model
+      directly — `from transformers import AutoModelForCausalLM, AutoProcessor` inside its own
+      `run_inference`. It imports nothing from `archivetrust.runtime`. Neither does SATRN (which runs
+      in an isolated subprocess venv) nor Transkribus (which parses a file). `grep -rn "from
+      archivetrust.runtime" src/archivetrust/providers/` returns **zero hits**. The two mentions of
+      this module in the SATRN and Florence-2 facades are docstring citations of its *test-seam and
+      lazy-import discipline*, not imports.
+
+      The class list is in fact positive evidence of the separation: `_VISION_MODEL_CLASS_NAMES` no
+      longer contains `AutoModelForCausalLM`, which is precisely the Auto class Florence-2 needs. If
+      Florence-2 were routed through here it would fail to load at all, loudly, on the first attempt.
+
+   2. **Nothing in `src/` calls `infer()` on any runtime.** `grep -rn "\\.infer("
+      src/archivetrust/` matches only comments. The one code path that would have reached it —
+      `composition.py::activate_configured_vision_provider` wrapping a runtime in a VLM adapter — looks
+      the adapter up in `_VISION_PROVIDER_ADAPTER_FACTORIES`, which is an **empty dict** since Stage 5
+      deleted all three VLM adapters. `warm_up()` has no caller in `src/` either, outside `infer()`
+      itself. So `real_torch_and_transformers_facade`'s `generate` — where every genuinely
+      Qwen-flavoured line lives — is unreachable from application code today.
+
+   3. **Two of the three flagged "quirks" are comments, not behaviour.** Corrected for the record
+      rather than repeated:
+
+      * *"attention-implementation quirks"*: `from_pretrained` is called with **no**
+        `attn_implementation` argument. The `sdpa` experiment was tried and reverted; only the comment
+        recording that remains. `grep -rn attn_implementation src/` matches two comment lines and no
+        code.
+      * *"`Qwen2_5_VLForConditionalGeneration` class-name matching"*: no Qwen class name is matched
+        anywhere. `_VISION_MODEL_CLASS_NAMES` holds two *generic* Auto class names
+        (`AutoModelForImageTextToText`, `AutoModelForVision2Seq`) and each is **tried against the
+        model** rather than matched by name. The Qwen class name appears only inside a comment
+        explaining a `load_in_8bit` kwarg incompatibility.
+      * *"a decode pattern tuned to Qwen's chat template"*: **this one is real.** `generate()` applies
+        `processor.apply_chat_template` and then decodes only the newly-generated token span. It is
+        guarded (`if getattr(processor, "chat_template", None)`) with a documented plain-text
+        fallback, so it is correct for a chat-templated VLM and degrades rather than breaks for one
+        without a template — but it is genuinely written around that family's usage pattern, and
+        `_VISION_MODEL_CLASS_NAMES`'s own docstring is written around one model's registration
+        behaviour.
+
+   **What was deliberately NOT done, and why.** This module was **not** rewritten to be "generic".
+   Generalising a code path that no caller reaches would be speculative work against an unknown future
+   consumer, guided by no failing test and no real second model — and it would touch the one runtime a
+   future non-HTR VLM binding still depends on. The honest state is: this is working, tested code for
+   a chat-templated vision-language model, currently with no consumer, whose Qwen-shaped assumptions
+   are inert because nothing HTR-related routes through it.
+
+   **The isolation is enforced, not merely asserted here.**
+   `tests/runtime/test_transformers_runtime.py::test_no_htr_provider_depends_on_the_shared_transformers_runtime`
+   and its two siblings fail if any `providers/` module ever imports this one, or if Florence-2 stops
+   loading its own model. If a future phase does route an HTR method through here, that test breaks
+   first and the assumptions above stop being inert at exactly the right moment — which is the
+   guarantee the Stage 5 deferral was missing.
 """
 
 from __future__ import annotations
@@ -186,9 +246,15 @@ def real_torch_and_transformers_facade() -> TorchAndTransformersFacade:
             else:
                 inputs = processor(text=prompt, images=page_image_ref, return_tensors="pt").to(model.device)
             output = model.generate(**inputs, max_new_tokens=max_tokens or 1024)
-            # Decode only the newly generated tokens (official Qwen2.5-VL usage pattern) -- the
-            # full sequence includes the echoed prompt, which would corrupt downstream JSON parsing
-            # (`QwenPageResponse.model_validate_json`) with the system/user prompt text prepended.
+            # Decode only the newly generated tokens (the chat-templated-VLM usage pattern) -- the
+            # full sequence includes the echoed prompt, which would corrupt any downstream structured
+            # parsing of this text by prepending the system/user prompt to it.
+            #
+            # This comment used to cite `QwenPageResponse.model_validate_json` as the concrete
+            # downstream parser. That class was deleted with `providers/qwen_vl/` in migration Stage 5
+            # and the citation dangled (it named a symbol that exists nowhere in `src/`); corrected
+            # 2026-07-30 to state the reason generically, since there is no downstream parser at all
+            # while this runtime has no consumer -- see the module docstring's note.
             generated_ids = output[0][inputs["input_ids"].shape[-1] :]
             return processor.decode(generated_ids, skip_special_tokens=True)
 

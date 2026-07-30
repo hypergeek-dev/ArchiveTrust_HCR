@@ -149,19 +149,26 @@ class WorkspaceWizard(QDialog):
         form_host = QWidget()
         form = QFormLayout(form_host)
 
-        # Vision Provider selector (Multi-Provider Activation milestone) -- defaults to entry 0
-        # (PaddleOCR-VL, `WorkspaceWizardViewModel.model_provider_id`'s own default), reads
+        # Vision Provider selector (Multi-Provider Activation milestone) -- reads
         # VISION_PROVIDER_CHOICES so a future provider needs no wizard change.
+        #
+        # **The row is omitted entirely when the catalog is empty** (2026-07-30 residual cleanup),
+        # which it now is: the three entries it used to hold named adapters deleted in migration
+        # Stage 5, and `composition.py::_VISION_PROVIDER_ADAPTER_FACTORIES` has no factory for any
+        # provider, so nothing a combo could offer is activatable. An empty combo labelled "Vision
+        # Provider" would imply a choice exists and has none; no row states the truth. The loop is
+        # kept rather than deleted so re-populating the catalog re-shows the row with no UI change.
         self._model_provider_box = QComboBox()
         for provider_id, label, _default_model, _runtime_kind in VISION_PROVIDER_CHOICES:
             self._model_provider_box.addItem(label, provider_id)
-        self._model_provider_box.currentIndexChanged.connect(self._on_model_provider_changed)
-        form.addRow("Vision Provider", self._model_provider_box)
+        if self._model_provider_box.count() > 0:
+            self._model_provider_box.currentIndexChanged.connect(self._on_model_provider_changed)
+            form.addRow("Vision Provider", self._model_provider_box)
 
         self._model_field.setPlaceholderText("Leave blank to skip")
-        # Pre-filled with the default provider's repository (Multi-Provider Activation milestone,
-        # Workspace Binding): a new Workspace inherits it automatically unless the operator clears
-        # the field -- matches `WorkspaceWizardViewModel.model_identifier`'s own default.
+        # Blank by default now that `DEFAULT_VISION_MODEL_ID` is `None`: pre-filling a deleted
+        # provider's repository made every wizard-created Workspace persist a binding for a provider
+        # that cannot exist. An operator with a real model to bind still types it here.
         self._model_field.setText(self._vm.model_identifier or "")
         self._model_field.textChanged.connect(self._on_model_field_changed)
         form.addRow("Hugging Face model", self._model_field)
@@ -176,16 +183,25 @@ class WorkspaceWizard(QDialog):
         return host
 
     def _on_model_provider_changed(self, index: int) -> None:
+        # Bounds-guarded: only connected when the catalog is non-empty, but a catalog that shrinks
+        # between construction and a signal must not raise IndexError into a wizard.
+        if not 0 <= index < len(VISION_PROVIDER_CHOICES):
+            return
         _provider_id, _label, default_model, _runtime_kind = VISION_PROVIDER_CHOICES[index]
         self._model_field.setText(default_model)
 
     def _on_model_field_changed(self, text: str) -> None:
+        # The "blank" message used to name Docling and Tesseract as still-running fallbacks; both
+        # adapters were deleted in migration Stage 5, so it promised a capability that no longer
+        # exists (2026-07-30 residual cleanup). It now says what is true: the three HTR methods are
+        # not configured here at all, and their real readiness is on the HTR Methods page.
         if text.strip():
             self._model_status.setText("A primary reading engine will be configured for this Workspace.")
         else:
             self._model_status.setText(
-                "No vision reading engine will be available in this Workspace. Docling and Tesseract "
-                "still run. Configure one later from Provider Manager or Settings at any time."
+                "No general vision reading engine will be bound in this Workspace. The three HTR "
+                "recognition methods (SATRN, Florence-2, Transkribus) are not configured here — see "
+                "the HTR Methods page for each one's real environment status."
             )
 
     def _build_input_sources_step(self) -> QWidget:
