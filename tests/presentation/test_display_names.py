@@ -99,6 +99,81 @@ def test_every_enum_member_of_the_domain_enums_has_an_explicit_label() -> None:
         assert result_stage_label(stage) != stage
 
 
+def test_every_knowledge_lifecycle_enum_member_has_an_explicit_label() -> None:
+    """The fourteen `ObservationType`s, the eight `FindingStatus`es, and the four other
+    knowledge-lifecycle enums. A missing entry would fall through to `_humanize`, whose output for
+    `experiment_validity_boundary` ("Experiment Validity Boundary") reads as jargon a reader could
+    gloss as a judgement on the method that ran -- which is precisely the confusion that member exists
+    to prevent."""
+    from archivetrust.htr.knowledge.models import (
+        EvidenceReferenceKind,
+        FindingConfidence,
+        FindingStatus,
+        HypothesisRelationship,
+        ObservationConfidence,
+        ObservationReviewStatus,
+        ObservationType,
+        ResearchQuestionStatus,
+    )
+    from archivetrust.presentation.display_names import (
+        evidence_reference_kind_label,
+        finding_status_label,
+        hypothesis_relationship_label,
+        knowledge_confidence_label,
+        observation_review_status_label,
+        observation_type_label,
+        research_question_status_label,
+        _EVIDENCE_REFERENCE_KIND_LABELS,
+        _FINDING_STATUS_LABELS,
+        _HYPOTHESIS_RELATIONSHIP_LABELS,
+        _KNOWLEDGE_CONFIDENCE_LABELS,
+        _OBSERVATION_REVIEW_STATUS_LABELS,
+        _OBSERVATION_TYPE_LABELS,
+        _RESEARCH_QUESTION_STATUS_LABELS,
+    )
+
+    # Exhaustive over each enum, keyed by value, so a new member without a label fails here.
+    for enum_class, table in (
+        (ObservationType, _OBSERVATION_TYPE_LABELS),
+        (FindingStatus, _FINDING_STATUS_LABELS),
+        (ObservationReviewStatus, _OBSERVATION_REVIEW_STATUS_LABELS),
+        (ObservationConfidence, _KNOWLEDGE_CONFIDENCE_LABELS),
+        (FindingConfidence, _KNOWLEDGE_CONFIDENCE_LABELS),
+        (EvidenceReferenceKind, _EVIDENCE_REFERENCE_KIND_LABELS),
+        (ResearchQuestionStatus, _RESEARCH_QUESTION_STATUS_LABELS),
+        (HypothesisRelationship, _HYPOTHESIS_RELATIONSHIP_LABELS),
+    ):
+        assert {member.value for member in enum_class} <= set(table), enum_class.__name__
+
+    assert len(_OBSERVATION_TYPE_LABELS) == 14
+    assert len(_FINDING_STATUS_LABELS) == 8
+
+    # The three labels that exist to prevent a specific misreading, asserted by their wording.
+    assert (
+        observation_type_label(ObservationType.EXPERIMENT_VALIDITY_BOUNDARY)
+        == "What this comparison cannot measure"
+    )
+    assert (
+        observation_type_label(ObservationType.CONFIDENCE_ANOMALY)
+        == "Confidence did not match accuracy"
+    )
+    assert "not reproduced" in finding_status_label(FindingStatus.PROVISIONALLY_SUPPORTED)
+    assert "reproduced in another run" in finding_status_label(FindingStatus.SUPPORTED).lower()
+    assert (
+        observation_review_status_label(ObservationReviewStatus.ACCEPTED)
+        == "Confirmed against the records"
+    )
+    assert "not a telemetry record" in evidence_reference_kind_label(
+        EvidenceReferenceKind.EXTERNAL_DOCUMENT
+    )
+    assert knowledge_confidence_label(FindingConfidence.MODERATE) == "Moderate"
+    assert "nothing drafted yet" in research_question_status_label(ResearchQuestionStatus.OPEN)
+    assert (
+        hypothesis_relationship_label(HypothesisRelationship.NO_HYPOTHESIS_ASSERTED)
+        == "The experiment asserted no hypothesis"
+    )
+
+
 def test_basis_code_labels_speak_of_methods_not_ocr_providers() -> None:
     assert basis_code_label("contested") == "Methods disagree"
     assert basis_code_label("corroborated") == "Multiple methods agree"

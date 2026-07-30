@@ -421,7 +421,8 @@ def test_research_pages_are_grouped_ahead_of_the_operational_ones(qapp) -> None:
     research = shell.research_pages()
     operational = shell.operational_pages()
 
-    assert len(research) == 7
+    # Eight since the research-knowledge frontend phase added RESEARCH_KNOWLEDGE.
+    assert len(research) == 8
     assert set(research) | set(operational) == set(DesktopV2Page)
     assert not set(research) & set(operational)
     # Every research page comes before every operational one in rail order.

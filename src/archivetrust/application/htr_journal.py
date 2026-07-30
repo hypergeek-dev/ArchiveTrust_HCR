@@ -44,6 +44,7 @@ from archivetrust.domain.telemetry.events import (
     ExperimentRunFailed,
     ExperimentRunStarted,
     ExperimentVersionCreated,
+    ExperimentDraftedFromQuestion,
     ExternalResultImported,
     FindingReviewed,
     FindingStatusChanged,
@@ -63,6 +64,7 @@ from archivetrust.domain.telemetry.events import (
     ReproducibilityManifestRecorded,
     ResearchObservationCreated,
     ResearchProjectCreated,
+    ResearchQuestionRaised,
     ResearchReportGenerated,
     ReviewAssigned,
     ReviewedResultRecorded,
@@ -208,6 +210,24 @@ class HtrJournal:
             # it could never have been created in.
             if event.finding is not None:
                 store.advance_finding(event.finding)
+
+        # -- The research-question feedback loop (htr/knowledge/questions.py) --------------------
+        # The edge back from a knowledge record to a new experiment. Two branches, mirroring the
+        # register/advance split the finding kinds already use: a question is registered once and then
+        # advanced as it is acted on.
+        elif isinstance(event, ResearchQuestionRaised):
+            if event.question is not None:
+                store.register_research_question(event.question)
+        elif isinstance(event, ExperimentDraftedFromQuestion):
+            # A later state of the same question, now naming the experiment version drafted from it.
+            # `advance_research_question` refuses a question whose `ResearchQuestionRaised` is missing,
+            # so an incomplete log surfaces rather than producing a question that appears already
+            # under investigation with nothing recording that it was ever asked. The drafted
+            # `Experiment`/`ExperimentVersion` are reconstructed from their own
+            # `ExperimentCreated`/`ExperimentVersionCreated` events, not from this one, which is why it
+            # carries their ids and not their objects.
+            if event.question is not None:
+                store.advance_research_question(event.question)
 
         # Every remaining HTR kind is a deliberate no-op for *this* projection, for one of four
         # reasons -- named individually rather than left to fall through silently, following

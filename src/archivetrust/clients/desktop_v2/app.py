@@ -2,9 +2,9 @@
 
 Since `docs/htr-migration-plan.md` Stage 11 the rail leads with the research surfaces (overview,
 methods, datasets, experiments, comparison, evidence chain, review center, from
-`htr_pages.py`) and follows with the retained operational surfaces (acquisition, processing,
-release, administration, from `pages.py`). The split lives on `DesktopV2Page.is_research_surface`,
-not in this file's layout code.
+`htr_pages.py`, plus research knowledge, from `htr_knowledge_page.py`) and follows with the retained
+operational surfaces (acquisition, processing, release, administration, from `pages.py`). The split
+lives on `DesktopV2Page.is_research_surface`, not in this file's layout code.
 """
 
 from __future__ import annotations
@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 
 from archivetrust.composition import AppContext
 from archivetrust.clients.desktop.ui import STYLESHEET
+from archivetrust.clients.desktop_v2.htr_knowledge_page import ResearchKnowledgePage
 from archivetrust.clients.desktop_v2.htr_pages import (
     ComparisonPage,
     DatasetsPage,
@@ -90,6 +91,7 @@ class MainWindowV2(QMainWindow):
         DesktopV2Page.COMPARISON: ComparisonPage,
         DesktopV2Page.RESEARCH_EVIDENCE: EvidenceChainPage,
         DesktopV2Page.REVIEW_CENTER: ReviewCenterPage,
+        DesktopV2Page.RESEARCH_KNOWLEDGE: ResearchKnowledgePage,
         DesktopV2Page.WORKSPACES: WorkspacesPage,
         DesktopV2Page.SOURCES: SourcesPage,
         DesktopV2Page.PROCESSING: ProcessingPage,

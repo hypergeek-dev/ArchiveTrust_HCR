@@ -239,6 +239,123 @@ reproducible apart from freshly-minted entity ids (`observation_id`, `finding_id
 `contradiction_id`, `event_id`). Regenerating it changes those ids, and the id-quoting sections of these
 three documents would need updating with them.
 
+## The feedback loop: from a knowledge record back to an experiment (added 2026-07-30)
+
+The three layers above run one way — event → observation → finding — and stop. The cycle the follow-up
+specifies closes it:
+
+```
+Observation → Candidate finding → Research question → Hypothesis → Experiment
+    → Results → Reviewed finding → New research question
+```
+
+`src/archivetrust/htr/knowledge/models.py` gained `ResearchQuestion`, `Hypothesis` and
+`ResearchQuestionStatus` (`Open`/`Being investigated`/`Answered`);
+`src/archivetrust/htr/knowledge/questions.py` gained the drafting half. Two new telemetry kinds,
+`ResearchQuestionRaised` and `ExperimentDraftedFromQuestion`, both with real producers on
+`DurableHtrResearchStore` (68 kinds → 70).
+
+**Four rules the model enforces rather than documents.**
+
+1. **A question always names what provoked it** — at least one of `originating_observation_id`,
+   `originating_finding_id` or `originating_contradiction_id`. A question with no origin cannot be
+   walked back to evidence, which is the only reason the entity exists.
+2. **`created_experiment_id` and `status` cannot disagree.** Setting the pointer moves the question off
+   `Open`; a validator refuses the combination rather than trusting a caller.
+3. **`Answered` requires `answered_by_finding_id`.** A question is answered by a reviewed claim, never
+   by a run completing.
+4. **A second draft is refused, not silently overwritten.** Losing the first link would break the
+   chain.
+
+**Drafting reuses `baseline_template.py`, it does not copy it.** `DraftedExperimentDefinition`
+*subclasses* `BaselineExperimentDefinition`, adding only `research_question_id`, `hypothesis_id`,
+`originating_observation_id` and `originating_finding_id`, and `draft_experiment_from_question` hands it
+to `build_baseline_experiment` — the one place in the codebase that builds an `Experiment` plus its
+`ExperimentVersion`. Because `to_ref()` is inherited, those ids land inside the same deterministic,
+sorted JSON that `ExperimentVersion.pipeline_configuration_ref` already carries, so the *stored
+configuration itself* reaches back to the question and to the evidence. Pydantic ignores the extra keys
+by default, so `baseline_execution.py::build_research_report_from_store`'s
+`BaselineExperimentDefinition.model_validate_json(ref)` keeps parsing every committed ref unchanged.
+
+### The one real question, and the one real draft
+
+`scripts/register_research_question.py`, committed to
+`docs/experiments/baseline-comparison/htr_knowledge_feedback_events.jsonl` (4 events: 1
+`ResearchQuestionRaised`, 1 `ExperimentCreated`, 1 `ExperimentVersionCreated`, 1
+`ExperimentDraftedFromQuestion`).
+
+**A fourth stream, for the same reason there was a third.** The script *reads* the committed run and
+knowledge logs rather than regenerating them: re-running `register_baseline_knowledge` would mint fresh
+observation and finding ids and silently invalidate every id quoted in this document and its two
+companions. `htr_knowledge_events.jsonl` stays exactly the 18 events its own description claims.
+
+**The question, verbatim:**
+
+> Does SATRN's reported confidence track its measured transcription accuracy on a sample larger than one
+> line crop — i.e. is the confidence/accuracy disagreement recorded on the single controlled baseline
+> line a property of this checkpoint's calibration, or a property of that one crop?
+
+It is **read off a gap the record already names**, not invented to have something to draft from: the
+confidence-anomaly observation states in its own description, and in two of its tags
+(`this_run_and_this_sample_only`, `not_a_calibration_claim`), that one sample cannot measure
+calibration.
+
+| Link | Id |
+|---|---|
+| Observation (`confidence_anomaly`) | `research_observation_067cd6a4ae80439289aa8256efffa835` |
+| Candidate finding (`satrn_confidence_not_aligned`) | `research_finding_0f77a4f5443e4e79b429d8076596c4eb` |
+| Research question | `research_question_0ce2e1c1f1284af093512384a36c9047` |
+| Hypothesis | `hypothesis_cdf572be0a4c4794836ba2e7564dd260` |
+| Drafted `Experiment` | `experiment_f590cff12db94b29bfe1588a691ef832` |
+| Drafted `ExperimentVersion` | `experiment_version_1be05a170466424b966b2c66458470cf` |
+
+The question's `ResearchQuestionRaised` (`event_70a2d2c48fa94e82bc903a355328ed6d`) is caused by the
+finding's own `CandidateFindingCreated` (`event_aa9d4394ff08491ab513465e1b75d3ed`) — a `causation_id`
+pointing across from the feedback log into the knowledge log, exactly as that log's own point across
+into the run log.
+
+The attached hypothesis states what would refute it, which is required non-empty:
+
+> SATRN's reported confidence is not monotonically related to its measured character error rate on
+> 17th-century Swedish court-record lines at this checkpoint.
+>
+> *Refuted if* … reported confidence and measured CER are monotonically related … Refuted equally by the
+> disagreement failing to recur at all: a single non-recurring disagreement is evidence about one crop,
+> which is what the originating observation already says.
+
+**The draft was never executed, and says so in three places.** It has no `ExperimentRun`;
+`Experiment.name` is "SATRN confidence-calibration follow-up (drafted, never executed)"; and its own
+`scope_caveats` carry `DRAFT_NOT_EXECUTED_CAVEAT` plus a statement that the corpus needed to answer the
+question does not exist in this repository — executing the draft as-is would reproduce the same N=1
+limitation it was raised to escape. `sampling_strategy` names a target of 200 line crops and states
+plainly that no such sample is available, so the number reads as a proposal rather than a promise.
+
+`tests/htr/knowledge/test_feedback_loop.py::test_the_whole_cycle_survives_destruction_of_the_store`
+registers the whole chain through a durable store over a real file, confirms the six event kinds are on
+disk, `del`s every in-memory object with `gc.collect()`, constructs a **brand-new** `FileTelemetrySink`
+over the same path, replays, and then traverses all four links by following pointers stored on the
+previous entity — forwards through `ResearchQuestion.created_experiment_version_id` and backwards
+through the version's own `pipeline_configuration_ref`. Neither direction is derived from the other.
+`test_the_causal_chain_walks_from_the_finding_into_the_drafted_experiment` walks the same six events by
+`causation_id` alone.
+
+## The frontend (added 2026-07-30)
+
+`presentation/htr_knowledge_viewmodel.py::ResearchKnowledgeViewModel` and
+`clients/desktop_v2/htr_knowledge_page.py::ResearchKnowledgePage`, registered as the eighth research
+surface (`DesktopV2Page.RESEARCH_KNOWLEDGE`, last in rail order because its content is produced by the
+other seven). See those modules' docstrings for what is deliberately scoped down.
+
+The one design decision worth recording here: **four of the ten collections the follow-up asks for are
+empty against this repository's data, and each reports its own reason** rather than looking like a load
+failure (`EMPTY_FIELD_NOTES`). `supported_findings` and `superseded_findings` are empty for the reasons
+below; `reproduced_findings` is *derived* from revision history — a `Provisionally supported →
+Supported` transition whose evidence names a run outside the finding's scope — so it will populate
+itself the moment a second run records one, and a finding carrying a `Supported` label without
+qualifying evidence is still reported as unreproduced. `recurring_failure_patterns` groups observations
+by type and reports `recurrence_established: False` for every current group, because each is a single
+occurrence in a single run.
+
 ## Known gaps for the next phase
 
 * **No `Supported` and no `Superseded` finding exists**, for the honest reasons above. Both need a
@@ -255,7 +372,24 @@ three documents would need updating with them.
   yet name the one it refines.
 * **`ResearchReportGenerated` still has no producer** (deliberate; see its docstring).
 * **The knowledge stream is not exported.** No knowledge export format and no retention policy — Phase
-  12, explicitly out of scope here.
-* **No frontend.** The Research Knowledge ViewModel is Phase 10, and the observation → question →
-  experiment-draft feedback loop is Phase 11. `HtrResearchStore` now has the query surface both will
-  need (`research_observations`, `findings`, `findings_contradicting`), but nothing consumes it yet.
+  12, explicitly out of scope here. The three streams under `docs/experiments/baseline-comparison/` are
+  the only distribution, and nothing prunes them.
+* ~~**No frontend.** The Research Knowledge ViewModel is Phase 10, and the observation → question →
+  experiment-draft feedback loop is Phase 11.~~ Both built, 2026-07-30 — see the two sections above.
+  What remains open from that work:
+  * **Evidence links show, they do not navigate.** `EvidenceLink.target_page` carries the answer, but
+    the shell has no "navigate to page X showing entity Y" channel (`DesktopV2ShellViewModel` carries a
+    page, not a page-plus-subject), so selecting a reference fills a detail panel instead of switching
+    pages. Wiring it is a small, separate change once that channel exists.
+  * **Appearance is unverified.** The page was built with no display available. Every test is about
+    content and structure; nothing asserts that the layout looks right.
+  * **A question can be raised and a draft made only in code**, not from the UI. The page is a reader
+    by design — a button that promoted a finding would be a second, un-audited path past
+    `transition_finding_status` — but there is also no *safe* write surface yet for the two acts that
+    genuinely belong to a researcher: raising a question and drafting from it.
+  * **`ResearchQuestion` has no `Answered` producer.** The status and its required
+    `answered_by_finding_id` are enforced, and `ResearchQuestion.answered_by` exists, but nothing calls
+    it: answering needs a reviewed finding from the drafted experiment, which needs the experiment run.
+    So the cycle is complete in the model and demonstrated as far as `Being investigated`.
+  * **No question supersession or withdrawal.** A question that turns out to be malformed can only be
+    left `Open`.

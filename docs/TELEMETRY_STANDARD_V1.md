@@ -131,6 +131,8 @@ the same `FileTelemetrySink`, and replayed by `application/htr_journal.py::HtrJo
 | `CandidateFindingCreated` | Records a candidate research finding; carries the full `ResearchFinding`. |
 | `FindingReviewed` | Records a named human's review of a finding. Carries no entity — the outcome is on the `FindingStatusChanged` it causes. |
 | `FindingStatusChanged` | Records a finding's status transition; carries the whole post-transition finding, including its full revision history. |
+| `ResearchQuestionRaised` | Records a research question raised by an observation, finding or contradiction; carries the full `ResearchQuestion` including its attached hypotheses. `actor_type` is `human`. |
+| `ExperimentDraftedFromQuestion` | Records that an `ExperimentVersion` was drafted from a research question. Carries the post-draft question, and the experiment/version by id only — both are announced with their full objects by `ExperimentCreated`/`ExperimentVersionCreated`. Records no execution: a drafted version has no `ExperimentRun`. |
 | `ResearchReportGenerated` | Schema-ready: records generation of a research report. No producer yet. |
 
 **Updated 2026-07-30.** The four knowledge kinds above previously read "Schema-ready … No producer

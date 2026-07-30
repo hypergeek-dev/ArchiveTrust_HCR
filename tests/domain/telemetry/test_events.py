@@ -25,8 +25,11 @@ def test_all_canonical_event_kinds_are_registered():
     # research-persistence kinds (docs/architecture/htr-event-model.md §3: 30 enumerated there, plus
     # the 4 additions its §3 list omitted -- CollectionCreated, ReviewedResultRecorded,
     # MetricDefinitionRegistered, GroundTruthTextRecorded -- each justified in its own enum-member
-    # docstring and in docs/architecture/htr-telemetry.md §6) = 68.
-    assert len(TelemetryEventKind) == 68
+    # docstring and in docs/architecture/htr-telemetry.md §6) = 68, plus the research-question
+    # feedback loop's 2 (ResearchQuestionRaised, ExperimentDraftedFromQuestion -- the edge *back* from
+    # a knowledge record to a new experiment, which §3's one-way layer 10-12 list does not cover; each
+    # justified in its own enum-member docstring) = 70.
+    assert len(TelemetryEventKind) == 70
     assert set(EVENT_TYPE_BY_KIND) == set(TelemetryEventKind)
 
 

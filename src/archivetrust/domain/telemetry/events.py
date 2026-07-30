@@ -49,7 +49,11 @@ from archivetrust.htr.experiment.models import (
     MetricResult,
     ReproducibilityManifest,
 )
-from archivetrust.htr.knowledge.models import ResearchFinding, ResearchObservation
+from archivetrust.htr.knowledge.models import (
+    ResearchFinding,
+    ResearchObservation,
+    ResearchQuestion,
+)
 
 # `htr.corpus.models`/`htr.experiment.models`/`htr.knowledge.models` are pure frozen Pydantic domain
 # types whose only imports are `domain.evidence.models` and `domain.shared.ids` (verified: their
@@ -203,6 +207,20 @@ class TelemetryEventKind(str, Enum):
     CANDIDATE_FINDING_CREATED = "CandidateFindingCreated"
     FINDING_REVIEWED = "FindingReviewed"
     FINDING_STATUS_CHANGED = "FindingStatusChanged"
+    RESEARCH_QUESTION_RAISED = "ResearchQuestionRaised"
+    """Beyond event-model doc §3's enumerated list, and beyond the five knowledge kinds landed with
+    it. §3's layers 10-12 run one way -- event to observation to finding -- and stop there; nothing in
+    that list records the edge *back*, which the knowledge follow-up requires ("allow an observation,
+    finding or contradiction to create a new research question"). Without a kind of its own, a raised
+    question would be either invisible or smuggled into `ResearchObservationCreated`, whose subject is
+    a fact about records rather than a thing somebody decided to ask."""
+    EXPERIMENT_DRAFTED_FROM_QUESTION = "ExperimentDraftedFromQuestion"
+    """Beyond §3's list, and deliberately separate from `ExperimentCreated`/`ExperimentVersionCreated`.
+    Those two record that an experiment exists; this one records *why* -- that a specific
+    `ResearchQuestion` provoked it. Both facts are needed and neither implies the other: most
+    experiments are not drafted from a question, and a question can be raised without one ever being
+    drafted. Folding the link into `ExperimentVersionCreated` would have put an optional
+    knowledge-layer pointer on the event that announces execution configuration."""
     RESEARCH_REPORT_GENERATED = "ResearchReportGenerated"
 
 
@@ -1299,6 +1317,65 @@ class FindingStatusChanged(HtrTelemetryEvent):
     finding: ResearchFinding | None = None
 
 
+class ResearchQuestionRaised(HtrTelemetryEvent):
+    """The feedback edge: an observation, finding or contradiction provoked a new research question.
+
+    Added 2026-07-30 with the research-question feedback loop
+    (`src/archivetrust/htr/knowledge/questions.py`). Carries the typed `ResearchQuestion` for the same
+    reason `ResearchObservationCreated` carries its observation: `htr/knowledge/models.py` imports
+    nothing but `pydantic` and `domain.shared.ids`, which is §5's condition for typed embedding, and
+    without the entity `HtrJournal.replay` could not reconstruct a question -- or its attached
+    hypotheses -- from the log alone.
+
+    Optional with a default, matching every prior typed-payload addition on this module, so an id-only
+    construction still validates.
+
+    `actor_type` defaults to `HUMAN`: raising a research question is a judgement about what is worth
+    finding out, not something an extraction step derives. Nothing in `src/` raises one automatically,
+    and this default is what makes an automated producer look wrong rather than ordinary.
+    """
+
+    kind: TelemetryEventKind = TelemetryEventKind.RESEARCH_QUESTION_RAISED
+
+    question_ref: str
+    statement: str
+    originating_observation_ref: str | None = None
+    originating_finding_ref: str | None = None
+    originating_contradiction_ref: str | None = None
+    question: ResearchQuestion | None = None
+    actor_type: HtrActorType = HtrActorType.HUMAN
+
+
+class ExperimentDraftedFromQuestion(HtrTelemetryEvent):
+    """An `ExperimentVersion` was drafted from a `ResearchQuestion` -- the question-to-experiment edge.
+
+    Carries the question in its *post-draft* state, with `created_experiment_id`/
+    `created_experiment_version_id` set and its status moved off `Open`. `HtrJournal` projects that via
+    `advance_research_question`, which is the same projection-advancement case as
+    `ExperimentRunCompleted` and `FindingStatusChanged`: a later state of the same entity, with every
+    earlier state still in the log as its own event.
+
+    Deliberately does **not** carry the `Experiment` or `ExperimentVersion`. Both are announced with
+    their full objects by `ExperimentCreated`/`ExperimentVersionCreated`, and a second copy here would
+    put two versions of one entity state in the log with nothing saying which is authoritative -- the
+    same reason `FindingReviewed` carries no finding. `experiment_ref`/`experiment_version_ref` are
+    ids, and `experiment_id`/`experiment_version_id` on the base scope carry them for querying.
+
+    **Drafting is not running.** A drafted `ExperimentVersion` has no `ExperimentRun`, and this event
+    records no outcome of any kind. `docs/knowledge-lifecycle.md`'s cycle places `Results` two steps
+    after this one.
+    """
+
+    kind: TelemetryEventKind = TelemetryEventKind.EXPERIMENT_DRAFTED_FROM_QUESTION
+
+    question_ref: str
+    experiment_ref: str
+    experiment_version_ref: str
+    hypothesis_ref: str | None = None
+    question: ResearchQuestion | None = None
+    actor_type: HtrActorType = HtrActorType.HUMAN
+
+
 class ResearchReportGenerated(HtrTelemetryEvent):
     """A `research.reports.models.ResearchReport` was generated over one or more `ExperimentRun`s.
 
@@ -1581,6 +1658,8 @@ EVENT_TYPE_BY_KIND: dict[TelemetryEventKind, type[TelemetryEvent]] = {
         CandidateFindingCreated,
         FindingReviewed,
         FindingStatusChanged,
+        ResearchQuestionRaised,
+        ExperimentDraftedFromQuestion,
         ResearchReportGenerated,
     )
 }

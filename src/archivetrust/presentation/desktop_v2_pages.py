@@ -25,6 +25,11 @@ class DesktopV2Page(str, Enum):
     COMPARISON = "comparison"
     RESEARCH_EVIDENCE = "research_evidence"
     REVIEW_CENTER = "review_center"
+    RESEARCH_KNOWLEDGE = "research_knowledge"
+    """Added with the research-knowledge frontend phase. Last of the research surfaces in rail order,
+    because it is the only one whose content is *produced* by the others: an observation is extracted
+    from what the experiment and comparison surfaces show, and a finding is what the review center's
+    work makes defensible."""
 
     # -- Retained operational surfaces ---------------------------------------------------------
     WORKSPACES = "workspaces"
@@ -47,6 +52,7 @@ class DesktopV2Page(str, Enum):
             DesktopV2Page.COMPARISON: "Comparison",
             DesktopV2Page.RESEARCH_EVIDENCE: "Evidence Chain",
             DesktopV2Page.REVIEW_CENTER: "Review Center",
+            DesktopV2Page.RESEARCH_KNOWLEDGE: "Research Knowledge",
             DesktopV2Page.WORKSPACES: "Workspaces",
             DesktopV2Page.SOURCES: "Sources",
             DesktopV2Page.PROCESSING: "Processing",
@@ -75,5 +81,6 @@ _RESEARCH_PAGES = frozenset(
         DesktopV2Page.COMPARISON,
         DesktopV2Page.RESEARCH_EVIDENCE,
         DesktopV2Page.REVIEW_CENTER,
+        DesktopV2Page.RESEARCH_KNOWLEDGE,
     }
 )

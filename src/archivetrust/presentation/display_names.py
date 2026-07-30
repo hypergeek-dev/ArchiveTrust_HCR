@@ -116,6 +116,114 @@ _METHOD_RUN_OUTCOME_LABELS = {
     "no_output": "Ran, produced no text",
 }
 
+_OBSERVATION_TYPE_LABELS = {
+    "successful_recognition_behavior": "Recognition worked as hoped",
+    "recurring_recognition_failure": "Recognition failure that recurred",
+    "segmentation_problem": "Segmentation problem",
+    "handwriting_feature": "Handwriting feature",
+    "document_layout_feature": "Document layout feature",
+    "model_limitation": "Model limitation",
+    "confidence_anomaly": "Confidence did not match accuracy",
+    "performance_bottleneck": "Performance bottleneck",
+    "environment_issue": "Environment issue",
+    "reviewer_observation": "Noted by a reviewer",
+    "possible_hypothesis": "Possible hypothesis",
+    "unexpected_method_disagreement": "Methods disagreed unexpectedly",
+    "experiment_validity_boundary": "What this comparison cannot measure",
+    "reproducibility_anomaly": "Did not reproduce across sessions",
+}
+"""All fourteen `htr/knowledge/models.py::ObservationType` members.
+
+Two are worded to prevent a specific misreading rather than to be short.
+`experiment_validity_boundary` reads "What this comparison cannot measure" because that member exists
+precisely so a statement about an *experiment's* limits can never be filed as one about the *method*
+that ran inside it -- "Experiment validity boundary" is jargon a reader could gloss as a judgement on
+the method. `confidence_anomaly` reads "Confidence did not match accuracy" because the bare word
+"confidence" in this application otherwise means a model's own scalar, and this observation type is
+about the *disagreement* between that scalar and a measurement.
+"""
+
+_FINDING_STATUS_LABELS = {
+    "Draft": "Draft",
+    "Candidate": "Candidate (not yet reviewed)",
+    "Under review": "Under review",
+    "Provisionally supported": "Provisionally supported (not reproduced)",
+    "Supported": "Supported (reproduced in another run)",
+    "Disputed": "Disputed",
+    "Superseded": "Superseded",
+    "Rejected": "Rejected",
+}
+"""All eight `FindingStatus` members.
+
+`Candidate`, `Provisionally supported` and `Supported` carry a parenthetical because the difference
+between them is the whole point of the lifecycle and is invisible in the bare words. A reader who sees
+"Supported" next to "Provisionally supported" with no explanation has no way to know that the gap
+between them is reproduction in an experiment run outside the finding's own scope -- which is the rule
+`docs/knowledge-lifecycle.md`'s rule 3 makes unskippable, and the reason no finding in this repository
+is `Supported`.
+"""
+
+_OBSERVATION_REVIEW_STATUS_LABELS = {
+    "Unreviewed": "Nobody has checked this yet",
+    "Under review": "Under review",
+    "Accepted": "Confirmed against the records",
+    "Rejected": "Rejected",
+}
+"""`ObservationReviewStatus`. "Accepted" reads "Confirmed against the records" because accepting an
+observation means only "yes, this is really what the records show" -- never "yes, this generalizes",
+which is a finding's business. The four-value enum has no `Supported`/`Disputed` for that reason and
+the labels must not import the connotation back."""
+
+_KNOWLEDGE_CONFIDENCE_LABELS = {
+    "low": "Low",
+    "moderate": "Moderate",
+    "high": "High",
+}
+"""`ObservationConfidence` and `FindingConfidence`. One table for both: they are different fields
+with different subjects, but the same three ordinal words, and two identical tables would drift.
+Neither is a recognition confidence -- the *field names* carry that distinction
+(`observation_confidence`, `confidence_level`), which is why these labels are bare ordinals rather
+than trying to explain the subject in the value."""
+
+_EVIDENCE_REFERENCE_KIND_LABELS = {
+    "telemetry_event": "Telemetry event",
+    "experiment_run": "Experiment run",
+    "method_run": "Method run",
+    "metric_result": "Metric result",
+    "reliability_classification": "Reliability classification",
+    "evidence_record": "Evidence record",
+    "input_crop": "Input crop",
+    "text_line": "Text line",
+    "ground_truth_text": "Ground truth",
+    "research_observation": "Research observation",
+    "research_finding": "Research finding",
+    "reproducibility_manifest": "Reproducibility manifest",
+    "external_document": "Repository file (not a telemetry record)",
+}
+"""`EvidenceReferenceKind`. `external_document` says "not a telemetry record" in the label because it
+is the one member whose target is not in an event stream, and a UI that rendered it identically to the
+others would imply an evidence trail it does not have."""
+
+_RESEARCH_QUESTION_STATUS_LABELS = {
+    "Open": "Open (nothing drafted yet)",
+    "Being investigated": "Being investigated",
+    "Answered": "Answered by a finding",
+}
+"""`ResearchQuestionStatus`. "Answered by a finding" states the rule the model enforces: a question is
+answered by a reviewed claim, never by a run completing."""
+
+_HYPOTHESIS_RELATIONSHIP_LABELS = {
+    "supports": "Supports the stated hypothesis",
+    "contradicts": "Contradicts the stated hypothesis",
+    "refines": "Refines the stated hypothesis",
+    "untested": "Hypothesis untested by this finding",
+    "no_hypothesis_asserted": "The experiment asserted no hypothesis",
+}
+"""`HypothesisRelationship`. `no_hypothesis_asserted` is spelled out rather than shortened because it
+is the value all five real baseline findings carry: the baseline experiment's own `hypothesis` field
+declines to predict which method performs better, and a label reading "None" would look like missing
+data rather than a recorded decision."""
+
 _CAPABILITY_LABELS = {
     "confidence_supported": "Reports confidence",
     "geometry_supported": "Reports geometry",
@@ -196,6 +304,51 @@ def method_run_outcome_label(outcome: Any) -> str:
 def capability_label(capability_field: Any) -> str:
     value = _identifier_value(capability_field)
     return _CAPABILITY_LABELS.get(value, _humanize(value))
+
+
+def observation_type_label(observation_type: Any) -> str:
+    """Researcher-facing name for one of the fourteen `ObservationType` members."""
+    value = _identifier_value(observation_type)
+    return _OBSERVATION_TYPE_LABELS.get(value, _humanize(value))
+
+
+def finding_status_label(status: Any) -> str:
+    """Researcher-facing name for one of the eight `FindingStatus` members."""
+    value = _identifier_value(status)
+    return _FINDING_STATUS_LABELS.get(value, _humanize(value))
+
+
+def observation_review_status_label(status: Any) -> str:
+    """Researcher-facing name for one of the four `ObservationReviewStatus` members."""
+    value = _identifier_value(status)
+    return _OBSERVATION_REVIEW_STATUS_LABELS.get(value, _humanize(value))
+
+
+def knowledge_confidence_label(confidence: Any) -> str:
+    """Researcher-facing name for an `ObservationConfidence` or `FindingConfidence`.
+
+    Never for a recognition confidence: those are floats and are rendered as numbers, not labels.
+    """
+    value = _identifier_value(confidence)
+    return _KNOWLEDGE_CONFIDENCE_LABELS.get(value, _humanize(value))
+
+
+def evidence_reference_kind_label(kind: Any) -> str:
+    """Researcher-facing name for one of the thirteen `EvidenceReferenceKind` members."""
+    value = _identifier_value(kind)
+    return _EVIDENCE_REFERENCE_KIND_LABELS.get(value, _humanize(value))
+
+
+def research_question_status_label(status: Any) -> str:
+    """Researcher-facing name for one of the three `ResearchQuestionStatus` members."""
+    value = _identifier_value(status)
+    return _RESEARCH_QUESTION_STATUS_LABELS.get(value, _humanize(value))
+
+
+def hypothesis_relationship_label(relationship: Any) -> str:
+    """Researcher-facing name for one of the five `HypothesisRelationship` members."""
+    value = _identifier_value(relationship)
+    return _HYPOTHESIS_RELATIONSHIP_LABELS.get(value, _humanize(value))
 
 
 def short_ref(ref: Any, *, prefix: int = 10) -> str:

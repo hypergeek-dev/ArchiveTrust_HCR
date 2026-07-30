@@ -70,7 +70,11 @@ from archivetrust.htr.experiment.models import (
     MetricResult,
     ReproducibilityManifest,
 )
-from archivetrust.htr.knowledge.models import ResearchFinding, ResearchObservation
+from archivetrust.htr.knowledge.models import (
+    ResearchFinding,
+    ResearchObservation,
+    ResearchQuestion,
+)
 from archivetrust.providers.transkribus.external_import import ExternalImport
 
 
@@ -174,6 +178,11 @@ class HtrResearchStore:
         """`finding_id -> ResearchFinding` (layers 11-12). The one knowledge bucket that *is*
         advanced, by `advance_finding`, because a status transition is a later state of the same
         entity -- and the only mutation a finding permits."""
+        self._research_questions: dict[str, ResearchQuestion] = {}
+        """`question_id -> ResearchQuestion` -- the feedback edge back from a knowledge record to a
+        new experiment (`htr/knowledge/questions.py`). Advanced by `advance_research_question` for the
+        same reason `_findings` is: drafting an experiment from a question, or answering it, produces a
+        later state of the same entity, and every earlier state stays in the durable log."""
         self._ground_truth: dict[str, str] = {}
         """`text_line_id -> reference transcription`. Reference text for a line, from whatever
         authority produced it (a closed blind dual review, an imported gold standard). Kept as a
@@ -282,6 +291,11 @@ class HtrResearchStore:
     def register_finding(self, finding: ResearchFinding) -> None:
         self._put(self._findings, finding.finding_id, finding, "ResearchFinding")
 
+    def register_research_question(self, question: ResearchQuestion) -> None:
+        self._put(
+            self._research_questions, question.question_id, question, "ResearchQuestion"
+        )
+
     # -- Projection advancement (see module docstring) -------------------------------------------
 
     def _advance(self, bucket: dict, key: str, value: object, kind: str) -> None:
@@ -325,6 +339,19 @@ class HtrResearchStore:
         """
         self._advance(self._findings, finding.finding_id, finding, "ResearchFinding")
 
+    def advance_research_question(self, question: ResearchQuestion) -> None:
+        """Records a `ResearchQuestion`'s later state -- an experiment drafted from it, a hypothesis
+        attached, or a finding answering it -- over its previous one.
+
+        The same projection-advancement pattern as `advance_finding`, and legitimate for the same
+        reason. Nothing is lost within the projection either: `ResearchQuestion.with_hypothesis` only
+        appends, and `with_drafted_experiment` refuses to overwrite an existing draft pointer rather
+        than replacing it.
+        """
+        self._advance(
+            self._research_questions, question.question_id, question, "ResearchQuestion"
+        )
+
     _PROJECTION_BUCKETS = (
         "_projects",
         "_datasets",
@@ -349,6 +376,7 @@ class HtrResearchStore:
         "_ground_truth",
         "_observations",
         "_findings",
+        "_research_questions",
     )
     """Every bucket `adopt_projection` copies. Named explicitly rather than discovered by
     reflection, so adding a bucket without deciding how it hydrates is a visible omission here
@@ -585,6 +613,57 @@ class HtrResearchStore:
             ]
         return tuple(sorted(rows, key=lambda f: (f.creation_date, f.finding_id)))
 
+    def research_questions(
+        self,
+        *,
+        status: str | None = None,
+        originating_observation_id: str | None = None,
+        originating_finding_id: str | None = None,
+    ) -> tuple[ResearchQuestion, ...]:
+        """The raised research questions, optionally narrowed to one status or one originating record.
+
+        The two `originating_*` filters answer "what did this observation/finding make us ask?", which
+        is the backward direction of `ResearchQuestion.originating_*_id` and the query a knowledge UI
+        needs when a reader is looking at one record. A question that names both an observation and the
+        finding built on it (which `questions.question_from_finding` produces by default) matches
+        either filter, because it genuinely originates from both.
+        """
+        with self._lock:
+            rows = [
+                q
+                for q in self._research_questions.values()
+                if (status is None or q.status.value == status)
+                and (
+                    originating_observation_id is None
+                    or q.originating_observation_id == originating_observation_id
+                )
+                and (
+                    originating_finding_id is None
+                    or q.originating_finding_id == originating_finding_id
+                )
+            ]
+        return tuple(sorted(rows, key=lambda q: (q.created_at, q.question_id)))
+
+    def research_questions_for_experiment(
+        self, experiment_id: str
+    ) -> tuple[ResearchQuestion, ...]:
+        """Every question that named `experiment_id` as the experiment drafted from it.
+
+        The reverse of `ResearchQuestion.created_experiment_id`, so an experiment surface can answer
+        "why does this exist?" without parsing `pipeline_configuration_ref`. Both directions are
+        stored: the question holds the forward pointer, the drafted `ExperimentVersion`'s
+        `pipeline_configuration_ref` holds `research_question_id` (see
+        `htr/knowledge/questions.py::DraftedExperimentDefinition`), and neither is derived from the
+        other.
+        """
+        with self._lock:
+            rows = [
+                q
+                for q in self._research_questions.values()
+                if q.created_experiment_id == experiment_id
+            ]
+        return tuple(sorted(rows, key=lambda q: (q.created_at, q.question_id)))
+
     # -- Id-keyed lookup ------------------------------------------------------------------------
 
     def project(self, project_id: str) -> ResearchProject | None:
@@ -661,6 +740,10 @@ class HtrResearchStore:
     def finding(self, finding_id: str) -> ResearchFinding | None:
         with self._lock:
             return self._findings.get(finding_id)
+
+    def research_question(self, question_id: str) -> ResearchQuestion | None:
+        with self._lock:
+            return self._research_questions.get(question_id)
 
     # -- Derived traversal ----------------------------------------------------------------------
 

@@ -187,10 +187,14 @@ optional `record` dict for the same reason. All three additions are optional wit
 pre-existing construction shapes in `tests/domain/telemetry/test_htr_events.py` still validate
 unchanged.
 
-## 6. The event vocabulary: 68 kinds
+## 6. The event vocabulary: 70 kinds
 
-34 pre-existing + 34 new. Of the 34 new, 30 are exactly the list in event-model doc §3. Four are
-documented additions that list omitted, each justified in its own enum-member docstring:
+34 pre-existing + 36 new. Of the 36 new, 30 are exactly the list in event-model doc §3. Six are
+documented additions that list omitted, each justified in its own enum-member docstring — the four
+below, plus `ResearchQuestionRaised` and `ExperimentDraftedFromQuestion`, added 2026-07-30 with the
+research-question feedback loop (§13). Those last two are beyond §3's list because §3's layers 10-12 run
+one way, event → observation → finding, and enumerate no kind for the edge *back*, which the knowledge
+follow-up requires ("allow an observation, finding or contradiction to create a new research question").
 
 | Addition | Why §3's list was insufficient |
 |---|---|
@@ -420,6 +424,13 @@ new base fields.
   no experiment-editing entry point exists yet.
 * **Single-writer.** Inherited unchanged from `FileTelemetrySink`: a concurrent writer in another
   process is not reflected until the sink is reconstructed.
+* **Four streams and no export or retention.** `events.jsonl`, `htr_research_events.jsonl`,
+  `htr_knowledge_events.jsonl` and `htr_knowledge_feedback_events.jsonl` (§13). Nothing prunes any of
+  them and there is no knowledge export format — Phase 12, and the one gap the knowledge phases
+  deliberately did not touch.
+* **Research questions cannot yet be answered, superseded or withdrawn** (§13). The `Answered` status
+  and its required finding pointer are enforced and `ResearchQuestion.answered_by` exists, but nothing
+  calls it: answering needs a reviewed finding from the drafted experiment, which needs the run.
 
 ## 12. The knowledge lifecycle (added 2026-07-30)
 
@@ -470,3 +481,62 @@ repository has one; the four demonstrated transitions carry a single reviewer, t
 with no independent review or adjudication.
 
 `ResearchReportGenerated` remains the single producerless kind (§6).
+
+## 13. The research-question feedback loop and its frontend (added 2026-07-30)
+
+Full documentation: [`docs/knowledge-lifecycle.md`](../knowledge-lifecycle.md), sections "The feedback
+loop" and "The frontend".
+
+**Two new kinds, two new producers.** `ResearchQuestionRaised` and `ExperimentDraftedFromQuestion`, both
+on `DurableHtrResearchStore` (`register_research_question`,
+`record_experiment_drafted_from_question`). `ResearchQuestion` and `Hypothesis` live in
+`htr/knowledge/models.py`, which still imports nothing but `pydantic` and `domain.shared.ids`, so both
+travel on the wire as **typed objects** under §5's rule and `HtrJournal.replay` reconstructs a question
+and its hypotheses field-for-field.
+
+`ExperimentDraftedFromQuestion` deliberately carries the question but *not* the `Experiment` or
+`ExperimentVersion`: both are announced with their full objects by
+`ExperimentCreated`/`ExperimentVersionCreated`, and a second copy would put two versions of one entity
+state in the log with nothing saying which is authoritative — the same reason `FindingReviewed` carries
+no finding. It carries the *post-draft* question, which `HtrJournal` projects via
+`advance_research_question`: the `ExperimentRunCompleted`/`FindingStatusChanged` pattern applied to the
+one entity that legitimately gains pointers after registration. `advance_research_question` refuses a
+question whose `ResearchQuestionRaised` is missing, so an incomplete log surfaces
+(`test_replay_refuses_to_invent_a_question_a_draft_event_advances`) rather than producing a question that
+appears already under investigation with nothing recording that it was ever asked.
+
+`HtrResearchStore` gained one projection bucket (`_research_questions`, in `_PROJECTION_BUCKETS`),
+`register_research_question`/`advance_research_question`, and three accessors:
+`research_questions(status=, originating_observation_id=, originating_finding_id=)`,
+`research_questions_for_experiment(experiment_id)` and `research_question(id)`. The last is the reverse
+of `ResearchQuestion.created_experiment_id`, so an experiment surface can answer "why does this exist?"
+without parsing `pipeline_configuration_ref`. Both directions are stored and neither is derived from the
+other.
+
+**A fourth stream.** Feedback events go to `htr_knowledge_feedback_events.jsonl`, because §12's
+`htr_knowledge_events.jsonl` is documented as exactly 18 events of 4 kinds and read as that by a test.
+§7's "two streams, one mechanism" reasoning applies unchanged, now four times over.
+`scripts/register_research_question.py` *replays* the committed run and knowledge logs to find the real
+observation and finding, rather than re-registering the baseline knowledge — which would mint fresh ids
+and silently invalidate every id the three knowledge documents quote.
+
+**One additive change outside this package.** `htr/experiment/baseline_template.py` is unmodified;
+`htr/knowledge/questions.py::DraftedExperimentDefinition` *subclasses*
+`BaselineExperimentDefinition`, adding four id fields, and reuses `build_baseline_experiment` for the
+construction itself. Because the base model's own shape is untouched, no committed artifact changes
+meaning, and `build_research_report_from_store`'s
+`BaselineExperimentDefinition.model_validate_json(pipeline_configuration_ref)` keeps parsing both the old
+refs and the new one (Pydantic ignores extra keys by default) —
+`test_the_drafted_definition_still_parses_as_a_baseline_definition` asserts it.
+
+**The frontend.** `presentation/htr_knowledge_viewmodel.py` over this projection, rendered by
+`clients/desktop_v2/htr_knowledge_page.py` as `DesktopV2Page.RESEARCH_KNOWLEDGE`, the eighth research
+surface. It reuses `htr_evidence_viewmodel.py::HtrEvidenceChainViewModel` to resolve an evidence
+reference to a breadcrumb rather than walking the corpus a second time, and its
+`_TARGET_PAGE_BY_EVIDENCE_KIND` table is exhaustive over `EvidenceReferenceKind` with two honest
+`None`s: no page in this application replays the HTR telemetry stream by event id (the operational
+Document Evidence page replays per Archive Object, and HTR research events carry the `htr:research`
+sentinel), and an `external_document` reference names a committed repository file rather than a record
+this application stores. Those two are why a `telemetry_event` or `evidence_record` reference comes back
+`resolved=False` **with the reason it is a property of the read model rather than of the evidence** —
+which is not the same fact as a dangling id, and the two are reported differently.

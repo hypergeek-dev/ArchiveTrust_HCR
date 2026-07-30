@@ -63,6 +63,7 @@ from archivetrust.domain.telemetry.events import (
     ExperimentRunFailed,
     ExperimentRunStarted,
     ExperimentVersionCreated,
+    ExperimentDraftedFromQuestion,
     ExternalResultImported,
     FindingReviewed,
     FindingStatusChanged,
@@ -84,6 +85,7 @@ from archivetrust.domain.telemetry.events import (
     ReproducibilityManifestRecorded,
     ResearchObservationCreated,
     ResearchProjectCreated,
+    ResearchQuestionRaised,
     ReviewAssigned,
     ReviewedResultRecorded,
     ReviewSubmissionRecorded,
@@ -122,6 +124,7 @@ from archivetrust.htr.knowledge.models import (
     FindingStatus,
     ResearchFinding,
     ResearchObservation,
+    ResearchQuestion,
 )
 from archivetrust.htr.research_store import (
     DuplicateRegistrationError,
@@ -1400,6 +1403,106 @@ class DurableHtrResearchStore(HtrResearchStore):
         )
         self.advance_finding(transitioned)
         return transitioned, status_event_id
+
+    # -- The research-question feedback loop -------------------------------------------------------
+    #
+    # The two producers of `RESEARCH_QUESTION_RAISED` and `EXPERIMENT_DRAFTED_FROM_QUESTION`, the two
+    # kinds added with `htr/knowledge/questions.py`. They record the edge *back* from a knowledge
+    # record to a new experiment, which the four kinds above deliberately do not: those run
+    # event -> observation -> finding and stop.
+
+    def register_research_question(
+        self,
+        question: ResearchQuestion,
+        *,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """Durably records one raised `ResearchQuestion`.
+
+        `caused_by` should be the `ResearchObservationCreated` or `CandidateFindingCreated` event of
+        the record that provoked it -- the layer-10/11-back-to-the-question causal edge. As everywhere
+        else in this class, it is not inferred: which record made a question worth asking is the
+        asker's statement, and `ResearchQuestion` already carries the *entity* ids in
+        `originating_observation_id`/`originating_finding_id`/`originating_contradiction_id`. This
+        parameter is the *event* pointer, which is a different fact (an entity may have been announced
+        by more than one event over its life).
+
+        No correlation is defaulted. Unlike an observation, a question is not extracted *from* a run:
+        it is about what a run failed to settle, and it usually motivates a run that does not exist
+        yet. An honest `None` outside an explicit `correlated_to` block is the right answer, matching
+        `correlation_id`'s own docstring about a bare `ResearchProject` registration.
+        """
+        return self._emit(
+            ResearchQuestionRaised(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    actor_type=HtrActorType.HUMAN,
+                    actor_id=question.created_by,
+                    subject_id=question.question_id,
+                ),
+                question_ref=question.question_id,
+                statement=question.statement,
+                originating_observation_ref=question.originating_observation_id,
+                originating_finding_ref=question.originating_finding_id,
+                originating_contradiction_ref=question.originating_contradiction_id,
+                question=question,
+            ),
+            bucket=self._research_questions,
+            key=question.question_id,
+            kind="ResearchQuestion",
+            project=lambda: HtrResearchStore.register_research_question(self, question),
+        )
+
+    def record_experiment_drafted_from_question(
+        self,
+        draft: Any,
+        *,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """Records that an `ExperimentVersion` was drafted from a `ResearchQuestion`.
+
+        `draft` is a `htr/knowledge/questions.py::DraftedExperiment` -- typed `Any` to keep this
+        module's imports free of `questions.py`, which imports `providers/*` through
+        `baseline_template.py`; the same reason the review-record parameters above are typed `Any`.
+
+        **Registering the drafted `Experiment` and `ExperimentVersion` is the caller's separate act**,
+        and must happen first: those two entities have their own kinds
+        (`ExperimentCreated`/`ExperimentVersionCreated`) carrying their own full objects, and this
+        method deliberately does not emit them. Pass the `ExperimentVersionCreated` event id as
+        `caused_by` so the log carries an explicit `ExperimentVersionCreated -> drafted-from-question`
+        edge. Doing it the other way round would leave this event pointing at an experiment version the
+        stream has not announced.
+
+        Advances the question's projection entry to the post-draft state `draft.question` carries.
+        Requires the question to have been registered -- `advance_research_question` refuses an
+        unknown one rather than inventing it, so a draft whose `ResearchQuestionRaised` is missing
+        surfaces instead of appearing out of nowhere at `Being investigated`.
+        """
+        question: ResearchQuestion = draft.question
+        event_id = self._emit_only(
+            ExperimentDraftedFromQuestion(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    actor_type=HtrActorType.HUMAN,
+                    actor_id=question.created_by,
+                    experiment_id=draft.experiment.experiment_id,
+                    experiment_version_id=draft.experiment_version.experiment_version_id,
+                    dataset_version_id=draft.experiment_version.dataset_version_id,
+                    subject_id=question.question_id,
+                ),
+                question_ref=question.question_id,
+                experiment_ref=draft.experiment.experiment_id,
+                experiment_version_ref=draft.experiment_version.experiment_version_id,
+                hypothesis_ref=draft.definition.hypothesis_id,
+                question=question,
+            )
+        )
+        self.advance_research_question(question)
+        return event_id
 
     # -- Coarse-entity JSON snapshot (derived cache) ------------------------------------------------
 

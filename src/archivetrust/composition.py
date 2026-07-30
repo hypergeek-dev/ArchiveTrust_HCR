@@ -888,6 +888,22 @@ class AppContext:
 
         return ReviewCenterViewModel(self.blind_review_store)
 
+    def research_knowledge_viewmodel(self):
+        """The Research Knowledge surface's ViewModel (`docs/knowledge-lifecycle.md`'s Phase 10).
+
+        Shares the one `HtrEvidenceChainViewModel` this context already hands the Evidence Chain page,
+        so an evidence reference resolved on the knowledge page and a breadcrumb walked on the evidence
+        page are produced by the same object over the same projection rather than by two instances that
+        could disagree.
+        """
+        from archivetrust.presentation.htr_knowledge_viewmodel import (
+            ResearchKnowledgeViewModel,
+        )
+
+        return ResearchKnowledgeViewModel(
+            self.htr_research_store, evidence_chain=self.htr_evidence_chain_viewmodel()
+        )
+
     def local_worker_client(self):
         from archivetrust.worker.client import LocalWorkerClient
 

@@ -555,6 +555,244 @@ class ResearchObservation(BaseModel):
         )
 
 
+class ResearchQuestionStatus(str, Enum):
+    """Where a `ResearchQuestion` stands. Three values, exactly as the follow-up specifies.
+
+    Display spelling in the values, for the same reason `FindingStatus` carries its own: these are
+    read by humans in a research context and `being_investigated` would create a second vocabulary.
+    """
+
+    OPEN = "Open"
+    BEING_INVESTIGATED = "Being investigated"
+    ANSWERED = "Answered"
+
+
+class Hypothesis(BaseModel):
+    """A falsifiable prediction attached to exactly one `ResearchQuestion`.
+
+    `falsification_criterion` is required and non-empty. A "hypothesis" that names no result which
+    would refute it is a statement of expectation, not a hypothesis, and the whole reason this entity
+    sits between a question and an experiment is to force that to be written down *before* the
+    experiment runs -- which is also why `htr/experiment/baseline_template.py`'s own `hypothesis`
+    field spells out a procedural falsifiable prediction rather than asserting a winner.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    hypothesis_id: str
+    research_question_id: str = Field(min_length=1)
+    statement: str = Field(min_length=1)
+    falsification_criterion: str = Field(min_length=1)
+    """What observable result would refute this hypothesis. Non-empty by construction."""
+    author: str = Field(min_length=1)
+    created_at: str = Field(min_length=1)
+
+    @classmethod
+    def create(
+        cls,
+        *,
+        research_question_id: str,
+        statement: str,
+        falsification_criterion: str,
+        author: str,
+        created_at: str,
+    ) -> "Hypothesis":
+        return cls(
+            hypothesis_id=new_id("hypothesis"),
+            research_question_id=research_question_id,
+            statement=statement,
+            falsification_criterion=falsification_criterion,
+            author=author,
+            created_at=created_at,
+        )
+
+
+class ResearchQuestion(BaseModel):
+    """**The feedback-loop entity**: what an observation, finding or contradiction made worth asking.
+
+    Closes the cycle `docs/architecture/htr-event-model.md` §1's layering opens. The three knowledge
+    layers on their own run one way -- event -> observation -> finding -- and stop. This entity is the
+    edge back:
+
+        Observation -> Candidate finding -> Research question -> Hypothesis -> Experiment
+            -> Results -> Reviewed finding -> New research question
+
+    **A question always names what provoked it.** At least one of `originating_observation_id`,
+    `originating_finding_id` or `originating_contradiction_id` is required, validated on the model. A
+    question with no origin is a research agenda item, not a link in this chain, and admitting one
+    would make the cycle unwalkable backwards -- exactly the property the whole entity exists to
+    provide.
+
+    **`created_experiment_id` is the forward edge, and it is not free.** Setting it moves the question
+    off `Open`: an experiment has been drafted from it, so "nobody has acted on this" is no longer
+    true. The pointer and the status cannot disagree, because a validator refuses that combination
+    rather than trusting the caller to keep them in step.
+
+    **`Answered` requires a finding.** A question is answered by a reviewed claim, not by a run
+    completing, so `answered_by_finding_id` is required for that status and forbidden otherwise. This
+    is the same shape as `ResearchFinding.superseded_by`: a status that implies a pointer always
+    carries it.
+
+    Frozen, like every entity in this module. The three legitimate changes -- attaching a hypothesis,
+    recording a drafted experiment, recording an answer -- are the three `with_*` methods below, each
+    of which re-validates rather than trusting `model_copy` (which bypasses validators).
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    question_id: str
+    statement: str = Field(min_length=1)
+    motivation: str = Field(min_length=1)
+    """Why the originating record makes this worth asking. Non-empty: a question whose provocation is
+    only implicit in an id is not reviewable by a reader who has not already read that record."""
+    originating_observation_id: str | None = None
+    originating_finding_id: str | None = None
+    originating_contradiction_id: str | None = None
+    """A `ContradictoryEvidence.contradiction_id`. Present because the follow-up requires a
+    *contradiction* to be able to raise a question, and a contradiction is not a finding: it is one
+    append-only entry on a disputed one, with its own id."""
+    status: ResearchQuestionStatus = ResearchQuestionStatus.OPEN
+    hypotheses: tuple[Hypothesis, ...] = ()
+    created_by: str = Field(min_length=1)
+    created_at: str = Field(min_length=1)
+    created_experiment_id: str | None = None
+    created_experiment_version_id: str | None = None
+    """The exact `ExperimentVersion` drafted from this question -- the configuration, not just the
+    named experiment. An `Experiment` carries no configuration at all
+    (`htr/experiment/models.py::Experiment`), so a link that stopped at `experiment_id` would not say
+    which methods or dataset version the draft actually chose."""
+    answered_by_finding_id: str | None = None
+
+    @model_validator(mode="after")
+    def _question_is_anchored_and_its_pointers_agree(self) -> "ResearchQuestion":
+        origins = (
+            self.originating_observation_id,
+            self.originating_finding_id,
+            self.originating_contradiction_id,
+        )
+        if not any(origin is not None and origin.strip() for origin in origins):
+            raise ValueError(
+                "a ResearchQuestion must name at least one of originating_observation_id, "
+                "originating_finding_id or originating_contradiction_id: a question with no "
+                "recorded provocation cannot be walked back to the evidence that raised it, which "
+                "is the only reason this entity exists"
+            )
+        for hypothesis in self.hypotheses:
+            if hypothesis.research_question_id != self.question_id:
+                raise ValueError(
+                    f"Hypothesis {hypothesis.hypothesis_id} names research question "
+                    f"{hypothesis.research_question_id!r} but is attached to {self.question_id!r}"
+                )
+        if self.created_experiment_version_id is not None and self.created_experiment_id is None:
+            raise ValueError(
+                "ResearchQuestion.created_experiment_version_id is set without "
+                "created_experiment_id; a version always belongs to a named experiment"
+            )
+        if (
+            self.created_experiment_id is not None
+            and self.status is ResearchQuestionStatus.OPEN
+        ):
+            raise ValueError(
+                "ResearchQuestion.created_experiment_id is set but status is 'Open': drafting an "
+                "experiment from a question is an act on it, so the question is at least "
+                f"{ResearchQuestionStatus.BEING_INVESTIGATED.value!r} once one exists"
+            )
+        if (
+            self.status is ResearchQuestionStatus.ANSWERED
+            and self.answered_by_finding_id is None
+        ):
+            raise ValueError(
+                "a ResearchQuestion at status 'Answered' must name the ResearchFinding that answers "
+                "it: a question is answered by a reviewed claim, never by a run merely completing"
+            )
+        if (
+            self.status is not ResearchQuestionStatus.ANSWERED
+            and self.answered_by_finding_id is not None
+        ):
+            raise ValueError(
+                f"ResearchQuestion.answered_by_finding_id is set but status is "
+                f"{self.status.value!r}; only an 'Answered' question carries an answer pointer"
+            )
+        return self
+
+    @classmethod
+    def create(
+        cls,
+        *,
+        statement: str,
+        motivation: str,
+        created_by: str,
+        created_at: str,
+        originating_observation_id: str | None = None,
+        originating_finding_id: str | None = None,
+        originating_contradiction_id: str | None = None,
+        hypotheses: tuple[Hypothesis, ...] = (),
+    ) -> "ResearchQuestion":
+        """Raises a question at `Open`. There is deliberately no `status` parameter: a question that
+        has been acted on has been acted on *through* one of the `with_*` methods, each of which
+        records what the act was, so a caller cannot assert `Being investigated` with nothing behind
+        it."""
+        question_id = new_id("research_question")
+        return cls(
+            question_id=question_id,
+            statement=statement,
+            motivation=motivation,
+            originating_observation_id=originating_observation_id,
+            originating_finding_id=originating_finding_id,
+            originating_contradiction_id=originating_contradiction_id,
+            status=ResearchQuestionStatus.OPEN,
+            hypotheses=tuple(
+                hypothesis.model_copy(update={"research_question_id": question_id})
+                for hypothesis in hypotheses
+            ),
+            created_by=created_by,
+            created_at=created_at,
+        )
+
+    def with_hypothesis(self, hypothesis: Hypothesis) -> "ResearchQuestion":
+        """Appends a hypothesis. Never replaces: the list grows, so a question that was investigated
+        under a hypothesis later abandoned still records that it was."""
+        rebound = hypothesis.model_copy(update={"research_question_id": self.question_id})
+        return self._revalidated({"hypotheses": (*self.hypotheses, rebound)})
+
+    def with_drafted_experiment(
+        self, *, experiment_id: str, experiment_version_id: str
+    ) -> "ResearchQuestion":
+        """Records that an `ExperimentVersion` was drafted from this question, moving it to
+        `Being investigated`. Refuses a second draft rather than overwriting the first pointer -- two
+        experiments from one question means two questions, or a superseding version, and silently
+        losing the first link would break the chain this entity exists to preserve."""
+        if self.created_experiment_id is not None:
+            raise ValueError(
+                f"ResearchQuestion {self.question_id} already names drafted experiment "
+                f"{self.created_experiment_id} (version {self.created_experiment_version_id}); "
+                "overwriting that pointer would lose the first draft's link back to this question"
+            )
+        return self._revalidated(
+            {
+                "created_experiment_id": experiment_id,
+                "created_experiment_version_id": experiment_version_id,
+                "status": ResearchQuestionStatus.BEING_INVESTIGATED,
+            }
+        )
+
+    def answered_by(self, finding_id: str) -> "ResearchQuestion":
+        """Records that a reviewed finding answers this question, moving it to `Answered`."""
+        return self._revalidated(
+            {
+                "answered_by_finding_id": finding_id,
+                "status": ResearchQuestionStatus.ANSWERED,
+            }
+        )
+
+    def _revalidated(self, update: dict[str, object]) -> "ResearchQuestion":
+        """`model_copy` bypasses validators, so every derived question is re-validated. Without this
+        the pointer/status agreement rules above would hold only for objects built through
+        `__init__` -- which is exactly the hole `lifecycle.py::transition_finding_status` closes the
+        same way for `ResearchFinding`."""
+        return ResearchQuestion.model_validate(self.model_copy(update=update).model_dump())
+
+
 class ResearchFinding(BaseModel):
     """Layers 11-12: a scoped claim a human is (or is not yet) willing to stand behind.
 

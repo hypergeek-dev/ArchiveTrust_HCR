@@ -28,9 +28,11 @@ from typing import Any
 
 from archivetrust.htr.knowledge.baseline_knowledge import (
     CONTROLLED_RUN_ID,
+    DATASET_VERSION_ID,
     END_TO_END_RUN_ID,
     EXTRACTED_AT,
     OBSERVATION_CAUSING_EVENT,
+    PROJECT_ID,
     baseline_candidate_findings,
     florence2_relative_result_observation,
     gpu_memory_contradiction,
@@ -43,6 +45,13 @@ from archivetrust.htr.knowledge.models import (
     FindingStatus,
     ResearchFinding,
     ResearchObservation,
+    ResearchQuestion,
+)
+from archivetrust.htr.knowledge.questions import (
+    SATRN_CALIBRATION_DRAFT_TITLE,
+    DraftedExperiment,
+    draft_experiment_from_question,
+    satrn_confidence_calibration_question,
 )
 
 OBSERVATION_BUILDERS_BY_NAME = {
@@ -250,3 +259,143 @@ def demonstrate_review_workflow(
     results["florence2_environment_reproducible"] = environment
 
     return results
+
+
+# -- The research-question feedback loop (Phase 11) ------------------------------------------------
+
+FEEDBACK_LOOP_SAMPLE_SIZE_TARGET = 200
+"""The sample size the drafted follow-up proposes, in line crops.
+
+An order-of-magnitude judgement about what it would take to say anything about a *distributional*
+property, not a computed power analysis -- this repository has no variance estimate to compute one
+from, since it has one measurement. It is recorded as a target in the draft's `sampling_strategy`
+alongside the plain statement that no such sample exists here, so nothing reads as a promise that 200
+lines are available.
+"""
+
+
+class FeedbackLoopDemonstration:
+    """What `register_feedback_loop` produced: the question, the drafted experiment, and the event
+    ids that link them.
+
+    A plain result holder, like `BaselineKnowledge` -- the durable store already holds the entities;
+    this is what a caller (a script, a test) needs to keep walking the chain.
+    """
+
+    def __init__(
+        self,
+        *,
+        question: ResearchQuestion,
+        question_event_id: str,
+        draft: DraftedExperiment,
+        experiment_event_id: str,
+        experiment_version_event_id: str,
+        draft_event_id: str,
+    ) -> None:
+        self.question = question
+        """The question as *raised* -- `Open`, no experiment pointer. Kept alongside the post-draft
+        state on `draft.question` so a reader can see both, which is what the two events record."""
+        self.question_event_id = question_event_id
+        self.draft = draft
+        self.experiment_event_id = experiment_event_id
+        self.experiment_version_event_id = experiment_version_event_id
+        self.draft_event_id = draft_event_id
+
+
+def register_feedback_loop(
+    store: Any,
+    *,
+    observation: ResearchObservation,
+    finding: ResearchFinding,
+    created_by: str,
+    at: str = EXTRACTED_AT,
+    caused_by: str | None = None,
+) -> FeedbackLoopDemonstration:
+    """Raises the one real research question this repository's own data supports, and drafts one real,
+    unexecuted experiment from it.
+
+    The chain, every link an explicit id rather than an inference:
+
+        satrn_confidence_disagreement (ResearchObservation)
+          -> satrn_confidence_not_aligned (ResearchFinding.supporting_observations)
+            -> ResearchQuestion.originating_observation_id / .originating_finding_id
+              -> Hypothesis.research_question_id
+                -> ExperimentVersion.pipeline_configuration_ref.research_question_id
+                   and ResearchQuestion.created_experiment_version_id
+
+    **Why this question and not another.** The confidence-anomaly observation states in its own
+    description, and in two of its tags (`this_run_and_this_sample_only`, `not_a_calibration_claim`),
+    that one sample cannot measure calibration. The question is therefore read off a gap the record
+    already names, rather than invented to have something to draft from. See
+    `questions.SATRN_CALIBRATION_QUESTION`.
+
+    **The question originates from both the observation and the finding built on it.** Both ids are
+    recorded because both are true: the observation supplied the measurement and the finding is the
+    claim whose stated limitation the question attacks. Recording only one would make the chain
+    reachable in one direction and not the other.
+
+    **Causation.** `caused_by` should be the `CandidateFindingCreated` event of `finding` -- the latest
+    record in the chain, and the one whose stated limitation the question is about. The draft's
+    `ExperimentDraftedFromQuestion` is caused by the `ExperimentVersionCreated` of the version it
+    names, which is registered first for exactly that reason.
+
+    **`observation` and `finding` are entities, not ids, and the caller supplies the *committed* ones.**
+    `scripts/register_research_question.py` replays the committed knowledge log and passes what it
+    finds there, so the question links to the observation and finding the documentation quotes rather
+    than to a freshly-minted pair from a re-registration. `observation.scope` is used verbatim for the
+    draft's methods and checkpoints -- read off the record, never restated here.
+
+    **Nothing is executed.** No `ExperimentRun` is created, no adapter is invoked, no metric is
+    computed. `questions.DRAFT_NOT_EXECUTED_CAVEAT` is in the drafted definition's own `scope_caveats`,
+    so the stored configuration says so too.
+
+    `store` is a `DurableHtrResearchStore` (typed `Any` for the reason
+    `register_baseline_knowledge` records).
+    """
+    if observation.observation_id not in finding.supporting_observations:
+        raise ValueError(
+            f"observation {observation.observation_id} is not among finding "
+            f"{finding.finding_id}'s supporting_observations {finding.supporting_observations}: a "
+            "question cannot claim to originate from both unless the finding really rests on the "
+            "observation -- recording an unlinked pair would make the chain an assertion rather than "
+            "a traversal"
+        )
+
+    question = satrn_confidence_calibration_question(
+        observation=observation, created_by=created_by, at=at
+    ).model_copy(update={"originating_finding_id": finding.finding_id})
+    # `model_copy` bypasses validators, so re-validate: the originating/status/pointer agreement rules
+    # on `ResearchQuestion` must hold for the object that reaches the store, not only for one built
+    # through `create`.
+    question = ResearchQuestion.model_validate(question.model_dump())
+
+    question_event_id = store.register_research_question(question, caused_by=caused_by)
+
+    draft = draft_experiment_from_question(
+        question,
+        originating_scope=observation.scope,
+        research_project_id=PROJECT_ID,
+        dataset_version_id=DATASET_VERSION_ID,
+        created_at=at,
+        title=SATRN_CALIBRATION_DRAFT_TITLE,
+        sample_size_target=FEEDBACK_LOOP_SAMPLE_SIZE_TARGET,
+    )
+
+    experiment_event_id = store.register_experiment(
+        draft.experiment, caused_by=question_event_id
+    )
+    experiment_version_event_id = store.register_experiment_version(
+        draft.experiment_version, caused_by=experiment_event_id
+    )
+    draft_event_id = store.record_experiment_drafted_from_question(
+        draft, caused_by=experiment_version_event_id
+    )
+
+    return FeedbackLoopDemonstration(
+        question=question,
+        question_event_id=question_event_id,
+        draft=draft,
+        experiment_event_id=experiment_event_id,
+        experiment_version_event_id=experiment_version_event_id,
+        draft_event_id=draft_event_id,
+    )
