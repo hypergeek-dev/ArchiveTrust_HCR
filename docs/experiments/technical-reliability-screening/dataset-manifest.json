@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-30T06:53:06.505203+00:00",
+  "generated_by": "scripts/inventory_technical_reliability_screening.py",
+  "stage": "Stage 1 -- dataset inventory (Checkpoint 1 material, not approved)",
+  "no_inference_performed": true,
+  "dataset": {
+    "dataset_id": "dataset_f7dfd857275e7c253a5aba4730f93428121e5156bd4281c4101fd79514b0d8d9",
+    "dataset_name": "swedish-witchcraft-trial-records-rgb",
+    "dataset_version": "dataset_version_a51bddcb369babc7d5f603d6c6a465de9505061bc876c2d3fdecdc2bcf5eee6e",
+    "corpus_digest_sha256": "0ec46b47d661001bcfe6bb9d94f0a30ddfc8cb94fc0c8e047a652896ef46058d",
+    "root_relative_path": "dataset-rgb",
+    "description": "Real page images from Swedish witchcraft-trial court records (Riksarkivet-style collections, 1584-1764), never committed to git."
+  },
+  "counts": {
+    "total_files": 766,
+    "usable": 766,
+    "unreadable_or_undecodable": 0,
+    "duplicates_excluded": 0,
+    "distinct_content_hashes": 766,
+    "collections": 31,
+    "documents": 31
+  },
+  "category_distribution_automatic": {
+    "Ordinary": 48,
+    "Technically difficult": 1,
+    "Structurally difficult": 717
+  },
+  "classification_policy": {
+    "precedence": [
+      "Structurally difficult",
+      "Technically difficult",
+      "Ordinary"
+    ],
+    "spread_aspect_ratio_threshold": 1.15,
+    "low_bytes_per_pixel_threshold": 0.31,
+    "high_bytes_per_pixel_threshold": 1.42,
+    "large_pixel_count_threshold": 40000000,
+    "known_limitation": "Structural difficulty other than double-page-spread geometry (marginalia density, tables, multi-column layout, insertions, physical damage) is NOT automatically detectable without a layout model, which is out of scope for this pass. Pages carrying such difficulty are conservatively reported as 'Ordinary' and require supervised human correction.",
+    "bytes_per_pixel_caveat": "Every file is lossless PNG, so bytes-per-pixel measures raster entropy, not compression artifacts. It is reported as a detail/noise proxy only."
+  },
+  "identity_scheme": {
+    "mechanism": "archivetrust.domain.shared.ids.content_address (deterministic)",
+    "why_not_new_id": "new_id() is uuid4-random; re-running the inventory would mint new ids and make the manifest undiffable. Deterministic ids make a re-scan verifiable.",
+    "content_hash": "htr/preprocessing/models.py::PageImageArtifact.compute_hash (page_image_<sha256>), reused verbatim"
+  },
+  "proposed_sample": {
+    "status": "PROPOSED -- not binding; requires supervisor approval at Checkpoint 1",
+    "reason_not_binding": "The strata are automatic suggestions only. Structural difficulty beyond page-spread geometry is not automatically detectable without a layout model, so the categories this sample stratifies on are expected to change under supervised human correction. Approving this sample before correcting the categories would freeze a stratification known to be incomplete.",
+    "target_size": 60,
+    "seed": 20260730,
+    "min_per_stratum": 5,
+    "candidate_population": 766,
+    "stratum_sizes": {
+      "Ordinary": 48,
+      "Technically difficult": 1,
+      "Structurally difficult": 717
+    },
+    "allocation": {
+      "Ordinary": 8,
+      "Technically difficult": 1,
+      "Structurally difficult": 51
+    },
+    "selected_count": 60,
+    "selected_page_ids_by_stratum": {
+      "Ordinary": [
+        "page_12c7876393c5c679bef91a69024d725bb5afa781d5735af90e808ef4104b8e59",
+        "page_ce27a23e3ced90c188bad2f79e07f565312dc91940cf29b042ebb6170dc7a35c",
+        "page_eb980537e503375e1d46eede36f9e8c041e61bb2d514786d29a7af9c0e167263",
+        "page_5d74b08478ec702d78a3f8ce4bc51766ed6b2d0de35c9c91868593940e9a8730",
+        "page_4855d866a815964a9cd833aa97c81a68006f9d3ccc632d70fab577b158ebeeb5",
+        "page_a4dd8c84300cee22db34d49c070b102058e11e7530650e556ac4ed34ed4fe349",
+        "page_f341051d6611d0b8b36bed534d1c6ac628443bbe35788d77bb538a0e0be438b7",
+        "page_a176ef594674440482fb3fbb481d647863725dff67f3c9296d22b0e4397347d4"
+      ],
+      "Technically difficult": [
+        "page_8d56e51fc9cf8cae5885b42f8d22530bd1231184a62c4a861e385afe451ce413"
+      ],
+      "Structurally difficult": [
+        "page_6700068c5e3fd668d62be2d9d4b6e9716b3bd1b9bf9fc751f59088065049bc13",
+        "page_ee0a23f9ce6603747c195aacaf5ee0c7f23221b1c35866f7d4abcf2b698e89fd",
+        "page_e8eea39fee8a080b45cefe3a6109ddf9f7fc7c2a9975385fc27d1c32f49b287e",
+        "page_a15b931cdc4ebdcc3e7556b9208539a607249a4c1df4cd07e74aeed19f86e721",
+        "page_1ff1d085df152d87a8264ec69ffd0316514d4f5b32053b50eb17a57f1a86bea8",
+        "page_4d715c1e4bc2e86644a513a9b87d1b710586660a7712ccca0cdbc651344649d0",
+        "page_ecbb1a737902b0f85b6a5b8fe2f4d83dc25e2dcdf1dac1167c75231cf885bc3f",
+        "page_f9a098e650c633cc996e5304a2cd494845c607977b3e6fea30ed2d1477c8b2ca",
+        "page_eb0e08e410658439a109c19646064e444a02c94c74c0cffda2cc870a10ec3f65",
+        "page_7cb547d5a7c41b14868e9b62491c6102b2ea3161c380039efb894df8b1db297e",
+        "page_2b98f3d2399195350ffc61ede29ff4923697809b0e9e70ad68b0c4b9a394a699",
+        "page_f25428b0a900a062e0581f4950695df8b899da5d1ce17d3bfa28fefd578d543d",
+        "page_43e4da4e1b0fcff127379d5f8cf85d30add7b8fe34060d2452ea01918ea55dfd",
+        "page_aaf5c1b66651f513c1457bc817b6b450b2cd9b75232827b6d78b83be4b4869b9",
+        "page_b77a48d0270bd3f1d223d02edcbe08830f650de82fadf493a3d93778f1ed3f97",
+        "page_0e77a6f1fe74e916a96e930cef105c6fadd9173951a70ddba433e7b99cc34f85",
+        "page_ec9e8c2dfd237e32ba2a92a92090dcf0ff7fbe926b96ff9196c25910df449e99",
+        "page_b15dcf40b4956333824d154c5cdb8bcf3b2e8246871b9e9b7d0985982a75e9da",
+        "page_244d548e13149a3f61976518d61f109491f1fc31eb725d833e2cc8fbf88918e0",
+        "page_288fdb4297ee0550be666c5c092eec667d83ae6af324ec52484201314a1a5b6b",
+        "page_014209a060c494a6b0912b9d45e2c4e7dc4b8c088ef658abedd540ec1473b232",
+        "page_8ebe412c3984c98dc0d0f005c2387c5fb95893fb3c9e44c56ce23e546a849760",
+        "page_12b2fcb2df7e4dfd53a85f8576808025de0e5d1b17c87438b72c76128f5109bf",
+        "page_31b5a61226ff3dc9dffac5344e99fa52cae0039fa198642df1da37a73bfd23d1",
+        "page_7e5a82259146d42973d7e54d3d377ade2764ff7e36d439e96475f3dc2f3d78c5",
+        "page_997668dbc7ee92460513f364493abd3062f20a0a4a7183decb9392678f0e0844",
+        "page_900075694a6fa686b867f76799f93b66fbfeb702822ea22c2e0f3b33630d08a2",
+        "page_cd55e0cf883d15faacac0fec5a23b113b76aa583ff62cb92ff581d3960b62165",
+        "page_111902733e887ba2d2d36cdb8713c21afb6d5ab991533d4657f007e5742bb7e0",
+        "page_eed80faa2bba1419adceb6ef2d26b7ce1ff42e7297102130fe0cfd37acecce0b",
+        "page_2e6b784e538d730b1e2290037b877be895601b30706e9a76ba95a5b91393d588",
+        "page_9f451ef8b6bb4238a1cbc022eeb1229620e2a48408b38971e2772978a401da39",
+        "page_dae5e2653f80db4707617b0ad46a77e71b699aadf1e9d5e42ce73edfa7f9881c",
+        "page_40e3f5859b9eab401b1d44a72c77016e0c6ef1b6a0bcb4921d591e90a51a72ef",
+        "page_ca08289bc6ee70fb1d503da718500589970862e356c2f087bf7ccae624595aef",
+        "page_ac51b729539d202300f48694b0bfa6edcc0fde27033e60f05dcefda3d465880d",
+        "page_490194e3da1ceae2023d06426d940e9262ecdfe10c90d3509e6c75c16ff2cd38",
+        "page_b0ef9104e8347643d5a90ed9c6e17ced0da3516ed2b2ad832a674339ee3fb0f3",
+        "page_4a7ac4c3d20694ad97d165f153b37dd534251c2005ffa700938de6df9fff4404",
+        "page_28b7d32b2470a09f811a2dd9d67a848afe78fc891f7e6c26b35fe08aaf929a24",
+        "page_8a013d8df913b8e0aa7d21793463ea90a2ffbd10fa940131708a7b7f19d0e7a3",
+        "page_7f9caba26d9c115f3367a0278820a21c4dc4b4fe26d68e3801caed1b620e7781",
+        "page_3e9c7afda18b603ad37d09c967c3514eab38c4eff2373b953c42c197d6e3c464",
+        "page_29b374db2eca6e81ac0cebc9bbf0d6228e34a38ee4816357f37e57a014207e0f",
+        "page_930596460120924c9c46f90aa0927f5e1bea05e5635340df223972067f62c57f",
+        "page_3d04b86b140154f6abb19afe9ceff1e61860e7b9e613172d27b2c15a3e60a22d",
+        "page_0b997951f9378cb9c42897b1bd4af7a45afe8b9fdd20fe929a823d440d011c34",
+        "page_131708ddf23950137894d53fe365068453f989c73ca27e7118f2101712ce4883",
+        "page_c1e2267f773575b0f6e4a880ee5e621dd5add3c14e3f02e04a5ee3d7b1e1bd0b",
+        "page_2c2190f1ee42cf93cc8306c5fbec0d308ce4067c0ed103bc66144766dbdc8b26",
+        "page_a6632a26d3545373ce4d60b89f63bd768283e769c2abbe41000b2ef337e10bbb"
+      ]
+    },
+    "excluded_from_sample_count": 706
+  },
+  "supervised_decisions_deferred_to_checkpoint_1": [
+    "Final sample size and whether the proposed stratified sample is adopted.",
+    "Correction of every automatic category, especially 'Ordinary' pages that are in fact structurally difficult.",
+    "Whether double-page spreads are split into single pages before recognition, or processed whole.",
+    "Review sampling rate and the human-plausibility rating scale."
+  ]
+}
