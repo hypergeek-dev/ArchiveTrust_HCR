@@ -199,3 +199,80 @@ Executed. Every row this stage's scope covered is marked "Executed"/"Partially e
 5. **`bootstrap/providers.py`** (Docker lifecycle CLI for `paddleocr-vl`/`surya`, not named in this doc's original tables) was deleted as a direct consequence of `runtime/vllm_runtime.py`'s deletion, along with its `providers start/stop/status/logs` subcommand in `bootstrap/cli.py`.
 
 Full validation: `PYTHONPATH=src .venv/Scripts/python.exe -c "import archivetrust"` succeeds; `PYTHONPATH=src .venv/Scripts/python.exe -m pytest tests -q` is green (979 passed, 2 skipped — down from the pre-Stage-5 baseline of 1270 passed/2 skipped, entirely accounted for by deleted provider/decoding/runtime/table-reconciliation/vision-activation test suites, not by silent breakage).
+
+## HTR telemetry-persistence pass execution record (2026-07-30)
+
+Scope: give the HTR research entities durable, append-only, telemetry-backed persistence, replacing
+their in-memory-only storage. The built architecture is documented in
+`docs/architecture/htr-telemetry.md`; this section records only what was **deleted or replaced**, per
+this file's purpose. Existing content above is untouched.
+
+### Nothing was deleted
+
+No module, class, function, test, or event kind was removed in this pass. That is worth stating
+explicitly, because the obvious reading of "replace `HtrResearchStore`'s in-memory-only storage"
+would be to delete the class. It was not deleted, and the reasoning is recorded in
+`docs/architecture/htr-telemetry.md` §3 (a four-option comparison): the gap analysis §10 is explicit
+that its query interface is correct and that "the gap is purely that nothing durable backs it", so
+deleting a correct interface to reintroduce an equivalent one would have been churn that also forced
+changes to four ViewModels and their tests for no behavioural gain.
+
+### What was replaced (in role, not in code)
+
+| Thing | Was | Is now |
+|---|---|---|
+| `htr/research_store.py::HtrResearchStore` | The sole source of truth for 19 buckets of HTR entities; in-memory, no telemetry, no disk (gap analysis §2) | The in-memory **projection** over a durable event log. Query interface unchanged; module docstring rewritten to state its four current jobs. No longer a source of truth. |
+| `composition.py::AppContext.htr_research_store` | Constructed a bare `HtrResearchStore()`, process-wide, empty on every launch | Constructs a `DurableHtrResearchStore` per Workspace, hydrated by replaying that Workspace's `telemetry/htr_research_events.jsonl`. Reset by `open_workspace` so switching Workspaces switches research histories. |
+| The five HTR event kinds added by the prior transformation (`SegmentationRunCompleted`, `MethodRunCompleted`, `ReviewSubmissionRecorded`, `AdjudicationRecorded`, `CanonicalResultCreated`) | Defined with **zero producers anywhere in `src/`** and no `Journal` replay branch (gap analysis §1) | All five have real producers in `htr/persistence/durable_store.py`. `MethodRunCompleted` and `CanonicalResultCreated` additionally participate in replay. |
+
+### Additive changes to existing files
+
+* `domain/telemetry/events.py`: +34 `TelemetryEventKind` members (68 total), `+correlation_id`/
+  `+causation_id` on the shared `TelemetryEvent` base, new `HtrActorType` enum and
+  `HtrTelemetryEvent` base class, new event classes, all registered in `EVENT_TYPE_BY_KIND`. The five
+  pre-existing HTR event classes were re-parented from `TelemetryEvent` to `HtrTelemetryEvent`
+  (additive -- only optional defaulted fields are gained). Three gained one optional field each
+  (`CanonicalResultCreated.canonical_result`, `ReviewSubmissionRecorded.record`,
+  `AdjudicationRecorded.record`) so replay can reconstruct them; reasoning in
+  `docs/architecture/htr-telemetry.md` §5.
+* `application/journal.py`: one new `_apply` branch (HTR events -> documented no-op pointing at
+  `HtrJournal`). No existing branch changed.
+* `htr/research_store.py`: three projection-support methods added (`advance_experiment_run`,
+  `apply_transcript_stage`, `adopt_projection`), one new bucket (`_conventions`) with its
+  `register_convention`/`convention`/`conventions` accessors, one new error type
+  (`UnknownEntityError`). No existing method changed.
+* `docs/TELEMETRY_STANDARD_V1.md`: the 34 new kinds and the correlation/causation fields documented,
+  as `tests/test_telemetry_standard_publication.py` requires of every kind in the enum.
+
+### New files
+
+* `src/archivetrust/htr/persistence/__init__.py`
+* `src/archivetrust/htr/persistence/durable_store.py` (`DurableHtrResearchStore`,
+  `HtrCoarseEntitySnapshot`)
+* `src/archivetrust/application/htr_journal.py` (`HtrJournal`, `causation_chain`)
+* `docs/architecture/htr-telemetry.md`
+* `tests/htr/persistence/{__init__,_fixtures}.py`,
+  `tests/htr/persistence/test_read_model_reconstruction.py`,
+  `tests/htr/persistence/test_correlation_and_causation.py`
+
+### Tests updated rather than deleted
+
+One assertion, for an intended behaviour change:
+`tests/domain/telemetry/test_events.py::test_all_canonical_event_kinds_are_registered` -- the
+hard-coded event-kind count `34` became `68`, with its running comment extended to account for the
+30 kinds from `docs/architecture/htr-event-model.md` §3 plus the 4 documented additions that list
+omitted. No test was deleted or skipped.
+
+### Deliberately not done (deferred, not overlooked)
+
+* `review/blind_review/store.py::BlindReviewStore` is **not** replaced. Its four record types now
+  have durable, correlated telemetry, but its own in-memory persistence and query surface are
+  unchanged -- reasoning in `docs/architecture/htr-telemetry.md` §7.
+* `htr/experiment/baseline_execution.py` is unchanged. It already accepts an injected store and a
+  `DurableHtrResearchStore` now satisfies that parameter, so the wiring is ready; actually re-running
+  the baseline through it is Phase 4.
+* `research/reports/*` still reads in-process dataclasses rather than durable records
+  (gap analysis §8). `ResearchReportGenerated` exists for when that is re-pointed.
+* Five event kinds (`ResearchObservationCreated`, `CandidateFindingCreated`, `FindingReviewed`,
+  `FindingStatusChanged`, `ResearchReportGenerated`) are schema-only with no producer, disclosed in
+  their docstrings and in `docs/TELEMETRY_STANDARD_V1.md` -- the knowledge lifecycle is a later phase.

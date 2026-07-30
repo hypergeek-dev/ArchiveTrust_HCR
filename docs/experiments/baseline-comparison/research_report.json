@@ -1,0 +1,112 @@
+{
+  "export_schema": "archivetrust.research_report.v1",
+  "report": {
+    "dataset_description": "Exactly one real, shared, ground-truthed HTR asset exists in this repository at template-authoring time: tests/fixtures/htr/trolldomskommissionen_sample_line.jpg (a single line from Riksarkivet's trolldomskommissionen_lines dataset, 17th-century Swedish court-record handwriting) plus its ground-truth transcription .txt file. A separate, hand-authored (not genuine Transkribus vendor output -- see tests/fixtures/transkribus/README.md) PAGE XML fixture, sample_page.xml, supplies the page-level, non-corresponding Transkribus input. This is NOT a multi-document research corpus; see scope_caveats.",
+    "experiment_run_ids": [
+      "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73"
+    ],
+    "generated_at": "2026-07-30T00:39:48.109810+00:00",
+    "legacy_experiments_included": false,
+    "limitations": "N=1 line for the controlled comparison and N=1 hand-authored page for the end-to-end Transkribus result. This run demonstrates the pipeline executes correctly end-to-end (real inference, real hash verification, real metrics, real reproducibility capture, and -- new as of 2026-07-30 -- durable, replayable telemetry for all of it) -- it is NOT evidence about which method performs better at Swedish historical HTR in general. See baseline_template.py's BaselineExperimentDefinition.scope_caveats for the full list of what this run does not (yet) cover.",
+    "metadata": {
+      "completed_at": "2026-07-30T00:39:48.109810+00:00",
+      "controlled_experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+      "end_to_end_completed_at": "2026-07-30T00:39:48.109389+00:00",
+      "end_to_end_experiment_run_id": "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73",
+      "end_to_end_started_at": "2026-07-30T00:39:48.103749+00:00",
+      "ground_truth_text": "bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt",
+      "methods": {
+        "florence2_htr": {
+          "character_error_rate_normalized": 0.43103448275862066,
+          "character_error_rate_raw": 0.43103448275862066,
+          "controlled_comparison_member": true,
+          "evidence_id": "evidence_6f80d565e3bf614b65066302960d35615f2e3df2e529987ba8f888fb28c76cbc",
+          "exact_word_accuracy": 0.19999999999999996,
+          "execution_device": "cuda",
+          "execution_time_ms": 646.7250999994576,
+          "experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "gpu_memory_mb": 1210.64111328125,
+          "input_crop_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "method_id": "florence2_htr",
+          "method_run_id": "method_run_e3209c63bb90458ea8d7a0673dd5c706",
+          "model_revision": "994f47e8a0e8d77cb2e11528665efd07a855c3af",
+          "normalized_text": "Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff",
+          "outcome": "succeeded",
+          "parsed_text": "Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff",
+          "raw_text": "</s><s>Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff</s>",
+          "reliability_flags": [],
+          "reported_confidence": 0.24904327248940195,
+          "reported_confidence_note": "Method-specific meaning -- see each adapter's README (Florence-2's is a proxy, not a calibrated probability). Read from this run's durable EvidenceCreated record.",
+          "word_error_rate_normalized": 0.9,
+          "word_error_rate_raw": 0.9
+        },
+        "satrn": {
+          "character_error_rate_normalized": 0.7931034482758621,
+          "character_error_rate_raw": 0.7931034482758621,
+          "controlled_comparison_member": true,
+          "evidence_id": "evidence_82cd7c1a5005828f106c305d381ab97ba735941e56219ff47abdb345697b1aa7",
+          "exact_word_accuracy": 0.0,
+          "execution_device": "cuda",
+          "execution_time_ms": 1131.2847137451172,
+          "experiment_run_id": "experiment_run_30ba2bcc18a14c06af0f9ca291442cf8",
+          "gpu_memory_mb": 438.78173828125,
+          "input_crop_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+          "method_id": "satrn",
+          "method_run_id": "method_run_5bd842b5b850442daa0d701b63c3e545",
+          "model_revision": "a40c7093232eaa47a83ce6469fc4abd033486bdc",
+          "normalized_text": "till den 23 Januarii",
+          "outcome": "succeeded",
+          "parsed_text": null,
+          "raw_text": "till den 23 Januarii",
+          "reliability_flags": [
+            "confidence_calibration_disagreement",
+            "omitted_text"
+          ],
+          "reported_confidence": 0.6666051723062992,
+          "reported_confidence_note": "Method-specific meaning -- see each adapter's README (Florence-2's is a proxy, not a calibrated probability). Read from this run's durable EvidenceCreated record.",
+          "word_error_rate_normalized": 1.0,
+          "word_error_rate_raw": 1.0
+        },
+        "transkribus_swedish_lion_1": {
+          "cer_not_computed_reason": "No ground-truth correspondence to this fixture's content -- see baseline_template.py exclusion_criteria. Every CER/WER field above is null because no MetricCalculated event for a CER/WER definition was ever emitted for this method run, not because one was computed and hidden.",
+          "character_error_rate_normalized": null,
+          "character_error_rate_raw": null,
+          "controlled_comparison_member": false,
+          "evidence_id": "evidence_d39d923ec1c5510c5dc2467a61d6cc68b323a6b54f0c11562573e1804f0388a3",
+          "exact_word_accuracy": null,
+          "execution_device": null,
+          "execution_time_ms": null,
+          "experiment_run_id": "experiment_run_30ef72f1ca494a8e8eebf0b4fde33d73",
+          "gpu_memory_mb": null,
+          "input_crop_id": null,
+          "method_id": "transkribus_swedish_lion_1",
+          "method_run_id": "method_run_fa544c4adb9d44d89439c8e85d1b8565",
+          "model_revision": "Swedish Lion I - v3",
+          "normalized_text": "Anno 1712 den 3 Januarii holltes ting\nmedh allmogen aff Sochnen\nNB dombook",
+          "outcome": "succeeded",
+          "page_level_only": true,
+          "parsed_text": "Anno 1712 den 3 Januarii holltes ting\nmedh allmogen aff Sochnen\nNB dombook",
+          "raw_text": null,
+          "reliability_flags": [],
+          "reported_confidence": 0.8633333333333333,
+          "reported_confidence_note": "Method-specific meaning -- see each adapter's README (Florence-2's is a proxy, not a calibrated probability). Read from this run's durable EvidenceCreated record.",
+          "word_error_rate_normalized": null,
+          "word_error_rate_raw": null
+        }
+      },
+      "reproducibility_manifest_id": "reproducibility_manifest_16ce1fd2b1724c8c9e00cf9d2d230d9e",
+      "shared_input_crop_hash": "crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261",
+      "shared_input_crop_id": "input_crop_8f36c0e77f914386ad917c09d5ef9947",
+      "source": "Generated from durable HTR telemetry records via build_research_report_from_store -- not from in-process dataclasses (docs/htr-telemetry-knowledge-gap-analysis.md §8).",
+      "started_at": "2026-07-30T00:39:30.777840+00:00"
+    },
+    "methodology": "How do SATRN (Riksarkivet), Florence-2 (hoanghapham/vlm-htr fine-tuned OCR checkpoint), and Transkribus Swedish Lion I compare on Swedish historical handwriting recognition, under (a) a controlled line-level comparison where the local recognizers read byte-identical input crops, and (b) an end-to-end, page-level comparison where each method's own pipeline (including Transkribus's own segmentation, run outside this application) is used as-is? Methodology: Controlled comparison: no segmentation stage runs at all -- the shared fixture is already a single, pre-cropped line image, so its InputCrop is built directly from the fixture's own bytes rather than produced by a htr/segmentation/SegmentationAdapter. End-to-end comparison: Transkribus's own (external, already-completed, not re-run by this application) segmentation is used as-is -- its PAGE XML fixture's TextRegion/TextLine/Coords geometry is exactly what Transkribus itself produced (or, for this hand-authored fixture, what stands in for it).",
+    "report_id": "research_report_d2edd5bb34314dd1835ffc9385d2b185",
+    "reproducibility_manifest_refs": [
+      "reproducibility_manifest_16ce1fd2b1724c8c9e00cf9d2d230d9e"
+    ],
+    "results_summary": "PRELIMINARY, N=1-LINE SMOKE-SCALE RESULT -- not a general-performance claim (see docs/experiments/baseline-comparison/README.md). Controlled line-level comparison (shared InputCrop hash crop_e59f301d0763fab60e0141b8d984e88adc764b955c34e6b9490a316cf3a48261): SATRN produced 'till den 23 Januarii' (CER normalized=0.7931, WER normalized=1.0000); Florence-2 produced 'Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff' (CER normalized=0.4310, WER normalized=0.9000); Transkribus (page-level-only, NOT part of the controlled/hash-matched set) parsed 'Anno 1712 den 3 Januarii holltes ting\\nmedh allmogen aff Sochnen\\nNB dombook' from a hand-authored PAGE XML fixture with no ground-truth correspondence to the controlled fixture -- no CER/WER computed for it, by design.",
+    "title": "Swedish Historical HTR Baseline Comparison -- N=1 pipeline demonstration"
+  }
+}

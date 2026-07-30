@@ -84,6 +84,73 @@ The v1 document-scoped event vocabulary is:
 | `AdjudicationRecorded` | Records resolution of a disagreeing ground-truth agreement result. |
 | `CanonicalResultCreated` | Records creation of a line/region-level canonical HTR result. |
 
+### HTR research-persistence kinds
+
+Added by the HTR telemetry/provenance pass (`docs/architecture/htr-telemetry.md`;
+mapping in `docs/architecture/htr-event-model.md` §3). These are **research-scoped, not
+document-scoped**: most concern a project, dataset, experiment or metric rather than one Archive
+Object, and carry the sentinel `document_ref` value `htr:research` with their real scoping in the
+dedicated `project_id`/`dataset_id`/`experiment_id`/`experiment_run_id`/`method_run_id`/`subject_id`
+fields. `PageRegistered` and `DocumentRegistered` are the exceptions and carry a genuine
+`archive_object_ref`. They are appended to a separate stream (`htr_research_events.jsonl`) through
+the same `FileTelemetrySink`, and replayed by `application/htr_journal.py::HtrJournal`, not by
+`Journal`.
+
+| Event kind | Purpose |
+|---|---|
+| `ResearchProjectCreated` | Records registration of a research project. |
+| `DatasetCreated` | Records registration of a dataset within a project. |
+| `DatasetVersionCreated` | Records an immutable dataset-membership snapshot. |
+| `CollectionCreated` | Records registration of a document collection within a dataset. |
+| `DocumentRegistered` | Records one Archive Object joining a collection. |
+| `PageRegistered` | Records registration of one page of a document. |
+| `RegionDetected` | Records a segmentation-detected region on a page. |
+| `TextLineDetected` | Records a segmentation-detected text line within a region. |
+| `InputCropCreated` | Records a content-addressed input crop for one text line. |
+| `TranscriptionConventionRegistered` | Records a versioned transcription convention. |
+| `ExperimentCreated` | Records registration of an experiment. |
+| `ExperimentVersionCreated` | Records one versioned experiment configuration. |
+| `ExperimentRunStarted` | Records the start of an experiment run; its id is the run's correlation id. |
+| `ExperimentRunCompleted` | Records an experiment run's terminal success. |
+| `ExperimentRunFailed` | Records that an experiment run could not complete. |
+| `MethodRunStarted` | Records one method-by-input execution, carrying the full method-run record. |
+| `MethodRunFailed` | Records a method run's failure, carrying the preserved failure record. |
+| `RawMethodResultRecorded` | Records transcript stage 1: raw method output. |
+| `ParsedMethodResultRecorded` | Records transcript stage 2: parsed output. |
+| `NormalizedMethodResultRecorded` | Records transcript stage 3: normalized output. |
+| `ReviewedResultRecorded` | Records transcript stage 4: human-reviewed text (a distinct lineage). |
+| `MetricDefinitionRegistered` | Records a versioned metric definition. |
+| `MetricCalculated` | Records one metric computed for one method run. |
+| `ReliabilityIssueClassified` | Records a reliability/failure classification for a method run. |
+| `GroundTruthTextRecorded` | Records the resolved reference transcription for one text line. |
+| `ReviewAssigned` | Records assignment of one blind reviewer to one target. |
+| `AgreementCalculatedHtr` | Records reviewer-pair textual agreement (distinct from `AgreementCalculated`). |
+| `ReproducibilityManifestRecorded` | Records the reproducibility manifest for one experiment run. |
+| `ExternalResultImported` | Records a manually imported external result's provenance. |
+| `ResearchObservationCreated` | Schema-ready: records an extracted research observation. No producer yet. |
+| `CandidateFindingCreated` | Schema-ready: records a candidate research finding. No producer yet. |
+| `FindingReviewed` | Schema-ready: records a human review of a candidate finding. No producer yet. |
+| `FindingStatusChanged` | Schema-ready: records a research finding's status transition. No producer yet. |
+| `ResearchReportGenerated` | Schema-ready: records generation of a research report. No producer yet. |
+
+The last five are deliberately declared without producers, disclosed rather than left implicit: the
+research-knowledge lifecycle they belong to is a later phase, and landing the closed vocabulary now
+means the enum need not be reopened for it. `ObservationMapped` above has the same status.
+
+### Correlation and Causation
+
+Every event kind in this standard, old and new, carries two optional fields:
+
+| Field | Meaning |
+|---|---|
+| `correlation_id` | One value shared by every event in the same logical unit of work. For HTR experiment execution this is the `ExperimentRun` id. |
+| `causation_id` | The `event_id` of the event that *directly caused* this one, forming an explicit provenance DAG. |
+
+Both are `null` when no correlated unit of work applies, which includes every pre-existing
+document-scoped producer: they are not backfilled, and a `null` here means "no recorded linkage",
+never an inferred one. A conforming reader must not infer causation from append order or from shared
+domain ids when these fields are absent.
+
 ## 4. Replay Requirements
 
 Replay reconstructs document state from events alone. It must not:

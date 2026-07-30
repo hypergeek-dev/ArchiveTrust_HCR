@@ -21,8 +21,12 @@ def test_all_canonical_event_kinds_are_registered():
     # ReviewOutcomeRecorded) = 24, plus F3's CandidateExcludedBatch compact encoding = 25, plus
     # F4's created/dispatched/opened/closed lifecycle events = 29, plus docs/htr-migration-plan.md
     # Stage 3's 5 HTR event kinds (SegmentationRunCompleted, MethodRunCompleted,
-    # ReviewSubmissionRecorded, AdjudicationRecorded, CanonicalResultCreated) = 34.
-    assert len(TelemetryEventKind) == 34
+    # ReviewSubmissionRecorded, AdjudicationRecorded, CanonicalResultCreated) = 34, plus the HTR
+    # research-persistence kinds (docs/architecture/htr-event-model.md §3: 30 enumerated there, plus
+    # the 4 additions its §3 list omitted -- CollectionCreated, ReviewedResultRecorded,
+    # MetricDefinitionRegistered, GroundTruthTextRecorded -- each justified in its own enum-member
+    # docstring and in docs/architecture/htr-telemetry.md §6) = 68.
+    assert len(TelemetryEventKind) == 68
     assert set(EVENT_TYPE_BY_KIND) == set(TelemetryEventKind)
 
 

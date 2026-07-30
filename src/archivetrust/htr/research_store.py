@@ -1,28 +1,45 @@
-"""In-memory research store: the read source the Stage 11 research-interface ViewModels project.
+"""The HTR research **projection**: the in-memory read model the research ViewModels query.
 
-**Why this file exists.** Stages 1-10 landed the HTR corpus/experiment entities
-(`htr/corpus/models.py`, `htr/experiment/models.py`), `CanonicalResult`
-(`domain/canonical/result.py`), and Transkribus `ExternalImport`
-(`providers/transkribus/external_import.py`) as frozen Pydantic models -- but nothing that *holds*
-them. A grep before writing this module found their only consumers were each other and
-`research/reports/models.py`: there is no repository, no telemetry event, and no read-model
-projection carrying a `Dataset` or an `ExperimentRun`. The Stage 11 ViewModels are required to read
-real domain data rather than fabricate it, so the missing piece is this: one place those entities
-live and are queried from.
+**Role changed 2026-07-30** (`docs/architecture/htr-telemetry.md`). This class was previously the
+sole source of truth for every HTR research entity -- a bare `dict`-of-Pydantic-models with no disk
+backing and no telemetry emission, disclosed as in-memory-by-design at the time it was written and
+identified by `docs/htr-telemetry-knowledge-gap-analysis.md` §2 as the core persistence gap. It is
+no longer a source of truth. The durable, append-only `FileTelemetrySink` event stream is, and this
+class is the derived projection over it.
 
-**In-memory by design**, mirroring `review/blind_review/store.py::BlindReviewStore`'s own stated
-rationale (which in turn mirrors `review/sampling/log.py`'s `InMemorySamplingLogSink`/
-`FileSamplingLogSink` split): a durable, file-backed or telemetry-replayed variant can be added the
-same way when a deployment needs one. Persisting HTR experiment entities into the append-only
-telemetry stream is real work with real schema consequences (`docs/htr-domain-design.md` §2 lists
-the HTR telemetry events it would need) and is deliberately *not* invented here as a side effect of
-building a UI layer.
+Concretely, it now has exactly four jobs:
 
-**Append-only, never mutate.** Every `register_*` method appends or refuses; nothing stored here is
-edited in place. Superseding entities (`DatasetVersion.supersedes`, `ExperimentVersion.supersedes`,
-`CanonicalResult.supersedes`) are stored alongside what they supersede, never replacing it -- the
-same discipline Constitution Article 15 requires of the Canonical layer, so the evidence chain
-`docs/htr-domain-design.md` §4 describes stays walkable backwards.
+1. **The query shape.** Its id-keyed lookups, listings, and derived traversals are unchanged --
+   the gap analysis §10 is explicit that "this store's dict-of-Pydantic-models query interface is
+   [not] wrong ... the gap is purely that nothing durable backs it". Every `presentation/htr_*`
+   ViewModel keeps consuming exactly this interface, unmodified.
+2. **The projection `HtrJournal.replay` builds.** `application/htr_journal.py::HtrJournal.replay`
+   returns one of these, reconstructed from the telemetry log alone. There is deliberately no
+   separate, parallel `HtrResearchState` class with a duplicate query surface: this *is* that state.
+3. **The base class `htr/persistence/durable_store.py::DurableHtrResearchStore` extends.** That
+   subclass overrides every `register_*` to append a telemetry event *before* updating this
+   projection, and is what `composition.py::AppContext.htr_research_store` now hands out. Because
+   it is an `HtrResearchStore`, no ViewModel constructor or type annotation needed to change.
+4. **A test fixture, when constructed bare.** A bare `HtrResearchStore()` with no sink behind it is
+   a projection with no durable backing -- which is precisely, and honestly, what a unit-test
+   fixture wants. Existing tests that construct one directly stay valid and still mean what they
+   say. What is no longer supported is *production* code treating a bare one as storage;
+   `AppContext` no longer does.
+
+**Append-only registration, projection-only advancement.** Every `register_*` method appends or
+refuses (`DuplicateRegistrationError`); nothing registered is edited in place. Superseding entities
+(`DatasetVersion.supersedes`, `ExperimentVersion.supersedes`, `CanonicalResult.supersedes`) are
+stored alongside what they supersede, never replacing it -- the discipline Constitution Article 15
+requires of the Canonical layer, so the evidence chain `docs/htr-domain-design.md` §4 describes stays
+walkable backwards.
+
+The two `_advance_*`/`_apply_*` methods at the end of the registration section are the one
+exception, and only in this projection: a later event may carry a *further state of the same
+entity* (an `ExperimentRun` that has since completed, a `MethodRunTranscript` gaining its parsed
+stage). Advancing a projection entry is not rewriting history -- the durable log still holds every
+event in order, and a fresh replay produces the same result -- and it is exactly what
+`application/journal.py::Journal._apply` already does when it overwrites
+`_alignment_state_by_observation[event.observation_id]`.
 """
 
 from __future__ import annotations
@@ -32,6 +49,7 @@ import threading
 from pydantic import BaseModel, ConfigDict
 
 from archivetrust.domain.canonical.result import CanonicalResult
+from archivetrust.evaluation.ground_truth import TranscriptionConvention
 from archivetrust.htr.corpus.models import (
     Collection,
     Dataset,
@@ -59,6 +77,25 @@ class DuplicateRegistrationError(ValueError):
     """Raised when an id is registered twice. Registration is append-only: a second registration of
     the same id is a caller bug (two different entities minted the same id, or the same entity was
     registered twice), never a silent overwrite."""
+
+
+class UnknownEntityError(KeyError):
+    """Raised when a projection advancement names an entity that was never registered -- e.g. an
+    `ExperimentRunCompleted` event whose `ExperimentRunStarted` is missing from the stream. A
+    distinct error from `DuplicateRegistrationError` so "the log is incomplete" is never silently
+    turned into a first registration (the same Article-18 silence-vs-failure discipline the rest of
+    this codebase applies)."""
+
+
+_TRANSCRIPT_STAGE_FIELDS: dict[str, str] = {
+    "raw": "raw_text",
+    "parsed": "parsed_text",
+    "normalized": "normalized_text",
+    "reviewed": "reviewed_text",
+}
+"""`MethodRunTranscript`'s four stages, mapped to the field each fills. Named explicitly rather than
+derived from the model so adding a field to `MethodRunTranscript` can never silently become a new
+replayable stage without a matching telemetry event kind."""
 
 
 class MethodRunTranscript(BaseModel):
@@ -122,6 +159,11 @@ class HtrResearchStore:
         self._manifests: dict[str, ReproducibilityManifest] = {}
         self._canonical_results: dict[str, CanonicalResult] = {}
         self._external_imports: dict[str, ExternalImport] = {}
+        self._conventions: dict[tuple[str, int], TranscriptionConvention] = {}
+        """`(convention_id, version) -> TranscriptionConvention`. Keyed by the *pair*, not the id
+        alone, because `docs/htr-domain-design.md` §3 freezes a convention per version: a change
+        creates a new version and existing ground truth keeps pointing at the old one, so both must
+        remain resident and separately addressable."""
         self._ground_truth: dict[str, str] = {}
         """`text_line_id -> reference transcription`. Reference text for a line, from whatever
         authority produced it (a closed blind dual review, an imported gold standard). Kept as a
@@ -131,7 +173,7 @@ class HtrResearchStore:
 
     # -- Registration (append-only) -------------------------------------------------------------
 
-    def _put(self, bucket: dict, key: str, value: object, kind: str) -> None:
+    def _put(self, bucket: dict, key: object, value: object, kind: str) -> None:
         with self._lock:
             if key in bucket:
                 raise DuplicateRegistrationError(
@@ -211,8 +253,119 @@ class HtrResearchStore:
             self._external_imports, record.external_import_id, record, "ExternalImport"
         )
 
+    def register_convention(self, convention: TranscriptionConvention) -> None:
+        self._put(
+            self._conventions,
+            (convention.convention_id, convention.version),
+            convention,
+            "TranscriptionConvention",
+        )
+
     def register_ground_truth(self, *, text_line_id: str, text: str) -> None:
         self._put(self._ground_truth, text_line_id, text, "ground truth")
+
+    # -- Projection advancement (see module docstring) -------------------------------------------
+
+    def _advance(self, bucket: dict, key: str, value: object, kind: str) -> None:
+        """Replaces a registered entity with a *later state of that same entity*, for the terminal
+        markers that follow a start event (`ExperimentRunCompleted` after `ExperimentRunStarted`).
+
+        Not an overwrite of history: the durable event log holds both events in append order, and a
+        fresh `HtrJournal.replay` over it reproduces this same final state deterministically. Refuses
+        a key that was never registered -- advancing an unknown entity means the log is missing the
+        event that should have established it, which must surface, not be silently papered over into
+        a registration.
+        """
+        with self._lock:
+            if key not in bucket:
+                raise UnknownEntityError(
+                    f"cannot advance {kind} {key!r}: it was never registered -- the event that "
+                    "should have established it is missing from the stream"
+                )
+            bucket[key] = value
+
+    def advance_experiment_run(self, run: ExperimentRun) -> None:
+        """Records an `ExperimentRun`'s terminal state (its `completed_at`) over the started one.
+
+        There is deliberately no `advance_method_run` counterpart: a `MethodRun` is constructed once,
+        already terminal (`htr/experiment/models.py`), so `MethodRunStarted` carries its final state
+        and `MethodRunCompleted` is a marker with nothing further to advance.
+        """
+        self._advance(self._experiment_runs, run.experiment_run_id, run, "ExperimentRun")
+
+    _PROJECTION_BUCKETS = (
+        "_projects",
+        "_datasets",
+        "_dataset_versions",
+        "_collections",
+        "_pages",
+        "_regions",
+        "_text_lines",
+        "_crops",
+        "_experiments",
+        "_experiment_versions",
+        "_experiment_runs",
+        "_method_runs",
+        "_transcripts",
+        "_failures",
+        "_metric_definitions",
+        "_metric_results",
+        "_manifests",
+        "_canonical_results",
+        "_external_imports",
+        "_conventions",
+        "_ground_truth",
+    )
+    """Every bucket `adopt_projection` copies. Named explicitly rather than discovered by
+    reflection, so adding a bucket without deciding how it hydrates is a visible omission here
+    rather than a silently-empty bucket after a restart."""
+
+    def adopt_projection(self, other: "HtrResearchStore") -> None:
+        """Copies another projection's entire contents into this one, without going through
+        `register_*`.
+
+        This is how `htr/persistence/durable_store.py::DurableHtrResearchStore.open` hydrates itself
+        from a replay. Bypassing `register_*` is the whole point and is not a shortcut: on a durable
+        store those methods *emit telemetry*, so replaying through them would append a second copy of
+        every historical event on every process start -- the log would double in size each launch.
+        Hydration must therefore write to the projection only.
+        """
+        with self._lock:
+            for name in self._PROJECTION_BUCKETS:
+                getattr(self, name).update(getattr(other, name))
+
+    def apply_transcript_stage(
+        self,
+        *,
+        method_run_id: str,
+        stage: str,
+        text: str | None,
+        reviewer_ref: str | None = None,
+    ) -> None:
+        """Merges one of `MethodRunTranscript`'s four stages into the projection, creating the
+        record on the first stage seen and filling in the named field on each later one.
+
+        This is replay's path into a transcript: the four stages arrive as four separate events
+        (`RawMethodResultRecorded` -> `ParsedMethodResultRecorded` ->
+        `NormalizedMethodResultRecorded` -> `ReviewedResultRecorded`), each causally chained to the
+        previous, because `MethodRunTranscript`'s own docstring requires the four stages "never
+        collapse into one another" -- and in particular that `reviewed_text` stay distinguishable
+        from the machine stages, since it has a human rather than a method lineage. Direct callers
+        that already hold a whole transcript keep using `register_transcript` instead.
+        """
+        if stage not in _TRANSCRIPT_STAGE_FIELDS:
+            raise ValueError(
+                f"unknown transcript stage {stage!r}; expected one of "
+                f"{sorted(_TRANSCRIPT_STAGE_FIELDS)}"
+            )
+        field = _TRANSCRIPT_STAGE_FIELDS[stage]
+        with self._lock:
+            current = self._transcripts.get(method_run_id)
+            base = current or MethodRunTranscript(method_run_id=method_run_id)
+            update: dict[str, object] = {field: text}
+            if reviewer_ref is not None:
+                update["reviewer_ref"] = reviewer_ref
+            self._transcripts[method_run_id] = base.model_copy(update=update)
 
     # -- Listing --------------------------------------------------------------------------------
 
@@ -351,6 +504,12 @@ class HtrResearchStore:
         with self._lock:
             return tuple(sorted(self._external_imports.values(), key=lambda e: e.imported_at))
 
+    def conventions(self) -> tuple[TranscriptionConvention, ...]:
+        with self._lock:
+            return tuple(
+                sorted(self._conventions.values(), key=lambda c: (c.convention_id, c.version))
+            )
+
     # -- Id-keyed lookup ------------------------------------------------------------------------
 
     def project(self, project_id: str) -> ResearchProject | None:
@@ -408,6 +567,13 @@ class HtrResearchStore:
     def metric_definition(self, metric_definition_id: str) -> MetricDefinition | None:
         with self._lock:
             return self._metric_definitions.get(metric_definition_id)
+
+    def convention(self, convention_id: str, version: int) -> TranscriptionConvention | None:
+        """The frozen convention for one `(convention_id, version)` pair -- never "the latest
+        version of this convention", since ground truth authored under an older version must keep
+        resolving to the rules that were actually in force (docs/htr-domain-design.md §3)."""
+        with self._lock:
+            return self._conventions.get((convention_id, version))
 
     def ground_truth_for_line(self, text_line_id: str) -> str | None:
         with self._lock:

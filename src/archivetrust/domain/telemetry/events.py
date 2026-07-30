@@ -21,6 +21,7 @@ from typing import Any
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from archivetrust.domain.canonical.observation import CanonicalObservation
+from archivetrust.domain.canonical.result import CanonicalResult
 from archivetrust.domain.comparison.clustering import ClusteringBasisCode
 from archivetrust.domain.confidence.models import ComparisonConfidence
 from archivetrust.domain.document.canonical_document import CanonicalDocument
@@ -28,6 +29,45 @@ from archivetrust.domain.evidence.models import Evidence, ProcessingStage
 from archivetrust.domain.ontology.base import Observation
 from archivetrust.domain.shared.ids import content_address, new_id
 from archivetrust.domain.shared.versioning import CURRENT_SCHEMA_VERSION
+from archivetrust.htr.corpus.models import (
+    Collection,
+    Dataset,
+    DatasetVersion,
+    InputCrop,
+    Page,
+    Region,
+    ResearchProject,
+    TextLine,
+)
+from archivetrust.htr.experiment.models import (
+    Experiment,
+    ExperimentRun,
+    ExperimentVersion,
+    FailureRecord,
+    MethodRun,
+    MetricDefinition,
+    MetricResult,
+    ReproducibilityManifest,
+)
+
+# `htr.corpus.models`/`htr.experiment.models` are pure frozen Pydantic domain types whose only
+# imports are `domain.evidence.models` and `domain.shared.ids` (verified: their packages'
+# `__init__` files pull nothing else, and `htr/__init__.py` is docstring-only), so importing them
+# here introduces no cycle and violates neither guard in
+# `tests/domain/test_dependency_direction.py`. Events embed the *full* domain object they announce
+# -- this module's own docstring requires it, "because replay must reconstruct [state] from
+# telemetry alone".
+#
+# Three HTR-adjacent record types are deliberately NOT imported and travel as a validated
+# `record` dict instead, reconstructed by the application-layer replay in
+# `application/htr_journal.py`:
+#   * `providers.transkribus.external_import.ExternalImport` -- `tests/domain/
+#     test_dependency_direction.py::test_domain_layer_never_imports_providers` forbids it outright.
+#   * `review.htr_models.*` and `evaluation.ground_truth.TranscriptionConvention` -- importing
+#     these would invert the dependency direction `ReviewOutcomeRecorded`'s docstring states above
+#     ("`review` depends on `domain.telemetry`, never the reverse") and create a package-level
+#     cycle, since `review/service.py` imports this module.
+# See `docs/architecture/htr-telemetry.md` §5 for why this split is drawn exactly here.
 
 
 class TelemetryEventKind(str, Enum):
@@ -97,6 +137,72 @@ class TelemetryEventKind(str, Enum):
     CANONICAL_RESULT_CREATED = "CanonicalResultCreated"
     """Stage 3 -- one `domain.canonical.result.CanonicalResult` was created (renaming
     `CanonicalDocumentCreated` semantics where line-level, per docs/htr-domain-design.md §2)."""
+
+    # -- HTR research persistence (docs/architecture/htr-event-model.md §3) --------------------
+    # The five kinds above were added by the prior transformation with no producer anywhere in
+    # `src/` (docs/htr-telemetry-knowledge-gap-analysis.md §1). They now have real producers in
+    # `htr/persistence/durable_store.py`, alongside the kinds below. See
+    # `docs/architecture/htr-telemetry.md` for the built implementation.
+
+    RESEARCH_PROJECT_CREATED = "ResearchProjectCreated"
+    DATASET_CREATED = "DatasetCreated"
+    DATASET_VERSION_CREATED = "DatasetVersionCreated"
+    COLLECTION_CREATED = "CollectionCreated"
+    """Beyond the event-model doc §3's enumerated list, and deliberately so: §3 lists
+    `DocumentRegistered` but omits the `Collection` that owns the documents, while
+    `htr/research_store.py` has carried a `Collection` bucket since Stage 11 and
+    `docs/htr-domain-design.md` §1 places `Collection` between `DatasetVersion` and `Document`.
+    Replay could not reconstruct the corpus tree without it. See
+    `docs/architecture/htr-telemetry.md` §6 for the four documented additions to §3's list."""
+    DOCUMENT_REGISTERED = "DocumentRegistered"
+    PAGE_REGISTERED = "PageRegistered"
+    REGION_DETECTED = "RegionDetected"
+    TEXT_LINE_DETECTED = "TextLineDetected"
+    INPUT_CROP_CREATED = "InputCropCreated"
+    TRANSCRIPTION_CONVENTION_REGISTERED = "TranscriptionConventionRegistered"
+    EXPERIMENT_CREATED = "ExperimentCreated"
+    EXPERIMENT_VERSION_CREATED = "ExperimentVersionCreated"
+    EXPERIMENT_RUN_STARTED = "ExperimentRunStarted"
+    EXPERIMENT_RUN_COMPLETED = "ExperimentRunCompleted"
+    EXPERIMENT_RUN_FAILED = "ExperimentRunFailed"
+    METHOD_RUN_STARTED = "MethodRunStarted"
+    METHOD_RUN_FAILED = "MethodRunFailed"
+    RAW_METHOD_RESULT_RECORDED = "RawMethodResultRecorded"
+    PARSED_METHOD_RESULT_RECORDED = "ParsedMethodResultRecorded"
+    NORMALIZED_METHOD_RESULT_RECORDED = "NormalizedMethodResultRecorded"
+    REVIEWED_RESULT_RECORDED = "ReviewedResultRecorded"
+    """Beyond §3's enumerated list. §3 names the three *machine* transcript stages
+    (raw/parsed/normalized) but `htr/research_store.py::MethodRunTranscript` -- which the Stage 11
+    comparison ViewModel already reads -- carries a fourth, `reviewed_text`, whose own docstring
+    states it "belongs to a different lineage than the first three: it comes from a human
+    ReviewSubmission/Adjudication, not from the method". Folding it into
+    `ReviewSubmissionRecorded` would conflate the blind-review *target* lineage with the
+    *method-run* lineage that docstring explicitly separates, so it is its own kind."""
+    METRIC_DEFINITION_REGISTERED = "MetricDefinitionRegistered"
+    """Beyond §3's enumerated list: §3 lists `MetricCalculated` (the result) but not the versioned
+    `MetricDefinition` it was computed against, which `htr/research_store.py` stores and which
+    `docs/htr-domain-design.md` §3 requires be independently versioned for replay to know which
+    calibration produced a value."""
+    METRIC_CALCULATED = "MetricCalculated"
+    RELIABILITY_ISSUE_CLASSIFIED = "ReliabilityIssueClassified"
+    REVIEW_ASSIGNED = "ReviewAssigned"
+    AGREEMENT_CALCULATED_HTR = "AgreementCalculatedHtr"
+    """Reviewer-pair *textual* agreement, deliberately distinct from the pre-existing
+    `AGREEMENT_CALCULATED` (cross-provider *structural* agreement) -- event-model doc §3's
+    "reusing the name for a different meaning would violate the do-not-rename rule"."""
+    GROUND_TRUTH_TEXT_RECORDED = "GroundTruthTextRecorded"
+    """Beyond §3's enumerated list: `htr/research_store.py` carries a resolved
+    `text_line_id -> reference transcription` mapping that drives every metric display, and
+    without an event for it a replayed store shows metrics with no reference text to explain
+    them. Records only the resolved string, never a competing `GroundTruthItem` entity --
+    `evaluation/ground_truth.py` still owns that workflow."""
+    REPRODUCIBILITY_MANIFEST_RECORDED = "ReproducibilityManifestRecorded"
+    EXTERNAL_RESULT_IMPORTED = "ExternalResultImported"
+    RESEARCH_OBSERVATION_CREATED = "ResearchObservationCreated"
+    CANDIDATE_FINDING_CREATED = "CandidateFindingCreated"
+    FINDING_REVIEWED = "FindingReviewed"
+    FINDING_STATUS_CHANGED = "FindingStatusChanged"
+    RESEARCH_REPORT_GENERATED = "ResearchReportGenerated"
 
 
 class ReviewOutcome(str, Enum):
@@ -178,6 +284,17 @@ class TelemetryEvent(BaseModel):
     alignment strategy produced a given grouping, and so future strategies can be compared on the
     same corpus. Only the three alignment events populate it in practice; every other event leaves
     it `None`.
+
+    `correlation_id`/`causation_id` (docs/architecture/htr-event-model.md §4) are the explicit
+    provenance-DAG mechanism: `correlation_id` is one value shared by every event belonging to the
+    same logical unit of work, `causation_id` is the `event_id` of the event that *directly caused*
+    this one. They live on this shared base rather than on HTR subclasses alone because §4 specifies
+    they apply to all events, old and new. Both default to `None`, so this is purely additive: every
+    pre-existing construction call site keeps working unmodified, and `None` honestly means "this
+    event was recorded before, or outside, any correlated unit of work" -- never a guessed or
+    backfilled linkage. Only the HTR producers in `htr/persistence/durable_store.py` populate them
+    today; the pre-existing OCR-era producers deliberately still leave both `None` rather than
+    having a correlation invented for them retroactively.
     """
 
     model_config = ConfigDict(frozen=True)
@@ -186,6 +303,8 @@ class TelemetryEvent(BaseModel):
 
     event_id: str
     document_ref: str
+    correlation_id: str | None = None
+    causation_id: str | None = None
     schema_version: int = CURRENT_SCHEMA_VERSION
     recorded_at: str | None = None
     """UTC ISO-8601 wall-clock time the event was produced (Operational Hardening milestone,
@@ -614,11 +733,69 @@ class ReviewPacketClosed(TelemetryEvent):
         return self
 
 
-class SegmentationRunCompleted(TelemetryEvent):
+HTR_RESEARCH_SCOPE = "htr:research"
+"""The `document_ref` an HTR research event carries when it genuinely concerns no single Archive
+Object (a project, a dataset, an experiment, a metric).
+
+`document_ref` is non-optional on `TelemetryEvent` and is documented there as scoping an event "to
+the Archive Object it concerns". Most HTR research entities have no such scope: an `Experiment`
+spans a whole `DatasetVersion`. Rather than either loosen the base field or invent a plausible-
+looking document reference, HTR events carry this explicit sentinel and do their real scoping
+through `HtrTelemetryEvent`'s purpose-built `project_id`/`experiment_id`/`experiment_run_id`/
+`subject_id` fields (event-model doc §3's mandated field list). Where a genuine Archive Object
+*does* exist -- `PageRegistered` -- the real `archive_object_ref` is used instead, so page-scoped
+HTR history stays per-document replayable.
+"""
+
+
+class HtrActorType(str, Enum):
+    """Who or what produced an HTR research event (event-model doc §3's `actor_type`)."""
+
+    SYSTEM = "system"
+    """Deterministic orchestration -- registration, projection, evaluation bookkeeping."""
+    HUMAN = "human"
+    """An attributable person: a reviewer, an adjudicator, a curator."""
+    METHOD = "method"
+    """An HTR recognition method (SATRN/Florence-2/Transkribus) or a segmentation adapter."""
+
+
+class HtrTelemetryEvent(TelemetryEvent):
+    """Shared base for the HTR research event kinds (event-model doc §1's layer 3,
+    "`HtrTelemetryEvent` subtypes ... appended to `FileTelemetrySink`").
+
+    Carries §3's mandated scope/actor field set once, here, rather than repeating a dozen optional
+    fields across ~35 subclasses. Every field is optional with a default: an HTR event populates
+    exactly the scopes that genuinely apply to it and leaves the rest `None` -- the same
+    "`None` means could-not-be-established, never guessed" discipline
+    `ProviderObservationAttempted` already applies to its runtime facts (Constitution Article 18).
+
+    `correlation_id`/`causation_id` are *not* declared here: they live on `TelemetryEvent` itself,
+    since §4 specifies they apply to all events, old and new.
+    """
+
+    project_id: str | None = None
+    dataset_id: str | None = None
+    dataset_version_id: str | None = None
+    experiment_id: str | None = None
+    experiment_version_id: str | None = None
+    experiment_run_id: str | None = None
+    method_run_id: str | None = None
+    subject_id: str | None = None
+    """The document/page/region/line/crop id this event is *about*, when applicable -- distinct
+    from the scope ids above, which say which unit of work it belongs to."""
+    actor_type: HtrActorType = HtrActorType.SYSTEM
+    actor_id: str | None = None
+    source_component: str | None = None
+    application_commit: str | None = None
+
+
+class SegmentationRunCompleted(HtrTelemetryEvent):
     """One `SegmentationAdapter` run over a Page completed (docs/htr-domain-design.md §7).
     References the produced Regions/TextLines/InputCrops by id, never embedded -- the same
     reference-by-id discipline `Observation.evidence_ids` already enforces (Constitution
-    Article 7)."""
+    Article 7). The referenced entities are announced individually, with their full objects, by
+    `RegionDetected`/`TextLineDetected`/`InputCropCreated`, so replay reconstructs them from those
+    rather than from this summary."""
 
     kind: TelemetryEventKind = TelemetryEventKind.SEGMENTATION_RUN_COMPLETED
 
@@ -630,10 +807,20 @@ class SegmentationRunCompleted(TelemetryEvent):
     input_crop_ids: tuple[str, ...]
 
 
-class MethodRunCompleted(TelemetryEvent):
+class MethodRunCompleted(HtrTelemetryEvent):
     """One `htr.experiment.models.MethodRun` reached a terminal outcome (docs/htr-domain-design.md
     §1, §4). Mirrors `ProviderObservationAttempted`'s outcome discipline (Constitution
-    Article 18) at HTR-method-run granularity."""
+    Article 18) at HTR-method-run granularity.
+
+    Deliberately lean: the full `MethodRun` object is carried by `MethodRunStarted`, and this event
+    is the terminal marker whose `causation_id` points back at it -- exactly the pair event-model
+    doc §4 uses as its worked example ("a `MethodRunCompleted` event's `causation_id` is the
+    `MethodRunStarted` event's `event_id`"). Replay reconstructs the `MethodRun` from
+    `MethodRunStarted`; this event is what makes "it reached a terminal outcome" a recorded fact
+    rather than an inference from the absence of a failure.
+
+    `method_run_id` narrows `HtrTelemetryEvent`'s optional scope field to required here: a terminal
+    outcome with no run to attach it to is meaningless, not merely unscoped."""
 
     kind: TelemetryEventKind = TelemetryEventKind.METHOD_RUN_COMPLETED
 
@@ -645,34 +832,49 @@ class MethodRunCompleted(TelemetryEvent):
     failure_reason: str | None = None
 
 
-class ReviewSubmissionRecorded(TelemetryEvent):
+class ReviewSubmissionRecorded(HtrTelemetryEvent):
     """One blind `review.htr_models.ReviewSubmission` was recorded (docs/htr-domain-design.md
-    §1)."""
+    §1).
+
+    `record` carries the full `ReviewSubmission.model_dump(mode="json")` so replay can rebuild the
+    submission field-for-field. It is a dict rather than the typed model because importing
+    `review.htr_models` here would invert this module's stated dependency direction -- see the
+    import-block comment at the top of this file. Optional and defaulted so the pre-existing
+    id-only construction shape (`tests/domain/telemetry/test_htr_events.py`) still validates;
+    `None` means "recorded before the full record was carried", never "no submission"."""
 
     kind: TelemetryEventKind = TelemetryEventKind.REVIEW_SUBMISSION_RECORDED
 
     submission_id: str
     assignment_id: str
     reviewer_ref: str
+    record: dict[str, Any] | None = None
 
 
-class AdjudicationRecorded(TelemetryEvent):
+class AdjudicationRecorded(HtrTelemetryEvent):
     """One `review.htr_models.Adjudication` resolved a disagreeing `AgreementResult`
-    (docs/htr-domain-design.md §1)."""
+    (docs/htr-domain-design.md §1). `record` follows `ReviewSubmissionRecorded.record`'s reasoning
+    exactly."""
 
     kind: TelemetryEventKind = TelemetryEventKind.ADJUDICATION_RECORDED
 
     adjudication_id: str
     agreement_result_id: str
     adjudicator_ref: str
+    record: dict[str, Any] | None = None
 
 
-class CanonicalResultCreated(TelemetryEvent):
+class CanonicalResultCreated(HtrTelemetryEvent):
     """One `domain.canonical.result.CanonicalResult` was created (docs/htr-domain-design.md §2:
-    "renaming CanonicalDocumentCreated semantics where line-level"). References the result by id
-    rather than embedding it, unlike `CanonicalDocumentCreated`/`CanonicalDecisionCreated` (which
-    embed the full object) -- a `CanonicalResult` can be read back from its own store by id, and
-    keeping this event lean avoids duplicating potentially many per-line spans into telemetry."""
+    "renaming CanonicalDocumentCreated semantics where line-level").
+
+    Originally id-only, on the stated reasoning that "a `CanonicalResult` can be read back from its
+    own store by id". That reasoning no longer holds: as of this pass the telemetry stream *is* the
+    store (docs/architecture/htr-telemetry.md), so an id-only event would make `CanonicalResult`
+    the one HTR entity replay could not reconstruct. `canonical_result` therefore carries the full
+    object, matching `CanonicalDocumentCreated`/`CanonicalDecisionCreated`'s embedding. Optional and
+    defaulted, so the pre-existing id-only construction shape still validates -- `None` means
+    "recorded before the object was carried", never "no result"."""
 
     kind: TelemetryEventKind = TelemetryEventKind.CANONICAL_RESULT_CREATED
 
@@ -680,6 +882,406 @@ class CanonicalResultCreated(TelemetryEvent):
     page_id: str
     strategy: str
     strategy_version: int
+    canonical_result: CanonicalResult | None = None
+
+
+# -- HTR research entity events (docs/architecture/htr-event-model.md §3) -----------------------
+#
+# Each embeds the full frozen domain object it announces, per this module's docstring: replay must
+# reconstruct state "from telemetry alone, without re-running any provider". The producers are in
+# `htr/persistence/durable_store.py`; the replay branches are in `application/htr_journal.py`.
+
+
+class ResearchProjectCreated(HtrTelemetryEvent):
+    """A `ResearchProject` was registered -- the root of the corpus tree."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.RESEARCH_PROJECT_CREATED
+
+    project: ResearchProject
+
+
+class DatasetCreated(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.DATASET_CREATED
+
+    dataset: Dataset
+
+
+class DatasetVersionCreated(HtrTelemetryEvent):
+    """An immutable `DatasetVersion` snapshot (docs/htr-domain-design.md §3). A membership change is
+    always a new version with `supersedes` set, never an edit -- so the event stream carries the
+    whole version chain and replay resolves supersession the same way `FileGroundTruthStore.latest()`
+    does."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.DATASET_VERSION_CREATED
+
+    dataset_version: DatasetVersion
+
+
+class CollectionCreated(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.COLLECTION_CREATED
+
+    collection: Collection
+
+
+class DocumentRegistered(HtrTelemetryEvent):
+    """One Document -- i.e. one existing `acquisition.archive_object.ArchiveObject`, referenced by
+    id -- became a member of a `Collection`.
+
+    Carries no Document *object*: `htr/corpus/models.py`'s module docstring is explicit that no
+    `Document` model exists ("ArchiveObject *is* the document concept at this layer"), so this event
+    records the membership fact and nothing more. Emitted once per `archive_object_ref` on the
+    `Collection` that names it, caused by that `CollectionCreated` event."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.DOCUMENT_REGISTERED
+
+    archive_object_ref: str
+    collection_id: str
+
+
+class PageRegistered(HtrTelemetryEvent):
+    """A `Page` of a Document was registered. The one HTR event kind whose `document_ref` is a real
+    `ArchiveObject` id rather than `HTR_RESEARCH_SCOPE` -- a page genuinely belongs to exactly one
+    Archive Object, so per-document replay stays meaningful here."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.PAGE_REGISTERED
+
+    page: Page
+
+
+class RegionDetected(HtrTelemetryEvent):
+    """A segmentation stage detected a `Region` on a `Page` (docs/htr-domain-design.md §7).
+    Independent of any recognition method."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.REGION_DETECTED
+
+    region: Region
+
+
+class TextLineDetected(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.TEXT_LINE_DETECTED
+
+    text_line: TextLine
+
+
+class InputCropCreated(HtrTelemetryEvent):
+    """A content-addressed `InputCrop` was cropped for one `TextLine`.
+
+    `InputCrop.hash` is computed by `InputCrop.compute_hash`/`InputCrop.create` and validated by the
+    model's own `_validate_hash` -- this event embeds the already-hashed object and introduces no
+    second hashing scheme (event-model doc §2: "`content_address(...)` ... no second hashing scheme
+    introduced"). Image *bytes* are never carried here; `InputCrop.storage_path` points at them,
+    exactly as the model already specifies."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.INPUT_CROP_CREATED
+
+    input_crop: InputCrop
+
+
+class TranscriptionConventionRegistered(HtrTelemetryEvent):
+    """A versioned `evaluation.ground_truth.TranscriptionConvention` was registered. `record`
+    carries its full dump; see `ReviewSubmissionRecorded.record` for why it is a dict."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.TRANSCRIPTION_CONVENTION_REGISTERED
+
+    convention_id: str
+    convention_version: int
+    record: dict[str, Any] | None = None
+
+
+class ExperimentCreated(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.EXPERIMENT_CREATED
+
+    experiment: Experiment
+
+
+class ExperimentVersionCreated(HtrTelemetryEvent):
+    """One versioned configuration of an `Experiment` (docs/htr-domain-design.md §3). Frozen once an
+    `ExperimentRun` references it; a later edit is a new version with `supersedes` set."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.EXPERIMENT_VERSION_CREATED
+
+    experiment_version: ExperimentVersion
+
+
+class ExperimentRunStarted(HtrTelemetryEvent):
+    """An `ExperimentRun` began. This event's `event_id` is the causal root of the whole run, and
+    the run's own `experiment_run_id` is the `correlation_id` every later event in the run shares
+    (event-model doc §4)."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.EXPERIMENT_RUN_STARTED
+
+    experiment_run: ExperimentRun
+
+
+class ExperimentRunCompleted(HtrTelemetryEvent):
+    """An `ExperimentRun` reached a terminal, successful outcome. Carries the terminal `ExperimentRun`
+    record (with `completed_at` populated) so replay reconstructs the completed run rather than the
+    started one."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.EXPERIMENT_RUN_COMPLETED
+
+    experiment_run: ExperimentRun
+
+
+class ExperimentRunFailed(HtrTelemetryEvent):
+    """An `ExperimentRun` could not complete. Recorded, never inferred from a missing
+    `ExperimentRunCompleted` (Constitution Article 18's silence-vs-failure discipline)."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.EXPERIMENT_RUN_FAILED
+
+    experiment_run_id: str
+    reason: str
+
+
+class MethodRunStarted(HtrTelemetryEvent):
+    """One method x input execution began, carrying the full `MethodRun` record.
+
+    A `MethodRun` is a frozen record constructed once, already carrying its `outcome` and
+    `completed_at` (see `htr/experiment/models.py`), so this event is what durably *establishes* the
+    run for replay, and `MethodRunCompleted`/`MethodRunFailed` are the terminal markers that chain
+    from it by `causation_id`. Two events per run is deliberate, not redundant: event-model doc §4
+    names exactly this pair as its causation example."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.METHOD_RUN_STARTED
+
+    method_run: MethodRun
+
+
+class MethodRunFailed(HtrTelemetryEvent):
+    """A `MethodRun` could not complete, carrying the full `FailureRecord`
+    (docs/htr-domain-design.md §1: "FailureRecord (if applicable -- preserved, never excluded)")."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.METHOD_RUN_FAILED
+
+    failure_record: FailureRecord
+
+
+class RawMethodResultRecorded(HtrTelemetryEvent):
+    """The raw, unparsed text one `MethodRun` produced -- stage 1 of the four
+    `MethodRunTranscript` stages, which never collapse into one another.
+
+    `evidence_id` references the `Evidence` record the raw payload was captured into; the payload is
+    not duplicated here (event-model doc §2: "the event does not duplicate the raw payload")."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.RAW_METHOD_RESULT_RECORDED
+
+    method_run_id: str
+    text: str | None = None
+    evidence_id: str | None = None
+
+
+class ParsedMethodResultRecorded(HtrTelemetryEvent):
+    """Stage 2 of `MethodRunTranscript`. Caused by the `RawMethodResultRecorded` it parsed."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.PARSED_METHOD_RESULT_RECORDED
+
+    method_run_id: str
+    text: str | None = None
+
+
+class NormalizedMethodResultRecorded(HtrTelemetryEvent):
+    """Stage 3 of `MethodRunTranscript`. Caused by the `ParsedMethodResultRecorded` it normalized."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.NORMALIZED_METHOD_RESULT_RECORDED
+
+    method_run_id: str
+    text: str | None = None
+
+
+class ReviewedResultRecorded(HtrTelemetryEvent):
+    """Stage 4 of `MethodRunTranscript` -- the human-reviewed text for one `MethodRun`'s line.
+
+    A different lineage from stages 1-3: it comes from a human `ReviewSubmission`/`Adjudication`,
+    not from the method. Emitted only when a human has actually reviewed the run's line, so
+    "nobody has reviewed this" (no event) and "a reviewer agreed with the machine" (an event whose
+    `text` equals the normalized text) stay distinguishable -- the exact distinction
+    `MethodRunTranscript.reviewed_text`'s docstring requires be preserved."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.REVIEWED_RESULT_RECORDED
+
+    method_run_id: str
+    text: str | None = None
+    reviewer_ref: str | None = None
+    actor_type: HtrActorType = HtrActorType.HUMAN
+
+
+class MetricDefinitionRegistered(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.METRIC_DEFINITION_REGISTERED
+
+    metric_definition: MetricDefinition
+
+
+class MetricCalculated(HtrTelemetryEvent):
+    """One `MetricDefinition` was computed for one `MethodRun`.
+
+    The computation itself stays a pure function in `htr/evaluation/*` (gap analysis §7: "keep them
+    pure; persistence is the caller's job"). This event is the caller's persistence of its return
+    value, and its `causation_id` points at the transcript-stage event whose text was scored."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.METRIC_CALCULATED
+
+    metric_result: MetricResult
+
+
+class ReliabilityIssueClassified(HtrTelemetryEvent):
+    """A reliability/failure classification was recorded for one `MethodRun`
+    (`htr/evaluation/failures.py::classify_reliability`'s output, persisted by its caller)."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.RELIABILITY_ISSUE_CLASSIFIED
+
+    method_run_id: str
+    classification: str
+    detail: str | None = None
+
+
+class GroundTruthTextRecorded(HtrTelemetryEvent):
+    """The resolved reference transcription for one `TextLine`, from whatever authority produced it
+    (a closed blind dual review, an imported gold standard).
+
+    Records only the resolved string -- `evaluation/ground_truth.py::FileGroundTruthStore` still owns
+    the `GroundTruthAnnotation` workflow and its own durable JSONL stream. This event exists so a
+    replayed research store can show *why* a metric has the value it does, and deliberately does not
+    duplicate that store's records."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.GROUND_TRUTH_TEXT_RECORDED
+
+    text_line_id: str
+    text: str
+
+
+class ReviewAssigned(HtrTelemetryEvent):
+    """One reviewer was assigned to independently transcribe one target (blind double annotation).
+    `record` carries the full `ReviewAssignment` dump; see `ReviewSubmissionRecorded.record`."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.REVIEW_ASSIGNED
+
+    assignment_id: str
+    target_ref: str
+    record: dict[str, Any] | None = None
+    actor_type: HtrActorType = HtrActorType.HUMAN
+
+
+class AgreementCalculatedHtr(HtrTelemetryEvent):
+    """Reviewer-pair *textual* agreement for one target, computed from two blind submissions.
+
+    Distinct kind from the pre-existing `AgreementCalculated` (cross-provider *structural*
+    agreement over a semantic slot) because the two measure different things -- reusing one name for
+    both would violate the "do not rename when semantics differ" rule (event-model doc §3)."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.AGREEMENT_CALCULATED_HTR
+
+    agreement_result_id: str
+    target_ref: str
+    agrees: bool
+    similarity_score: float | None = None
+    record: dict[str, Any] | None = None
+
+
+class ReproducibilityManifestRecorded(HtrTelemetryEvent):
+    """The one `ReproducibilityManifest` for an `ExperimentRun` -- everything needed to reproduce
+    it. Mirrors `ProvenanceContextEstablished`'s "fixed environment" role at experiment-run rather
+    than per-document granularity."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.REPRODUCIBILITY_MANIFEST_RECORDED
+
+    manifest: ReproducibilityManifest
+
+
+class ExternalResultImported(HtrTelemetryEvent):
+    """A manually-imported external result (e.g. a Transkribus export) was wrapped as a
+    `MethodRun`'s provenance record.
+
+    `record` carries the full `providers.transkribus.external_import.ExternalImport` dump rather
+    than the typed object: `tests/domain/test_dependency_direction.py` forbids this domain module
+    from importing `providers/*` at all. `application/htr_journal.py` reconstructs the typed model
+    on replay."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.EXTERNAL_RESULT_IMPORTED
+
+    external_import_id: str
+    record: dict[str, Any] | None = None
+
+
+# -- Research-knowledge lifecycle: schema only, no producer yet ---------------------------------
+#
+# These five kinds complete event-model doc §3's required list, whose layers 10-12 are the
+# `ResearchObservation`/`ResearchFinding` knowledge lifecycle. That lifecycle -- the entities, the
+# extraction step, the promotion gates -- is explicitly a *later* phase and is deliberately not
+# built here. What is landed now is the closed event vocabulary, so the enum does not have to be
+# reopened later.
+#
+# **Disclosed, not silently implicit**: no code in `src/` constructs any of the five today, exactly
+# as `ObservationMapped` above has disclosed for its own kind since 2026-07-14, and as the five
+# HTR kinds at the top of this section did before this pass gave them producers. Each references
+# its subject by id and carries no entity object, precisely so that the later phase which defines
+# `ResearchObservation`/`ResearchFinding` is free to model them without having to migrate a
+# speculative schema guessed at here.
+
+
+class ResearchObservationCreated(HtrTelemetryEvent):
+    """Layer 10. A `ResearchObservation` was extracted from durable records by an explicit
+    extraction step -- never auto-derived from a telemetry event (event-model doc §1's hard rule)."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.RESEARCH_OBSERVATION_CREATED
+
+    observation_ref: str
+    summary: str
+    evidence_refs: tuple[str, ...] = ()
+
+
+class CandidateFindingCreated(HtrTelemetryEvent):
+    """Layer 11. A `ResearchFinding` was constructed at `Candidate` status by an explicit step --
+    a `ResearchObservation` never auto-promotes."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.CANDIDATE_FINDING_CREATED
+
+    finding_ref: str
+    statement: str
+    observation_refs: tuple[str, ...] = ()
+
+
+class FindingReviewed(HtrTelemetryEvent):
+    """Layer 12. A human actor reviewed a candidate finding. No finding advances past `Candidate`
+    without one of these recording an attributable reviewer."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.FINDING_REVIEWED
+
+    finding_ref: str
+    reviewer_ref: str
+    verdict: str
+    actor_type: HtrActorType = HtrActorType.HUMAN
+
+
+class FindingStatusChanged(HtrTelemetryEvent):
+    """Layer 12. A status transition on a `ResearchFinding` -- the only mutation a finding permits."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.FINDING_STATUS_CHANGED
+
+    finding_ref: str
+    new_status: str
+    previous_status: str | None = None
+    reason: str | None = None
+
+
+class ResearchReportGenerated(HtrTelemetryEvent):
+    """A `research.reports.models.ResearchReport` was generated over one or more `ExperimentRun`s.
+
+    Still no producer today, but the *reason* changed on 2026-07-30 and is recorded here rather than
+    left stale. The previous reason -- "`build_research_report` reads in-process dataclasses rather
+    than durable records (gap analysis §8)" -- no longer holds: it now sources every field from
+    durable records via
+    `htr/experiment/baseline_execution.py::build_research_report_from_store`. What remains deferred is
+    *announcing* a generated report as an event, which belongs to the research-knowledge lifecycle
+    this kind is grouped with (`docs/architecture/htr-telemetry.md` §6's five schema-only kinds), not
+    to report generation itself. A report is a derived projection over the runs it covers, and
+    Article 33's discipline is that projections do not themselves emit telemetry -- so this event is
+    for the later phase that records a report as a *published research artifact*, not for every
+    regeneration of one."""
+
+    kind: TelemetryEventKind = TelemetryEventKind.RESEARCH_REPORT_GENERATED
+
+    report_ref: str
+    experiment_run_refs: tuple[str, ...] = ()
 
 
 class ProvenanceContextEstablished(TelemetryEvent):
@@ -909,6 +1511,41 @@ EVENT_TYPE_BY_KIND: dict[TelemetryEventKind, type[TelemetryEvent]] = {
         ReviewSubmissionRecorded,
         AdjudicationRecorded,
         CanonicalResultCreated,
+        # HTR research persistence (docs/architecture/htr-event-model.md §3)
+        ResearchProjectCreated,
+        DatasetCreated,
+        DatasetVersionCreated,
+        CollectionCreated,
+        DocumentRegistered,
+        PageRegistered,
+        RegionDetected,
+        TextLineDetected,
+        InputCropCreated,
+        TranscriptionConventionRegistered,
+        ExperimentCreated,
+        ExperimentVersionCreated,
+        ExperimentRunStarted,
+        ExperimentRunCompleted,
+        ExperimentRunFailed,
+        MethodRunStarted,
+        MethodRunFailed,
+        RawMethodResultRecorded,
+        ParsedMethodResultRecorded,
+        NormalizedMethodResultRecorded,
+        ReviewedResultRecorded,
+        MetricDefinitionRegistered,
+        MetricCalculated,
+        ReliabilityIssueClassified,
+        GroundTruthTextRecorded,
+        ReviewAssigned,
+        AgreementCalculatedHtr,
+        ReproducibilityManifestRecorded,
+        ExternalResultImported,
+        ResearchObservationCreated,
+        CandidateFindingCreated,
+        FindingReviewed,
+        FindingStatusChanged,
+        ResearchReportGenerated,
     )
 }
 

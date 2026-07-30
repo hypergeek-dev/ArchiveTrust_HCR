@@ -1,0 +1,46 @@
+{
+  "schema": "archivetrust.htr_coarse_entities.v1",
+  "entities": {
+    "projects": {
+      "research_project_e5b85512e64140cfa6ecbbe7692001ff": {
+        "project_id": "research_project_e5b85512e64140cfa6ecbbe7692001ff",
+        "name": "Swedish Historical HTR Research Center",
+        "description": "Exactly one real, shared, ground-truthed HTR asset exists in this repository at template-authoring time: tests/fixtures/htr/trolldomskommissionen_sample_line.jpg (a single line from Riksarkivet's trolldomskommissionen_lines dataset, 17th-century Swedish court-record handwriting) plus its ground-truth transcription .txt file. A separate, hand-authored (not genuine Transkribus vendor output -- see tests/fixtures/transkribus/README.md) PAGE XML fixture, sample_page.xml, supplies the page-level, non-corresponding Transkribus input. This is NOT a multi-document research corpus; see scope_caveats.",
+        "created_at": "2026-07-30T00:39:30.777840+00:00"
+      }
+    },
+    "datasets": {
+      "dataset_014079548fb34741b8b3334bbb7587f7": {
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "project_id": "research_project_e5b85512e64140cfa6ecbbe7692001ff",
+        "name": "Baseline comparison fixtures",
+        "description": "One shared line fixture + one hand-authored Transkribus PAGE XML fixture.",
+        "created_at": "2026-07-30T00:39:30.777840+00:00"
+      }
+    },
+    "collections": {
+      "collection_61af667765cd482788cf151ed256fc19": {
+        "collection_id": "collection_61af667765cd482788cf151ed256fc19",
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "name": "baseline-fixtures",
+        "archive_object_refs": [
+          "archive_object_e7404471988341e6a483c7d6a021f341",
+          "archive_object_4d16c42726bf475a84c4823c8720d44e"
+        ],
+        "created_at": "2026-07-30T00:39:30.777840+00:00"
+      }
+    },
+    "dataset_versions": {
+      "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e": {
+        "dataset_version_id": "dataset_version_35afef34f88d4d9a8a8bc4ed0295dc6e",
+        "dataset_id": "dataset_014079548fb34741b8b3334bbb7587f7",
+        "version": 1,
+        "collection_ids": [
+          "collection_61af667765cd482788cf151ed256fc19"
+        ],
+        "created_at": "2026-07-30T00:39:30.777840+00:00",
+        "supersedes": null
+      }
+    }
+  }
+}

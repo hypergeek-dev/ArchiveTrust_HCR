@@ -34,6 +34,7 @@ from archivetrust.domain.telemetry.events import (
     ConfidenceChanged,
     EvidenceCreated,
     EvidenceRejected,
+    HtrTelemetryEvent,
     HumanCorrectionApplied,
     ObservationAligned,
     ObservationCompared,
@@ -386,6 +387,21 @@ class Journal:
             # mapping_table_is_stale() can answer "was this processed under a mapping-table
             # version that has since been superseded" from telemetry alone.
             state._observation_mapped_by_observation_id[event.observation_id] = event
+        elif isinstance(event, HtrTelemetryEvent):
+            # Every HTR research event kind (docs/architecture/htr-event-model.md §3) reconstructs
+            # HTR entities, which are not part of `JournalState` at all --
+            # `application/htr_journal.py::HtrJournal` replays them into an `HtrResearchStore`
+            # instead. The two states reconstruct disjoint entity sets from disjoint event kinds
+            # (see that module's docstring for why merging them was rejected), and the two streams
+            # live in separate files (`composition.py`), so in practice an HTR event never reaches
+            # here at all.
+            #
+            # This branch exists so that if one ever does -- a hand-merged archive, a caller
+            # replaying a concatenation of both streams -- the outcome is an explicit, documented
+            # no-op rather than a silent fall-through past the end of this chain that a reader would
+            # have to reverse-engineer. Nothing is dropped: the event remains readable from the
+            # `TelemetrySink` it came from, and `HtrJournal` will project it correctly.
+            return
         # ObservationAccepted, ObservationRejected, ObservationMerged, KnowledgeMerged,
         # KnowledgeDiscarded, HumanCorrectionSubmitted, DatasetCandidateCreated: these are
         # legitimate telemetry with no further state to reconstruct beyond what's captured above --

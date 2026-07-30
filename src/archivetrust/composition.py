@@ -418,6 +418,13 @@ class AppContext:
         # events.jsonl is the Trust Engine's knowledge record, acquisition.jsonl the acquisition
         # history — both under this Workspace's telemetry/ directory, so switching Workspaces
         # switches histories and a restart reopens exactly the state that was recorded.
+        #
+        # htr_research_events.jsonl is the third such stream (docs/architecture/htr-telemetry.md).
+        # Dropping the cached store here is what makes switching Workspaces switch research
+        # histories too: the next `htr_research_store` access rebuilds it by replaying the new
+        # Workspace's own HTR log. Cleared rather than eagerly rebuilt so a Workspace whose research
+        # surfaces are never opened pays nothing for them.
+        self._htr_research_store = None
         if self.persistent_telemetry:
             self._telemetry = FileTelemetrySink(layout.telemetry_dir / "events.jsonl")
         else:
@@ -716,19 +723,62 @@ class AppContext:
 
     @property
     def htr_research_store(self):
-        """The process-wide `HtrResearchStore` backing the research surfaces.
+        """The `DurableHtrResearchStore` backing the research surfaces
+        (`docs/architecture/htr-telemetry.md`).
 
-        Process-wide rather than per-Workspace, and lazily constructed: it holds the HTR corpus,
-        experiment, canonical and external-import entities, which have no telemetry persistence yet
-        (see `htr/research_store.py`'s module docstring for why that is deliberate rather than an
-        oversight). It is therefore empty on a fresh launch -- the research pages render an honest
-        "nothing registered yet" state rather than seeded placeholder data.
+        **Changed 2026-07-30.** This used to hand out a bare `HtrResearchStore` -- a process-local
+        dict with no disk backing, which meant every HTR entity a research session registered
+        vanished on process exit. It now hands out a `DurableHtrResearchStore`, which appends a
+        telemetry event for every registration and rebuilds its projection from that log
+        (`DurableHtrResearchStore.open`), so reopening a Workspace shows exactly the entities the
+        previous session recorded. Because the durable store *is* an `HtrResearchStore` subclass,
+        every ViewModel factory below is unchanged.
+
+        Per-Workspace, not process-wide, now that it has durable state: the HTR event stream lives
+        under the open Workspace's `telemetry/` directory alongside `events.jsonl`, so switching
+        Workspaces switches research histories exactly as it already switches Trust Engine
+        histories. It is reset by `open_workspace`, and is still lazily constructed so a context with
+        no Workspace open (a unit test, a CLI that never opens one) keeps working.
+
+        **A separate file, not `events.jsonl`.** The HTR stream is `htr_research_events.jsonl`. The
+        two streams reconstruct disjoint entity sets through disjoint replays
+        (`Journal` vs `HtrJournal`) and `presentation/read_model/facade.py::ReadModel` maintains an
+        incremental cursor over `events.jsonl` keyed to the pre-existing event kinds; interleaving
+        ~35 HTR kinds it does not project would make every HTR registration advance that cursor for
+        nothing. Same sink class, same append-only guarantees, same hash-chain sidecar -- one
+        mechanism, two streams, which is not the "second, incompatible event-sourcing mechanism"
+        `docs/htr-telemetry-knowledge-gap-analysis.md` §10 forbids.
         """
-        from archivetrust.htr.research_store import HtrResearchStore
+        from archivetrust.htr.persistence import (
+            DurableHtrResearchStore,
+            HtrCoarseEntitySnapshot,
+        )
+        from archivetrust.infrastructure.storage.telemetry_sink import (
+            FileTelemetrySink,
+            InMemoryTelemetrySink,
+        )
 
         if getattr(self, "_htr_research_store", None) is None:
-            self._htr_research_store = HtrResearchStore()
+            layout = self._htr_layout()
+            if layout is not None and self.persistent_telemetry:
+                sink = FileTelemetrySink(layout.telemetry_dir / "htr_research_events.jsonl")
+                snapshot = HtrCoarseEntitySnapshot(
+                    layout.telemetry_dir / "htr_coarse_entities.json"
+                )
+            else:
+                # No Workspace open, or telemetry deliberately non-persistent: still event-sourced,
+                # just not durable. `DurableHtrResearchStore.is_durable` reports which it is rather
+                # than letting a caller assume durability it does not have.
+                sink = InMemoryTelemetrySink()
+                snapshot = None
+            self._htr_research_store = DurableHtrResearchStore.open(sink, snapshot=snapshot)
         return self._htr_research_store
+
+    def _htr_layout(self):
+        """The open Workspace's layout, or `None` when no Workspace is open."""
+        if self.current_workspace is None:
+            return None
+        return self.workspace_store.layout_for(self.current_workspace.id)
 
     @property
     def blind_review_store(self):
