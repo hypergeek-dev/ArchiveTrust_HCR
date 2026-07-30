@@ -41,6 +41,31 @@ deleted, it could not. That inversion is the whole point of the change.
 | `metric_results.csv` | One row per (method, metric, value) — 26 rows, all from the log. |
 | `htr_coarse_entities.json` | A **derived cache** (`WorkspaceStore` idiom) of the 4 coarse registration entities. Deleting it loses nothing. |
 | `blobs/` | `FileTelemetrySink`'s content-addressed store for any `raw_output` over 4 KiB. **Legitimately empty** at line scale — nothing here exceeded the threshold — so git does not track it. |
+| `htr_knowledge_events.jsonl` | A **second, separate** append-only log: 18 events recording the 5 `ResearchObservation`s and 5 candidate `ResearchFinding`s extracted *from* the run log above, added 2026-07-30. See below. |
+| `htr_knowledge_events.jsonl.chain.jsonl` | `HashChainAppender` sidecar for the knowledge log. |
+
+### Why the knowledge records are a separate file
+
+`htr_research_events.jsonl` above is **exactly this run's 100 events and nothing else**, and the counts
+and kind tables on this page describe it as such. The research knowledge extracted from it — observations
+and findings, [`docs/architecture/htr-event-model.md`](../../architecture/htr-event-model.md) §1's layers
+10–12 — is written to `htr_knowledge_events.jsonl` beside it rather than appended, so that description
+stays true and so `tests/htr/persistence/test_real_baseline_reconstruction.py` keeps reading one run's
+evidence. Same `FileTelemetrySink` class, same append-only guarantees, same hash-chain sidecar:
+[`docs/architecture/htr-telemetry.md`](../../architecture/htr-telemetry.md) §7's "two streams, one
+mechanism".
+
+The knowledge events' `causation_id`s point **into** this run's log — an observation is caused by the
+`MetricCalculated` or `ReliabilityIssueClassified` event that supplied its decisive evidence — and their
+`correlation_id`s are these same two `ExperimentRun` ids. Replaying the two files concatenated
+reconstructs one graph; `tests/htr/knowledge/test_baseline_knowledge.py` proves it, and also re-verifies
+every id and every number those records quote against this log. Full documentation:
+[`docs/research-observations.md`](../../research-observations.md),
+[`docs/research-findings.md`](../../research-findings.md),
+[`docs/knowledge-lifecycle.md`](../../knowledge-lifecycle.md).
+
+Nothing on this page was recomputed to produce them: every figure in the knowledge records is quoted from
+the `MetricCalculated` events already in this log.
 
 Regenerate with real inference:
 
@@ -265,3 +290,7 @@ controlled comparison, N=1 hand-authored page for the end-to-end result. See
   modelling choice — `classify_reliability` returns `FailureRecord`s — and predates this phase.
 - **`blobs/` is empty**, so git does not track the directory; a future run with output over 4 KiB
   would populate it and it would then need committing alongside the log.
+- **This is the only run, which caps what the research knowledge derived from it can claim.** No finding
+  in `htr_knowledge_events.jsonl` is `Supported` or `Superseded`: both require a second experiment run to
+  reproduce or refine a claim, and there is one. The honest ceiling reached is `Provisionally supported`.
+  See [`docs/knowledge-lifecycle.md`](../../knowledge-lifecycle.md).

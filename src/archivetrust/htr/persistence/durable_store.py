@@ -51,6 +51,7 @@ from archivetrust.domain.telemetry.events import (
     HTR_RESEARCH_SCOPE,
     AdjudicationRecorded,
     AgreementCalculatedHtr,
+    CandidateFindingCreated,
     CanonicalResultCreated,
     CollectionCreated,
     DatasetCreated,
@@ -63,6 +64,8 @@ from archivetrust.domain.telemetry.events import (
     ExperimentRunStarted,
     ExperimentVersionCreated,
     ExternalResultImported,
+    FindingReviewed,
+    FindingStatusChanged,
     GroundTruthTextRecorded,
     HtrActorType,
     HtrTelemetryEvent,
@@ -79,6 +82,7 @@ from archivetrust.domain.telemetry.events import (
     RegionDetected,
     ReliabilityIssueClassified,
     ReproducibilityManifestRecorded,
+    ResearchObservationCreated,
     ResearchProjectCreated,
     ReviewAssigned,
     ReviewedResultRecorded,
@@ -109,6 +113,15 @@ from archivetrust.htr.experiment.models import (
     MetricDefinition,
     MetricResult,
     ReproducibilityManifest,
+)
+from archivetrust.htr.knowledge.lifecycle import transition_finding_status
+from archivetrust.htr.knowledge.models import (
+    INITIAL_FINDING_STATUSES,
+    ContradictoryEvidence,
+    EvidenceReference,
+    FindingStatus,
+    ResearchFinding,
+    ResearchObservation,
 )
 from archivetrust.htr.research_store import (
     DuplicateRegistrationError,
@@ -1193,6 +1206,200 @@ class DurableHtrResearchStore(HtrResearchStore):
                 record=adjudication.model_dump(mode="json"),
             )
         )
+
+    # -- Research knowledge (event-model doc §1 layers 10-12) ---------------------------------------
+    #
+    # These four methods are the first producers of `RESEARCH_OBSERVATION_CREATED`,
+    # `CANDIDATE_FINDING_CREATED`, `FINDING_REVIEWED` and `FINDING_STATUS_CHANGED` -- four of the five
+    # kinds `docs/architecture/htr-telemetry.md` §6 disclosed as "schema-only with no producer
+    # anywhere in `src/`, ... pending the knowledge lifecycle". This is that lifecycle.
+    #
+    # `ResearchReportGenerated` deliberately still has no producer, for the reason recorded in its own
+    # docstring: announcing a report as a *published research artifact* is a different act from
+    # generating one, and Article 33 forbids a projection emitting telemetry about itself.
+
+    def register_research_observation(
+        self,
+        observation: ResearchObservation,
+        *,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """Durably records one `ResearchObservation`.
+
+        **Correlation** defaults to the observation's own `source_experiment_run_id` when no scope is
+        active -- the same rule `register_experiment_run` applies, and for the same reason: an
+        observation extracted from a run's records belongs to that run's unit of work by definition,
+        not by a caller remembering to say so. An observation spanning several runs (the GPU-memory
+        one does) still correlates to the run it was *sourced* from, and names the others in its
+        `scope.experiment_run_ids`; correlation is one value by construction, so the multi-run
+        relationship lives in the scope where it can be plural.
+
+        **Causation** should be the telemetry event that supplied the evidence -- typically the
+        `MetricCalculated` or `ReliabilityIssueClassified` event the observation was extracted from.
+        Passing it is the caller's honesty, not something this method can infer: the whole point of
+        event-model doc §1's hard rule is that no automatic step turns an event into an observation,
+        so there is deliberately no "figure out which event caused this" logic here.
+        """
+        return self._emit(
+            ResearchObservationCreated(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id
+                    or self._correlation_id
+                    or observation.source_experiment_run_id,
+                    experiment_id=observation.source_experiment_id,
+                    experiment_version_id=observation.scope.experiment_version_id,
+                    experiment_run_id=observation.source_experiment_run_id,
+                    dataset_id=observation.affected_dataset_id,
+                    dataset_version_id=observation.affected_dataset_version_id,
+                    subject_id=observation.observation_id,
+                    actor_id=observation.author_or_source_component,
+                ),
+                observation_ref=observation.observation_id,
+                summary=observation.title,
+                evidence_refs=tuple(
+                    ref.reference_id for ref in observation.supporting_evidence
+                ),
+                observation=observation,
+            ),
+            bucket=self._observations,
+            key=observation.observation_id,
+            kind="ResearchObservation",
+            project=lambda: HtrResearchStore.register_research_observation(self, observation),
+        )
+
+    def register_candidate_finding(
+        self,
+        finding: ResearchFinding,
+        *,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """Durably records one `ResearchFinding` at `Draft`/`Candidate` status.
+
+        Refuses anything further along, so the log can never contain a `CandidateFindingCreated`
+        announcing an already-`Supported` claim. `ResearchFinding.create` refuses it too; this is the
+        persistence-layer half of the same rule, because a caller holding a legitimately-transitioned
+        finding could otherwise register it here as if it were new and lose the review trail.
+
+        `caused_by` should be the `ResearchObservationCreated` event of the observation the finding
+        rests on -- that is the layer-10-to-layer-11 causal edge.
+        """
+        if finding.review_status not in INITIAL_FINDING_STATUSES:
+            raise ValueError(
+                f"register_candidate_finding refuses a finding at status "
+                f"{finding.review_status.value!r}: this method records a finding's *creation*, and a "
+                f"finding is only ever created at "
+                f"{sorted(s.value for s in INITIAL_FINDING_STATUSES)}. Record a later status with "
+                "record_finding_transition, which emits FindingReviewed/FindingStatusChanged and "
+                "keeps the review trail."
+            )
+        return self._emit(
+            CandidateFindingCreated(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    experiment_id=finding.scope.experiment_id,
+                    experiment_version_id=finding.scope.experiment_version_id,
+                    experiment_run_id=finding.scope.experiment_run_ids[0],
+                    dataset_version_id=finding.scope.dataset_version_id,
+                    subject_id=finding.finding_id,
+                    actor_id=finding.author,
+                ),
+                finding_ref=finding.finding_id,
+                statement=finding.statement,
+                observation_refs=finding.supporting_observations,
+                finding=finding,
+            ),
+            bucket=self._findings,
+            key=finding.finding_id,
+            kind="ResearchFinding",
+            project=lambda: HtrResearchStore.register_finding(self, finding),
+        )
+
+    def record_finding_transition(
+        self,
+        finding: ResearchFinding,
+        new_status: FindingStatus,
+        *,
+        reviewer: str,
+        reasoning: str,
+        at: str,
+        reproduction_evidence: tuple[EvidenceReference, ...] = (),
+        superseded_by: str | None = None,
+        contradiction: ContradictoryEvidence | None = None,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> tuple[ResearchFinding, str]:
+        """Transitions a finding and durably records both halves of the act.
+
+        Returns `(transitioned_finding, status_change_event_id)`.
+
+        Two events, in causal order, because they are two different facts and conflating them would
+        lose one of them:
+
+        1. `FindingReviewed` -- a named human looked at this finding and reached a verdict.
+        2. `FindingStatusChanged`, caused by (1) -- the finding's status therefore changed, carrying
+           the whole post-transition entity including its complete `revision_history`.
+
+        A review that reached a verdict but changed nothing would emit only (1); a status change with
+        no (2) before it cannot happen, since this is the only path that emits it.
+
+        The transition rules themselves are **not** duplicated here: this delegates to
+        `htr/knowledge/lifecycle.py::transition_finding_status` and lets its
+        `InvalidFindingTransitionError` propagate *before* anything is appended, so a refused
+        transition leaves no trace in the log. That ordering is deliberate -- `_emit`'s
+        validate-then-append discipline applied to a domain rule rather than to a duplicate id.
+        """
+        transitioned = transition_finding_status(
+            finding,
+            new_status,
+            reviewer=reviewer,
+            reasoning=reasoning,
+            at=at,
+            reproduction_evidence=reproduction_evidence,
+            superseded_by=superseded_by,
+            contradiction=contradiction,
+        )
+        scope_fields: dict[str, Any] = {
+            "experiment_id": transitioned.scope.experiment_id,
+            "experiment_version_id": transitioned.scope.experiment_version_id,
+            "experiment_run_id": transitioned.scope.experiment_run_ids[0],
+            "subject_id": transitioned.finding_id,
+        }
+        review_event_id = self._emit_only(
+            FindingReviewed(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    actor_type=HtrActorType.HUMAN,
+                    actor_id=reviewer,
+                    **scope_fields,
+                ),
+                finding_ref=transitioned.finding_id,
+                reviewer_ref=reviewer,
+                verdict=new_status.value,
+            )
+        )
+        status_event_id = self._emit_only(
+            FindingStatusChanged(
+                **self._scope(
+                    causation_id=review_event_id,
+                    correlation_id=correlation_id,
+                    actor_type=HtrActorType.HUMAN,
+                    actor_id=reviewer,
+                    **scope_fields,
+                ),
+                finding_ref=transitioned.finding_id,
+                new_status=new_status.value,
+                previous_status=finding.review_status.value,
+                reason=reasoning,
+                finding=transitioned,
+            )
+        )
+        self.advance_finding(transitioned)
+        return transitioned, status_event_id
 
     # -- Coarse-entity JSON snapshot (derived cache) ------------------------------------------------
 

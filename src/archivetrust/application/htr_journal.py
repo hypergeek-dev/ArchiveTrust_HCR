@@ -191,6 +191,24 @@ class HtrJournal:
             if event.record is not None:
                 store.register_external_import(ExternalImport.model_validate(event.record))
 
+        # -- Research knowledge (event-model doc §1 layers 10-12) -------------------------------
+        # Added 2026-07-30 with the knowledge lifecycle. Each of these three kinds carries its full
+        # typed entity, so a replay rebuilds an observation's evidence links and a finding's entire
+        # revision history from the log alone.
+        elif isinstance(event, ResearchObservationCreated):
+            if event.observation is not None:
+                store.register_research_observation(event.observation)
+        elif isinstance(event, CandidateFindingCreated):
+            if event.finding is not None:
+                store.register_finding(event.finding)
+        elif isinstance(event, FindingStatusChanged):
+            # A later state of the same finding, carrying every revision that produced it -- the same
+            # projection-advancement case as `ExperimentRunCompleted`, and `advance_finding` refuses a
+            # finding whose `CandidateFindingCreated` is missing rather than inventing one at a status
+            # it could never have been created in.
+            if event.finding is not None:
+                store.advance_finding(event.finding)
+
         # Every remaining HTR kind is a deliberate no-op for *this* projection, for one of four
         # reasons -- named individually rather than left to fall through silently, following
         # `Journal._apply`'s own closing-comment discipline:
@@ -213,9 +231,12 @@ class HtrJournal:
         #      review query surface, and replacing *its* persistence is explicitly deferred to a
         #      later pass (docs/architecture/htr-telemetry.md §7). Their events are durable and
         #      correlated as of this pass; only their projection is deferred.
-        #      `ResearchObservationCreated`, `CandidateFindingCreated`, `FindingReviewed`,
-        #      `FindingStatusChanged`, `ResearchReportGenerated` -- schema-only kinds with no
-        #      producer anywhere in `src/` yet (the knowledge lifecycle is a later phase).
+        #      `FindingReviewed` -- the *act* of review, whose outcome is carried by the
+        #      `FindingStatusChanged` it causes; projecting both would apply one state twice.
+        #      Nothing is lost: `FindingReviewed` remains durable and is what the reviewer
+        #      attribution is read from, and the reviewer is also on the finding itself.
+        #      `ResearchReportGenerated` -- still schema-only, no producer anywhere in `src/`
+        #      (announcing a published report is a separate, later concern -- see its docstring).
         elif isinstance(
             event,
             (
@@ -228,10 +249,7 @@ class HtrJournal:
                 ReviewSubmissionRecorded,
                 AgreementCalculatedHtr,
                 AdjudicationRecorded,
-                ResearchObservationCreated,
-                CandidateFindingCreated,
                 FindingReviewed,
-                FindingStatusChanged,
                 ResearchReportGenerated,
             ),
         ):

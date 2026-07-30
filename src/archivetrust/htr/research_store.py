@@ -70,6 +70,7 @@ from archivetrust.htr.experiment.models import (
     MetricResult,
     ReproducibilityManifest,
 )
+from archivetrust.htr.knowledge.models import ResearchFinding, ResearchObservation
 from archivetrust.providers.transkribus.external_import import ExternalImport
 
 
@@ -164,6 +165,15 @@ class HtrResearchStore:
         alone, because `docs/htr-domain-design.md` §3 freezes a convention per version: a change
         creates a new version and existing ground truth keeps pointing at the old one, so both must
         remain resident and separately addressable."""
+        self._observations: dict[str, ResearchObservation] = {}
+        """`observation_id -> ResearchObservation` (event-model doc §1 layer 10). Added 2026-07-30
+        with the knowledge lifecycle. Observations are registered and never advanced: a new
+        observation supersedes an old one's *scope*, it does not overwrite it, which is exactly what
+        that doc's layer-10 row ("new observations supersede scope, don't overwrite") requires."""
+        self._findings: dict[str, ResearchFinding] = {}
+        """`finding_id -> ResearchFinding` (layers 11-12). The one knowledge bucket that *is*
+        advanced, by `advance_finding`, because a status transition is a later state of the same
+        entity -- and the only mutation a finding permits."""
         self._ground_truth: dict[str, str] = {}
         """`text_line_id -> reference transcription`. Reference text for a line, from whatever
         authority produced it (a closed blind dual review, an imported gold standard). Kept as a
@@ -264,6 +274,14 @@ class HtrResearchStore:
     def register_ground_truth(self, *, text_line_id: str, text: str) -> None:
         self._put(self._ground_truth, text_line_id, text, "ground truth")
 
+    def register_research_observation(self, observation: ResearchObservation) -> None:
+        self._put(
+            self._observations, observation.observation_id, observation, "ResearchObservation"
+        )
+
+    def register_finding(self, finding: ResearchFinding) -> None:
+        self._put(self._findings, finding.finding_id, finding, "ResearchFinding")
+
     # -- Projection advancement (see module docstring) -------------------------------------------
 
     def _advance(self, bucket: dict, key: str, value: object, kind: str) -> None:
@@ -293,6 +311,20 @@ class HtrResearchStore:
         """
         self._advance(self._experiment_runs, run.experiment_run_id, run, "ExperimentRun")
 
+    def advance_finding(self, finding: ResearchFinding) -> None:
+        """Records a `ResearchFinding`'s post-transition state over its previous one.
+
+        The same projection-advancement pattern as `advance_experiment_run`, and legitimate for the
+        same reason: a status transition produces a *later state of the same finding*, every
+        intermediate state stays in the durable log as its own `FindingStatusChanged` event, and a
+        fresh replay reaches this state deterministically.
+
+        No history is lost even within the projection: the advanced object carries the whole
+        `revision_history` and every `ContradictoryEvidence` entry accumulated so far, because
+        `htr/knowledge/lifecycle.py::transition_finding_status` only ever appends to both.
+        """
+        self._advance(self._findings, finding.finding_id, finding, "ResearchFinding")
+
     _PROJECTION_BUCKETS = (
         "_projects",
         "_datasets",
@@ -315,6 +347,8 @@ class HtrResearchStore:
         "_external_imports",
         "_conventions",
         "_ground_truth",
+        "_observations",
+        "_findings",
     )
     """Every bucket `adopt_projection` copies. Named explicitly rather than discovered by
     reflection, so adding a bucket without deciding how it hydrates is a visible omission here
@@ -510,6 +544,47 @@ class HtrResearchStore:
                 sorted(self._conventions.values(), key=lambda c: (c.convention_id, c.version))
             )
 
+    def research_observations(
+        self,
+        *,
+        experiment_run_id: str | None = None,
+        observation_type: str | None = None,
+    ) -> tuple[ResearchObservation, ...]:
+        """The recorded observations, optionally narrowed to one run or one type."""
+        with self._lock:
+            rows = [
+                o
+                for o in self._observations.values()
+                if (experiment_run_id is None or o.source_experiment_run_id == experiment_run_id)
+                and (observation_type is None or o.observation_type.value == observation_type)
+            ]
+        return tuple(sorted(rows, key=lambda o: (o.creation_timestamp, o.observation_id)))
+
+    def findings(self, *, review_status: str | None = None) -> tuple[ResearchFinding, ...]:
+        with self._lock:
+            rows = [
+                f
+                for f in self._findings.values()
+                if review_status is None or f.review_status.value == review_status
+            ]
+        return tuple(sorted(rows, key=lambda f: (f.creation_date, f.finding_id)))
+
+    def findings_contradicting(self, finding_id: str) -> tuple[ResearchFinding, ...]:
+        """Every finding that names `finding_id` in its own `contradictory_evidence`.
+
+        The reverse direction of the same relationship: `finding(x).contradictory_evidence` says
+        "what disputes x", this says "what x disputes". Both sides are stored independently and
+        neither is derived from the other by deletion, which is what makes the contradiction-
+        preservation requirement queryable in both directions rather than only forwards.
+        """
+        with self._lock:
+            rows = [
+                f
+                for f in self._findings.values()
+                if any(c.source_id == finding_id for c in f.contradictory_evidence)
+            ]
+        return tuple(sorted(rows, key=lambda f: (f.creation_date, f.finding_id)))
+
     # -- Id-keyed lookup ------------------------------------------------------------------------
 
     def project(self, project_id: str) -> ResearchProject | None:
@@ -578,6 +653,14 @@ class HtrResearchStore:
     def ground_truth_for_line(self, text_line_id: str) -> str | None:
         with self._lock:
             return self._ground_truth.get(text_line_id)
+
+    def research_observation(self, observation_id: str) -> ResearchObservation | None:
+        with self._lock:
+            return self._observations.get(observation_id)
+
+    def finding(self, finding_id: str) -> ResearchFinding | None:
+        with self._lock:
+            return self._findings.get(finding_id)
 
     # -- Derived traversal ----------------------------------------------------------------------
 

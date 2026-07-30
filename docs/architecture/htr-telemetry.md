@@ -63,12 +63,15 @@ ReviewAssignment ────────────────── ReviewAs
      ├─ AgreementResult ─────────── AgreementCalculatedHtr                │
      └─ Adjudication ────────────── AdjudicationRecorded                  │
 
+                                  ┌─ event-sourced (added 2026-07-30, §12) ─┐
+ResearchObservation ─────────────── ResearchObservationCreated               │
+ResearchFinding ─────────────────┬─ CandidateFindingCreated                  │
+                                 ├─ FindingReviewed  (act of review)         │
+                                 └─ FindingStatusChanged  (carries the       │
+                                    whole post-transition finding)           │
+
                                   ┌─ schema only, no producer ─┐
-ResearchObservation ─────────────── ResearchObservationCreated │  later phase
-ResearchFinding ─────────────────┬─ CandidateFindingCreated    │
-                                 ├─ FindingReviewed            │
-                                 └─ FindingStatusChanged       │
-ResearchReport ──────────────────── ResearchReportGenerated    │
+ResearchReport ──────────────────── ResearchReportGenerated    │  see §6
 ```
 
 The traceability chain `docs/htr-domain-design.md` §4 specifies is preserved exactly, as stored id
@@ -196,14 +199,23 @@ documented additions that list omitted, each justified in its own enum-member do
 | `MetricDefinitionRegistered` | §3 lists `MetricCalculated` (the result) but not the versioned `MetricDefinition` it was computed against, which the store holds and which `htr-domain-design.md` §3 requires be independently versioned so replay knows which calibration produced a value. |
 | `GroundTruthTextRecorded` | The store carries a resolved `text_line_id → reference transcription` mapping that drives every metric display. Without it, a replayed store shows metrics with no reference text explaining them. Records only the resolved string; `evaluation/ground_truth.py` still owns the `GroundTruthAnnotation` workflow. |
 
-Five of the 34 (`ResearchObservationCreated`, `CandidateFindingCreated`, `FindingReviewed`,
-`FindingStatusChanged`, `ResearchReportGenerated`) are **schema-only with no producer anywhere in
-`src/`**, disclosed as such in their docstrings and in `docs/TELEMETRY_STANDARD_V1.md`. The
-knowledge lifecycle they belong to is explicitly a later phase. Landing the closed vocabulary now
-means the enum need not be reopened for it, and each references its subject by id and carries no
-entity object precisely so the later phase can model `ResearchObservation`/`ResearchFinding` freely
-without migrating a schema guessed at here. This is the same disclosure `ObservationMapped` has
-carried since 2026-07-14.
+~~Five of the 34~~ **One of the 34** (`ResearchReportGenerated`) is **schema-only with no producer
+anywhere in `src/`**, disclosed as such in its docstring and in `docs/TELEMETRY_STANDARD_V1.md`. Its
+reason is specific to it and is recorded there: announcing a report as a *published research artifact*
+is a different act from generating one, and Article 33 forbids a projection emitting telemetry about
+itself.
+
+**Revised 2026-07-30 (§12).** This section originally listed five: the four knowledge kinds
+(`ResearchObservationCreated`, `CandidateFindingCreated`, `FindingReviewed`, `FindingStatusChanged`)
+alongside `ResearchReportGenerated`, on the grounds that "the knowledge lifecycle they belong to is
+explicitly a later phase" and that each "references its subject by id and carries no entity object
+precisely so the later phase can model `ResearchObservation`/`ResearchFinding` freely without migrating
+a schema guessed at here". That deferral has now been taken up, and it paid off exactly as intended: the
+four kinds got real producers and real typed payloads without a single field being renamed or migrated,
+because none had been guessed at. See §12.
+
+Landing the closed vocabulary early is what made that possible — the enum did not have to be reopened.
+This is the same disclosure `ObservationMapped` has carried since 2026-07-14.
 
 ### `document_ref` for research-scoped events
 
@@ -380,7 +392,9 @@ new base fields.
 
 * **Review projection deferred** (§7). The four review event kinds are durable and correlated but
   are not projected into any query surface; `BlindReviewStore` is still in-memory.
-* **Five event kinds have no producer** (§6), by design, pending the knowledge lifecycle.
+* ~~**Five event kinds have no producer** (§6), by design, pending the knowledge lifecycle.~~ Four of
+  the five got real producers on 2026-07-30 — see §12. `ResearchReportGenerated` is the remaining one,
+  and its reason is now specific to it rather than shared.
 * **`ExperimentRunFailed` and `ReliabilityIssueClassified` are durable but unindexed.** Both are
   written and replayable from the sink; neither has a bucket in `HtrResearchStore`'s query surface.
   Named as no-ops in `HtrJournal._apply` rather than left implicit. As of Phase 4
@@ -406,3 +420,53 @@ new base fields.
   no experiment-editing entry point exists yet.
 * **Single-writer.** Inherited unchanged from `FileTelemetrySink`: a concurrent writer in another
   process is not reflected until the sink is reconstructed.
+
+## 12. The knowledge lifecycle (added 2026-07-30)
+
+The layer 10–12 half of this architecture, built on top of everything above. Full documentation:
+[`docs/research-observations.md`](../research-observations.md),
+[`docs/research-findings.md`](../research-findings.md),
+[`docs/knowledge-lifecycle.md`](../knowledge-lifecycle.md).
+
+`src/archivetrust/htr/knowledge/` — a new package sibling to `htr/corpus/` and `htr/experiment/`,
+following this codebase's one-package-per-concern convention. Its `models.py` imports nothing but
+`pydantic` and `domain.shared.ids`, which is §5's condition for typed embedding, so
+`ResearchObservation` and `ResearchFinding` travel on the wire as **typed objects** rather than `record`
+dicts and `HtrJournal.replay` reconstructs them field-for-field.
+
+Four kinds gained real producers on `DurableHtrResearchStore`: `register_research_observation`,
+`register_candidate_finding`, and `record_finding_transition` (which emits `FindingReviewed` then
+`FindingStatusChanged` caused by it). Three event classes gained an optional, defaulted typed payload
+field — `ResearchObservationCreated.observation`, `CandidateFindingCreated.finding`,
+`FindingStatusChanged.finding` — the same additive shape `CanonicalResultCreated.canonical_result` used
+in §5, so every pre-existing construction still validates. `FindingReviewed` carries no entity
+deliberately: the reviewed state is the outcome, which `FindingStatusChanged` carries, and two copies of
+one state in the log with nothing saying which is authoritative would be a bug rather than redundancy.
+
+`HtrResearchStore` gained two projection buckets (`_observations`, `_findings`, both in
+`_PROJECTION_BUCKETS`), the accessors `research_observations`/`research_observation`/`findings`/
+`finding`/`findings_contradicting`, and `advance_finding` — the `advance_experiment_run` pattern applied
+to the one mutation a finding permits. `HtrJournal._apply` gained three branches and lost four names from
+its no-op list; `FindingReviewed` stays a documented no-op.
+
+**A third stream.** Knowledge events go to `htr_knowledge_events.jsonl`, not into the run's
+`htr_research_events.jsonl`, because that file is a committed research artifact documented as exactly one
+run's 100 events and read as such by a test — appending would falsify its own description. §7's "two
+streams, one mechanism" reasoning applies unchanged: same sink class, same append-only guarantees, same
+hash-chain sidecar. `causation_id`s cross the file boundary and `HtrJournal().replay(run + knowledge)`
+reconstructs one graph, proven in `tests/htr/knowledge/test_baseline_knowledge.py`.
+
+**What the enforcement actually is.** The three arrows of event-model doc §1 are blocked by construction:
+`supporting_evidence` and `supporting_observations` are both non-empty-by-construction, and
+`ResearchFinding` cannot be *constructed* at any status past `Draft`/`Candidate` — enforced twice, on
+`create` and on a model validator, so bypassing the classmethod does not help. `ResearchScope` makes a
+scoped result structurally unreadable as a general one: `sample_size` is a derived property with
+`extra="forbid"` so it cannot be asserted, `covered_unit_ids` must enumerate real ids with wildcards
+refused, and every named method must carry its exact model revision.
+
+**Honest limits of the demonstration**, recorded here as well as in `docs/knowledge-lifecycle.md`: no
+`Supported` and no `Superseded` finding exists, because both need a second experiment run and this
+repository has one; the four demonstrated transitions carry a single reviewer, the repository maintainer,
+with no independent review or adjudication.
+
+`ResearchReportGenerated` remains the single producerless kind (§6).

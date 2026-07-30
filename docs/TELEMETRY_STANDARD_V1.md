@@ -127,15 +127,23 @@ the same `FileTelemetrySink`, and replayed by `application/htr_journal.py::HtrJo
 | `AgreementCalculatedHtr` | Records reviewer-pair textual agreement (distinct from `AgreementCalculated`). |
 | `ReproducibilityManifestRecorded` | Records the reproducibility manifest for one experiment run. |
 | `ExternalResultImported` | Records a manually imported external result's provenance. |
-| `ResearchObservationCreated` | Schema-ready: records an extracted research observation. No producer yet. |
-| `CandidateFindingCreated` | Schema-ready: records a candidate research finding. No producer yet. |
-| `FindingReviewed` | Schema-ready: records a human review of a candidate finding. No producer yet. |
-| `FindingStatusChanged` | Schema-ready: records a research finding's status transition. No producer yet. |
+| `ResearchObservationCreated` | Records an extracted research observation; carries the full `ResearchObservation`. |
+| `CandidateFindingCreated` | Records a candidate research finding; carries the full `ResearchFinding`. |
+| `FindingReviewed` | Records a named human's review of a finding. Carries no entity — the outcome is on the `FindingStatusChanged` it causes. |
+| `FindingStatusChanged` | Records a finding's status transition; carries the whole post-transition finding, including its full revision history. |
 | `ResearchReportGenerated` | Schema-ready: records generation of a research report. No producer yet. |
 
-The last five are deliberately declared without producers, disclosed rather than left implicit: the
-research-knowledge lifecycle they belong to is a later phase, and landing the closed vocabulary now
-means the enum need not be reopened for it. `ObservationMapped` above has the same status.
+**Updated 2026-07-30.** The four knowledge kinds above previously read "Schema-ready … No producer
+yet", and this section previously said "the last five are deliberately declared without producers …
+the research-knowledge lifecycle they belong to is a later phase". That phase is now built
+(`docs/architecture/htr-telemetry.md` §12, `docs/knowledge-lifecycle.md`) and all four have real
+producers on `DurableHtrResearchStore`. Landing the closed vocabulary early is what let them acquire
+typed payloads without a single field being renamed.
+
+`ResearchReportGenerated` is now the only kind here without a producer, and its reason is specific to
+it rather than shared: announcing a report as a *published research artifact* is a different act from
+generating one, and Article 33 forbids a projection emitting telemetry about itself.
+`ObservationMapped` above has the same disclosed-without-a-producer status.
 
 ### Correlation and Causation
 

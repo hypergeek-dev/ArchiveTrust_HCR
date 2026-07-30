@@ -49,11 +49,12 @@ from archivetrust.htr.experiment.models import (
     MetricResult,
     ReproducibilityManifest,
 )
+from archivetrust.htr.knowledge.models import ResearchFinding, ResearchObservation
 
-# `htr.corpus.models`/`htr.experiment.models` are pure frozen Pydantic domain types whose only
-# imports are `domain.evidence.models` and `domain.shared.ids` (verified: their packages'
-# `__init__` files pull nothing else, and `htr/__init__.py` is docstring-only), so importing them
-# here introduces no cycle and violates neither guard in
+# `htr.corpus.models`/`htr.experiment.models`/`htr.knowledge.models` are pure frozen Pydantic domain
+# types whose only imports are `domain.evidence.models` and `domain.shared.ids` (verified: their
+# packages' `__init__` files pull nothing else, and `htr/__init__.py` is docstring-only), so
+# importing them here introduces no cycle and violates neither guard in
 # `tests/domain/test_dependency_direction.py`. Events embed the *full* domain object they announce
 # -- this module's own docstring requires it, "because replay must reconstruct [state] from
 # telemetry alone".
@@ -1220,29 +1221,56 @@ class ExternalResultImported(HtrTelemetryEvent):
 
 class ResearchObservationCreated(HtrTelemetryEvent):
     """Layer 10. A `ResearchObservation` was extracted from durable records by an explicit
-    extraction step -- never auto-derived from a telemetry event (event-model doc §1's hard rule)."""
+    extraction step -- never auto-derived from a telemetry event (event-model doc §1's hard rule).
+
+    **`observation` added 2026-07-30**, when this kind got its first producer
+    (`htr/persistence/durable_store.py::DurableHtrResearchStore.register_research_observation`).
+    `docs/architecture/htr-telemetry.md` §6 recorded that the five knowledge kinds "reference their
+    subject by id and carry no entity object precisely so the later phase can model
+    `ResearchObservation`/`ResearchFinding` freely without migrating a schema guessed at here" -- this
+    *is* that later phase, so the entity now exists and the field can be the real type. Optional with
+    a default, exactly as `CanonicalResultCreated.canonical_result` was added, so every pre-existing
+    id-only construction in `tests/domain/telemetry/test_htr_events.py` still validates unchanged.
+
+    Carried as a typed object rather than a `record` dict because `htr/knowledge/models.py` imports
+    nothing but `pydantic` and `domain.shared.ids` -- §5's condition for typed embedding. Without it,
+    `HtrJournal.replay` could not reconstruct an observation from the log alone.
+    """
 
     kind: TelemetryEventKind = TelemetryEventKind.RESEARCH_OBSERVATION_CREATED
 
     observation_ref: str
     summary: str
     evidence_refs: tuple[str, ...] = ()
+    observation: ResearchObservation | None = None
 
 
 class CandidateFindingCreated(HtrTelemetryEvent):
     """Layer 11. A `ResearchFinding` was constructed at `Candidate` status by an explicit step --
-    a `ResearchObservation` never auto-promotes."""
+    a `ResearchObservation` never auto-promotes.
+
+    `finding` added 2026-07-30 alongside a real producer, for the reason
+    `ResearchObservationCreated.observation` records.
+    """
 
     kind: TelemetryEventKind = TelemetryEventKind.CANDIDATE_FINDING_CREATED
 
     finding_ref: str
     statement: str
     observation_refs: tuple[str, ...] = ()
+    finding: ResearchFinding | None = None
 
 
 class FindingReviewed(HtrTelemetryEvent):
     """Layer 12. A human actor reviewed a candidate finding. No finding advances past `Candidate`
-    without one of these recording an attributable reviewer."""
+    without one of these recording an attributable reviewer.
+
+    Emitted *before* the `FindingStatusChanged` it causes, and is that event's `causation_id`: the
+    review is what caused the status to change, not the reverse. Deliberately carries no
+    `ResearchFinding` -- the reviewed state is the *outcome*, which `FindingStatusChanged` carries, so
+    duplicating it here would put two copies of one entity state in the log with nothing saying which
+    is authoritative.
+    """
 
     kind: TelemetryEventKind = TelemetryEventKind.FINDING_REVIEWED
 
@@ -1253,7 +1281,14 @@ class FindingReviewed(HtrTelemetryEvent):
 
 
 class FindingStatusChanged(HtrTelemetryEvent):
-    """Layer 12. A status transition on a `ResearchFinding` -- the only mutation a finding permits."""
+    """Layer 12. A status transition on a `ResearchFinding` -- the only mutation a finding permits.
+
+    `finding` carries the *whole* post-transition finding, including its full `revision_history` and
+    every `ContradictoryEvidence` entry. That is what lets replay rebuild a finding's complete
+    lifecycle from the log without consulting any other source, and it is why a disputed finding's
+    prior support is never lost: each state is a separate durable event, and the latest one still
+    contains every revision that produced it.
+    """
 
     kind: TelemetryEventKind = TelemetryEventKind.FINDING_STATUS_CHANGED
 
@@ -1261,6 +1296,7 @@ class FindingStatusChanged(HtrTelemetryEvent):
     new_status: str
     previous_status: str | None = None
     reason: str | None = None
+    finding: ResearchFinding | None = None
 
 
 class ResearchReportGenerated(HtrTelemetryEvent):
