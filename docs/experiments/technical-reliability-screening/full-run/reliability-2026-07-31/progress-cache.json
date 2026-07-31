@@ -1,0 +1,23 @@
+{
+  "completed_by_method": {
+    "florence2_htr": 600,
+    "satrn": 600
+  },
+  "crops_expected": 600,
+  "crops_known": 600,
+  "event_count": 77,
+  "experiment_run_id": "reliability-2026-07-31",
+  "failed_by_method": {
+    "florence2_htr": 0,
+    "satrn": 0
+  },
+  "note": "DERIVED CACHE, NOT A SOURCE OF TRUTH. Every number here is recomputed from events.jsonl by RunState.progress(); delete this file and nothing is lost.",
+  "pages_completed": 60,
+  "pages_segmented": 60,
+  "pages_total": 60,
+  "run_id": "reliability-2026-07-31",
+  "schema": "archivetrust.reliability_progress_cache.v1",
+  "seal_kind": "completed",
+  "sealed": true,
+  "started_at": "2026-07-31T04:22:08.404191+00:00"
+}
