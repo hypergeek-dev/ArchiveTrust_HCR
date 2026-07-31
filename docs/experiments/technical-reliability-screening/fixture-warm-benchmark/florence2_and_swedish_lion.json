@@ -1,0 +1,96 @@
+{
+  "ground_truth": "bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt",
+  "fixture": "D:\\ArchiveTrust_HCR\\tests\\fixtures\\htr\\trolldomskommissionen_sample_line.jpg",
+  "results": [
+    {
+      "method": "florence2_htr",
+      "model_revision": "nazounoryuu/florence_base__mixed__line_bbox__ocr@994f47e8a0e8d77cb2e11528665efd07a855c3af",
+      "text": "Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff",
+      "deterministic_across_warm_calls": true,
+      "distinct_texts_seen": [
+        "Be Kindsf. SAGE och Doth Hoon Minnes Coon Pilla gonger werff"
+      ],
+      "warm_calls": 9,
+      "runtime_seconds": {
+        "median": 0.3309890999989875,
+        "min": 0.32798129999900993,
+        "max": 0.3388000999984797,
+        "all": [
+          0.3388000999984797,
+          0.3309890999989875,
+          0.3352946000013617,
+          0.33436389999951643,
+          0.32880849999855855,
+          0.32835589999922377,
+          0.3332996999997704,
+          0.32798129999900993,
+          0.32989329999873007
+        ]
+      },
+      "peak_gpu_memory_mb": {
+        "median": 1210.64111328125,
+        "min": 1210.64111328125,
+        "max": 1210.64111328125,
+        "all": [
+          1210.64111328125,
+          1210.64111328125,
+          1210.64111328125,
+          1210.64111328125,
+          1210.64111328125,
+          1210.64111328125,
+          1210.64111328125,
+          1210.64111328125,
+          1210.64111328125
+        ]
+      },
+      "cer_normalized": 0.43103448275862066,
+      "wer_normalized": 0.9,
+      "exact_match_normalized": false
+    },
+    {
+      "method": "swedish_lion",
+      "model_revision": "Riksarkivet/trocr-base-handwritten-hist-swe-2@aa79fcb1850bf3155ebc442570d6c6bfc0ac8100",
+      "text": "bekiendt. Säger och deth hoon Minnes hoon Tuå gånger waritt",
+      "deterministic_across_warm_calls": true,
+      "distinct_texts_seen": [
+        "bekiendt. Säger och deth hoon Minnes hoon Tuå gånger waritt"
+      ],
+      "warm_calls": 9,
+      "runtime_seconds": {
+        "median": 0.49769369999921764,
+        "min": 0.4929678000007698,
+        "max": 0.5015788999990036,
+        "all": [
+          0.49769369999921764,
+          0.4934417000004032,
+          0.4978308999998262,
+          0.5015788999990036,
+          0.49745679999978165,
+          0.49984130000120786,
+          0.4990863000002719,
+          0.4929678000007698,
+          0.49330900000131805
+        ]
+      },
+      "peak_gpu_memory_mb": {
+        "median": 1512.05126953125,
+        "min": 1512.05126953125,
+        "max": 1512.05126953125,
+        "all": [
+          1512.05126953125,
+          1512.05126953125,
+          1512.05126953125,
+          1512.05126953125,
+          1512.05126953125,
+          1512.05126953125,
+          1512.05126953125,
+          1512.05126953125,
+          1512.05126953125
+        ]
+      },
+      "cer_normalized": 0.017241379310344827,
+      "wer_normalized": 0.1,
+      "exact_match_normalized": false
+    }
+  ]
+}

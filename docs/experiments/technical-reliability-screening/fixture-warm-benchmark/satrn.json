@@ -1,0 +1,49 @@
+{
+  "method": "satrn",
+  "model_revision": "Riksarkivet/satrn_htr",
+  "text": "till den 23 Januarii",
+  "score": 0.6666051723062992,
+  "deterministic_across_warm_calls": true,
+  "distinct_texts_seen": [
+    "till den 23 Januarii"
+  ],
+  "warm_calls": 9,
+  "runtime_seconds": {
+    "median": 0.850867509841919,
+    "min": 0.8397729396820068,
+    "max": 0.8666222095489502,
+    "all": [
+      0.8397729396820068,
+      0.8486776351928711,
+      0.8666222095489502,
+      0.8427581787109375,
+      0.8523356914520264,
+      0.8404066562652588,
+      0.8575427532196045,
+      0.8540918827056885,
+      0.850867509841919
+    ]
+  },
+  "peak_gpu_memory_mb": {
+    "median": 438.78173828125,
+    "min": 438.78173828125,
+    "max": 438.78173828125,
+    "all": [
+      438.78173828125,
+      438.78173828125,
+      438.78173828125,
+      438.78173828125,
+      438.78173828125,
+      438.78173828125,
+      438.78173828125,
+      438.78173828125,
+      438.78173828125
+    ]
+  },
+  "gpu_name": "NVIDIA GeForce RTX 3070",
+  "ground_truth": "bekiendt. Säger och deth hon Minnes hoon Tuå gånger waritt",
+  "cer_normalized": 0.7931034482758621,
+  "wer_normalized": 1.0,
+  "exact_match_normalized": false,
+  "note": "Warm, repeated-call benchmark: model loaded ONCE in one .venv-satrn process, 1 warmup call discarded, 9 measured calls against the same image -- isolates per-call inference cost from SATRN production adapter architecture (subprocess restart + model reload on every call). See scripts/satrn_warm_benchmark.py."
+}
