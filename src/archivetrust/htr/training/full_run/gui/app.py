@@ -47,7 +47,7 @@ from archivetrust.htr.training.full_run.gui.commands import (
 )
 from archivetrust.htr.training.full_run.monitoring_config import load_monitoring_config
 from archivetrust.htr.training.full_run.monitoring_state import classify_monitoring_state
-from archivetrust.htr.training.full_run.run_state import load_run_state
+from archivetrust.htr.training.full_run.run_state import display_status, load_run_state
 
 STATUS_POLL_INTERVAL_MS = 3000
 
@@ -253,22 +253,41 @@ class MainWindow(QMainWindow):
         self._launch(argv)
 
     def _on_start(self) -> None:
+        """Deliberately does not build or launch a real `start` command. Real full-corpus training
+        must only ever begin from an operator explicitly typing `--confirm-full-corpus-run` on the
+        real CLI -- this button exists so the operator can see the exact command to copy, never so a
+        single click can launch it. `commands.build_start_command` never includes the confirmation
+        flag, so even a modified build here could never succeed against the launch guard; this handler
+        additionally never invokes it at all, so there is no click path from this window to a running
+        training container."""
         if not self._run_dir_edit.text():
             QMessageBox.warning(self, "Missing run directory", "Select a prepared run directory first.")
             return
         argv = build_start_command(
             run_dir=self._run_dir_edit.text(), hours=self._hours_spin.value(), batch_size=self._batch_size_spin.value(),
         )
-        self._launch(argv)
+        self._command_preview.setText(" ".join(argv) + " --confirm-full-corpus-run")
+        QMessageBox.information(
+            self, "Not launched from here",
+            "This GUI never starts real full-corpus training itself. Copy the command shown above, "
+            "add --confirm-full-corpus-run, and run it manually in a terminal when you are ready.",
+        )
 
     def _on_resume(self) -> None:
+        """See `_on_start` -- resuming also performs real optimizer steps, so it is gated the same
+        way: shown, never launched, from this window."""
         if not self._run_dir_edit.text():
             QMessageBox.warning(self, "Missing run directory", "Select a run directory first.")
             return
         argv = build_resume_command(
             run_dir=self._run_dir_edit.text(), hours=self._hours_spin.value(), batch_size=self._batch_size_spin.value(),
         )
-        self._launch(argv)
+        self._command_preview.setText(" ".join(argv) + " --confirm-full-corpus-run")
+        QMessageBox.information(
+            self, "Not launched from here",
+            "This GUI never resumes real full-corpus training itself. Copy the command shown above, "
+            "add --confirm-full-corpus-run, and run it manually in a terminal when you are ready.",
+        )
 
     def _on_stop(self) -> None:
         """Graceful stop -- writes the STOP_REQUESTED sentinel via a quick, separate `stop`
@@ -321,7 +340,7 @@ class MainWindow(QMainWindow):
             return
 
         labels = self._status_labels
-        labels["status"].setText(state.status)
+        labels["status"].setText(display_status(state))
         labels["current_epoch"].setText(str(state.current_epoch))
         labels["current_global_step"].setText(str(state.current_global_step))
         labels["latest_val_cer"].setText(str(state.latest_metrics.get("val_cer")))

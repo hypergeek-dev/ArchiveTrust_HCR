@@ -64,7 +64,9 @@ def test_status_prints_the_real_state(tmp_path, capsys):
     result = cli.main(["status", "--run", str(run_dir)])
     assert result == 0
     out = capsys.readouterr().out
-    payload = json.loads(out)
+    assert "display_status: PREPARED_NOT_STARTED" in out
+    json_text = out.split("\n", 1)[1]
+    payload = json.loads(json_text)
     assert payload["status"] == STATUS_PREPARED
     assert payload["run_id"] == "r1"
 
@@ -177,3 +179,107 @@ def test_start_refuses_a_run_that_is_not_in_prepared_state(tmp_path, capsys):
     result = cli._run_session(_Args(), resume=False)
     assert result == 1
     assert "use `resume`" in capsys.readouterr().err
+
+
+def _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist, *, run_name="test-full-run"):
+    from archivetrust.htr.training.swedish_dataset_inventory import build_source_inventory
+    import zipfile
+
+    build_pilot_fixture(pilot_fixture_dir, val_cers=[0.5, 0.4, 0.35])
+    training_root = tmp_path / "training"
+    inventory_path = tmp_path / "inventory.parquet"
+    build_source_inventory(dataset_root=synthetic_dataset_root, output_path=inventory_path, charlist_path=synthetic_charlist)
+    parent_checkpoint_dir = tmp_path / "parent_checkpoint"
+    parent_checkpoint_dir.mkdir()
+    with zipfile.ZipFile(parent_checkpoint_dir / "model.keras", "w") as zf:
+        zf.writestr("config.json", "{}")
+    (parent_checkpoint_dir / "charlist.txt").write_text("abc", encoding="utf-8")
+
+    monkeypatch.setattr(cli, "TRAINING_ROOT", training_root)
+    monkeypatch.setattr(cli, "DEFAULT_PILOT_RUN_DIR", pilot_fixture_dir)
+    monkeypatch.setattr(cli, "INVENTORY_PATH", inventory_path)
+    monkeypatch.setattr(cli, "PARENT_CHECKPOINT_DIR", parent_checkpoint_dir)
+    monkeypatch.setattr(cli, "CHARLIST_PATH", parent_checkpoint_dir / "charlist.txt")
+    monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / "config")
+
+    cli.main(["analyze-pilot", "--pilot-run", str(pilot_fixture_dir), "--shard-line-count", "3", "--max-epochs", "2"])
+    config_path = str(tmp_path / "config" / "pilot_derived_monitoring.json")
+    result = cli.main(["prepare", "--config", config_path, "--run-name", run_name])
+    assert result == 0
+    return training_root / run_name
+
+
+def test_prepare_writes_launch_manifest_and_prepared_marker(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist):
+    from archivetrust.htr.training.full_run.launch_manifest import PREPARED_MARKER_NAME, load_launch_manifest
+    from archivetrust.htr.training.full_run.run_state import load_run_state, display_status
+
+    run_dir = _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist)
+
+    assert (run_dir / "launch_manifest.json").exists()
+    assert (run_dir / PREPARED_MARKER_NAME).exists()
+    assert (run_dir / "LAUNCH_COMMANDS.txt").exists()
+
+    manifest = load_launch_manifest(run_dir / "launch_manifest.json")
+    assert manifest.pilot_checkpoint_used_as_parent is False
+    assert manifest.exact_launch_command
+    assert "--confirm-full-corpus-run" in manifest.exact_launch_command
+
+    state = load_run_state(run_dir / "run-state")
+    assert display_status(state) == "PREPARED_NOT_STARTED"
+
+
+def test_prepare_writes_launch_commands_file_with_do_not_execute_banner(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist):
+    run_dir = _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist)
+    text = (run_dir / "LAUNCH_COMMANDS.txt").read_text(encoding="utf-8")
+    assert text.startswith("# DO NOT EXECUTE AUTOMATICALLY")
+    assert "--confirm-full-corpus-run" in text
+
+
+def test_start_without_confirm_flag_is_rejected_by_guard(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist, capsys):
+    run_dir = _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist)
+    result = cli.main(["start", "--run", str(run_dir), "--no-docker-check"])  # deliberately no --confirm-full-corpus-run
+    assert result == 1
+    assert "Missing explicit confirmation" in capsys.readouterr().err
+
+
+def test_start_with_confirm_but_no_preflight_recorded_is_rejected(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist, capsys):
+    run_dir = _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist)
+    result = cli.main(["start", "--run", str(run_dir), "--no-docker-check", "--confirm-full-corpus-run"])
+    assert result == 1
+    assert "No passing preflight recorded" in capsys.readouterr().err
+
+
+def test_start_dry_run_reports_guard_problems_but_never_invokes_the_trainer(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist, capsys):
+    run_dir = _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist)
+
+    def _must_not_be_called(*a, **k):
+        raise AssertionError("run_full_corpus_session must never be invoked during --dry-run")
+
+    monkeypatch.setattr("archivetrust.htr.training.full_run.orchestrator.run_full_corpus_session", _must_not_be_called)
+
+    result = cli.main(["start", "--run", str(run_dir), "--no-docker-check", "--dry-run"])
+    assert result == 0
+    out = capsys.readouterr().out
+    assert "DRY RUN" in out
+    assert "STOPPING HERE" in out
+    assert "before any optimizer step" in out
+
+
+def test_start_dry_run_does_not_require_confirmation_to_report(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist, capsys):
+    """A dry run's whole purpose is telling the operator what the guard *would* say -- it must not
+    itself require --confirm-full-corpus-run to produce that report."""
+    run_dir = _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist)
+    result = cli.main(["start", "--run", str(run_dir), "--no-docker-check", "--dry-run"])
+    assert result == 0
+    out = capsys.readouterr().out
+    assert "[WOULD REJECT] Missing explicit confirmation" in out
+
+
+def test_start_dry_run_never_creates_a_running_status(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist):
+    from archivetrust.htr.training.full_run.run_state import STATUS_PREPARED, load_run_state
+
+    run_dir = _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist)
+    cli.main(["start", "--run", str(run_dir), "--no-docker-check", "--dry-run"])
+    state = load_run_state(run_dir / "run-state")
+    assert state.status == STATUS_PREPARED
+    assert state.pid is None

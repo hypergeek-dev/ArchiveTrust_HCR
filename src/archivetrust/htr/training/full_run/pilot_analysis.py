@@ -55,12 +55,24 @@ class PilotEpochObservation(BaseModel):
     val_cer_delta: float | None
     """`val_cer[epoch] - val_cer[epoch - 1]` -- `None` for the first epoch (no prior epoch to
     compare against) or when either epoch's `val_cer` is missing."""
+    val_cer_relative_delta: float | None
+    """`val_cer_delta / val_cer[epoch - 1]` -- the same improvement expressed as a fraction of the
+    prior epoch's CER, since a fixed absolute delta means something very different at CER=0.5 than
+    at CER=0.05."""
+    rolling_mean_val_cer_delta: float | None
+    """Mean of `|val_cer_delta|` over the trailing `DEFAULT_TRAILING_WINDOW` transitions ending at
+    this epoch -- the same rolling window `meaningful_improvement_threshold` uses, exposed per-epoch
+    so a report can show the trend, not just the final aggregate."""
 
 
 class PilotAnalysis(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     pilot_run_id: str
+    base_checkpoint_identity: str | None
+    """The real pinned parent checkpoint this pilot fine-tuned from (`training_identity.json`'s own
+    `identity.parent_checkpoint`), e.g. `"generic-2023-02-15@0da2c00a..."` -- the same identity string
+    the full run's own preflight checks against."""
     source_metric_files: tuple[str, ...]
     pilot_epoch_count: int
     train_line_count: int | None
@@ -77,6 +89,30 @@ class PilotAnalysis(BaseModel):
     """Longest observed run of *consecutive* epochs whose `|val_cer_delta|` sat at or below
     `meaningful_improvement_threshold` before a later epoch recovered with a larger improvement --
     real evidence `monitoring_config.py` uses to size `recommended_patience`, not a guessed default."""
+    near_flat_epochs: tuple[int, ...]
+    """Every epoch (not just the longest streak) whose `|val_cer_delta|` sat at or below
+    `meaningful_improvement_threshold` -- the raw evidence `max_near_flat_streak` is computed from."""
+    validation_noise_stdev: float | None
+    """Population stdev of `|val_cer_delta|` over the trailing window -- how noisy the signal actually
+    is near the end of the observed run, the real basis for judging whether a future small delta is
+    "noise" or a genuine slowdown."""
+    genuine_plateau_occurred: bool
+    """`True` only when `estimated_plateau_epoch` was a real, observed stable window
+    (`plateau_is_extrapolated is False`) -- this project's own real pilot never actually reached one
+    before its wall-clock cap, so this is honestly `False` for it."""
+    early_stopping_triggered: bool
+    early_stopping_note: str
+    throughput_lines_per_second: float | None
+    """`train_line_count / epoch_duration_mean_seconds` -- real, measured throughput."""
+    gpu_observations_available: bool
+    checkpoint_behavior_summary: str
+    stop_reason: str | None
+    """The pilot's own real, final `TrainingSessionState.last_stop_reason` -- honestly `None` if the
+    pilot run never recorded one (e.g. it predates that field being tracked)."""
+    measured_vs_extrapolated_summary: str
+    """One human-readable line stating plainly which headline numbers above are real measurements and
+    which are extrapolations -- so a reader never has to cross-reference `plateau_is_extrapolated`
+    against every other field to know what to trust."""
     train_val_divergence: dict
     gpu_memory_high_water_mb: float | None
     checkpoint_size_bytes: dict
@@ -112,6 +148,70 @@ def _max_near_flat_streak(deltas: list[tuple[int, float]], threshold: float | No
         else:
             current = 0
     return longest
+
+
+def _near_flat_epochs(deltas: list[tuple[int, float]], threshold: float | None) -> tuple[int, ...]:
+    if threshold is None:
+        return ()
+    return tuple(epoch for epoch, d in deltas if abs(d) <= threshold)
+
+
+def _validation_noise_stdev(deltas: list[tuple[int, float]]) -> float | None:
+    window = deltas[-DEFAULT_TRAILING_WINDOW:]
+    if len(window) < 2:
+        return None
+    return pstdev(abs(d) for _, d in window)
+
+
+def _rolling_mean_deltas(deltas: list[tuple[int, float]]) -> dict[int, float]:
+    """`{epoch: rolling_mean(|delta|) over the trailing DEFAULT_TRAILING_WINDOW transitions ending at
+    that epoch}` -- one value per real transition, not just the final aggregate."""
+    result: dict[int, float] = {}
+    magnitudes = [abs(d) for _, d in deltas]
+    for i, (epoch, _) in enumerate(deltas):
+        window = magnitudes[max(0, i - DEFAULT_TRAILING_WINDOW + 1) : i + 1]
+        result[epoch] = sum(window) / len(window)
+    return result
+
+
+def _relative_deltas(observations: list[dict]) -> dict[int, float]:
+    """`{epoch: delta / val_cer[epoch - 1]}` for every consecutive pair where both `val_cer` values
+    are present and the prior value is non-zero -- the same pairing `_val_cer_deltas` uses, expressed
+    as a fraction of the prior epoch's CER."""
+    result: dict[int, float] = {}
+    for prev, curr in zip(observations, observations[1:]):
+        prev_val, curr_val = prev.get("val_cer"), curr.get("val_cer")
+        if prev_val is not None and curr_val is not None and prev_val != 0:
+            result[curr["epoch"]] = (curr_val - prev_val) / prev_val
+    return result
+
+
+def _early_stopping_behavior(state, deltas: list[tuple[int, float]]) -> tuple[bool, str]:
+    """Whether the pilot's own real session ever recorded `stop_reason ==
+    "no_val_cer_improvement"` -- the actual patience-triggered stop, distinct from a wall-clock or
+    epoch-cap stop."""
+    stop_reason = getattr(state, "last_stop_reason", None)
+    if stop_reason == "no_val_cer_improvement":
+        return True, (
+            f"Early stopping (patience-based) genuinely triggered -- recorded stop_reason "
+            f"'no_val_cer_improvement' (epochs_since_improvement={getattr(state, 'epochs_since_improvement', 'unknown')})."
+        )
+    return False, (
+        f"Early stopping never triggered -- the pilot's real stop_reason was "
+        f"{stop_reason!r}, not 'no_val_cer_improvement'. The pilot was still improving (or stopped "
+        "for an unrelated reason, e.g. a wall-clock cap) when it last ran."
+    )
+
+
+def _checkpoint_behavior_summary(entries) -> str:
+    kinds = {}
+    for e in entries:
+        kinds[e.checkpoint_kind] = kinds.get(e.checkpoint_kind, 0) + 1
+    unresumable = sum(1 for e in entries if not e.resumable)
+    return (
+        f"{len(entries)} real checkpoint index entries recorded ({kinds}); "
+        f"{unresumable} failed verification (never marked resumable)."
+    )
 
 
 def _estimate_plateau_epoch(
@@ -257,6 +357,7 @@ def analyze_pilot_run(pilot_run_dir: str | Path) -> PilotAnalysis:
     identity_path = run_state_dir / "training_identity.json"
     identity_payload = json.loads(identity_path.read_text(encoding="utf-8"))
     pilot_run_id = identity_payload["identity"]["run_id"]
+    base_checkpoint_identity = identity_payload["identity"].get("parent_checkpoint")
 
     state = load_session_state(run_state_dir)
     if state is None:
@@ -284,8 +385,14 @@ def analyze_pilot_run(pilot_run_dir: str | Path) -> PilotAnalysis:
     threshold = _meaningful_improvement_threshold(deltas)
     plateau_epoch, is_extrapolated, note = _estimate_plateau_epoch(deltas, threshold)
     streak = _max_near_flat_streak(deltas, threshold)
+    near_flat = _near_flat_epochs(deltas, threshold)
+    noise_stdev = _validation_noise_stdev(deltas)
+    genuine_plateau = plateau_epoch is not None and not is_extrapolated
+    early_stopping_triggered, early_stopping_note = _early_stopping_behavior(state, deltas)
 
     delta_by_epoch = dict(deltas)
+    relative_delta_by_epoch = _relative_deltas(observations_raw)
+    rolling_mean_by_epoch = _rolling_mean_deltas(deltas)
     epoch_observations = tuple(
         PilotEpochObservation(
             epoch=o["epoch"],
@@ -297,8 +404,36 @@ def analyze_pilot_run(pilot_run_dir: str | Path) -> PilotAnalysis:
             val_loss=o.get("val_loss"),
             duration_seconds=o["duration_seconds"],
             val_cer_delta=delta_by_epoch.get(o["epoch"]),
+            val_cer_relative_delta=relative_delta_by_epoch.get(o["epoch"]),
+            rolling_mean_val_cer_delta=rolling_mean_by_epoch.get(o["epoch"]),
         )
         for o in observations_raw
+    )
+
+    runtime_stability = _runtime_stability(observations_raw)
+    mean_epoch_duration = runtime_stability.get("epoch_duration_mean_seconds")
+    throughput = (
+        train_line_count / mean_epoch_duration
+        if train_line_count and mean_epoch_duration else None
+    )
+    gpu_high_water = _gpu_memory_high_water_mb(pilot_run_dir)
+    checkpoint_sizes = _checkpoint_sizes(entries)
+
+    measured_vs_extrapolated_summary = (
+        f"MEASURED: {len(observations_raw)} real pilot epochs, best_pilot_epoch="
+        f"{best_entry.epoch if best_entry else None}, best_pilot_val_cer="
+        f"{best_entry.validation_metrics.get('val_CER_metric') if best_entry else None}, "
+        f"max_near_flat_streak={streak}. "
+        + (
+            f"EXTRAPOLATED: estimated_plateau_epoch={plateau_epoch} ({note})"
+            if plateau_epoch is not None and is_extrapolated
+            else (
+                "MEASURED: estimated_plateau_epoch is a real, observed stable window, not an "
+                "extrapolation."
+                if genuine_plateau
+                else "No plateau estimate available (see plateau_estimation_note)."
+            )
+        )
     )
 
     source_files = tuple(
@@ -323,6 +458,7 @@ def analyze_pilot_run(pilot_run_dir: str | Path) -> PilotAnalysis:
 
     return PilotAnalysis(
         pilot_run_id=pilot_run_id,
+        base_checkpoint_identity=base_checkpoint_identity,
         source_metric_files=source_files,
         pilot_epoch_count=len(observations_raw),
         train_line_count=train_line_count,
@@ -336,10 +472,20 @@ def analyze_pilot_run(pilot_run_dir: str | Path) -> PilotAnalysis:
         plateau_is_extrapolated=is_extrapolated,
         plateau_estimation_note=note,
         max_near_flat_streak=streak,
+        near_flat_epochs=near_flat,
+        validation_noise_stdev=noise_stdev,
+        genuine_plateau_occurred=genuine_plateau,
+        early_stopping_triggered=early_stopping_triggered,
+        early_stopping_note=early_stopping_note,
+        throughput_lines_per_second=throughput,
+        gpu_observations_available=gpu_high_water is not None,
+        checkpoint_behavior_summary=_checkpoint_behavior_summary(entries),
+        stop_reason=getattr(state, "last_stop_reason", None),
+        measured_vs_extrapolated_summary=measured_vs_extrapolated_summary,
         train_val_divergence=_train_val_divergence(observations_raw),
-        gpu_memory_high_water_mb=_gpu_memory_high_water_mb(pilot_run_dir),
-        checkpoint_size_bytes=_checkpoint_sizes(entries),
-        runtime_stability=_runtime_stability(observations_raw),
+        gpu_memory_high_water_mb=gpu_high_water,
+        checkpoint_size_bytes=checkpoint_sizes,
+        runtime_stability=runtime_stability,
         epoch_observations=epoch_observations,
         assumptions_and_method=assumptions,
     )

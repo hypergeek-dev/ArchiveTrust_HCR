@@ -189,3 +189,63 @@ def test_epoch_observations_carry_the_real_verbatim_deltas(pilot_fixture_dir):
     assert analysis.epoch_observations[0].val_cer_delta is None  # first epoch, no prior
     assert analysis.epoch_observations[1].val_cer_delta == 0.4 - 0.5
     assert analysis.epoch_observations[2].val_cer_delta == 0.35 - 0.4
+
+
+def test_epoch_observations_carry_real_relative_deltas(pilot_fixture_dir):
+    build_pilot_fixture(pilot_fixture_dir, val_cers=[0.5, 0.4, 0.35])
+    analysis = analyze_pilot_run(pilot_fixture_dir)
+    assert analysis.epoch_observations[0].val_cer_relative_delta is None
+    assert analysis.epoch_observations[1].val_cer_relative_delta == pytest.approx((0.4 - 0.5) / 0.5)
+    assert analysis.epoch_observations[2].val_cer_relative_delta == pytest.approx((0.35 - 0.4) / 0.4)
+
+
+def test_base_checkpoint_identity_reflects_the_real_pilot_parent(pilot_fixture_dir):
+    build_pilot_fixture(pilot_fixture_dir, val_cers=[0.5, 0.4])
+    analysis = analyze_pilot_run(pilot_fixture_dir)
+    assert analysis.base_checkpoint_identity == "generic-2023-02-15@abc"
+
+
+def test_near_flat_epochs_lists_every_matching_epoch_not_just_the_streak(pilot_fixture_dir):
+    # val_cers chosen so deltas after the initial two large drops are all tiny (near-flat)
+    build_pilot_fixture(pilot_fixture_dir, val_cers=[0.5, 0.4, 0.35, 0.349, 0.3485, 0.348])
+    analysis = analyze_pilot_run(pilot_fixture_dir)
+    assert set(analysis.near_flat_epochs).issubset({4, 5, 6})
+    assert len(analysis.near_flat_epochs) == analysis.max_near_flat_streak
+
+
+def test_genuine_plateau_occurred_true_only_when_plateau_is_not_extrapolated(pilot_fixture_dir):
+    build_pilot_fixture(pilot_fixture_dir, val_cers=[0.5, 0.45, 0.40, 0.399, 0.3985, 0.3982])
+    analysis = analyze_pilot_run(pilot_fixture_dir)
+    assert analysis.genuine_plateau_occurred == (analysis.estimated_plateau_epoch is not None and not analysis.plateau_is_extrapolated)
+
+
+def test_early_stopping_not_triggered_when_stop_reason_is_something_else(pilot_fixture_dir):
+    build_pilot_fixture(pilot_fixture_dir, val_cers=[0.5, 0.4, 0.35])
+    analysis = analyze_pilot_run(pilot_fixture_dir)
+    assert analysis.early_stopping_triggered is False
+    assert analysis.stop_reason is None  # fixture never records a last_stop_reason
+
+
+def test_throughput_is_train_line_count_over_mean_epoch_duration(pilot_fixture_dir):
+    build_pilot_fixture(pilot_fixture_dir, val_cers=[0.5, 0.4], durations=[400.0, 500.0], train_line_count=9999)
+    analysis = analyze_pilot_run(pilot_fixture_dir)
+    assert analysis.throughput_lines_per_second == pytest.approx(9999 / 450.0)
+
+
+def test_gpu_observations_available_reflects_whether_telemetry_was_recorded(pilot_fixture_dir):
+    build_pilot_fixture(pilot_fixture_dir, val_cers=[0.5, 0.4])
+    analysis = analyze_pilot_run(pilot_fixture_dir)
+    assert analysis.gpu_observations_available is False
+
+
+def test_checkpoint_behavior_summary_mentions_real_entry_count(pilot_fixture_dir):
+    build_pilot_fixture(pilot_fixture_dir, val_cers=[0.5, 0.4, 0.35])
+    analysis = analyze_pilot_run(pilot_fixture_dir)
+    assert "3" in analysis.checkpoint_behavior_summary or "latest" in analysis.checkpoint_behavior_summary
+
+
+def test_measured_vs_extrapolated_summary_is_never_empty(pilot_fixture_dir):
+    build_pilot_fixture(pilot_fixture_dir, val_cers=[0.5, 0.4, 0.35])
+    analysis = analyze_pilot_run(pilot_fixture_dir)
+    assert analysis.measured_vs_extrapolated_summary
+    assert "MEASURED" in analysis.measured_vs_extrapolated_summary

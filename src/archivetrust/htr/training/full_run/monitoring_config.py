@@ -39,6 +39,25 @@ flagged as a likely loss explosion."""
 STALL_TIMEOUT_SAFETY_MARGIN = 3.0
 """A shard taking longer than `mean_shard_duration * this margin` is flagged as a possible stalled
 data loader -- 3x a real observed mean, not a guessed fixed number of minutes."""
+DEFAULT_RELATIVE_IMPROVEMENT_THRESHOLD = 0.02
+"""A shard's val_CER must improve by at least 2% relative to the current best to count as
+"meaningful" for the *relative* check -- `meaningful_improvement_threshold` (derived from the pilot's
+own trailing-delta median) is the *absolute* counterpart; `monitoring_state.py` uses whichever is
+stricter, so a tiny CER (where a fixed absolute delta is huge in relative terms) is not misjudged."""
+DEFAULT_CONSECUTIVE_WORSENING_THRESHOLD = 2
+"""Consecutive shards whose val_CER is worse (not just "not better") than the running best, by more
+than `meaningful_improvement_threshold`, before `monitoring_state.py` calls it DEGRADING rather than
+ordinary noise-driven PLATEAU_CANDIDATE."""
+DEFAULT_ROLLING_VALIDATION_WINDOW = 5
+"""How many trailing shards' val_CER deltas define "the current rate of improvement" for the
+SLOWING classification -- matches `pilot_analysis.py`'s own `DEFAULT_TRAILING_WINDOW`, so the full
+run's rolling window is directly comparable to how the pilot's own plateau estimate was computed."""
+DEFAULT_STALE_TELEMETRY_THRESHOLD_SECONDS = 60.0
+"""Matches `htr/training/run_status.py::STALE_THRESHOLD_SECONDS` (the pilot dashboard's own value) --
+one shared definition of "no longer receiving live updates," not a second, divergent threshold."""
+DEFAULT_LOW_DISK_THRESHOLD_GB = 20.0
+"""Matches `preflight.py`'s own default `min_free_disk_gb` -- the same number is both the preflight
+gate and the ongoing low-disk warning threshold during a run."""
 
 
 class FullRunMonitoringConfig(BaseModel):
@@ -61,8 +80,23 @@ class FullRunMonitoringConfig(BaseModel):
     `"best_pilot_epoch=22 (plateau not available, using best observed epoch instead)"`."""
 
     meaningful_improvement_threshold: float | None
+    """Minimum meaningful *absolute* val_CER improvement -- the pilot's own trailing-delta median
+    (`pilot_analysis.py::_meaningful_improvement_threshold`)."""
+    relative_improvement_threshold: float = DEFAULT_RELATIVE_IMPROVEMENT_THRESHOLD
+    """Minimum meaningful *relative* val_CER improvement -- see the module-level constant's
+    docstring for why both an absolute and a relative threshold are tracked."""
     recommended_patience: int
     patience_basis: str
+    consecutive_worsening_threshold: int = DEFAULT_CONSECUTIVE_WORSENING_THRESHOLD
+    rolling_validation_window: int = DEFAULT_ROLLING_VALIDATION_WINDOW
+    stale_telemetry_threshold_seconds: float = DEFAULT_STALE_TELEMETRY_THRESHOLD_SECONDS
+    low_disk_threshold_gb: float = DEFAULT_LOW_DISK_THRESHOLD_GB
+
+    validation_metric: str = "val_CER"
+    validation_mode: str = "minimize"
+    """Both fixed, real facts about this project's training objective -- present as explicit fields
+    (not implicit code assumptions) so `monitoring_state.py` and any report can name what "improve"
+    means without guessing, per the brief's "validation metric: val_CER, mode: minimize" requirement."""
 
     checkpoint_frequency_shards: int = 1
     validation_frequency_shards: int = 1

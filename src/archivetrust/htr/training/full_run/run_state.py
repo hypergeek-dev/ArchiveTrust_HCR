@@ -23,6 +23,18 @@ STATUS_STOPPED = "stopped"
 STATUS_FAILED = "failed"
 STATUS_COMPLETED = "completed"
 
+PREPARED_NOT_STARTED_LABEL = "PREPARED_NOT_STARTED"
+"""The user-facing display label for `STATUS_PREPARED` -- not a new stored status value (every
+existing `status == STATUS_PREPARED` check anywhere in this codebase keeps working unchanged), just
+the exact wording the CLI/GUI/final report show so "prepared, real launch not yet invoked" is never
+ambiguous with any other state."""
+
+
+def display_status(state: FullRunState) -> str:
+    if state.status == STATUS_PREPARED:
+        return PREPARED_NOT_STARTED_LABEL
+    return state.status.upper()
+
 
 class FullRunState(BaseModel):
     model_config = ConfigDict(frozen=True)
