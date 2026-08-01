@@ -18,7 +18,13 @@ from pathlib import Path
 import pyarrow.parquet as pq
 
 from archivetrust.htr.training.full_run.launch_manifest import LaunchManifest
-from archivetrust.htr.training.full_run.run_state import STATUS_RUNNING, STATUS_STOPPING, FullRunState
+from archivetrust.htr.training.full_run.run_state import (
+    STATUS_COMPLETED,
+    STATUS_FAILED,
+    STATUS_RUNNING,
+    STATUS_STOPPING,
+    FullRunState,
+)
 
 
 class LaunchGuardRejected(RuntimeError):
@@ -76,10 +82,23 @@ def evaluate_launch_guard(
     allow_dirty_repository: bool = False,
     check_docker: bool = True,
     check_train_val_overlap: bool = True,
+    current_code_revision: str | None = None,
+    allow_code_revision_drift: bool = False,
+    is_resume: bool = False,
 ) -> list[str]:
     """Returns every violated condition (empty list means the guard passes). Never raises itself --
     `enforce_launch_guard` below is the raising wrapper, so callers that just want the full list (e.g.
-    a `--dry-run` report) can inspect it without a `try/except`."""
+    a `--dry-run` report) can inspect it without a `try/except`.
+
+    **Two conditions added after a real audit finding, not hypothetical**: (1) `run_state.status` in
+    `{COMPLETED, FAILED}` is now rejected exactly like `{RUNNING, STOPPING}` -- previously `resume`
+    had no guard against re-entering a run this codebase itself had already marked finished, since
+    `cli.py`'s own `state.status != STATUS_PREPARED` early-return only applied to `start`, never to
+    `resume`. (2) `current_code_revision` (freshly read `git rev-parse HEAD` at start/resume time) is
+    now compared against `launch_manifest.code_commit_hash` (frozen at `prepare` time) -- previously
+    the guard checked `repository_dirty` but never whether the *committed* code itself had moved on
+    since preparation, which a real prepared run in this repository was found to have done (prepared
+    at one commit, a real bug fix landed in a later commit, and nothing would have caught the drift)."""
     run_dir = Path(run_dir)
     problems: list[str] = []
 
@@ -90,6 +109,11 @@ def evaluate_launch_guard(
         problems.append(f"No run_state.json found under {run_dir} -- run `prepare` first.")
     elif run_state.status in (STATUS_RUNNING, STATUS_STOPPING):
         problems.append(f"An active run already exists at {run_dir} with status {run_state.status!r}.")
+    elif is_resume and run_state.status in (STATUS_COMPLETED, STATUS_FAILED):
+        problems.append(
+            f"Refusing to resume a run already marked {run_state.status!r} -- a completed or failed "
+            "run is terminal; start a new prepared run instead of resuming this one."
+        )
 
     if launch_manifest is None:
         problems.append(f"No launch_manifest.json found under {run_dir} -- run `prepare` first.")
@@ -114,6 +138,19 @@ def evaluate_launch_guard(
             problems.append(
                 "The repository had uncommitted changes at preparation time -- reproducibility policy "
                 "requires a clean commit (pass allow_dirty_repository=True to override)."
+            )
+        if (
+            not allow_code_revision_drift
+            and launch_manifest.code_commit_hash is not None
+            and current_code_revision is not None
+            and current_code_revision != launch_manifest.code_commit_hash
+        ):
+            problems.append(
+                f"Code commit changed since preparation: prepared at {launch_manifest.code_commit_hash[:12]}, "
+                f"now at {current_code_revision[:12]} -- the code that will actually run no longer matches "
+                "the audited/prepared configuration. Re-run `prepare` (and `preflight`) at the current "
+                "commit, or pass allow_code_revision_drift=True to override with an explicit, informed "
+                "acknowledgement."
             )
         if check_train_val_overlap:
             shards_dir = run_dir / "shards"

@@ -365,6 +365,7 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
     from archivetrust.htr.training.full_run.orchestrator import run_full_corpus_session
     from archivetrust.htr.training.full_run.run_state import (
         STATUS_PREPARED,
+        get_code_revision,
         load_run_state,
         mark_resumed,
         save_run_state,
@@ -402,6 +403,9 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
         container_image_digest=CURRENT_PINNED_VERSIONS.docker_image_digest,
         allow_dirty_repository=args.allow_dirty_repository,
         check_docker=not args.no_docker_check,
+        current_code_revision=get_code_revision(),
+        allow_code_revision_drift=args.allow_code_revision_drift,
+        is_resume=resume,
     )
 
     if args.dry_run:
@@ -537,6 +541,7 @@ def build_parser() -> argparse.ArgumentParser:
     start.add_argument("--dry-run", action="store_true", help="validate everything short of invoking the trainer; never starts real training")
     start.add_argument("--max-preflight-age-seconds", type=float, default=6 * 3600.0)
     start.add_argument("--allow-dirty-repository", action="store_true")
+    start.add_argument("--allow-code-revision-drift", action="store_true", help="allow the current git commit to differ from the one recorded at `prepare` time")
     start.add_argument("--no-docker-check", action="store_true", help="skip the launch guard's docker daemon/image checks")
     start.set_defaults(func=cmd_start)
 
@@ -560,6 +565,7 @@ def build_parser() -> argparse.ArgumentParser:
     resume.add_argument("--dry-run", action="store_true", help="validate everything short of invoking the trainer; never resumes real training")
     resume.add_argument("--max-preflight-age-seconds", type=float, default=6 * 3600.0)
     resume.add_argument("--allow-dirty-repository", action="store_true")
+    resume.add_argument("--allow-code-revision-drift", action="store_true", help="allow the current git commit to differ from the one recorded at `prepare` time")
     resume.add_argument("--no-docker-check", action="store_true", help="skip the launch guard's docker daemon/image checks")
     resume.set_defaults(func=cmd_resume)
 

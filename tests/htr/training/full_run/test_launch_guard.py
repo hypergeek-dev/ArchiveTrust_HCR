@@ -10,7 +10,10 @@ from archivetrust.htr.training.full_run.launch_manifest import build_launch_mani
 from archivetrust.htr.training.full_run.run_state import (
     STATUS_RUNNING,
     create_initial_run_state,
+    mark_completed,
+    mark_failed,
     mark_running,
+    mark_stopped,
 )
 
 
@@ -154,6 +157,55 @@ def test_dirty_repository_is_rejected_unless_allowed(prepared_setup):
 
     problems_allowed = evaluate_launch_guard(confirmed=True, allow_dirty_repository=True, **prepared_setup)
     assert not any("uncommitted changes" in p.lower() for p in problems_allowed)
+
+
+def test_resuming_a_completed_run_is_rejected(prepared_setup):
+    """Real audit finding: `resume` previously had no status guard at all (only `start` checked
+    for STATUS_PREPARED) -- a completed run could be silently re-entered and its optimizer state
+    mutated again. `is_resume=True` must reject STATUS_COMPLETED."""
+    prepared_setup["run_state"] = mark_completed(prepared_setup["run_state"], stop_reason="max_full_run_epochs_reached")
+    problems = evaluate_launch_guard(confirmed=True, is_resume=True, **prepared_setup)
+    assert any("completed" in p.lower() and "terminal" in p.lower() for p in problems)
+
+
+def test_resuming_a_failed_run_is_rejected(prepared_setup):
+    prepared_setup["run_state"] = mark_failed(prepared_setup["run_state"], stop_reason="epoch_failed", failure_detail="x")
+    problems = evaluate_launch_guard(confirmed=True, is_resume=True, **prepared_setup)
+    assert any("failed" in p.lower() and "terminal" in p.lower() for p in problems)
+
+
+def test_starting_fresh_is_not_penalized_by_the_terminal_status_check(prepared_setup):
+    """The terminal-status rejection only applies to `resume` (`is_resume=True`) -- a fresh `start`
+    against a STATUS_PREPARED run must be unaffected."""
+    problems = evaluate_launch_guard(confirmed=True, is_resume=False, **prepared_setup)
+    assert problems == []
+
+
+def test_resuming_a_stopped_run_is_allowed(prepared_setup):
+    """STOPPED (a graceful interruption, not a terminal completion/failure) must remain resumable."""
+    prepared_setup["run_state"] = mark_stopped(prepared_setup["run_state"], stop_reason="stop_requested")
+    problems = evaluate_launch_guard(confirmed=True, is_resume=True, **prepared_setup)
+    assert problems == []
+
+
+def test_code_revision_drift_is_rejected(prepared_setup):
+    """Real audit finding: a run actually prepared in this repository recorded `code_commit_hash`
+    at one commit, and a genuine bug-fix commit landed afterward with nothing to catch the drift --
+    the guard now compares the live `git rev-parse HEAD` against what was frozen at `prepare` time."""
+    problems = evaluate_launch_guard(confirmed=True, current_code_revision="deadbeef", **prepared_setup)
+    assert any("code commit changed" in p.lower() for p in problems)
+
+
+def test_code_revision_drift_can_be_explicitly_overridden(prepared_setup):
+    problems = evaluate_launch_guard(
+        confirmed=True, current_code_revision="deadbeef", allow_code_revision_drift=True, **prepared_setup
+    )
+    assert not any("code commit changed" in p.lower() for p in problems)
+
+
+def test_matching_code_revision_is_not_flagged(prepared_setup):
+    problems = evaluate_launch_guard(confirmed=True, current_code_revision="c1", **prepared_setup)
+    assert not any("code commit changed" in p.lower() for p in problems)
 
 
 def test_train_val_overlap_is_rejected(prepared_setup, tmp_path):

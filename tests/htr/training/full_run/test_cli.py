@@ -275,6 +275,33 @@ def test_start_dry_run_does_not_require_confirmation_to_report(pilot_fixture_dir
     assert "[WOULD REJECT] Missing explicit confirmation" in out
 
 
+def test_start_rejects_code_revision_drift_since_preparation(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist, capsys):
+    """Reproduces a real audit finding end to end: a run prepared at one commit must be rejected by
+    `start` if the code has since moved to a different commit, unless explicitly overridden."""
+    import archivetrust.htr.training.full_run.run_state as run_state_mod
+
+    monkeypatch.setattr(run_state_mod, "get_code_revision", lambda: "commit-at-prepare-time")
+    run_dir = _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist)
+
+    # Write a passing preflight status so the drift check (not preflight) is what triggers rejection.
+    (tmp_path / "config" / "preflight_status.json").write_text(
+        '{"all_critical_passed": true, "summary": "1/1", "checked_at": "2026-08-01T00:00:00Z"}', encoding="utf-8"
+    )
+
+    monkeypatch.setattr(run_state_mod, "get_code_revision", lambda: "commit-after-a-real-bugfix")
+    result = cli.main(["start", "--run", str(run_dir), "--no-docker-check", "--confirm-full-corpus-run"])
+    assert result == 1
+    assert "Code commit changed since preparation" in capsys.readouterr().err
+
+    result_overridden = cli.main([
+        "start", "--run", str(run_dir), "--no-docker-check", "--confirm-full-corpus-run", "--allow-code-revision-drift",
+    ])
+    # allow_code_revision_drift removes that one rejection; the call may still fail later for
+    # unrelated reasons (no real Docker/container in this test), but must NOT fail on drift.
+    if result_overridden != 0:
+        assert "Code commit changed since preparation" not in capsys.readouterr().err
+
+
 def test_start_dry_run_never_creates_a_running_status(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_dataset_root, synthetic_charlist):
     from archivetrust.htr.training.full_run.run_state import STATUS_PREPARED, load_run_state
 
