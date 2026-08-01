@@ -263,6 +263,14 @@ def run_training_session(
             f"Persisted session configuration_hash {state.configuration_hash!r} does not match "
             f"{configuration_hash!r} -- refusing to resume under a changed configuration."
         )
+    elif state.random_seed != random_seed:
+        raise ValueError(
+            f"Persisted session random_seed {state.random_seed!r} does not match {random_seed!r} -- "
+            "refusing to resume under a changed seed. A resumed session must reuse the exact same "
+            "--seed the run was originally started with (unlike configuration_hash, this was "
+            "previously silently accepted, letting the persisted random_seed field misreport what "
+            "was actually used for per-shard shuffling)."
+        )
 
     state = state.model_copy(
         update={

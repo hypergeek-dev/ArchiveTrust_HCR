@@ -53,16 +53,45 @@ def _container_image_available(image_tag: str, image_digest: str | None) -> bool
     return completed.returncode == 0
 
 
-def _shard_line_id_overlap_with_validation(shards_dir: Path, validation_manifest_path: Path) -> int:
+def _shard_line_id_overlap_with_manifest(shards_dir: Path, manifest_path: Path) -> int:
     from archivetrust.htr.training.full_run.corpus_sharding import load_sharding_summary
 
     summary = load_sharding_summary(shards_dir)
-    val_ids = set(pq.read_table(validation_manifest_path, columns=["line_id"]).column("line_id").to_pylist())
+    manifest_ids = set(pq.read_table(manifest_path, columns=["line_id"]).column("line_id").to_pylist())
     overlap = 0
     for shard in summary.shards:
         shard_ids = set(pq.read_table(shard.manifest_path, columns=["line_id"]).column("line_id").to_pylist())
-        overlap += len(shard_ids & val_ids)
+        overlap += len(shard_ids & manifest_ids)
     return overlap
+
+
+def recompute_real_shard_hash(shards_dir: str | Path) -> str | None:
+    """Independent-review finding: the previous version of this check only compared
+    `sharding_summary.json`'s own recorded `line_id_set_hash` against itself (re-reading the same
+    file the frozen `launch_manifest.json` hash was originally copied from) -- a tampered or corrupted
+    individual shard `.parquet` file would never be caught, since nothing ever rehashed real shard
+    bytes. This function reads every real lap-0 shard file's actual `line_id` column, reproduces
+    `corpus_sharding.py::build_full_corpus_shards`'s own hash method exactly (sha256 of the sorted,
+    JSON-dumped line-ID list), and returns a hash that only matches the recorded one if the real,
+    current shard file contents genuinely still match what was hashed at `prepare` time. Lap 0 alone
+    is used because it is exactly the usable line-ID set by construction (each usable line appears
+    there exactly once); later laps are reshuffled repeats of the same set, not additional lines."""
+    import hashlib
+    import json
+
+    from archivetrust.htr.training.full_run.corpus_sharding import load_sharding_summary
+
+    shards_dir = Path(shards_dir)
+    if not shards_dir.exists():
+        return None
+    summary = load_sharding_summary(shards_dir)
+    lap0_shards = [s for s in summary.shards if s.lap == 0]
+    if not lap0_shards:
+        return None
+    line_ids: set[str] = set()
+    for shard in lap0_shards:
+        line_ids.update(pq.read_table(shard.manifest_path, columns=["line_id"]).column("line_id").to_pylist())
+    return hashlib.sha256(json.dumps(sorted(line_ids)).encode("utf-8")).hexdigest()
 
 
 def evaluate_launch_guard(
@@ -85,6 +114,7 @@ def evaluate_launch_guard(
     current_code_revision: str | None = None,
     allow_code_revision_drift: bool = False,
     is_resume: bool = False,
+    test_manifest_path: str | Path | None = None,
 ) -> list[str]:
     """Returns every violated condition (empty list means the guard passes). Never raises itself --
     `enforce_launch_guard` below is the raising wrapper, so callers that just want the full list (e.g.
@@ -156,9 +186,13 @@ def evaluate_launch_guard(
             shards_dir = run_dir / "shards"
             val_path = Path(launch_manifest.validation_manifest_path)
             if shards_dir.exists() and val_path.exists():
-                overlap = _shard_line_id_overlap_with_validation(shards_dir, val_path)
+                overlap = _shard_line_id_overlap_with_manifest(shards_dir, val_path)
                 if overlap:
                     problems.append(f"{overlap} training line ID(s) overlap with the validation manifest.")
+            if shards_dir.exists() and test_manifest_path is not None and Path(test_manifest_path).exists():
+                test_overlap = _shard_line_id_overlap_with_manifest(shards_dir, Path(test_manifest_path))
+                if test_overlap:
+                    problems.append(f"{test_overlap} training line ID(s) overlap with the reserved test manifest.")
 
     if not preflight_passed:
         problems.append("No passing preflight recorded -- run `preflight` and get all critical checks passing first.")

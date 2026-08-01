@@ -176,6 +176,44 @@ def test_refuses_to_resume_under_a_changed_configuration_hash(run_state_dir, che
         )
 
 
+def test_refuses_to_resume_under_a_changed_random_seed(run_state_dir, checkpoint_index_path, parent_checkpoint_dir):
+    """Independent-review finding: unlike configuration_hash, a mismatched random_seed on resume was
+    previously silently accepted -- the persisted TrainingSessionState.random_seed field would then
+    misreport what was actually used for per-shard epoch_seed computation. Resuming with a different
+    seed must be rejected the same way a changed configuration_hash already is."""
+    runner = FakeEpochRunner()
+    run_training_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        train_list_path="train.txt", validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, max_wall_clock_seconds=1e9,
+        stop_requested=lambda: False, max_epochs_this_call=1,
+    )
+    with pytest.raises(ValueError):
+        run_training_session(
+            run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+            train_list_path="train.txt", validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+            run_id="r1", configuration_hash="h1", random_seed=999, max_wall_clock_seconds=1e9,
+            stop_requested=lambda: False, max_epochs_this_call=1,
+        )
+
+
+def test_resuming_with_the_same_random_seed_succeeds(run_state_dir, checkpoint_index_path, parent_checkpoint_dir):
+    runner = FakeEpochRunner()
+    run_training_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        train_list_path="train.txt", validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, max_wall_clock_seconds=1e9,
+        stop_requested=lambda: False, max_epochs_this_call=1,
+    )
+    summary = run_training_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        train_list_path="train.txt", validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, max_wall_clock_seconds=1e9,
+        stop_requested=lambda: False, max_epochs_this_call=1,
+    )
+    assert summary.epochs_completed_this_session == 1
+
+
 def test_stop_requested_halts_before_the_next_epoch(run_state_dir, checkpoint_index_path, parent_checkpoint_dir):
     runner = FakeEpochRunner()
     calls_before_stop = []

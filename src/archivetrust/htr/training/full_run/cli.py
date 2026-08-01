@@ -388,13 +388,19 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
     preflight_passed, preflight_age_seconds = _read_preflight_status()
     sharding_summary = load_sharding_summary(run_dir / "shards")
 
+    from archivetrust.htr.training.full_run.launch_guard import recompute_real_shard_hash
+
     guard_kwargs = dict(
         confirmed=args.confirm_full_corpus_run,
         run_dir=run_dir,
         run_state=state,
         launch_manifest=launch_manifest,
         current_dataset_hash=_dataset_hash(),
-        current_training_manifest_hash=sharding_summary.line_id_set_hash,
+        # A real rehash of every real lap-0 shard file's actual line_id column -- not just a second
+        # read of sharding_summary.json's own recorded hash field (which would never catch a shard
+        # file replaced or corrupted after `prepare` without the summary itself being touched).
+        current_training_manifest_hash=recompute_real_shard_hash(run_dir / "shards"),
+        test_manifest_path=DEFAULT_PILOT_RUN_DIR / "manifests" / "test_reserved_manifest.parquet",
         preflight_passed=preflight_passed,
         preflight_age_seconds=preflight_age_seconds,
         max_preflight_age_seconds=args.max_preflight_age_seconds,

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import pyarrow as pa
 import pyarrow.parquet as pq
 import pytest
@@ -220,3 +222,63 @@ def test_train_val_overlap_is_rejected(prepared_setup, tmp_path):
     )
     problems = evaluate_launch_guard(confirmed=True, **prepared_setup)
     assert any("overlap" in p.lower() for p in problems)
+
+
+def test_test_manifest_overlap_is_rejected(prepared_setup, tmp_path):
+    """Independent-review finding: only validation overlap was ever re-checked at launch time; the
+    reserved test manifest was never symmetrically re-verified."""
+    from archivetrust.htr.training.full_run.corpus_sharding import load_sharding_summary
+
+    summary = load_sharding_summary(prepared_setup["run_dir"] / "shards")
+    overlapping_line = pq.read_table(summary.shards[0].manifest_path, columns=["line_id"]).column("line_id")[0].as_py()
+    overlapping_test = _make_manifest(tmp_path / "overlap_test.parquet", [overlapping_line])
+    prepared_setup["test_manifest_path"] = str(overlapping_test)
+    problems = evaluate_launch_guard(confirmed=True, **prepared_setup)
+    assert any("reserved test manifest" in p.lower() for p in problems)
+
+
+def test_no_test_manifest_path_supplied_skips_the_check_cleanly(prepared_setup):
+    problems = evaluate_launch_guard(confirmed=True, **prepared_setup)
+    assert problems == []
+
+
+def test_recompute_real_shard_hash_matches_the_recorded_hash_for_an_untampered_run(prepared_setup):
+    from archivetrust.htr.training.full_run.launch_guard import recompute_real_shard_hash
+
+    real_hash = recompute_real_shard_hash(prepared_setup["run_dir"] / "shards")
+    assert real_hash == prepared_setup["launch_manifest"].training_manifest_hash
+
+
+def test_recompute_real_shard_hash_detects_a_tampered_shard_file(prepared_setup, tmp_path):
+    """The previous version of this check only re-read sharding_summary.json's own recorded hash --
+    it would never notice a shard .parquet file being replaced or corrupted after `prepare`, since
+    the summary file itself was untouched. The real rehash must detect real content drift."""
+    from archivetrust.htr.training.full_run.corpus_sharding import load_sharding_summary
+    from archivetrust.htr.training.full_run.launch_guard import recompute_real_shard_hash
+
+    shards_dir = prepared_setup["run_dir"] / "shards"
+    summary = load_sharding_summary(shards_dir)
+    lap0_shard_path = Path(next(s.manifest_path for s in summary.shards if s.lap == 0))
+
+    original_hash = recompute_real_shard_hash(shards_dir)
+    # Replace one real lap-0 shard file's content with a manifest containing a different line ID --
+    # sharding_summary.json itself is left completely untouched.
+    _make_manifest(lap0_shard_path, ["tampered-line-id-not-in-the-original-shard"])
+
+    tampered_hash = recompute_real_shard_hash(shards_dir)
+    assert tampered_hash != original_hash
+    assert tampered_hash != prepared_setup["launch_manifest"].training_manifest_hash
+
+
+def test_tampered_shard_file_is_rejected_by_the_full_guard(prepared_setup, tmp_path):
+    from archivetrust.htr.training.full_run.corpus_sharding import load_sharding_summary
+    from archivetrust.htr.training.full_run.launch_guard import recompute_real_shard_hash
+
+    shards_dir = prepared_setup["run_dir"] / "shards"
+    summary = load_sharding_summary(shards_dir)
+    lap0_shard_path = Path(next(s.manifest_path for s in summary.shards if s.lap == 0))
+    _make_manifest(lap0_shard_path, ["tampered-line-id-not-in-the-original-shard"])
+
+    prepared_setup["current_training_manifest_hash"] = recompute_real_shard_hash(shards_dir)
+    problems = evaluate_launch_guard(confirmed=True, **prepared_setup)
+    assert any("training manifest hash changed" in p.lower() for p in problems)
