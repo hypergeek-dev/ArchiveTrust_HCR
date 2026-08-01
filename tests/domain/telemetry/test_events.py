@@ -31,8 +31,19 @@ def test_all_canonical_event_kinds_are_registered():
     # justified in its own enum-member docstring) = 70, plus the RGB-normalization preprocessing
     # stage's 4 (ImageNormalizationStarted, ImageNormalizationCompleted, ImageNormalizationFailed,
     # DerivedImageArtifactCreated -- Transkribus Swedish Lion I page-level preprocessing provenance)
-    # = 74.
-    assert len(TelemetryEventKind) == 74
+    # = 74, plus the active-method transition / Loghi integration's 9
+    # (docs/loghi-integration-audit.md: MethodResearchStatusChanged, LoghiEnvironmentValidated,
+    # LoghiPipelineStarted, LoghiStageStarted, LoghiStageCompleted, LoghiStageFailed,
+    # LoghiPageXmlGenerated, DomainRelationshipRecorded, CrossDomainComparisonCreated -- each
+    # justified in its own enum-member docstring and in docs/architecture/htr-telemetry.md §6) = 83,
+    # plus the Swedish Loghi fine-tuning pilot's 3 (TrainingSessionStarted,
+    # TrainingSessionCheckpointed, TrainingSessionCompleted -- a training-session lifecycle is
+    # materially different from an inference run's, so it is not shoehorned into the existing
+    # HTR-run events; each justified in its own enum-member docstring) = 86, plus the read-only
+    # training dashboard's 2 (TrainingSessionFailed -- a real process/container failure, distinct
+    # from any clean stop_reason `TrainingSessionCompleted` covers; RunWarningRecorded -- a
+    # `run_health.py` finding made durable evidence rather than only a live-computed value) = 88.
+    assert len(TelemetryEventKind) == 88
     assert set(EVENT_TYPE_BY_KIND) == set(TelemetryEventKind)
 
 

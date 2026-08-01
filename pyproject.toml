@@ -39,6 +39,7 @@ archivetrust-evaluate = "archivetrust.evaluation.__main__:main"
 archivetrust-admin = "archivetrust.admin.cli:main"
 archivetrust-worker = "archivetrust.worker.service:main"
 archivetrust-bootstrap = "archivetrust.bootstrap.cli:main"
+archivetrust-full-run = "archivetrust.htr.training.full_run.cli:main"
 
 [project.optional-dependencies]
 dev = [
@@ -79,6 +80,19 @@ transformers = [
 # installs and its full test suite runs without it.
 watch = [
     "watchdog>=4.0",
+]
+# The read-only Loghi training dashboard (`scripts/train_loghi_swedish_dashboard.py`,
+# docs/methods/loghi-training-dashboard.md). Deliberately optional: `presentation/
+# training_dashboard_viewmodel.py` has zero Streamlit import and is fully unit-tested without it,
+# so the whole system installs and its full test suite runs without this extra. GPU telemetry stays
+# `nvidia-smi`-via-subprocess (`htr/training/telemetry_sampler.py`, matching `runtime/
+# gpu_resource_manager.py`'s existing pattern) -- no GPU-vendor SDK dependency added here. `psutil`
+# is for cross-platform RAM/CPU only, also lazily/optionally imported by that same sampler module so
+# its own absence degrades gracefully rather than becoming a hard requirement.
+dashboard = [
+    "streamlit>=1.38",
+    "plotly>=5.24",
+    "psutil>=6.0",
 ]
 
 [build-system]

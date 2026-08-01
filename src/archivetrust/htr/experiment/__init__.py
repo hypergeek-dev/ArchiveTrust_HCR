@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from archivetrust.htr.experiment.models import (
+    DomainRelationship,
     Experiment,
+    ExperimentComparisonGroup,
     ExperimentImmutableError,
     ExperimentRun,
     ExperimentVersion,
@@ -14,7 +16,9 @@ from archivetrust.htr.experiment.models import (
 )
 
 __all__ = [
+    "DomainRelationship",
     "Experiment",
+    "ExperimentComparisonGroup",
     "ExperimentImmutableError",
     "ExperimentRun",
     "ExperimentVersion",

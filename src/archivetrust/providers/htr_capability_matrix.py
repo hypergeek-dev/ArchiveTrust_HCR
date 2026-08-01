@@ -33,8 +33,10 @@ HTR_ADAPTER_CLASSES = (
     ("archivetrust.providers.satrn.adapter", "SatrnAdapter"),
     ("archivetrust.providers.florence2_htr.adapter", "Florence2Adapter"),
     ("archivetrust.providers.transkribus.adapter", "TranskribusAdapter"),
+    ("archivetrust.providers.swedish_lion.adapter", "SwedishLionAdapter"),
+    ("archivetrust.providers.loghi.adapter", "LoghiAdapter"),
 )
-"""The three real HTR methods, in the order `composition.py::_build_htr_adapters` lists them.
+"""The five real HTR methods, in the order `composition.py::_build_htr_adapters` lists them.
 
 Duplicated from that method rather than imported from it on purpose: importing `composition` here would
 pull the entire application composition root (and PySide6-adjacent modules) into a documentation
@@ -126,6 +128,30 @@ def render_capability_table(adapters: tuple) -> str:
     return "\n".join(lines)
 
 
+def render_research_status_table(adapters: tuple) -> str:
+    """One row per method: its status in the *current* research phase (`htr/research_status.py`),
+    and why.
+
+    **Deliberately a separate table from `render_capability_table`, never merged into it.** Research
+    status and capability are different concepts (module docstring of `htr/research_status.py`): a
+    method's capability flags describe what its adapter can produce and change only when the adapter
+    changes; its research status describes whether the current research phase is comparing it and
+    changes when the phase does. Rendering them in one table would make a future status change look
+    like a capability change in every diff.
+    """
+    from archivetrust.htr.research_status import status_for
+
+    lines = [
+        "| `method_id` | Research status | Reason |",
+        "|---|---|---|",
+    ]
+    for adapter in adapters:
+        method_id = adapter.get_metadata().method_id
+        entry = status_for(method_id)
+        lines.append(f"| `{method_id}` | `{entry.status.value}` | {entry.reason} |")
+    return "\n".join(lines)
+
+
 def render_generated_region(adapters: tuple) -> str:
     """Everything between the markers, markers included.
 
@@ -143,6 +169,10 @@ def render_generated_region(adapters: tuple) -> str:
             "### Capability flags, as each adapter reports them",
             "",
             render_capability_table(adapters),
+            "",
+            "### Research status (current phase)",
+            "",
+            render_research_status_table(adapters),
             "",
             GENERATED_END,
         )

@@ -40,7 +40,9 @@ from archivetrust.htr.corpus.models import (
     TextLine,
 )
 from archivetrust.htr.experiment.models import (
+    DomainRelationship,
     Experiment,
+    ExperimentComparisonGroup,
     ExperimentRun,
     ExperimentVersion,
     FailureRecord,
@@ -59,6 +61,7 @@ from archivetrust.htr.preprocessing.models import (
     NormalizedPageArtifact,
     PageImageArtifact,
 )
+from archivetrust.htr.research_status import ResearchPhase
 
 # `htr.corpus.models`/`htr.experiment.models`/`htr.knowledge.models`/`htr.preprocessing.models` are
 # pure frozen Pydantic domain types whose only imports are `domain.evidence.models` and
@@ -272,6 +275,89 @@ class TelemetryEventKind(str, Enum):
     (a derived image exists, linked to its original by id and hash) rather than for RGB normalization
     specifically, because that is what the event asserts; a future derivation stage that produced a
     differently-configured artifact would legitimately reuse it."""
+
+    # -- Active-method transition / Loghi integration (Swedish Lion I vs. Loghi research phase) -----
+    #
+    # Nine kinds added for the Lion-vs-Loghi active-method transition
+    # (docs/loghi-integration-audit.md). `EXTERNAL_RESULT_IMPORTED` and
+    # `REPRODUCIBILITY_MANIFEST_RECORDED` above are reused as-is for Transkribus imports and Loghi's
+    # reproducibility manifest respectively -- no new kind duplicates their semantics.
+    METHOD_RESEARCH_STATUS_CHANGED = "MethodResearchStatusChanged"
+    """A new `htr.research_status.ResearchPhase` was declared -- which methods are `ACTIVE`,
+    `ARCHIVED_FROM_CURRENT_PHASE`, `INACTIVE`, `EXPERIMENTAL`, or `UNAVAILABLE`, and why. Carries the
+    full phase (mirrors `DatasetVersionCreated`'s "carry the immutable versioned snapshot in full"
+    pattern) so replay can reconstruct which methods were selectable at any point in the project's
+    history without re-deriving it from code."""
+    LOGHI_ENVIRONMENT_VALIDATED = "LoghiEnvironmentValidated"
+    """One `LoghiAdapter.validate_environment()` probe result -- Docker/WSL2 presence, resolved
+    execution mode, whether pins are still placeholders. Carries a `dict` (not the typed
+    `LoghiEnvironmentReport`): that type lives in `providers/loghi/`, and this domain module may not
+    import `providers/*` (`tests/domain/test_dependency_direction.py`), the same reason
+    `ExternalResultImported` carries a dict rather than a typed `ExternalImport`."""
+    LOGHI_PIPELINE_STARTED = "LoghiPipelineStarted"
+    """One Loghi pipeline invocation began for one `MethodRun` -- the page/input reference, and the
+    pinned `LoghiComponentVersions` configuration it started under (as a dict, same
+    provider-import-boundary reason as above)."""
+    LOGHI_STAGE_STARTED = "LoghiStageStarted"
+    """One pipeline stage (Laypa / Loghi Tooling / Loghi HTR) began. Brief: "Do not treat only the
+    final text as evidence" -- this and the two kinds below are what make every stage's outcome a
+    separately recorded fact rather than a detail folded into one pass/fail result."""
+    LOGHI_STAGE_COMPLETED = "LoghiStageCompleted"
+    LOGHI_STAGE_FAILED = "LoghiStageFailed"
+    LOGHI_PAGE_XML_GENERATED = "LoghiPageXmlGenerated"
+    """Loghi produced a final PAGE XML output for one page -- the source XML's own content hash and
+    declared schema version, so "was this ever regenerated" is answerable without re-parsing it."""
+    DOMAIN_RELATIONSHIP_RECORDED = "DomainRelationshipRecorded"
+    """An `ExperimentVersion`'s `corpus_language`/`method_primary_language_domain`/
+    `domain_relationship` classification was set. A separate event from `ExperimentVersionCreated`
+    (which already carries these fields) because this classification is the specific fact the
+    Lion-vs-Loghi comparison's four-cell design depends on being explicit and queryable on its own,
+    not incidentally present on a larger record."""
+    CROSS_DOMAIN_COMPARISON_CREATED = "CrossDomainComparisonCreated"
+    """An `ExperimentComparisonGroup` was created, grouping several `Experiment`s (e.g. the four
+    Lion-vs-Loghi cells) under one parent id without merging their results."""
+
+    # -- Swedish Loghi fine-tuning (docs/methods/loghi-swedish-finetuning.md) -----------------------
+    #
+    # Three kinds, deliberately minimal: a training *session* is a materially different lifecycle
+    # from an inference `MethodRun` (it spans real wall-clock hours, produces a chain of checkpoints,
+    # and resumes across process restarts), so it gets its own start/checkpoint/end triad rather than
+    # being shoehorned into `MethodRunStarted`/`MethodRunCompleted`, which assert a single bounded
+    # inference call. `htr/training/checkpoint_index.py`'s own atomic index (not telemetry) is the
+    # source of truth for "which checkpoint is resumable" -- these events are the durable, replayable
+    # record of *that a session happened*, mirroring `ExperimentRunStarted/Completed`'s role at the
+    # session granularity.
+    TRAINING_SESSION_STARTED = "TrainingSessionStarted"
+    """One `run_training_session()` invocation began -- carries the run/session identity, the
+    resolved `configuration_hash`, and the epoch/global_step this session is resuming from (0 for the
+    very first session of a run)."""
+    TRAINING_SESSION_CHECKPOINTED = "TrainingSessionCheckpointed"
+    """One epoch within a session completed and produced a checkpoint -- carries the same fields
+    `CheckpointEntry` does, so telemetry alone (not just the checkpoint index file) can reconstruct
+    training-loss/validation-metric history without re-reading the index."""
+    TRAINING_SESSION_COMPLETED = "TrainingSessionCompleted"
+    """One session ended -- carries the stop reason (`"time_budget_reached" | "stop_requested" |
+    "epoch_would_not_fit" | "epoch_failed" | "target_epochs_reached"`), cumulative duration, and the
+    final epoch/global_step/checkpoint state, so a later session's `TrainingSessionStarted` can be
+    matched against the prior session's `TrainingSessionCompleted` to prove continuity from telemetry
+    alone."""
+
+    # -- Read-only training dashboard (docs/methods/loghi-training-dashboard.md) --------------------
+    #
+    # Two more kinds, added for the dashboard's health panel and real process-failure reporting --
+    # `TrainingSessionCompleted` already covers every *clean* stop reason; a real container/process
+    # failure needs its own kind so it is never conflated with one of those. `RunWarningRecorded`
+    # makes a `run_health.py` finding durable evidence (still visible after a dashboard or trainer
+    # restart), not just a live-computed value that vanishes the moment nothing is watching.
+    TRAINING_SESSION_FAILED = "TrainingSessionFailed"
+    """A training session's process/container failed in a way `TrainingSessionCompleted`'s clean
+    stop-reason vocabulary does not cover (e.g. an unhandled exception, an out-of-memory kill) --
+    distinct from `stop_reason="epoch_failed"`, which is a normal, handled outcome of
+    `run_training_session`'s own loop."""
+    RUN_WARNING_RECORDED = "RunWarningRecorded"
+    """One `run_health.py` finding (e.g. `"stale_heartbeat"`, `"low_disk_space"`), recorded as durable
+    evidence at the moment it was detected -- carries the same `reason`/`message` shape
+    `HealthFinding` does."""
 
 
 class ReviewOutcome(str, Enum):
@@ -1345,6 +1431,149 @@ class ImageNormalizationFailed(HtrTelemetryEvent):
     failure: NormalizationFailure
 
 
+# -- Active-method transition / Loghi integration ------------------------------------------------
+#
+# Real producers from the outset, in `htr/persistence/durable_store.py` (mirrors the
+# `record_normalization_started/completed/failed` triad's emit-then-project ordering). See
+# `docs/loghi-integration-audit.md` and `docs/methods/loghi.md`.
+
+
+class MethodResearchStatusChanged(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.METHOD_RESEARCH_STATUS_CHANGED
+
+    phase: ResearchPhase
+
+
+class LoghiEnvironmentValidated(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.LOGHI_ENVIRONMENT_VALIDATED
+
+    method_id: str
+    valid: bool
+    environment_report: dict[str, Any]
+    """`LoghiEnvironmentReport.model_dump()` -- a dict, not the typed provider object; see the kind's
+    own docstring for why."""
+
+
+class LoghiPipelineStarted(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.LOGHI_PIPELINE_STARTED
+
+    method_run_id: str
+    input_image_ref: str
+    component_versions: dict[str, Any]
+    """`LoghiComponentVersions.model_dump()` -- a dict for the same provider-import-boundary reason."""
+
+
+class LoghiStageStarted(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.LOGHI_STAGE_STARTED
+
+    method_run_id: str
+    stage_name: str
+    started_at: str
+
+
+class LoghiStageCompleted(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.LOGHI_STAGE_COMPLETED
+
+    method_run_id: str
+    stage_result: dict[str, Any]
+    """`LoghiStageResult.model_dump()`."""
+
+
+class LoghiStageFailed(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.LOGHI_STAGE_FAILED
+
+    method_run_id: str
+    stage_result: dict[str, Any]
+
+
+class LoghiPageXmlGenerated(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.LOGHI_PAGE_XML_GENERATED
+
+    method_run_id: str
+    source_xml_hash: str
+    page_schema_version: str | None = None
+
+
+class DomainRelationshipRecorded(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.DOMAIN_RELATIONSHIP_RECORDED
+
+    experiment_version_id: str
+    corpus_language: str | None
+    method_primary_language_domain: str | None
+    domain_relationship: DomainRelationship
+
+
+class CrossDomainComparisonCreated(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.CROSS_DOMAIN_COMPARISON_CREATED
+
+    comparison_group: ExperimentComparisonGroup
+
+
+# -- Swedish Loghi fine-tuning ---------------------------------------------------------------------
+#
+# Real producers from the outset, in `htr/persistence/durable_store.py`, mirroring the Loghi
+# inference events' emit-then-project pattern.
+
+
+class TrainingSessionStarted(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.TRAINING_SESSION_STARTED
+
+    run_id: str
+    session_id: str
+    configuration_hash: str
+    initial_epoch: int
+    initial_global_step: int
+    source_checkpoint: str
+
+
+class TrainingSessionCheckpointed(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.TRAINING_SESSION_CHECKPOINTED
+
+    run_id: str
+    session_id: str
+    epoch: int
+    global_step: int
+    checkpoint_dir: str
+    checkpoint_kind: str
+    train_cer: float | None = None
+    val_cer: float | None = None
+    train_wer: float | None = None
+    val_wer: float | None = None
+    duration_seconds: float
+
+
+class TrainingSessionCompleted(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.TRAINING_SESSION_COMPLETED
+
+    run_id: str
+    session_id: str
+    stop_reason: str
+    final_epoch: int
+    final_global_step: int
+    session_training_seconds: float
+    cumulative_training_seconds: float
+    latest_checkpoint_dir: str | None = None
+    best_checkpoint_dir: str | None = None
+
+
+class TrainingSessionFailed(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.TRAINING_SESSION_FAILED
+
+    run_id: str
+    session_id: str
+    error_message: str
+    final_epoch: int
+    final_global_step: int
+
+
+class RunWarningRecorded(HtrTelemetryEvent):
+    kind: TelemetryEventKind = TelemetryEventKind.RUN_WARNING_RECORDED
+
+    run_id: str
+    reason: str
+    message: str
+
+
 # -- Research-knowledge lifecycle: schema only, no producer yet ---------------------------------
 #
 # These five kinds complete event-model doc §3's required list, whose layers 10-12 are the
@@ -1789,6 +2018,21 @@ EVENT_TYPE_BY_KIND: dict[TelemetryEventKind, type[TelemetryEvent]] = {
         DerivedImageArtifactCreated,
         ImageNormalizationCompleted,
         ImageNormalizationFailed,
+        # Active-method transition / Loghi integration
+        MethodResearchStatusChanged,
+        LoghiEnvironmentValidated,
+        LoghiPipelineStarted,
+        LoghiStageStarted,
+        LoghiStageCompleted,
+        LoghiStageFailed,
+        LoghiPageXmlGenerated,
+        DomainRelationshipRecorded,
+        CrossDomainComparisonCreated,
+        TrainingSessionStarted,
+        TrainingSessionCheckpointed,
+        TrainingSessionCompleted,
+        TrainingSessionFailed,
+        RunWarningRecorded,
     )
 }
 

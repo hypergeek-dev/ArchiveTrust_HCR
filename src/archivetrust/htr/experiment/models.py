@@ -17,6 +17,7 @@ path must call before constructing a new `ExperimentVersion` in place of editing
 from __future__ import annotations
 
 from collections.abc import Iterable
+from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -26,6 +27,23 @@ from archivetrust.domain.shared.ids import new_id
 class ExperimentImmutableError(ValueError):
     """Raised when a caller attempts to mutate an `Experiment` that already has at least one
     `ExperimentRun` -- see module docstring."""
+
+
+class DomainRelationship(str, Enum):
+    """Whether a method's primary training/language domain matches the corpus an `ExperimentVersion`
+    runs it over (docs/experiments/lion-loghi-comparison/README.md "Language-domain model").
+
+    Deliberately a controlled, explicitly-recorded value on `ExperimentVersion` -- never inferred from
+    a dataset's file location or method name. "Loghi on Dutch pages" and "Loghi on Swedish pages" are
+    both real `ExperimentVersion`s with the *same* method and *different* `domain_relationship`
+    values, and that difference must be a recorded fact, not a naming convention someone has to
+    remember to interpret correctly.
+    """
+
+    IN_DOMAIN = "in_domain"
+    CROSS_DOMAIN = "cross_domain"
+    MIXED_DOMAIN = "mixed_domain"
+    UNKNOWN = "unknown"
 
 
 class Experiment(BaseModel):
@@ -76,6 +94,18 @@ class ExperimentVersion(BaseModel):
     pipeline_configuration_ref: str | None = None
     created_at: str
     supersedes: str | None = None
+    corpus_language: str | None = None
+    """The corpus's language, e.g. `"sv"`/`"nl"` -- additive field (docs/experiments/
+    lion-loghi-comparison/README.md), `None` for every pre-existing `ExperimentVersion` so the sealed
+    reliability-run records replay unchanged with no fabricated retroactive classification."""
+    method_primary_language_domain: str | None = None
+    """The method's own primary training/language domain, recorded explicitly rather than assumed
+    from its name (a method named "Swedish Lion" is not proof its primary domain is Swedish)."""
+    domain_relationship: DomainRelationship | None = None
+    """`corpus_language` vs. `method_primary_language_domain`, as an explicit classification -- see
+    `DomainRelationship`'s docstring. `None` for every `ExperimentVersion` that predates this field,
+    which is the honest state: no domain classification was ever recorded for those runs, not
+    `UNKNOWN` (a real classification value someone chose) standing in for "never asked"."""
 
     @model_validator(mode="after")
     def _validate(self) -> "ExperimentVersion":
@@ -97,6 +127,9 @@ class ExperimentVersion(BaseModel):
         pipeline_configuration_ref: str | None = None,
         created_at: str,
         supersedes: str | None = None,
+        corpus_language: str | None = None,
+        method_primary_language_domain: str | None = None,
+        domain_relationship: DomainRelationship | None = None,
     ) -> "ExperimentVersion":
         return cls(
             experiment_version_id=new_id("experiment_version"),
@@ -108,6 +141,9 @@ class ExperimentVersion(BaseModel):
             pipeline_configuration_ref=pipeline_configuration_ref,
             created_at=created_at,
             supersedes=supersedes,
+            corpus_language=corpus_language,
+            method_primary_language_domain=method_primary_language_domain,
+            domain_relationship=domain_relationship,
         )
 
 
@@ -324,5 +360,41 @@ class ReproducibilityManifest(BaseModel):
             software_environment=software_environment or {},
             hardware_environment=hardware_environment or {},
             pipeline_configuration_hash=pipeline_configuration_hash,
+            created_at=created_at,
+        )
+
+
+class ExperimentComparisonGroup(BaseModel):
+    """A named parent grouping over several `Experiment`s -- e.g. the four Lion-vs-Loghi cells
+    (Lion×Swedish, Lion×Dutch, Loghi×Swedish, Loghi×Dutch). Modeled on `htr/corpus/models.py::
+    Collection`'s "named group of related things, referenced by id" shape: this groups experiments for
+    reporting/navigation without collapsing them into one `ExperimentRun` or one result set (the
+    brief's explicit "do not put all four conditions into one ExperimentRun... use a parent comparison
+    identifier to group them").
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    comparison_id: str
+    name: str
+    experiment_ids: tuple[str, ...]
+    created_at: str
+
+    @model_validator(mode="after")
+    def _validate(self) -> "ExperimentComparisonGroup":
+        if not self.experiment_ids:
+            raise ValueError("ExperimentComparisonGroup.experiment_ids must be non-empty")
+        if len(self.experiment_ids) != len(set(self.experiment_ids)):
+            raise ValueError("ExperimentComparisonGroup.experiment_ids must not repeat an id")
+        return self
+
+    @classmethod
+    def create(
+        cls, *, name: str, experiment_ids: tuple[str, ...], created_at: str
+    ) -> "ExperimentComparisonGroup":
+        return cls(
+            comparison_id=new_id("experiment_comparison_group"),
+            name=name,
+            experiment_ids=experiment_ids,
             created_at=created_at,
         )

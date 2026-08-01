@@ -29,6 +29,7 @@ from pathlib import Path
 from pydantic import BaseModel, ConfigDict
 
 from archivetrust.htr.experiment.models import MethodRun
+from archivetrust.htr.research_status import MethodResearchStatus, status_for
 from archivetrust.presentation.display_names import capability_label, method_label
 from archivetrust.providers.htr_adapter import HtrMethodAdapter
 
@@ -38,12 +39,16 @@ _README_BY_METHOD_ID = {
     "satrn": _PROVIDERS_ROOT / "satrn" / "README.md",
     "florence2_htr": _PROVIDERS_ROOT / "florence2_htr" / "README.md",
     "transkribus_swedish_lion_1": _PROVIDERS_ROOT / "transkribus" / "README.md",
+    "swedish_lion": _PROVIDERS_ROOT / "swedish_lion" / "README.md",
+    "loghi": _PROVIDERS_ROOT / "loghi" / "README.md",
 }
 
 _ADAPTER_VERSION_BY_METHOD_ID = {
     "satrn": "archivetrust.providers.satrn.adapter",
     "florence2_htr": "archivetrust.providers.florence2_htr.adapter",
     "transkribus_swedish_lion_1": "archivetrust.providers.transkribus.adapter",
+    "swedish_lion": "archivetrust.providers.swedish_lion.adapter",
+    "loghi": "archivetrust.providers.loghi.adapter",
 }
 
 
@@ -77,6 +82,12 @@ class MethodRow(BaseModel):
     known_limitations: tuple[str, ...]
     """Verbatim bullets from the adapter README's "Known limitations" section. Empty when the
     README has no such section -- never filled with a generic placeholder."""
+    research_status: str
+    """`htr.research_status.MethodResearchStatus` value for the *current* research phase, as a
+    string -- e.g. `"active"`, `"archived_from_current_phase"`. Deliberately sourced from
+    `htr/research_status.py`, never from `MethodCapabilities` -- capability and research status are
+    different concepts (see that module's docstring)."""
+    research_status_reason: str
     environment_valid: bool | None = None
     """`None` = not probed this refresh; `True`/`False` = actually probed. Never conflated."""
     environment_messages: tuple[str, ...] = ()
@@ -178,6 +189,25 @@ class MethodOverviewViewModel:
         rows = [self._row(adapter, probe_environment=probe_environment) for adapter in self._adapters]
         return tuple(sorted(rows, key=lambda row: row.display_name))
 
+    def active_method_rows(self, *, probe_environment: bool = False) -> tuple[MethodRow, ...]:
+        """The subset of `method_rows()` that is `ACTIVE` in the current research phase -- what a
+        "create new comparison" selector should default to. Archived methods are never silently
+        included; see `archived_method_rows()` for the counterpart the audit/archive view uses."""
+        return tuple(
+            row
+            for row in self.method_rows(probe_environment=probe_environment)
+            if row.research_status == MethodResearchStatus.ACTIVE.value
+        )
+
+    def archived_method_rows(self, *, probe_environment: bool = False) -> tuple[MethodRow, ...]:
+        """Methods `ARCHIVED_FROM_CURRENT_PHASE` -- still fully rendered (historical honesty), just
+        filtered into their own view rather than the default active list."""
+        return tuple(
+            row
+            for row in self.method_rows(probe_environment=probe_environment)
+            if row.research_status == MethodResearchStatus.ARCHIVED_FROM_CURRENT_PHASE.value
+        )
+
     def _row(self, adapter: HtrMethodAdapter, *, probe_environment: bool) -> MethodRow:
         metadata = adapter.get_metadata()
         capabilities = adapter.get_capabilities()
@@ -202,6 +232,8 @@ class MethodOverviewViewModel:
             health = adapter.health_check()
             healthy = health.healthy
             health_message = health.message
+
+        status_entry = status_for(metadata.method_id)
 
         runs = tuple(run for run in self._method_runs if run.method_id == metadata.method_id)
         succeeded = tuple(run for run in runs if run.outcome == "succeeded")
@@ -230,6 +262,8 @@ class MethodOverviewViewModel:
             is_local=capabilities.local_execution_supported,
             capabilities=capability_rows,
             known_limitations=_known_limitations_for(metadata.method_id),
+            research_status=status_entry.status.value,
+            research_status_reason=status_entry.reason,
             environment_valid=environment_valid,
             environment_messages=environment_messages,
             healthy=healthy,

@@ -409,6 +409,41 @@ For the 2026-07-30 baseline, the honest bound is:
   (`tests/fixtures/transkribus/sample_page.xml`), and its `TextEquiv` content is itself a stand-in for a
   recognition result rather than a reference transcription.
 
+## 12.5. Lion-vs-Loghi: timing categories, and technical reliability vs. accuracy
+
+Added for the active research phase (`docs/experiments/lion-loghi-comparison/`). Two distinctions this
+protocol did not previously need to state, because the retired three-method benchmark had neither:
+
+**Both active methods execute locally now — the timing split is by pipeline shape, not by
+location.** `swedish_lion` is a single in-process model call; `loghi` is a multi-stage containerized
+pipeline (Laypa → Loghi Tooling → Loghi HTR). Report `swedish_lion`'s timing as one
+`execution_time_ms`. Report `loghi`'s timing per stage (`LoghiStageResult.duration_ms` for each of the
+three stages, plus `LoghiPipelineResult.total_duration_ms`) — never collapsed into one number, and never
+compared to `swedish_lion`'s single figure as though the two pipelines had the same shape. This replaces
+the brief's original assumption of an external-vs-local split for "Swedish Lion I": the adapter actually
+in the active pair (`swedish_lion`) is local, not external — see `docs/loghi-integration-audit.md` §0.
+`transkribus_swedish_lion_1` (inactive in this phase) is where the genuinely external timing categories
+(manual upload/download/waiting time) still apply, unchanged.
+
+**Three comparison levels, kept structurally distinct, per the brief:**
+
+1. **Technical execution** — preparation/execution success, page completion, failures, timeouts,
+   malformed output, processing duration, reproducibility. Computable now, from real runs, with no
+   ground truth required.
+2. **Layout and segmentation plausibility** — without reference geometry (neither corpus has one yet),
+   region/line counts, reading order, PAGE XML validity are **plausibility observations**, never called
+   "segmentation accuracy." Use the controlled vocabulary: `Clearly corresponds`, `Partially
+   corresponds`, `Uncertain`, `Clearly unrelated or nonsensical`, `No usable output`, `Unable to assess`.
+3. **Accuracy** — requires ground truth. **Not required for the initial technical comparison.** The
+   Dutch corpus happens to carry Transkribus ground-truth PAGE XML for its own pages (see
+   `docs/experiments/lion-loghi-comparison/dataset-provenance-dutch.md`), which is a real asset for a
+   later phase — computing CER/WER against it is future work, not performed by this integration pass.
+
+**Do not merge the four domain-transfer cells into one score.** Report `Method × Corpus` and
+`Method × Domain relationship` tables separately (§ dataset-comparability.md and the four-cell
+experiment family, `htr/screening/lion_loghi_experiment.py`) — the same "N=1 / no ranking inferable"
+discipline as §12 applies per cell, not to an averaged whole.
+
 ## 13. Reproducibility requirements
 
 A metric is quotable only if the run that produced it is reconstructable without re-running a model.
@@ -439,3 +474,4 @@ to check itself.
 | [`docs/experiments/baseline-comparison/README.md`](experiments/baseline-comparison/README.md) | The executed run: every measured number, and its honest gaps |
 | [`docs/telemetry-retention.md`](telemetry-retention.md) | How long evaluation and review evidence is kept, and reviewer privacy |
 | [`HUMAN_REVIEW_SPECIFICATION.md`](../HUMAN_REVIEW_SPECIFICATION.md) | The operational review workflow, which is distinct from evaluation |
+| [`docs/experiments/lion-loghi-comparison/README.md`](experiments/lion-loghi-comparison/README.md) | The active Lion-vs-Loghi research phase: four-cell design, dataset comparability, running instructions |

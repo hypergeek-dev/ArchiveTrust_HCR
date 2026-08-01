@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-08-01T02:31:56.800675+00:00",
+  "generated_by": "scripts/inventory_dutch_dataset.py",
+  "dataset": {
+    "dataset_name": "dutch-republic-corpus-rgb",
+    "root_relative_path": "dataset-dutch-rgb/republic7",
+    "description": "Dutch historical handwriting pages (Nationaal Archief scans, predominantly the Staten-Generaal fonds, 1.01.02) with Transkribus-annotated PAGE XML ground truth. Extracted from a locally-provided archive (republic7.zip) -- see dataset-provenance-dutch.md for provenance and licensing status."
+  },
+  "counts": {
+    "total_pages": 515,
+    "train": 465,
+    "val": 50,
+    "pages_with_ground_truth_page_xml": 514,
+    "distinct_content_hashes": 515
+  },
+  "note": "No difficulty/layout classification is computed here -- the Swedish corpus's inventory thresholds (aspect ratio, bytes-per-pixel) were derived for that specific corpus and are not assumed to transfer. See dataset-comparability.md for what is Known vs. Unknown."
+}

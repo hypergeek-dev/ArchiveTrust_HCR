@@ -8,6 +8,17 @@ Related: `src/archivetrust/providers/transkribus/README.md` (the manual-import a
 `docs/architecture/htr-telemetry.md` §9 (this stage's event kinds),
 `docs/experiments/rgb-normalization-demo/` (a real run).
 
+> **2026-08-01 clarification, not a rewrite of the content below.** A second, unrelated adapter,
+> `providers/swedish_lion/` (`method_id=swedish_lion`, "Swedish Lion **Libre**"), was added after this
+> document was written. It is a real, local TrOCR model — no export, no manual upload, no PAGE/ALTO
+> import — and is registered under its own `method_id` because its Hugging Face model card states no
+> confirmed lineage to this method's Transkribus branding. Everything below this note describes
+> **this** method (`transkribus_swedish_lion_1`), which remains exactly as documented: external,
+> manual-import-only, unmodified by the Lion-vs-Loghi research phase. `transkribus_swedish_lion_1`'s
+> research status in that phase is `inactive` (never part of the retired benchmark, simply out of
+> scope) — `swedish_lion` is the method that is `active`. See `docs/loghi-integration-audit.md` §0 and
+> `docs/CAPABILITY_MATRIX_HTR.md` §6 for the full distinction.
+
 ## 1. The workflow
 
 ```

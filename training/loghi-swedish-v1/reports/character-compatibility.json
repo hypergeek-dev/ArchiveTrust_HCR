@@ -1,0 +1,836 @@
+{
+  "total_lines_examined": 10999,
+  "total_distinct_characters": 103,
+  "unsupported_character_count": 0,
+  "lines_with_any_unsupported_character": 0,
+  "frequencies": [
+    {
+      "character": " ",
+      "codepoint": "U+0020",
+      "unicode_name": "SPACE",
+      "unicode_category": "Zs",
+      "frequency": 52605,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "e",
+      "codepoint": "U+0065",
+      "unicode_name": "LATIN SMALL LETTER E",
+      "unicode_category": "Ll",
+      "frequency": 30450,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "n",
+      "codepoint": "U+006E",
+      "unicode_name": "LATIN SMALL LETTER N",
+      "unicode_category": "Ll",
+      "frequency": 24004,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "a",
+      "codepoint": "U+0061",
+      "unicode_name": "LATIN SMALL LETTER A",
+      "unicode_category": "Ll",
+      "frequency": 22706,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "t",
+      "codepoint": "U+0074",
+      "unicode_name": "LATIN SMALL LETTER T",
+      "unicode_category": "Ll",
+      "frequency": 22581,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "r",
+      "codepoint": "U+0072",
+      "unicode_name": "LATIN SMALL LETTER R",
+      "unicode_category": "Ll",
+      "frequency": 22485,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "s",
+      "codepoint": "U+0073",
+      "unicode_name": "LATIN SMALL LETTER S",
+      "unicode_category": "Ll",
+      "frequency": 15709,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "i",
+      "codepoint": "U+0069",
+      "unicode_name": "LATIN SMALL LETTER I",
+      "unicode_category": "Ll",
+      "frequency": 15001,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "l",
+      "codepoint": "U+006C",
+      "unicode_name": "LATIN SMALL LETTER L",
+      "unicode_category": "Ll",
+      "frequency": 14619,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "d",
+      "codepoint": "U+0064",
+      "unicode_name": "LATIN SMALL LETTER D",
+      "unicode_category": "Ll",
+      "frequency": 13256,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "o",
+      "codepoint": "U+006F",
+      "unicode_name": "LATIN SMALL LETTER O",
+      "unicode_category": "Ll",
+      "frequency": 12985,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "h",
+      "codepoint": "U+0068",
+      "unicode_name": "LATIN SMALL LETTER H",
+      "unicode_category": "Ll",
+      "frequency": 10213,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "m",
+      "codepoint": "U+006D",
+      "unicode_name": "LATIN SMALL LETTER M",
+      "unicode_category": "Ll",
+      "frequency": 9088,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "f",
+      "codepoint": "U+0066",
+      "unicode_name": "LATIN SMALL LETTER F",
+      "unicode_category": "Ll",
+      "frequency": 8735,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "g",
+      "codepoint": "U+0067",
+      "unicode_name": "LATIN SMALL LETTER G",
+      "unicode_category": "Ll",
+      "frequency": 8640,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "k",
+      "codepoint": "U+006B",
+      "unicode_name": "LATIN SMALL LETTER K",
+      "unicode_category": "Ll",
+      "frequency": 6278,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "u",
+      "codepoint": "U+0075",
+      "unicode_name": "LATIN SMALL LETTER U",
+      "unicode_category": "Ll",
+      "frequency": 5789,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "ä",
+      "codepoint": "U+00E4",
+      "unicode_name": "LATIN SMALL LETTER A WITH DIAERESIS",
+      "unicode_category": "Ll",
+      "frequency": 4842,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "å",
+      "codepoint": "U+00E5",
+      "unicode_name": "LATIN SMALL LETTER A WITH RING ABOVE",
+      "unicode_category": "Ll",
+      "frequency": 4833,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "ö",
+      "codepoint": "U+00F6",
+      "unicode_name": "LATIN SMALL LETTER O WITH DIAERESIS",
+      "unicode_category": "Ll",
+      "frequency": 4823,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "c",
+      "codepoint": "U+0063",
+      "unicode_name": "LATIN SMALL LETTER C",
+      "unicode_category": "Ll",
+      "frequency": 4417,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": ",",
+      "codepoint": "U+002C",
+      "unicode_name": "COMMA",
+      "unicode_category": "Po",
+      "frequency": 4150,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "w",
+      "codepoint": "U+0077",
+      "unicode_name": "LATIN SMALL LETTER W",
+      "unicode_category": "Ll",
+      "frequency": 4087,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "p",
+      "codepoint": "U+0070",
+      "unicode_name": "LATIN SMALL LETTER P",
+      "unicode_category": "Ll",
+      "frequency": 3659,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "b",
+      "codepoint": "U+0062",
+      "unicode_name": "LATIN SMALL LETTER B",
+      "unicode_category": "Ll",
+      "frequency": 3537,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": ".",
+      "codepoint": "U+002E",
+      "unicode_name": "FULL STOP",
+      "unicode_category": "Po",
+      "frequency": 2843,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "y",
+      "codepoint": "U+0079",
+      "unicode_name": "LATIN SMALL LETTER Y",
+      "unicode_category": "Ll",
+      "frequency": 1749,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "¬",
+      "codepoint": "U+00AC",
+      "unicode_name": "NOT SIGN",
+      "unicode_category": "Sm",
+      "frequency": 1650,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "S",
+      "codepoint": "U+0053",
+      "unicode_name": "LATIN CAPITAL LETTER S",
+      "unicode_category": "Lu",
+      "frequency": 1555,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "1",
+      "codepoint": "U+0031",
+      "unicode_name": "DIGIT ONE",
+      "unicode_category": "Nd",
+      "frequency": 1362,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "v",
+      "codepoint": "U+0076",
+      "unicode_name": "LATIN SMALL LETTER V",
+      "unicode_category": "Ll",
+      "frequency": 1319,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "j",
+      "codepoint": "U+006A",
+      "unicode_name": "LATIN SMALL LETTER J",
+      "unicode_category": "Ll",
+      "frequency": 1039,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "H",
+      "codepoint": "U+0048",
+      "unicode_name": "LATIN CAPITAL LETTER H",
+      "unicode_category": "Lu",
+      "frequency": 1030,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "2",
+      "codepoint": "U+0032",
+      "unicode_name": "DIGIT TWO",
+      "unicode_category": "Nd",
+      "frequency": 938,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "—",
+      "codepoint": "U+2014",
+      "unicode_name": "EM DASH",
+      "unicode_category": "Pd",
+      "frequency": 825,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "K",
+      "codepoint": "U+004B",
+      "unicode_name": "LATIN CAPITAL LETTER K",
+      "unicode_category": "Lu",
+      "frequency": 807,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "z",
+      "codepoint": "U+007A",
+      "unicode_name": "LATIN SMALL LETTER Z",
+      "unicode_category": "Ll",
+      "frequency": 678,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "A",
+      "codepoint": "U+0041",
+      "unicode_name": "LATIN CAPITAL LETTER A",
+      "unicode_category": "Lu",
+      "frequency": 665,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "L",
+      "codepoint": "U+004C",
+      "unicode_name": "LATIN CAPITAL LETTER L",
+      "unicode_category": "Lu",
+      "frequency": 652,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "R",
+      "codepoint": "U+0052",
+      "unicode_name": "LATIN CAPITAL LETTER R",
+      "unicode_category": "Lu",
+      "frequency": 639,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": ":",
+      "codepoint": "U+003A",
+      "unicode_name": "COLON",
+      "unicode_category": "Po",
+      "frequency": 638,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "B",
+      "codepoint": "U+0042",
+      "unicode_name": "LATIN CAPITAL LETTER B",
+      "unicode_category": "Lu",
+      "frequency": 637,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "C",
+      "codepoint": "U+0043",
+      "unicode_name": "LATIN CAPITAL LETTER C",
+      "unicode_category": "Lu",
+      "frequency": 622,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "M",
+      "codepoint": "U+004D",
+      "unicode_name": "LATIN CAPITAL LETTER M",
+      "unicode_category": "Lu",
+      "frequency": 601,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "J",
+      "codepoint": "U+004A",
+      "unicode_name": "LATIN CAPITAL LETTER J",
+      "unicode_category": "Lu",
+      "frequency": 574,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "3",
+      "codepoint": "U+0033",
+      "unicode_name": "DIGIT THREE",
+      "unicode_category": "Nd",
+      "frequency": 561,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "P",
+      "codepoint": "U+0050",
+      "unicode_name": "LATIN CAPITAL LETTER P",
+      "unicode_category": "Lu",
+      "frequency": 504,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "E",
+      "codepoint": "U+0045",
+      "unicode_name": "LATIN CAPITAL LETTER E",
+      "unicode_category": "Lu",
+      "frequency": 503,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "ß",
+      "codepoint": "U+00DF",
+      "unicode_name": "LATIN SMALL LETTER SHARP S",
+      "unicode_category": "Ll",
+      "frequency": 491,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "0",
+      "codepoint": "U+0030",
+      "unicode_name": "DIGIT ZERO",
+      "unicode_category": "Nd",
+      "frequency": 479,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "4",
+      "codepoint": "U+0034",
+      "unicode_name": "DIGIT FOUR",
+      "unicode_category": "Nd",
+      "frequency": 464,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "T",
+      "codepoint": "U+0054",
+      "unicode_name": "LATIN CAPITAL LETTER T",
+      "unicode_category": "Lu",
+      "frequency": 437,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "5",
+      "codepoint": "U+0035",
+      "unicode_name": "DIGIT FIVE",
+      "unicode_category": "Nd",
+      "frequency": 408,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "6",
+      "codepoint": "U+0036",
+      "unicode_name": "DIGIT SIX",
+      "unicode_category": "Nd",
+      "frequency": 393,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "N",
+      "codepoint": "U+004E",
+      "unicode_name": "LATIN CAPITAL LETTER N",
+      "unicode_category": "Lu",
+      "frequency": 390,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "F",
+      "codepoint": "U+0046",
+      "unicode_name": "LATIN CAPITAL LETTER F",
+      "unicode_category": "Lu",
+      "frequency": 388,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "D",
+      "codepoint": "U+0044",
+      "unicode_name": "LATIN CAPITAL LETTER D",
+      "unicode_category": "Lu",
+      "frequency": 360,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "G",
+      "codepoint": "U+0047",
+      "unicode_name": "LATIN CAPITAL LETTER G",
+      "unicode_category": "Lu",
+      "frequency": 359,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "7",
+      "codepoint": "U+0037",
+      "unicode_name": "DIGIT SEVEN",
+      "unicode_category": "Nd",
+      "frequency": 356,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "W",
+      "codepoint": "U+0057",
+      "unicode_name": "LATIN CAPITAL LETTER W",
+      "unicode_category": "Lu",
+      "frequency": 351,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": ";",
+      "codepoint": "U+003B",
+      "unicode_name": "SEMICOLON",
+      "unicode_category": "Po",
+      "frequency": 335,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "O",
+      "codepoint": "U+004F",
+      "unicode_name": "LATIN CAPITAL LETTER O",
+      "unicode_category": "Lu",
+      "frequency": 333,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "8",
+      "codepoint": "U+0038",
+      "unicode_name": "DIGIT EIGHT",
+      "unicode_category": "Nd",
+      "frequency": 301,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "x",
+      "codepoint": "U+0078",
+      "unicode_name": "LATIN SMALL LETTER X",
+      "unicode_category": "Ll",
+      "frequency": 265,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "9",
+      "codepoint": "U+0039",
+      "unicode_name": "DIGIT NINE",
+      "unicode_category": "Nd",
+      "frequency": 254,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "-",
+      "codepoint": "U+002D",
+      "unicode_name": "HYPHEN-MINUS",
+      "unicode_category": "Pd",
+      "frequency": 239,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "I",
+      "codepoint": "U+0049",
+      "unicode_name": "LATIN CAPITAL LETTER I",
+      "unicode_category": "Lu",
+      "frequency": 225,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "q",
+      "codepoint": "U+0071",
+      "unicode_name": "LATIN SMALL LETTER Q",
+      "unicode_category": "Ll",
+      "frequency": 194,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "½",
+      "codepoint": "U+00BD",
+      "unicode_name": "VULGAR FRACTION ONE HALF",
+      "unicode_category": "No",
+      "frequency": 173,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "U",
+      "codepoint": "U+0055",
+      "unicode_name": "LATIN CAPITAL LETTER U",
+      "unicode_category": "Lu",
+      "frequency": 142,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "V",
+      "codepoint": "U+0056",
+      "unicode_name": "LATIN CAPITAL LETTER V",
+      "unicode_category": "Lu",
+      "frequency": 96,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "/",
+      "codepoint": "U+002F",
+      "unicode_name": "SOLIDUS",
+      "unicode_category": "Po",
+      "frequency": 92,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "Ö",
+      "codepoint": "U+00D6",
+      "unicode_name": "LATIN CAPITAL LETTER O WITH DIAERESIS",
+      "unicode_category": "Lu",
+      "frequency": 80,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "Å",
+      "codepoint": "U+00C5",
+      "unicode_name": "LATIN CAPITAL LETTER A WITH RING ABOVE",
+      "unicode_category": "Lu",
+      "frequency": 65,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "Ä",
+      "codepoint": "U+00C4",
+      "unicode_name": "LATIN CAPITAL LETTER A WITH DIAERESIS",
+      "unicode_category": "Lu",
+      "frequency": 47,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "§",
+      "codepoint": "U+00A7",
+      "unicode_name": "SECTION SIGN",
+      "unicode_category": "Po",
+      "frequency": 42,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "é",
+      "codepoint": "U+00E9",
+      "unicode_name": "LATIN SMALL LETTER E WITH ACUTE",
+      "unicode_category": "Ll",
+      "frequency": 41,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "?",
+      "codepoint": "U+003F",
+      "unicode_name": "QUESTION MARK",
+      "unicode_category": "Po",
+      "frequency": 36,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "Q",
+      "codepoint": "U+0051",
+      "unicode_name": "LATIN CAPITAL LETTER Q",
+      "unicode_category": "Lu",
+      "frequency": 29,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "\"",
+      "codepoint": "U+0022",
+      "unicode_name": "QUOTATION MARK",
+      "unicode_category": "Po",
+      "frequency": 26,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "–",
+      "codepoint": "U+2013",
+      "unicode_name": "EN DASH",
+      "unicode_category": "Pd",
+      "frequency": 26,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "℔",
+      "codepoint": "U+2114",
+      "unicode_name": "L B BAR SYMBOL",
+      "unicode_category": "So",
+      "frequency": 25,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "à",
+      "codepoint": "U+00E0",
+      "unicode_name": "LATIN SMALL LETTER A WITH GRAVE",
+      "unicode_category": "Ll",
+      "frequency": 18,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "á",
+      "codepoint": "U+00E1",
+      "unicode_name": "LATIN SMALL LETTER A WITH ACUTE",
+      "unicode_category": "Ll",
+      "frequency": 18,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "ü",
+      "codepoint": "U+00FC",
+      "unicode_name": "LATIN SMALL LETTER U WITH DIAERESIS",
+      "unicode_category": "Ll",
+      "frequency": 18,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "Z",
+      "codepoint": "U+005A",
+      "unicode_name": "LATIN CAPITAL LETTER Z",
+      "unicode_category": "Lu",
+      "frequency": 16,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "(",
+      "codepoint": "U+0028",
+      "unicode_name": "LEFT PARENTHESIS",
+      "unicode_category": "Ps",
+      "frequency": 11,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": ")",
+      "codepoint": "U+0029",
+      "unicode_name": "RIGHT PARENTHESIS",
+      "unicode_category": "Pe",
+      "frequency": 9,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "£",
+      "codepoint": "U+00A3",
+      "unicode_name": "POUND SIGN",
+      "unicode_category": "Sc",
+      "frequency": 9,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "'",
+      "codepoint": "U+0027",
+      "unicode_name": "APOSTROPHE",
+      "unicode_category": "Po",
+      "frequency": 6,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "Y",
+      "codepoint": "U+0059",
+      "unicode_name": "LATIN CAPITAL LETTER Y",
+      "unicode_category": "Lu",
+      "frequency": 6,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "#",
+      "codepoint": "U+0023",
+      "unicode_name": "NUMBER SIGN",
+      "unicode_category": "Po",
+      "frequency": 4,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "ê",
+      "codepoint": "U+00EA",
+      "unicode_name": "LATIN SMALL LETTER E WITH CIRCUMFLEX",
+      "unicode_category": "Ll",
+      "frequency": 4,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "&",
+      "codepoint": "U+0026",
+      "unicode_name": "AMPERSAND",
+      "unicode_category": "Po",
+      "frequency": 3,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "è",
+      "codepoint": "U+00E8",
+      "unicode_name": "LATIN SMALL LETTER E WITH GRAVE",
+      "unicode_category": "Ll",
+      "frequency": 3,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "=",
+      "codepoint": "U+003D",
+      "unicode_name": "EQUALS SIGN",
+      "unicode_category": "Sm",
+      "frequency": 2,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "X",
+      "codepoint": "U+0058",
+      "unicode_name": "LATIN CAPITAL LETTER X",
+      "unicode_category": "Lu",
+      "frequency": 2,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "_",
+      "codepoint": "U+005F",
+      "unicode_name": "LOW LINE",
+      "unicode_category": "Pc",
+      "frequency": 1,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": " ",
+      "codepoint": "U+00A0",
+      "unicode_name": "NO-BREAK SPACE",
+      "unicode_category": "Zs",
+      "frequency": 1,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "¨",
+      "codepoint": "U+00A8",
+      "unicode_name": "DIAERESIS",
+      "unicode_category": "Sk",
+      "frequency": 1,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "À",
+      "codepoint": "U+00C0",
+      "unicode_name": "LATIN CAPITAL LETTER A WITH GRAVE",
+      "unicode_category": "Lu",
+      "frequency": 1,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "ô",
+      "codepoint": "U+00F4",
+      "unicode_name": "LATIN SMALL LETTER O WITH CIRCUMFLEX",
+      "unicode_category": "Ll",
+      "frequency": 1,
+      "supported_by_generic_checkpoint": true
+    },
+    {
+      "character": "ÿ",
+      "codepoint": "U+00FF",
+      "unicode_name": "LATIN SMALL LETTER Y WITH DIAERESIS",
+      "unicode_category": "Ll",
+      "frequency": 1,
+      "supported_by_generic_checkpoint": true
+    }
+  ],
+  "unsupported_characters": [],
+  "charlist_path": ".loghi-upstream/pretrained-models/loghi-htr/generic-2023-02-15/charlist.txt",
+  "charlist_size": 455,
+  "compatible": true
+}

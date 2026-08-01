@@ -92,7 +92,29 @@ def test_the_matrix_covers_exactly_the_methods_composition_builds() -> None:
     composition_ids = {a.get_metadata().method_id for a in composition_adapters}
     matrix_ids = {a.get_metadata().method_id for a in build_htr_adapters()}
     assert matrix_ids == composition_ids
-    assert len(HTR_ADAPTER_CLASSES) == len(composition_adapters) == 3
+    assert len(HTR_ADAPTER_CLASSES) == len(composition_adapters) == 5
+
+
+def test_active_htr_method_adapters_is_exactly_the_lion_loghi_pair() -> None:
+    """`AppContext.active_htr_method_adapters()` -- the method-selection surface for new experiments --
+    must never include an archived or inactive method, and must include both active ones."""
+    from archivetrust.composition import AppContext
+
+    ctx = AppContext.__new__(AppContext)  # composition-root construction is heavy; this method needs
+    # no other state, so a bare instance is sufficient (mirrors how _build_htr_adapters is a staticmethod)
+    active = ctx.active_htr_method_adapters()
+    assert {a.get_metadata().method_id for a in active} == {"swedish_lion", "loghi"}
+
+
+def test_experiment_builder_available_method_ids_only_offers_active_methods() -> None:
+    from archivetrust.composition import AppContext
+
+    ctx = AppContext.__new__(AppContext)
+    vm = ctx.experiment_builder_viewmodel()
+    offered_ids = {method_id for method_id, _label in vm.method_choices()}
+    assert offered_ids == {"swedish_lion", "loghi"}
+    assert "satrn" not in offered_ids
+    assert "florence2_htr" not in offered_ids
 
 
 def test_every_capability_flag_has_a_column() -> None:
@@ -162,6 +184,51 @@ def test_the_superseded_ocr_matrix_points_forward_to_this_one() -> None:
     old = (REPO_ROOT / "docs" / "CAPABILITY_MATRIX.md").read_text(encoding="utf-8")
     assert "CAPABILITY_MATRIX_HTR.md" in old
     assert "not yet been built" not in old
+
+
+def test_loghi_appears_exactly_once(matrix_text) -> None:
+    """The brief's explicit requirement -- exactly one row per row-per-method table (identity,
+    research status) and exactly one column in the flags-as-rows capability table, never duplicated."""
+    _prefix, region, _suffix = split_document(matrix_text)
+    for table_heading in (
+        "### Method identity, as each adapter reports it",
+        "### Research status (current phase)",
+    ):
+        start = region.index(table_heading)
+        end = region.index("###", start + 1) if "###" in region[start + 1 :] else len(region)
+        table_slice = region[start:end]
+        assert table_slice.count("| `loghi` |") == 1, table_heading
+
+    capability_header = next(
+        line for line in region.splitlines() if line.startswith("| Capability |")
+    )
+    assert capability_header.count(" loghi ") == 1
+
+
+def test_research_status_table_covers_exactly_the_adapters_and_matches_active_set(adapters) -> None:
+    """The generated "Research status" table must name every adapter the matrix documents (archived
+    ones included -- historical honesty) and the active subset must be exactly `swedish_lion`/`loghi`,
+    never more, never fewer."""
+    from archivetrust.htr.research_status import MethodResearchStatus, status_for
+
+    all_ids = {a.get_metadata().method_id for a in adapters}
+    active_ids = {mid for mid in all_ids if status_for(mid).status is MethodResearchStatus.ACTIVE}
+    archived_ids = {
+        mid for mid in all_ids if status_for(mid).status is MethodResearchStatus.ARCHIVED_FROM_CURRENT_PHASE
+    }
+    assert active_ids == {"swedish_lion", "loghi"}
+    assert archived_ids == {"satrn", "florence2_htr"}
+    # every method the matrix documents has an explicit (never UNAVAILABLE-by-omission) status
+    for method_id in all_ids:
+        assert status_for(method_id).status is not MethodResearchStatus.UNAVAILABLE
+
+
+def test_archived_methods_still_render_in_every_generated_table(matrix_text) -> None:
+    """Archiving a method from the current research phase must never remove it from this document --
+    historical capability records stay readable."""
+    _prefix, region, _suffix = split_document(matrix_text)
+    for method_id in ("satrn", "florence2_htr"):
+        assert region.count(f"`{method_id}`") >= 2  # identity table + capability header, at minimum
 
 
 def test_split_document_refuses_a_malformed_region() -> None:

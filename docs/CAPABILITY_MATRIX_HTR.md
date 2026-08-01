@@ -1,10 +1,16 @@
-# HTR Capability Matrix — SATRN / Florence-2 / Transkribus
+# HTR Capability Matrix — SATRN / Florence-2 / Transkribus / Swedish Lion Libre / Loghi
 
 Status: Current
-Scope: The three real HTR recognition methods in this codebase
+Scope: All five real HTR recognition methods registered in this codebase — including SATRN and
+Florence-2, which are `archived_from_current_phase` (see the generated "Research status" table below)
+but remain fully documented here, since capability and research status are different questions
+(`src/archivetrust/htr/research_status.py`). Two are active for the current research phase
+(`swedish_lion`, `loghi`); this document does not hide the other three.
 Governs: What each method can and cannot produce, and what a comparison between them may claim
 Supersedes: `docs/CAPABILITY_MATRIX.md` (OCR-era, Docling/Tesseract ratings — retained as a historical record)
-Source of truth: each adapter's `get_capabilities()` / `get_metadata()`, not this file
+Source of truth: each adapter's `get_capabilities()` / `get_metadata()`, not this file; research status
+comes from `htr/research_status.py`, a deliberately separate source of truth (see "Research status is
+separate from capability" below).
 
 > **The tables below are generated, not written.** Everything between the
 > `BEGIN GENERATED FROM ADAPTERS` and `END GENERATED FROM ADAPTERS` markers is rendered from the live
@@ -29,18 +35,30 @@ Source of truth: each adapter's `get_capabilities()` / `get_metadata()`, not thi
 | `satrn` | SATRN (Riksarkivet) | Riksarkivet (Swedish National Archives) | `a40c7093232eaa47a83ce6469fc4abd033486bdc` |
 | `florence2_htr` | Florence-2 (vlm-htr line OCR) | Uppsala University / Riksarkivet (hoanghapham/vlm-htr thesis project) | `nazounoryuu/florence_base__mixed__line_bbox__ocr@994f47e8...` |
 | `transkribus_swedish_lion_1` | Transkribus Swedish Lion I | READ-COOP (Transkribus) | `unpinned (Transkribus manual export declares no fixed che...` |
+| `swedish_lion` | Swedish Lion Libre (Riksarkivet TrOCR) | Riksarkivet (Swedish National Archives) | `Riksarkivet/trocr-base-handwritten-hist-swe-2@aa79fcb1850...` |
+| `loghi` | Loghi (Laypa + Loghi Tooling + Loghi HTR) | KNAW Humanities Cluster (knaw-huc/loghi) | `loghi@90305b91b793 laypa@d0ed632ab6ca tooling@71217767ed0...` |
 
 ### Capability flags, as each adapter reports them
 
-| Capability | satrn | florence2_htr | transkribus_swedish_lion_1 |
-|---|---|---|---|
-| Confidence (`confidence_supported`) | yes | yes | yes |
-| Geometry (`geometry_supported`) | no | no | yes |
-| Line-level input (`line_level_supported`) | yes | yes | yes |
-| Page-level input (`page_level_supported`) | no | no | yes |
-| Runs locally (`local_execution_supported`) | yes | yes | no |
-| Requires external upload (`external_upload_required`) | no | no | no |
-| Requires RGB normalization (`image_color_normalization_required`) | no | no | yes |
+| Capability | satrn | florence2_htr | transkribus_swedish_lion_1 | swedish_lion | loghi |
+|---|---|---|---|---|---|
+| Confidence (`confidence_supported`) | yes | yes | yes | no | yes |
+| Geometry (`geometry_supported`) | no | no | yes | no | yes |
+| Line-level input (`line_level_supported`) | yes | yes | yes | yes | no |
+| Page-level input (`page_level_supported`) | no | no | yes | no | yes |
+| Runs locally (`local_execution_supported`) | yes | yes | no | yes | yes |
+| Requires external upload (`external_upload_required`) | no | no | no | no | no |
+| Requires RGB normalization (`image_color_normalization_required`) | no | no | yes | no | yes |
+
+### Research status (current phase)
+
+| `method_id` | Research status | Reason |
+|---|---|---|
+| `satrn` | `archived_from_current_phase` | Completed its role in the sealed technical reliability screening benchmark (reliability-2026-07-31); excluded from the new active comparison, evidence remains readable and replayable. |
+| `florence2_htr` | `archived_from_current_phase` | Completed its role in the sealed technical reliability screening benchmark (reliability-2026-07-31); excluded from the new active comparison, evidence remains readable and replayable. |
+| `transkribus_swedish_lion_1` | `inactive` | Distinct adapter from the active swedish_lion method (external manual Transkribus workflow, not local execution); never part of the retired reliability benchmark, so not archived -- simply out of scope for this phase's active pair. Remains available for its own workflows. |
+| `swedish_lion` | `active` | Active method for the Lion-vs-Loghi research phase (local TrOCR execution). |
+| `loghi` | `active` | Active method for the Lion-vs-Loghi research phase (local containerized pipeline). |
 
 <!-- END GENERATED FROM ADAPTERS -->
 
@@ -139,6 +157,39 @@ configuration contract, and why the existing 2026-07-30 baseline's Transkribus f
 went through this stage, because it did not exist yet — is documented as unnormalized rather than
 retroactively credited with a normalization event that never happened.
 
+### 6. `swedish_lion` is a different adapter from `transkribus_swedish_lion_1`, despite the similar name
+
+`swedish_lion` (Swedish Lion **Libre**, `Riksarkivet/trocr-base-handwritten-hist-swe-2`) is a real,
+local TrOCR model run in-process via plain `transformers` — no subprocess, no upload, no external
+queue. It is architecturally closer to `satrn` than to `transkribus_swedish_lion_1`: line-level input,
+no geometry, `local_execution_supported = yes`. It was registered under its own `method_id` on purpose
+— its Hugging Face model card names it "Swedish Lion Libre" and states no confirmed lineage to
+Transkribus's own "Swedish Lion I" branding — so this matrix documents two distinct rows rather than
+merging them. See `providers/swedish_lion/adapter.py`'s module docstring for the full provenance
+investigation, and `docs/loghi-integration-audit.md` §0 for why this distinction is load-bearing for
+the current research phase (`swedish_lion`, not `transkribus_swedish_lion_1`, is the active "Swedish
+Lion I" in the Lion-vs-Loghi comparison).
+
+### 7. `loghi` is one pipeline made of three independently-versioned components, not one model
+
+Every other method in this table is one model behind one `model_revision`. `loghi`'s identity-table
+row instead renders `LoghiComponentVersions.summary()` — repository commits for the top-level `loghi`
+repo, `laypa`, `loghi-tooling` and `loghi-htr`, plus a model checkpoint id and Docker image tag, all
+independently pinned (`providers/loghi/models.py`, `pinned_versions.py`). No research run may use this
+method while any of those fields still carries the `UNPINNED` placeholder sentinel — `validate_
+environment()` refuses it explicitly; the row above now shows real, resolved values (real `git
+rev-parse` commits, a real downloaded-and-hashed checkpoint, real `docker inspect` image digests —
+`pinned_versions.py`'s own docstring records exactly how, and `docs/methods/loghi-swedish-
+finetuning.md` records what this pinned environment is actually used for). `line_level_supported` is
+`no` for `loghi`
+alone among all five methods, deliberately, even though Loghi internally cuts lines: ArchiveTrust
+cannot yet intentionally hand its recognition stage a traceable line crop under a supported workflow,
+so this stays an honest `no` rather than a claim about internal implementation detail.
+`image_color_normalization_required = yes` for the same reason as
+Transkribus: the canonical RGB-normalized page is what gets mounted into Loghi's containers, a pipeline
+obligation distinct from — and not weakened by — Loghi's own further internal preprocessing. See
+`docs/methods/loghi.md` for the full pipeline writeup.
+
 ## Model revisions in full
 
 The generated identity table truncates long revision strings at 60 characters. In full:
@@ -148,8 +199,10 @@ The generated identity table truncates long revision strings at 60 characters. I
 | `satrn` | `a40c7093232eaa47a83ce6469fc4abd033486bdc` — the pinned `Riksarkivet/satrn_htr` commit this repository has actually run CUDA inference against. |
 | `florence2_htr` | `nazounoryuu/florence_base__mixed__line_bbox__ocr@994f47e8a0e8d77cb2e11528665efd07a855c3af` — repo *and* commit, because the checkpoint is a fine-tune hosted separately from its base model. |
 | `transkribus_swedish_lion_1` | `unpinned (Transkribus manual export declares no fixed checkpoint hash; see per-run RecognitionResult.model_revision / Evidence.supporting_metadata for any version string the specific import file states, if any)` |
+| `swedish_lion` | `Riksarkivet/trocr-base-handwritten-hist-swe-2@aa79fcb1850bf3155ebc442570d6c6bfc0ac8100` — the fine-tuned checkpoint's resolved commit, plus `microsoft/trocr-base-handwritten@eaacaf452b06415df8f10bb6fad3a4c11e609406` for the base model's processor (`providers/swedish_lion/adapter.py::DEFAULT_PROCESSOR_REVISION`, not itself part of this string but recorded in `Evidence.supporting_metadata`). |
+| `loghi` | `loghi@90305b91b793 laypa@d0ed632ab6ca tooling@71217767ed01 htr@c24c745e9aeb checkpoint=generic-2023-02-15 image=loghi/docker.htr:latest` — `LoghiComponentVersions.summary()` (see §7 above); every field is now a real, resolved value (`providers/loghi/pinned_versions.py`'s own docstring records exactly how each was obtained — real `git rev-parse`, real downloaded/hashed checkpoint, real `docker inspect` digests), never a fabricated or floating one. |
 
-**The third row is the honest one and the awkward one.** A Transkribus export carries no checkpoint
+**The Transkribus row is the honest one and the awkward one among the pinned methods.** A Transkribus export carries no checkpoint
 hash, so this method cannot satisfy the pinned-revision discipline every other measured claim in this
 repository relies on. The adapter says so in prose in the field itself rather than emitting `"latest"` or
 a plausible-looking hash. A `ResearchScope` naming this method therefore names an unpinnable model
@@ -170,6 +223,21 @@ frozen into a committed document.
 | `satrn` | `torch` importability in the orchestrating venv (informational only — inference runs in an isolated venv) and the presence of that isolated venv's interpreter (`satrn_python_available()`). The only one of the three that can fail on a missing *interpreter* rather than a missing library. |
 | `florence2_htr` | `transformers`/`torch` importability (`florence2_dependencies_available()`). |
 | `transkribus_swedish_lion_1` | That the configured import directory exists and is a directory. **No GPU or model check at all** — there is no model to check. Reports `valid=True` with a message when no directory is configured, since `recognize()` accepts a per-call path. |
+| `swedish_lion` | `torch`/`transformers` importability (`swedish_lion_dependencies_available()`), same shape as Florence-2 — plain main-venv install, no isolated interpreter. |
+| `loghi` | `LoghiComponentVersions.is_placeholder()` (are the pins real) **and** `environment.probe_loghi_environment()` (Docker CLI presence, WSL2 distro presence, resolved execution mode) — the only method whose readiness check can fail on either of two independent axes (pins vs. host environment), and reports which. |
+
+## Research status is separate from capability, and is rendered in its own generated table
+
+The "Research status (current phase)" table above is generated from `htr/research_status.py`, not from
+`MethodCapabilities` — deliberately a second source of truth, not a second reading of the first one.
+A method's capability flags describe what its adapter can produce and change only when the adapter's
+implementation changes; its research status describes whether the *current research phase*
+(`htr/research_status.CURRENT_RESEARCH_PHASE`) is actively comparing it, and changes when the phase
+does. `satrn` and `florence2_htr` report exactly the same capability flags today as they did while
+active — nothing about what they *can produce* changed when they were archived — only their research
+status changed. Overloading a capability flag to also carry that meaning would make a future status
+change look like a capability regression in every diff of this document; keeping them in separate
+generated tables keeps that from ever happening.
 
 ## How this document is kept true
 

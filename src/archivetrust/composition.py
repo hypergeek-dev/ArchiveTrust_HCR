@@ -791,15 +791,37 @@ class AppContext:
         return self._blind_review_store
 
     def htr_method_adapters(self) -> tuple:
-        """The three real `HtrMethodAdapter`s, constructed but never invoked here.
+        """The five real `HtrMethodAdapter`s, constructed but never invoked here.
 
         Each constructor is inert (no model load, no network, no subprocess) -- only `recognize()`
         and `validate_environment()` reach outward, and the Methods page probes those only on
         explicit request. An adapter whose optional dependencies are missing is skipped with its
         import error surfaced by `htr_method_adapter_errors`, never silently dropped.
+
+        **Unfiltered by research status on purpose.** SATRN and Florence-2 are
+        `ARCHIVED_FROM_CURRENT_PHASE` (`htr/research_status.py`) but this accessor still constructs
+        and returns them -- historical replay, the method overview page, and the capability matrix
+        all need every method, archived ones included, never only the active pair. Callers that want
+        only the current phase's active set use `active_htr_method_adapters()` below.
         """
         adapters, _errors = self._build_htr_adapters()
         return adapters
+
+    def active_htr_method_adapters(self) -> tuple:
+        """The subset of `htr_method_adapters()` whose `htr/research_status.status_for(method_id)`
+        is `MethodResearchStatus.ACTIVE` for the current research phase -- what a *new* experiment's
+        method selection should offer (docs/loghi-integration-audit.md §4: this is the one place the
+        brief's "must affect: method selection, experiment creation" requirement is enforced).
+        Archived/inactive methods are never silently included here, and this filtering never touches
+        `htr_method_adapters()` itself or any historical record.
+        """
+        from archivetrust.htr.research_status import MethodResearchStatus, status_for
+
+        return tuple(
+            adapter
+            for adapter in self.htr_method_adapters()
+            if status_for(adapter.get_metadata().method_id).status is MethodResearchStatus.ACTIVE
+        )
 
     def htr_method_adapter_errors(self) -> tuple[str, ...]:
         """Import/construction failures from `htr_method_adapters()`, so a missing method is a
@@ -815,6 +837,8 @@ class AppContext:
             ("archivetrust.providers.satrn.adapter", "SatrnAdapter"),
             ("archivetrust.providers.florence2_htr.adapter", "Florence2Adapter"),
             ("archivetrust.providers.transkribus.adapter", "TranskribusAdapter"),
+            ("archivetrust.providers.swedish_lion.adapter", "SwedishLionAdapter"),
+            ("archivetrust.providers.loghi.adapter", "LoghiAdapter"),
         ):
             try:
                 import importlib
@@ -868,7 +892,7 @@ class AppContext:
         )
         return ExperimentBuilderViewModel(
             available_method_ids=tuple(
-                adapter.get_metadata().method_id for adapter in self.htr_method_adapters()
+                adapter.get_metadata().method_id for adapter in self.active_htr_method_adapters()
             ),
             available_metric_definition_ids=metric_ids,
         )

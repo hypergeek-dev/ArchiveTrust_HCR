@@ -43,6 +43,30 @@ class ResearchProject(BaseModel):
         )
 
 
+class CorpusProfile(BaseModel):
+    """Language/domain/provenance metadata for a `Dataset` (docs/experiments/lion-loghi-comparison/
+    dataset-comparability.md). Its own model, not flattened fields on `Dataset` -- it groups every
+    field the Swedish-vs-Dutch corpus comparison needs, all optional/`None` when genuinely unknown
+    (never a fabricated classification standing in for "not yet assessed").
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    language: str | None = None
+    historical_period: str | None = None
+    document_type: str | None = None
+    source: str | None = None
+    rights: str | None = None
+    page_count: int | None = None
+    writer_diversity: str | None = None
+    inclusion_criteria: str | None = None
+    exclusion_criteria: str | None = None
+    difficulty_classification: str | None = None
+    handwriting_style: str | None = None
+    image_condition: str | None = None
+    layout_class: str | None = None
+
+
 class Dataset(BaseModel):
     """A named, evolving corpus within a `ResearchProject`. Mutable only in the sense that new
     `DatasetVersion`s are created over time -- the `Dataset` record itself carries no membership
@@ -56,10 +80,20 @@ class Dataset(BaseModel):
     name: str
     description: str | None = None
     created_at: str
+    corpus_profile: CorpusProfile | None = None
+    """Additive field -- `None` for every pre-existing `Dataset` record (the Swedish
+    technical-reliability-screening corpus included), which replays unchanged. Populated for the new
+    Swedish/Dutch datasets in the Lion-vs-Loghi comparison."""
 
     @classmethod
     def create(
-        cls, *, project_id: str, name: str, description: str | None = None, created_at: str
+        cls,
+        *,
+        project_id: str,
+        name: str,
+        description: str | None = None,
+        created_at: str,
+        corpus_profile: CorpusProfile | None = None,
     ) -> "Dataset":
         return cls(
             dataset_id=new_id("dataset"),
@@ -67,6 +101,7 @@ class Dataset(BaseModel):
             name=name,
             description=description,
             created_at=created_at,
+            corpus_profile=corpus_profile,
         )
 
 

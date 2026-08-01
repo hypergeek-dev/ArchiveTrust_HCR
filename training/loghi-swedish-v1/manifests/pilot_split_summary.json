@@ -1,0 +1,63 @@
+{
+  "seed": 20260801,
+  "target_train": 10000,
+  "target_val": 1000,
+  "target_test_reserved": 1000,
+  "actual_train": 9999,
+  "actual_val": 1000,
+  "actual_test_reserved": 810,
+  "max_collection_fraction": 0.25,
+  "train_collection_distribution": {
+    "alvsborgs_losen_lines": 909,
+    "bergmastaren_i_nora_htr_lines": 909,
+    "bergskollegium_relationer_och_skrivelser_lines": 909,
+    "carl_fredrik_pahlmans_resejournaler_lines": 909,
+    "frihetstidens_utskottshandlingar_lines": 909,
+    "gota_hovratt_lines": 909,
+    "goteborgs_poliskammare_fore_1900_lines": 909,
+    "jonkopings_radhusratt_och_magistrat_lines": 909,
+    "krigshovrattens_dombocker_lines": 909,
+    "svea_hovratt_lines": 909,
+    "trolldomskommissionen_lines": 909
+  },
+  "val_collection_distribution": {
+    "alvsborgs_losen_lines": 91,
+    "bergmastaren_i_nora_htr_lines": 91,
+    "bergskollegium_relationer_och_skrivelser_lines": 91,
+    "carl_fredrik_pahlmans_resejournaler_lines": 91,
+    "frihetstidens_utskottshandlingar_lines": 91,
+    "gota_hovratt_lines": 91,
+    "goteborgs_poliskammare_fore_1900_lines": 91,
+    "jonkopings_radhusratt_och_magistrat_lines": 91,
+    "krigshovrattens_dombocker_lines": 91,
+    "svea_hovratt_lines": 91,
+    "trolldomskommissionen_lines": 90
+  },
+  "test_reserved_collection_distribution": {
+    "alvsborgs_losen_lines": 90,
+    "bergmastaren_i_nora_htr_lines": 90,
+    "bergskollegium_relationer_och_skrivelser_lines": 90,
+    "carl_fredrik_pahlmans_resejournaler_lines": 90,
+    "frihetstidens_utskottshandlingar_lines": 90,
+    "gota_hovratt_lines": 90,
+    "goteborgs_poliskammare_fore_1900_lines": 90,
+    "jonkopings_radhusratt_och_magistrat_lines": 90,
+    "krigshovrattens_dombocker_lines": 90
+  },
+  "single_file_collections": [
+    "alvsborgs_losen_lines",
+    "bergmastaren_i_nora_htr_lines",
+    "carl_fredrik_pahlmans_resejournaler_lines",
+    "frihetstidens_utskottshandlingar_lines",
+    "gota_hovratt_lines",
+    "jonkopings_radhusratt_och_magistrat_lines",
+    "krigshovrattens_dombocker_lines"
+  ],
+  "train_manifest_hash": "4c9680474406de44a4b44ae9f2718de7e8d667fdfb7fb5484be5442fcdba9d61",
+  "val_manifest_hash": "ed49fbce52a77d6cdb312a6f03a267cc874881cd4f941ac81d0f52f5e45043a8",
+  "test_reserved_manifest_hash": "a9793a4a2b055745c22934f331d4e135a7d17aa1004d27cbb7e8123876f0e429",
+  "shortfall_warnings": [
+    "train: requested 10000, achieved 9999 (largest defensible split under max_collection_fraction=0.25)",
+    "test_reserved: requested 1000, achieved 810"
+  ]
+}

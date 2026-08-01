@@ -6,6 +6,7 @@ from pydantic import ValidationError
 from archivetrust.domain.evidence.models import BoundingBox, Precision
 from archivetrust.htr.corpus import (
     Collection,
+    CorpusProfile,
     Dataset,
     DatasetVersion,
     InputCrop,
@@ -30,6 +31,39 @@ def test_dataset_round_trips():
     project = ResearchProject.create(name="p", created_at="2026-01-01T00:00:00Z")
     dataset = Dataset.create(project_id=project.project_id, name="d", created_at="2026-01-01T00:00:00Z")
     assert dataset.project_id == project.project_id
+
+
+def test_dataset_corpus_profile_defaults_to_none():
+    """Pre-existing `Dataset` records (the Swedish technical-reliability-screening corpus included)
+    carry no `corpus_profile` -- `None`, never a fabricated profile, is the honest default."""
+    dataset = Dataset.create(project_id="research_project_1", name="d", created_at="2026-01-01T00:00:00Z")
+    assert dataset.corpus_profile is None
+
+
+def test_dataset_round_trips_with_corpus_profile():
+    profile = CorpusProfile(
+        language="nl",
+        historical_period="17th-18th century",
+        document_type="States-General resolutions",
+        source="Nationaal Archief",
+        page_count=515,
+    )
+    dataset = Dataset.create(
+        project_id="research_project_1",
+        name="dutch-republic-corpus",
+        created_at="2026-01-01T00:00:00Z",
+        corpus_profile=profile,
+    )
+    restored = Dataset.model_validate(dataset.model_dump())
+    assert restored == dataset
+    assert restored.corpus_profile.language == "nl"
+    assert restored.corpus_profile.page_count == 515
+
+
+def test_corpus_profile_fields_are_all_optional():
+    profile = CorpusProfile()
+    assert profile.language is None
+    assert profile.difficulty_classification is None
 
 
 def test_dataset_version_rejects_version_below_one():

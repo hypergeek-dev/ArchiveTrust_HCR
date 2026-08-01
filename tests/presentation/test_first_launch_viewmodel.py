@@ -227,16 +227,25 @@ def test_view_model_without_injected_adapters_reports_nothing_rather_than_failin
     assert vm.htr_method_readiness() == ()
 
 
-def test_the_three_real_adapters_are_all_reportable() -> None:
+def test_the_five_real_adapters_are_all_reportable() -> None:
     """The one test that uses the **real** adapters, asserting only what is machine-independent: all
-    three are constructible, all three answer `validate_environment()` without raising, and a
+    five are constructible, all five answer `validate_environment()` without raising, and a
     `ready=False` row always carries at least one diagnostic message (which `EnvironmentValidation`
     guarantees and this asserts end-to-end). Whether any is actually ready depends on the machine and
-    is deliberately not asserted."""
+    is deliberately not asserted. `swedish_lion`/`loghi` are ARCHIVED_FROM_CURRENT_PHASE-adjacent in
+    research status terms only `satrn`/`florence2_htr` are archived -- readiness reporting itself is
+    unfiltered by research status (`htr/research_status.py`'s docstring: readiness and research status
+    are different questions), so all five appear here regardless of active/archived."""
     from archivetrust.composition import AppContext
 
     rows = htr_method_readiness(AppContext._build_htr_adapters()[0])
-    assert {r.method_id for r in rows} == {"satrn", "florence2_htr", "transkribus_swedish_lion_1"}
+    assert {r.method_id for r in rows} == {
+        "satrn",
+        "florence2_htr",
+        "transkribus_swedish_lion_1",
+        "swedish_lion",
+        "loghi",
+    }
     for row in rows:
         assert row.model_revision
         if not row.ready:

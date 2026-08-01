@@ -138,6 +138,32 @@ the same `FileTelemetrySink`, and replayed by `application/htr_journal.py::HtrJo
 | `ImageNormalizationCompleted` | Records successful RGB normalization; carries the full `NormalizedPageArtifact` provenance (original/normalized hashes, source and output color modes, configuration hash). |
 | `ImageNormalizationFailed` | Records a failed normalization attempt (decode failure, invalid output, unwritable artifact) as durable evidence — never silently swallowed, and the unnormalized original is never substituted for the failed derivative. |
 | `DerivedImageArtifactCreated` | Records that a normalized page image artifact now exists as a distinct, hash-addressed derivative of its original, never overwriting it. |
+| `MethodResearchStatusChanged` | Records a new `htr.research_status.ResearchPhase` declaration — which methods are active/archived/inactive/experimental/unavailable in the current research phase, and why. Carries the full phase. |
+| `LoghiEnvironmentValidated` | Records one Loghi `validate_environment()` probe result (Docker/WSL2 presence, resolved execution mode, pin placeholder status) as a dict, since the typed report lives in `providers/loghi/` and this domain module may not import `providers/*`. |
+| `LoghiPipelineStarted` | Records that one Loghi pipeline invocation began for one `MethodRun` — the input reference and the pinned component-versions configuration (as a dict, same reason as above). |
+| `LoghiStageStarted` | Records that one Loghi pipeline stage (Laypa / Loghi Tooling / Loghi HTR) began. |
+| `LoghiStageCompleted` | Records one Loghi pipeline stage's successful completion. |
+| `LoghiStageFailed` | Records one Loghi pipeline stage's failure, preserved as durable evidence — never silently swallowed. |
+| `LoghiPageXmlGenerated` | Records that Loghi produced a final PAGE XML output for one page — the source XML's own content hash and declared schema version. |
+| `DomainRelationshipRecorded` | Records an `ExperimentVersion`'s `corpus_language`/`method_primary_language_domain`/`domain_relationship` classification as its own queryable fact. |
+| `CrossDomainComparisonCreated` | Records an `ExperimentComparisonGroup` — a named parent grouping over several `Experiment`s (e.g. the four Lion-vs-Loghi cells) that never merges their results. |
+| `TrainingSessionStarted` | Records that one resumable Loghi fine-tuning training session began — `run_id`, `session_id`, `configuration_hash`, and the initial epoch/global-step/source-checkpoint it is resuming from (or `0`/the pinned parent checkpoint, for a run's first-ever session). |
+| `TrainingSessionCheckpointed` | Records one epoch's checkpoint (`"latest"` / `"best_val"` / `"end_of_session"`) — epoch, global step, checkpoint directory, and the real train/val CER/WER this epoch reported, if any. |
+| `TrainingSessionCompleted` | Records a training session's end — the honest `stop_reason` (`"time_budget_reached"` / `"stop_requested"` / `"epoch_would_not_fit"` / `"epoch_failed"` / `"target_epochs_reached"`), final epoch/global step, and the latest/best checkpoint directories. |
+| `TrainingSessionFailed` | Records a training session's real process/container failure — distinct from any clean `stop_reason` `TrainingSessionCompleted` covers. |
+| `RunWarningRecorded` | Records one `run_health.py` finding (e.g. `"stale_heartbeat"`, `"low_disk_space"`) as durable evidence, so it is still visible after a dashboard or trainer restart, not just a live-computed value. |
+
+**Updated 2026-08-01.** Nine kinds added for the active-method transition and Loghi integration
+(`docs/loghi-integration-audit.md`), each with a real producer on `DurableHtrResearchStore` from the
+outset. `ExternalResultImported` and `ReproducibilityManifestRecorded` (already in this table) are
+reused as-is for Transkribus imports and Loghi's reproducibility manifest respectively — neither needed
+a Loghi-specific counterpart. Three more kinds added the same day for the Swedish Loghi fine-tuning
+pilot (`docs/methods/loghi-swedish-finetuning.md`): `TrainingSessionStarted`,
+`TrainingSessionCheckpointed`, `TrainingSessionCompleted` — a training session's lifecycle (resumable
+across process boundaries, one checkpoint per epoch) is materially different from an inference
+`MethodRun`'s, so it gets its own three kinds rather than reusing `MethodRunCompleted`. Two more added
+the same day for the read-only training dashboard (`docs/methods/loghi-training-dashboard.md`):
+`TrainingSessionFailed`, `RunWarningRecorded`.
 
 **Updated 2026-07-30.** The four knowledge kinds above previously read "Schema-ready … No producer
 yet", and this section previously said "the last five are deliberately declared without producers …

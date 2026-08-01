@@ -187,7 +187,17 @@ optional `record` dict for the same reason. All three additions are optional wit
 pre-existing construction shapes in `tests/domain/telemetry/test_htr_events.py` still validate
 unchanged.
 
-## 6. The event vocabulary: 74 kinds
+## 6. The event vocabulary: 83 kinds
+
+74 as of the image-preprocessing stage (§14) + **9 added 2026-08-01 for the active-method transition
+and Loghi integration** (`docs/loghi-integration-audit.md`): `MethodResearchStatusChanged`,
+`LoghiEnvironmentValidated`, `LoghiPipelineStarted`, `LoghiStageStarted`, `LoghiStageCompleted`,
+`LoghiStageFailed`, `LoghiPageXmlGenerated`, `DomainRelationshipRecorded`,
+`CrossDomainComparisonCreated`. None of the nine duplicates an existing kind's semantics —
+`ExternalResultImported` and `ReproducibilityManifestRecorded` are reused as-is for Transkribus imports
+and Loghi's reproducibility manifest respectively, which is why neither needed a Loghi-specific
+counterpart. Each new kind's own docstring in `domain/telemetry/events.py` carries its individual
+justification, the same discipline as every prior addition in this section.
 
 34 pre-existing + 36 new + **4 added with the image-preprocessing stage** (see §14). Of the 36 new, 30 are exactly the list in event-model doc §3. Six are
 documented additions that list omitted, each justified in its own enum-member docstring — the four

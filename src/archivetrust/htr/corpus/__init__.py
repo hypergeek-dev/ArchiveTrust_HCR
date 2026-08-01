@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from archivetrust.htr.corpus.models import (
     Collection,
+    CorpusProfile,
     Dataset,
     DatasetVersion,
     InputCrop,
@@ -13,6 +14,7 @@ from archivetrust.htr.corpus.models import (
 
 __all__ = [
     "Collection",
+    "CorpusProfile",
     "Dataset",
     "DatasetVersion",
     "InputCrop",

@@ -4,7 +4,9 @@ import pytest
 from pydantic import ValidationError
 
 from archivetrust.htr.experiment import (
+    DomainRelationship,
     Experiment,
+    ExperimentComparisonGroup,
     ExperimentImmutableError,
     ExperimentRun,
     ExperimentVersion,
@@ -115,3 +117,64 @@ def test_reproducibility_manifest_round_trips():
     )
     restored = ReproducibilityManifest.model_validate(manifest.model_dump())
     assert restored == manifest
+
+
+def test_experiment_version_domain_fields_default_to_none():
+    """Pre-existing `ExperimentVersion`s (the sealed reliability run's included) carry no domain
+    classification -- `None`, never a fabricated `UNKNOWN`, is the honest default."""
+    version = ExperimentVersion.create(
+        experiment_id="experiment_1",
+        version=1,
+        dataset_version_id="dataset_version_1",
+        method_ids=("satrn",),
+        created_at="2026-01-01T00:00:00Z",
+    )
+    assert version.corpus_language is None
+    assert version.method_primary_language_domain is None
+    assert version.domain_relationship is None
+
+
+def test_experiment_version_round_trips_with_domain_relationship():
+    version = ExperimentVersion.create(
+        experiment_id="experiment_1",
+        version=1,
+        dataset_version_id="dataset_version_dutch",
+        method_ids=("loghi",),
+        created_at="2026-01-01T00:00:00Z",
+        corpus_language="nl",
+        method_primary_language_domain="nl",
+        domain_relationship=DomainRelationship.IN_DOMAIN,
+    )
+    restored = ExperimentVersion.model_validate(version.model_dump())
+    assert restored == version
+    assert restored.domain_relationship is DomainRelationship.IN_DOMAIN
+
+
+def test_experiment_comparison_group_round_trips():
+    group = ExperimentComparisonGroup.create(
+        name="Lion vs Loghi",
+        experiment_ids=("experiment_1", "experiment_2", "experiment_3", "experiment_4"),
+        created_at="2026-01-01T00:00:00Z",
+    )
+    restored = ExperimentComparisonGroup.model_validate(group.model_dump())
+    assert restored == group
+
+
+def test_experiment_comparison_group_rejects_empty_experiment_ids():
+    with pytest.raises(ValidationError):
+        ExperimentComparisonGroup(
+            comparison_id="experiment_comparison_group_x",
+            name="empty",
+            experiment_ids=(),
+            created_at="2026-01-01T00:00:00Z",
+        )
+
+
+def test_experiment_comparison_group_rejects_duplicate_experiment_ids():
+    with pytest.raises(ValidationError):
+        ExperimentComparisonGroup(
+            comparison_id="experiment_comparison_group_x",
+            name="dup",
+            experiment_ids=("experiment_1", "experiment_1"),
+            created_at="2026-01-01T00:00:00Z",
+        )

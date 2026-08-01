@@ -1,6 +1,0 @@
-[console_scripts]
-archivetrust-admin = archivetrust.admin.cli:main
-archivetrust-bootstrap = archivetrust.bootstrap.cli:main
-archivetrust-evaluate = archivetrust.evaluation.__main__:main
-archivetrust-replay = archivetrust.replay.__main__:main
-archivetrust-worker = archivetrust.worker.service:main

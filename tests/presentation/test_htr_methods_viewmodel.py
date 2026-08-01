@@ -7,7 +7,9 @@ from archivetrust.presentation.htr_methods_viewmodel import (
     parse_known_limitations,
 )
 from archivetrust.providers.florence2_htr.adapter import Florence2Adapter
+from archivetrust.providers.loghi.adapter import LoghiAdapter
 from archivetrust.providers.satrn.adapter import SatrnAdapter
+from archivetrust.providers.swedish_lion.adapter import SwedishLionAdapter
 from archivetrust.providers.transkribus.adapter import TranskribusAdapter
 from tests.presentation._htr_fixtures import StubAdapter, build_fixture_corpus
 
@@ -16,6 +18,16 @@ def _real_adapters() -> tuple:
     """The three real adapters, constructed without touching a model or a network -- each one's
     constructor is inert; only `recognize()`/`validate_environment()` reach outward."""
     return (SatrnAdapter(), Florence2Adapter(), TranskribusAdapter())
+
+
+def _all_five_real_adapters() -> tuple:
+    return (
+        SatrnAdapter(),
+        Florence2Adapter(),
+        TranskribusAdapter(),
+        SwedishLionAdapter(),
+        LoghiAdapter(),
+    )
 
 
 def test_the_three_real_methods_report_their_own_identity_not_a_hardcoded_table() -> None:
@@ -183,3 +195,44 @@ def test_a_method_that_never_ran_reports_no_device_rather_than_a_default() -> No
 def test_rows_are_returned_in_a_stable_alphabetical_order() -> None:
     rows = MethodOverviewViewModel(_real_adapters()).method_rows()
     assert [row.display_name for row in rows] == sorted(row.display_name for row in rows)
+
+
+def test_research_status_is_sourced_from_research_status_module_not_capabilities() -> None:
+    rows = MethodOverviewViewModel(_all_five_real_adapters()).method_rows()
+    by_id = {row.method_id: row for row in rows}
+
+    assert by_id["swedish_lion"].research_status == "active"
+    assert by_id["loghi"].research_status == "active"
+    assert by_id["satrn"].research_status == "archived_from_current_phase"
+    assert by_id["florence2_htr"].research_status == "archived_from_current_phase"
+    assert by_id["transkribus_swedish_lion_1"].research_status == "inactive"
+    assert all(row.research_status_reason.strip() for row in rows)
+
+
+def test_active_method_rows_is_exactly_the_lion_loghi_pair() -> None:
+    vm = MethodOverviewViewModel(_all_five_real_adapters())
+    active_ids = {row.method_id for row in vm.active_method_rows()}
+    assert active_ids == {"swedish_lion", "loghi"}
+
+
+def test_archived_method_rows_is_exactly_satrn_and_florence2() -> None:
+    vm = MethodOverviewViewModel(_all_five_real_adapters())
+    archived_ids = {row.method_id for row in vm.archived_method_rows()}
+    assert archived_ids == {"satrn", "florence2_htr"}
+
+
+def test_archived_methods_still_appear_in_the_full_method_rows() -> None:
+    """Archiving from the current phase must never remove a method from the overview -- historical
+    capability/identity records stay readable."""
+    vm = MethodOverviewViewModel(_all_five_real_adapters())
+    all_ids = {row.method_id for row in vm.method_rows()}
+    assert {"satrn", "florence2_htr"}.issubset(all_ids)
+
+
+def test_swedish_lion_and_loghi_have_readme_and_adapter_version_lookups() -> None:
+    """Both were missing from `_README_BY_METHOD_ID`/`_ADAPTER_VERSION_BY_METHOD_ID` before this
+    integration -- a regression here would silently drop their display name / adapter version."""
+    rows = MethodOverviewViewModel(_all_five_real_adapters()).method_rows()
+    by_id = {row.method_id: row for row in rows}
+    assert by_id["swedish_lion"].adapter_version is not None
+    assert by_id["loghi"].adapter_version is not None

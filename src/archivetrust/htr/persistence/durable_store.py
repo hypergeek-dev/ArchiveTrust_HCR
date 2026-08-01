@@ -71,10 +71,19 @@ from archivetrust.domain.telemetry.events import (
     GroundTruthTextRecorded,
     HtrActorType,
     HtrTelemetryEvent,
+    CrossDomainComparisonCreated,
+    DomainRelationshipRecorded,
     ImageNormalizationCompleted,
     ImageNormalizationFailed,
     ImageNormalizationStarted,
     InputCropCreated,
+    LoghiEnvironmentValidated,
+    LoghiPageXmlGenerated,
+    LoghiPipelineStarted,
+    LoghiStageCompleted,
+    LoghiStageFailed,
+    LoghiStageStarted,
+    MethodResearchStatusChanged,
     MethodRunCompleted,
     MethodRunFailed,
     MethodRunStarted,
@@ -93,9 +102,14 @@ from archivetrust.domain.telemetry.events import (
     ReviewAssigned,
     ReviewedResultRecorded,
     ReviewSubmissionRecorded,
+    RunWarningRecorded,
     SegmentationRunCompleted,
     TelemetryEvent,
     TextLineDetected,
+    TrainingSessionCheckpointed,
+    TrainingSessionCompleted,
+    TrainingSessionFailed,
+    TrainingSessionStarted,
     TranscriptionConventionRegistered,
     stamp_recorded_at,
 )
@@ -111,7 +125,9 @@ from archivetrust.htr.corpus.models import (
     TextLine,
 )
 from archivetrust.htr.experiment.models import (
+    DomainRelationship,
     Experiment,
+    ExperimentComparisonGroup,
     ExperimentRun,
     ExperimentVersion,
     FailureRecord,
@@ -135,6 +151,7 @@ from archivetrust.htr.preprocessing.models import (
     NormalizedPageArtifact,
     PageImageArtifact,
 )
+from archivetrust.htr.research_status import ResearchPhase
 from archivetrust.htr.research_store import (
     DuplicateRegistrationError,
     HtrResearchStore,
@@ -171,6 +188,11 @@ class DurableHtrResearchStore(HtrResearchStore):
         can never interleave into an append order that disagrees with projection order. The parent's
         own `_lock` guards each individual bucket write; this one guards the whole triple."""
         self._correlation_id: str | None = None
+        self._research_phases: dict[str, ResearchPhase] = {}
+        """Owned directly by this subclass, not the parent `HtrResearchStore` -- `ResearchPhase`
+        (`htr/research_status.py`) is a concept the active-method transition introduced, with no
+        pre-existing parent-side bucket to extend."""
+        self._comparison_groups: dict[str, ExperimentComparisonGroup] = {}
 
     # -- Introspection ---------------------------------------------------------------------------
 
@@ -676,6 +698,390 @@ class DurableHtrResearchStore(HtrResearchStore):
                 region_ids=region_ids,
                 text_line_ids=text_line_ids,
                 input_crop_ids=input_crop_ids,
+            )
+        )
+
+    # -- Active-method transition / Loghi integration ----------------------------------------------
+
+    def register_research_phase(
+        self,
+        phase: ResearchPhase,
+        *,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """Records a `ResearchPhase` declaration -- which methods are active/archived/inactive and
+        why (`htr/research_status.py`). Owned by this subclass; see `__init__`'s bucket docstring."""
+        return self._emit(
+            MethodResearchStatusChanged(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    subject_id=phase.research_phase_id,
+                ),
+                phase=phase,
+            ),
+            bucket=self._research_phases,
+            key=phase.research_phase_id,
+            kind="ResearchPhase",
+            project=lambda: self._research_phases.__setitem__(phase.research_phase_id, phase),
+        )
+
+    def research_phases(self) -> tuple[ResearchPhase, ...]:
+        return tuple(self._research_phases.values())
+
+    def register_comparison_group(
+        self,
+        group: ExperimentComparisonGroup,
+        *,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """Records a parent grouping over several `Experiment`s (e.g. the four Lion-vs-Loghi cells)
+        -- never merges their results, only ties their ids together for reporting/navigation."""
+        return self._emit(
+            CrossDomainComparisonCreated(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    subject_id=group.comparison_id,
+                ),
+                comparison_group=group,
+            ),
+            bucket=self._comparison_groups,
+            key=group.comparison_id,
+            kind="ExperimentComparisonGroup",
+            project=lambda: self._comparison_groups.__setitem__(group.comparison_id, group),
+        )
+
+    def comparison_groups(self) -> tuple[ExperimentComparisonGroup, ...]:
+        return tuple(self._comparison_groups.values())
+
+    def record_loghi_environment_validated(
+        self,
+        *,
+        method_id: str,
+        valid: bool,
+        environment_report: dict[str, Any],
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            LoghiEnvironmentValidated(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id=method_id,
+                    subject_id=method_id,
+                ),
+                method_id=method_id,
+                valid=valid,
+                environment_report=environment_report,
+            )
+        )
+
+    def record_loghi_pipeline_started(
+        self,
+        *,
+        method_run_id: str,
+        input_image_ref: str,
+        component_versions: dict[str, Any],
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            LoghiPipelineStarted(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id="loghi",
+                    subject_id=method_run_id,
+                ),
+                method_run_id=method_run_id,
+                input_image_ref=input_image_ref,
+                component_versions=component_versions,
+            )
+        )
+
+    def record_loghi_stage_started(
+        self,
+        *,
+        method_run_id: str,
+        stage_name: str,
+        started_at: str,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            LoghiStageStarted(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id="loghi",
+                    subject_id=method_run_id,
+                ),
+                method_run_id=method_run_id,
+                stage_name=stage_name,
+                started_at=started_at,
+            )
+        )
+
+    def record_loghi_stage_completed(
+        self,
+        *,
+        method_run_id: str,
+        stage_result: dict[str, Any],
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            LoghiStageCompleted(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id="loghi",
+                    subject_id=method_run_id,
+                ),
+                method_run_id=method_run_id,
+                stage_result=stage_result,
+            )
+        )
+
+    def record_loghi_stage_failed(
+        self,
+        *,
+        method_run_id: str,
+        stage_result: dict[str, Any],
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        """A stage's own failure, preserved -- never a swallowed exception (same discipline as
+        `record_normalization_failed`). A successful pipeline with `suspicious_output=True` never
+        goes through this method: that is a flag on a *successful* `LoghiPipelineResult`, not a
+        failure (brief: "A successful run with poor-looking text is not an execution failure")."""
+        return self._emit_only(
+            LoghiStageFailed(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id="loghi",
+                    subject_id=method_run_id,
+                ),
+                method_run_id=method_run_id,
+                stage_result=stage_result,
+            )
+        )
+
+    def record_loghi_page_xml_generated(
+        self,
+        *,
+        method_run_id: str,
+        source_xml_hash: str,
+        page_schema_version: str | None = None,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            LoghiPageXmlGenerated(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id="loghi",
+                    subject_id=method_run_id,
+                ),
+                method_run_id=method_run_id,
+                source_xml_hash=source_xml_hash,
+                page_schema_version=page_schema_version,
+            )
+        )
+
+    def record_domain_relationship(
+        self,
+        *,
+        experiment_version_id: str,
+        corpus_language: str | None,
+        method_primary_language_domain: str | None,
+        domain_relationship: DomainRelationship,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            DomainRelationshipRecorded(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id,
+                    subject_id=experiment_version_id,
+                ),
+                experiment_version_id=experiment_version_id,
+                corpus_language=corpus_language,
+                method_primary_language_domain=method_primary_language_domain,
+                domain_relationship=domain_relationship,
+            )
+        )
+
+    # -- Swedish Loghi fine-tuning -------------------------------------------------------------------
+
+    def record_training_session_started(
+        self,
+        *,
+        run_id: str,
+        session_id: str,
+        configuration_hash: str,
+        initial_epoch: int,
+        initial_global_step: int,
+        source_checkpoint: str,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            TrainingSessionStarted(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id or session_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id="loghi_swedish_finetuned_v1",
+                    subject_id=session_id,
+                ),
+                run_id=run_id,
+                session_id=session_id,
+                configuration_hash=configuration_hash,
+                initial_epoch=initial_epoch,
+                initial_global_step=initial_global_step,
+                source_checkpoint=source_checkpoint,
+            )
+        )
+
+    def record_training_session_checkpointed(
+        self,
+        *,
+        run_id: str,
+        session_id: str,
+        epoch: int,
+        global_step: int,
+        checkpoint_dir: str,
+        checkpoint_kind: str,
+        duration_seconds: float,
+        train_cer: float | None = None,
+        val_cer: float | None = None,
+        train_wer: float | None = None,
+        val_wer: float | None = None,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            TrainingSessionCheckpointed(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id or session_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id="loghi_swedish_finetuned_v1",
+                    subject_id=session_id,
+                ),
+                run_id=run_id,
+                session_id=session_id,
+                epoch=epoch,
+                global_step=global_step,
+                checkpoint_dir=checkpoint_dir,
+                checkpoint_kind=checkpoint_kind,
+                train_cer=train_cer,
+                val_cer=val_cer,
+                train_wer=train_wer,
+                val_wer=val_wer,
+                duration_seconds=duration_seconds,
+            )
+        )
+
+    def record_training_session_completed(
+        self,
+        *,
+        run_id: str,
+        session_id: str,
+        stop_reason: str,
+        final_epoch: int,
+        final_global_step: int,
+        session_training_seconds: float,
+        cumulative_training_seconds: float,
+        latest_checkpoint_dir: str | None = None,
+        best_checkpoint_dir: str | None = None,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            TrainingSessionCompleted(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id or session_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id="loghi_swedish_finetuned_v1",
+                    subject_id=session_id,
+                ),
+                run_id=run_id,
+                session_id=session_id,
+                stop_reason=stop_reason,
+                final_epoch=final_epoch,
+                final_global_step=final_global_step,
+                session_training_seconds=session_training_seconds,
+                cumulative_training_seconds=cumulative_training_seconds,
+                latest_checkpoint_dir=latest_checkpoint_dir,
+                best_checkpoint_dir=best_checkpoint_dir,
+            )
+        )
+
+    def record_training_session_failed(
+        self,
+        *,
+        run_id: str,
+        session_id: str,
+        error_message: str,
+        final_epoch: int,
+        final_global_step: int,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            TrainingSessionFailed(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id or session_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id="loghi_swedish_finetuned_v1",
+                    subject_id=session_id,
+                ),
+                run_id=run_id,
+                session_id=session_id,
+                error_message=error_message,
+                final_epoch=final_epoch,
+                final_global_step=final_global_step,
+            )
+        )
+
+    def record_run_warning(
+        self,
+        *,
+        run_id: str,
+        reason: str,
+        message: str,
+        caused_by: str | None = None,
+        correlation_id: str | None = None,
+    ) -> str:
+        return self._emit_only(
+            RunWarningRecorded(
+                **self._scope(
+                    causation_id=caused_by,
+                    correlation_id=correlation_id or run_id,
+                    actor_type=HtrActorType.METHOD,
+                    actor_id="loghi_swedish_finetuned_v1",
+                    subject_id=run_id,
+                ),
+                run_id=run_id,
+                reason=reason,
+                message=message,
             )
         )
 
