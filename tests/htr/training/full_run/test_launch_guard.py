@@ -282,3 +282,59 @@ def test_tampered_shard_file_is_rejected_by_the_full_guard(prepared_setup, tmp_p
     prepared_setup["current_training_manifest_hash"] = recompute_real_shard_hash(shards_dir)
     problems = evaluate_launch_guard(confirmed=True, **prepared_setup)
     assert any("training manifest hash changed" in p.lower() for p in problems)
+
+
+def _write_telemetry(run_dir, last_sample_at):
+    import json as _json
+    tdir = Path(run_dir) / "run-state" / "telemetry"
+    tdir.mkdir(parents=True, exist_ok=True)
+    (tdir / "status.json").write_text(
+        _json.dumps({"last_sample_at": last_sample_at, "container_alive": True}), encoding="utf-8")
+
+
+def test_resume_after_crash_is_blocked_without_the_explicit_flag(prepared_setup):
+    """A crash leaves status='running'. The documented recovery is `resume`, so the guard must not
+    block it forever -- but it must still require an explicit, informed override."""
+    prepared_setup["run_state"] = mark_running(prepared_setup["run_state"])
+    _write_telemetry(prepared_setup["run_dir"], "2020-01-01T00:00:00Z")  # long stale => crashed
+    problems = evaluate_launch_guard(confirmed=True, is_resume=True, **prepared_setup)
+    assert any("looks like a crashed run" in p.lower() for p in problems)
+    assert any("--force-resume-after-crash" in p for p in problems)
+
+
+def test_resume_after_crash_is_allowed_with_the_explicit_flag(prepared_setup):
+    prepared_setup["run_state"] = mark_running(prepared_setup["run_state"])
+    _write_telemetry(prepared_setup["run_dir"], "2020-01-01T00:00:00Z")
+    problems = evaluate_launch_guard(
+        confirmed=True, is_resume=True, force_resume_after_crash=True, **prepared_setup)
+    assert problems == []
+
+
+def test_force_flag_cannot_override_a_genuinely_live_run(prepared_setup):
+    """The override exists only for provably-dead runs. Fresh telemetry means a process really is
+    attached, and no flag may permit a second one."""
+    import time
+    prepared_setup["run_state"] = mark_running(prepared_setup["run_state"])
+    _write_telemetry(prepared_setup["run_dir"], time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
+    problems = evaluate_launch_guard(
+        confirmed=True, is_resume=True, force_resume_after_crash=True, **prepared_setup)
+    assert any("active run already exists" in p.lower() for p in problems)
+    assert any("genuinely attached" in p.lower() for p in problems)
+
+
+def test_missing_telemetry_fails_closed_and_still_blocks(prepared_setup):
+    """Absent telemetry cannot prove a crash, so the run stays blocked rather than allowing a
+    possible duplicate."""
+    prepared_setup["run_state"] = mark_running(prepared_setup["run_state"])
+    problems = evaluate_launch_guard(
+        confirmed=True, is_resume=True, force_resume_after_crash=True, **prepared_setup)
+    assert any("active run already exists" in p.lower() for p in problems)
+
+
+def test_start_can_never_attach_to_a_crashed_run(prepared_setup):
+    """Only `resume` may recover a crashed run; `start` must always refuse."""
+    prepared_setup["run_state"] = mark_running(prepared_setup["run_state"])
+    _write_telemetry(prepared_setup["run_dir"], "2020-01-01T00:00:00Z")
+    problems = evaluate_launch_guard(
+        confirmed=True, is_resume=False, force_resume_after_crash=True, **prepared_setup)
+    assert any("active run already exists" in p.lower() for p in problems)

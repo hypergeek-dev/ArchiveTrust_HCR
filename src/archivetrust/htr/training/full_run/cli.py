@@ -419,6 +419,7 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
         current_code_revision=get_code_revision(),
         allow_code_revision_drift=args.allow_code_revision_drift,
         is_resume=resume,
+        force_resume_after_crash=getattr(args, 'force_resume_after_crash', False),
     )
 
     if args.dry_run:
@@ -580,6 +581,11 @@ def build_parser() -> argparse.ArgumentParser:
     resume.add_argument("--allow-dirty-repository", action="store_true")
     resume.add_argument("--allow-code-revision-drift", action="store_true", help="allow the current git commit to differ from the one recorded at `prepare` time")
     resume.add_argument("--no-docker-check", action="store_true", help="skip the launch guard's docker daemon/image checks")
+    resume.add_argument(
+        "--force-resume-after-crash", action="store_true",
+        help="recover a run left marked running/stopping by a crash; only takes effect when live "
+             "telemetry is provably stale, never when a process is genuinely attached",
+    )
     resume.set_defaults(func=cmd_resume)
 
     gui = subparsers.add_parser("gui", help="open the PySide6 GUI")

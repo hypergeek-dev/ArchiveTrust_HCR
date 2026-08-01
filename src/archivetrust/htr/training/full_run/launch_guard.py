@@ -53,6 +53,44 @@ def _container_image_available(image_tag: str, image_digest: str | None) -> bool
     return completed.returncode == 0
 
 
+CRASHED_RUN_TELEMETRY_STALE_SECONDS = 300.0
+"""How stale `telemetry/status.json` must be before a run still marked `running`/`stopping` is
+treated as *crashed* rather than *live*. `TelemetrySampler` writes that file every ~5s for the whole
+duration of a container invocation, so 300s is 60x its normal cadence -- generous enough that a
+merely-slow host is never mistaken for a dead one, while still detecting a real crash quickly. This
+is deliberately independent of `run_state.json`'s own heartbeat, which only advances once per
+*shard* (~8 minutes here) and so cannot distinguish "mid-shard" from "dead"."""
+
+
+def looks_like_a_crashed_run(run_state_dir: str | Path, *, now: float | None = None) -> bool:
+    """`True` when a run's live-telemetry heartbeat has gone stale, i.e. the process that was
+    writing it is gone. Used only to *explain* a blocked resume and to gate the explicit
+    `--force-resume-after-crash` override -- never to silently permit one.
+
+    Fails closed: any unreadable/absent/malformed telemetry, or a parse failure, returns `False`
+    ("cannot prove it crashed"), so an ambiguous state keeps the run blocked rather than allowing a
+    second process to attach to the same directories."""
+    import calendar
+    import json as _json
+    import time
+
+    status_path = Path(run_state_dir) / "telemetry" / "status.json"
+    if not status_path.exists():
+        # Never started a container (so nothing to conflict with) is indistinguishable here from
+        # telemetry never having been wired up. Fail closed.
+        return False
+    try:
+        payload = _json.loads(status_path.read_text(encoding="utf-8"))
+        last = payload.get("last_sample_at")
+        if not last:
+            return False
+        parsed = calendar.timegm(time.strptime(last, "%Y-%m-%dT%H:%M:%SZ"))
+    except (OSError, ValueError, _json.JSONDecodeError):
+        return False
+    now = now if now is not None else time.time()
+    return (now - parsed) > CRASHED_RUN_TELEMETRY_STALE_SECONDS
+
+
 def _shard_line_id_overlap_with_manifest(shards_dir: Path, manifest_path: Path) -> int:
     from archivetrust.htr.training.full_run.corpus_sharding import load_sharding_summary
 
@@ -115,6 +153,7 @@ def evaluate_launch_guard(
     allow_code_revision_drift: bool = False,
     is_resume: bool = False,
     test_manifest_path: str | Path | None = None,
+    force_resume_after_crash: bool = False,
 ) -> list[str]:
     """Returns every violated condition (empty list means the guard passes). Never raises itself --
     `enforce_launch_guard` below is the raising wrapper, so callers that just want the full list (e.g.
@@ -138,7 +177,29 @@ def evaluate_launch_guard(
     if run_state is None:
         problems.append(f"No run_state.json found under {run_dir} -- run `prepare` first.")
     elif run_state.status in (STATUS_RUNNING, STATUS_STOPPING):
-        problems.append(f"An active run already exists at {run_dir} with status {run_state.status!r}.")
+        # A crash (power loss, host reboot, Ctrl+C, killed container) leaves this status behind with
+        # no process attached. Blocking unconditionally -- as this guard originally did -- made the
+        # documented recovery path (`resume`) impossible and forced hand-editing of run_state.json.
+        # Blocking a genuinely *live* run is still correct, so the two cases are separated by real
+        # telemetry liveness, and the override only ever applies to the provably-dead case.
+        crashed = is_resume and looks_like_a_crashed_run(run_dir / "run-state")
+        if not crashed:
+            problems.append(
+                f"An active run already exists at {run_dir} with status {run_state.status!r}."
+                + (
+                    " Its live telemetry is still fresh, so a training process appears to be "
+                    "genuinely attached -- refusing to start a second one."
+                    if is_resume else ""
+                )
+            )
+        elif not force_resume_after_crash:
+            problems.append(
+                f"Run at {run_dir} is still marked {run_state.status!r}, but its live telemetry has "
+                f"been stale for over {CRASHED_RUN_TELEMETRY_STALE_SECONDS:.0f}s -- this looks like a "
+                "crashed run, not a live one. Confirm no container is still attached "
+                "(`docker ps`), then re-run with --force-resume-after-crash to recover from the "
+                "last verified checkpoint."
+            )
     elif is_resume and run_state.status in (STATUS_COMPLETED, STATUS_FAILED):
         problems.append(
             f"Refusing to resume a run already marked {run_state.status!r} -- a completed or failed "
