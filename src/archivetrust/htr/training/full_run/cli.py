@@ -253,7 +253,14 @@ def cmd_prepare(args: argparse.Namespace) -> int:
         train_manifest_hash=sharding_summary.line_id_set_hash, val_manifest_hash=val_manifest_hash,
         charlist_hash=charlist_hash, preprocessing_version="byte_identical_from_source_parquet",
         model_architecture="new10", parent_checkpoint_hash=CURRENT_PINNED_VERSIONS.model_checkpoint_hash,
-        learning_rate_policy="constant_0.0001_decay_0.99", optimizer="adam", augmentation_policy="none",
+        # Accurate as of 2026-08-01, after empirical verification. The previous label
+        # ("constant_0.0001_decay_0.99") implied one continuous decaying schedule across the whole
+        # run; that is false. The pinned container saves no optimizer state (clone_model) and
+        # rebuilds a fresh Adam + schedule on every invocation, so decay only ever acts *within* one
+        # shard's ~625 steps and then resets to the base rate. See training_session.py's module
+        # docstring for the measured evidence.
+        learning_rate_policy="per_shard_fresh_adam_base_0.0001_intra_shard_decay_0.99_no_cross_shard_continuity",
+        optimizer="adam", augmentation_policy="none",
     )
 
     identity, configuration_hash = create_full_run_identity(

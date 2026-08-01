@@ -290,20 +290,28 @@ def _check_dashboard_can_discover(training_root: Path) -> tuple[bool, str]:
     return True, f"Dashboard discovery mechanism works ({len(dirs)} run(s) currently discoverable)."
 
 
-def _check_optimizer_scheduler_serialization(pilot_resume_proof_path: Path) -> tuple[bool, str]:
-    """Reuses the pilot's own real, already-completed full-state resume proof
+def _check_resume_state_continuity(pilot_resume_proof_path: Path) -> tuple[bool, str]:
+    """Reuses the pilot's own real, already-completed resume proof
     (`training_session.py::prove_full_state_resume`) rather than re-running an expensive multi-epoch
     real-container proof here -- same checkpoint mechanism, same pinned image, unchanged for the
-    full run."""
+    full run.
+
+    **Renamed from `_check_optimizer_scheduler_serialization` on 2026-08-01.** The old name claimed
+    more than the evidence supports: optimizer and LR-schedule state are *not* serialized by the
+    pinned container at all (proven empirically -- see `training_session.py`'s module docstring).
+    What this proof genuinely establishes, and all it now claims, is that ArchiveTrust's own
+    externally-tracked resume state (cumulative epoch, best-metric bookkeeping, checkpoint chaining)
+    continues correctly across a real process boundary rather than restarting."""
     if not pilot_resume_proof_path.exists():
         return False, f"No pilot resume-proof evidence found at {pilot_resume_proof_path}."
     payload = json.loads(pilot_resume_proof_path.read_text(encoding="utf-8"))
     if not payload.get("proof_passed"):
         return False, "Pilot resume-proof evidence exists but did not pass."
     return True, (
-        f"Optimizer/scheduler state resume already proven via the pilot's real resume-proof "
-        f"(epoch_continued={payload.get('epoch_continued_not_restarted')}, "
-        f"global_step_continued={payload.get('global_step_continued_not_restarted')})."
+        f"Resume-state continuity proven via the pilot's real resume-proof "
+        f"(epoch_continued={payload.get('epoch_continued_not_restarted')}). "
+        "Note: optimizer momentum and LR-schedule position are NOT carried across checkpoints by "
+        "the pinned container -- weights and ArchiveTrust's own counters are."
     )
 
 
@@ -431,8 +439,8 @@ def run_preflight(
 
     if pilot_resume_proof_path is not None:
         checks.append(_check(
-            "optimizer_scheduler_state_serialization",
-            lambda: _check_optimizer_scheduler_serialization(Path(pilot_resume_proof_path)),
+            "resume_state_continuity",
+            lambda: _check_resume_state_continuity(Path(pilot_resume_proof_path)),
         ))
 
     if run_smoke_test:

@@ -6,13 +6,39 @@
 Keras's own per-call epoch counter at 0. Neither the epoch number nor `LoghiCustomCallback`'s
 `best_val_metric` (a plain Python attribute, reset to `inf` in `__init__`) is persisted anywhere a new
 process could read back. What **is** genuinely restored by `tf.keras.models.load_model()` on a
-`--existing_model` checkpoint: model weights, and -- because `LoghiCustomCallback._save_model` calls
-plain `.save()` with no `include_optimizer=False` override -- the optimizer's full state, including its
-`iterations` counter. `LoghiLearningRateSchedule.__call__(self, step)` (`model/optimization.py`) is
-itself stateless and takes `step` from the optimizer, so the learning-rate schedule's *position* is
-correctly resumed as a consequence of the optimizer's `iterations` being restored -- confirmed by
-reading `create_learning_rate_schedule`'s construction, and empirically re-verified by the resume-proof
-this module runs (`prove_full_state_resume`), not assumed from source reading alone.
+`--existing_model` checkpoint: **model weights, and only model weights.**
+
+**Optimizer and learning-rate-schedule state do NOT survive a checkpoint boundary.** An earlier
+version of this docstring claimed they did, reasoning that `LoghiCustomCallback._save_model` calls a
+plain `.save()` with no `include_optimizer=False` override. That reasoning was wrong, and was
+disproven empirically (real GPU test inside the pinned container, 2026-08-01). Two independent
+mechanisms each destroy it:
+
+1. **Save side (primary).** `custom_callback.py::_save_model` does
+   `unfrozen_model = tf.keras.models.clone_model(functional_model)` followed by `set_weights(...)`
+   and `.save(...)`. `clone_model` returns a *fresh, uncompiled* model -- it has no optimizer at all,
+   so the `.save()` is indeed "plain," but there is simply no optimizer state for it to include.
+   Every real checkpoint this pipeline has ever written therefore contains zero optimizer state.
+2. **Load side (secondary).** `main.py:103-119` unconditionally rebuilds `lr_schedule` and
+   `optimizer` and calls `model.compile(...)` on every invocation, with no "am I resuming" branch --
+   so even a checkpoint that *did* carry optimizer state would have it discarded on load.
+
+Measured, in the pinned container, on a synthetic model (never the real corpus): saving a *compiled*
+model and reloading it preserves `optimizer.iterations` (12 -> 12), the Adam first-moment slot
+variables (bit-identical), and the LR-schedule position -- i.e. Keras itself is perfectly capable of
+this. Reloading and then recompiling the way `main.py` does resets `iterations` to 0 and the learning
+rate to its base value. Both real pilot checkpoints inspected (epochs 1 and 5) report
+`optimizer.iterations == 0`, consistent with mechanism (1).
+
+**What this means in practice, and why the pilot still worked.** Each container invocation is an
+independent short fine-tune that inherits the previous one's *weights* and starts with a fresh Adam
+optimizer at the base learning rate. Because `decay_steps` resolves to a single invocation's own
+batch count, the exponential decay only ever acts *within* one shard and then resets -- the effective
+regime across a multi-shard run is near-constant-LR fine-tuning, not one long decaying schedule. The
+pilot's own real 22-epoch run used exactly this regime and improved monotonically (val_CER 0.55 ->
+0.169), so the regime is empirically validated for this architecture and task; it is simply not the
+regime the configuration label previously implied.
+
 
 **Given that, the session design is: one training epoch = one container invocation**, chained via
 `--existing_model <previous checkpoint dir>`. This makes each container invocation the natural "safe
@@ -384,8 +410,8 @@ def run_training_session(
                     checkpoint_dir=result.checkpoint_dir,
                     model_file_hash=model_hash,
                     model_state_present=checkpoint_verified,
-                    optimizer_state_present=checkpoint_verified,
-                    scheduler_state_present=checkpoint_verified,
+                    optimizer_state_present=False,
+                    scheduler_state_present=False,
                     sampler_state_present=False,
                     configuration_hash=configuration_hash,
                     training_manifest_hash="",
@@ -425,8 +451,8 @@ def run_training_session(
                     checkpoint_dir=result.best_val_checkpoint_dir,
                     model_file_hash=best_hash,
                     model_state_present=best_verified,
-                    optimizer_state_present=best_verified,
-                    scheduler_state_present=best_verified,
+                    optimizer_state_present=False,
+                    scheduler_state_present=False,
                     sampler_state_present=False,
                     configuration_hash=configuration_hash,
                     training_manifest_hash="",
@@ -474,8 +500,8 @@ def run_training_session(
                 checkpoint_dir=state.latest_checkpoint_dir,
                 model_file_hash=model_hash,
                 model_state_present=verified,
-                optimizer_state_present=verified,
-                scheduler_state_present=verified,
+                optimizer_state_present=False,
+                scheduler_state_present=False,
                 sampler_state_present=False,
                 configuration_hash=configuration_hash,
                 training_manifest_hash="",
@@ -580,13 +606,27 @@ def prove_full_state_resume(
         max_epochs_this_call=1,
     )
 
-    global_step_continued = session_2.initial_epoch == session_1.final_epoch
+    # Both checks below are *epoch/session-continuity* checks. An earlier version of this function
+    # labelled the first one "global_step_continued_not_restarted", which overstated what it tests:
+    # it compares epoch numbers, not step counts, and `TrainingSessionState.global_step` is never
+    # incremented anywhere (nor could a meaningful step count be recovered -- the pinned container
+    # saves no optimizer state at all, see this module's own docstring). The honest claim is
+    # session-boundary continuity of ArchiveTrust's externally-tracked counters, which is real and
+    # is what actually makes `resume` correct.
+    session_boundary_continued = session_2.initial_epoch == session_1.final_epoch
     epoch_continued = session_2.initial_epoch == 2 and session_2.final_epoch == 3
 
     return {
         "session_1": session_1.model_dump(),
         "session_2": session_2.model_dump(),
         "epoch_continued_not_restarted": epoch_continued,
-        "global_step_continued_not_restarted": global_step_continued,
-        "proof_passed": epoch_continued and global_step_continued,
+        "session_boundary_epoch_continued_not_restarted": session_boundary_continued,
+        "optimizer_state_continued": False,
+        "optimizer_state_continued_note": (
+            "Optimizer momentum and LR-schedule position are NOT carried across a checkpoint "
+            "boundary by the pinned loghi-htr commit -- proven empirically, see "
+            "training_session.py's module docstring. Weights are. This field is recorded as a "
+            "permanent, honest False rather than being omitted."
+        ),
+        "proof_passed": epoch_continued and session_boundary_continued,
     }

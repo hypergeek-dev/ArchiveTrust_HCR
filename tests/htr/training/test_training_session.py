@@ -322,7 +322,12 @@ def test_full_state_resume_proof_passes_with_a_fake_runner(run_state_dir, checkp
     )
     assert result["proof_passed"] is True
     assert result["epoch_continued_not_restarted"] is True
-    assert result["global_step_continued_not_restarted"] is True
+    assert result["session_boundary_epoch_continued_not_restarted"] is True
+    # The proof must never again claim optimizer/scheduler continuity: the pinned container saves no
+    # optimizer state at all (clone_model in custom_callback.py::_save_model), proven empirically on
+    # 2026-08-01. Recorded as an honest, permanent False rather than an overstated or absent field.
+    assert result["optimizer_state_continued"] is False
+    assert "global_step_continued_not_restarted" not in result
 
 
 def test_report_reconstruction_without_rerunning_training(run_state_dir, checkpoint_index_path, parent_checkpoint_dir):

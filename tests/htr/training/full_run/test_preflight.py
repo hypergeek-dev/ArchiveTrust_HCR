@@ -254,24 +254,28 @@ def test_dashboard_can_discover_check_passes(base_setup):
     assert check.passed is True
 
 
-def test_optimizer_scheduler_serialization_reuses_pilot_resume_proof(base_setup):
+def test_resume_state_continuity_reuses_pilot_resume_proof(base_setup):
+    """Renamed from test_optimizer_scheduler_serialization_* -- the check no longer claims
+    optimizer/scheduler serialization, which was empirically disproven; it claims only
+    ArchiveTrust-tracked resume-state continuity, which is real."""
     report = run_preflight(**base_setup, require_gpu=False, smoke_test_runner=_FakeSmokeTestRunner())
-    check = next(c for c in report.checks if c.name == "optimizer_scheduler_state_serialization")
+    check = next(c for c in report.checks if c.name == "resume_state_continuity")
     assert check.passed is True
+    assert "optimizer momentum and LR-schedule position are NOT carried" in check.message
 
 
-def test_optimizer_scheduler_serialization_fails_when_proof_did_not_pass(base_setup):
+def test_resume_state_continuity_fails_when_proof_did_not_pass(base_setup):
     base_setup["pilot_resume_proof_path"].write_text(json.dumps({"proof_passed": False}), encoding="utf-8")
     report = run_preflight(**base_setup, require_gpu=False, smoke_test_runner=_FakeSmokeTestRunner())
-    check = next(c for c in report.checks if c.name == "optimizer_scheduler_state_serialization")
+    check = next(c for c in report.checks if c.name == "resume_state_continuity")
     assert check.passed is False
 
 
-def test_optimizer_scheduler_serialization_omitted_when_no_proof_path_given(base_setup):
+def test_resume_state_continuity_omitted_when_no_proof_path_given(base_setup):
     base_setup["pilot_resume_proof_path"] = None
     report = run_preflight(**base_setup, require_gpu=False, smoke_test_runner=_FakeSmokeTestRunner())
     names = [c.name for c in report.checks]
-    assert "optimizer_scheduler_state_serialization" not in names
+    assert "resume_state_continuity" not in names
 
 
 def test_monitoring_config_invalid_fails_the_check(base_setup):

@@ -41,13 +41,21 @@ class CheckpointEntry(BaseModel):
     `verification_status` must not be `"verified"`."""
     model_state_present: bool
     optimizer_state_present: bool
-    """Keras's `.save()` includes optimizer state by default and `LoghiCustomCallback` never
-    overrides that -- `True` whenever the `.keras` file itself was written by that callback."""
+    """**Always `False` for every checkpoint the pinned `loghi-htr` commit produces**, and recorded
+    honestly as such. An earlier version of this field's docstring asserted the opposite (reasoning
+    that Keras's `.save()` includes optimizer state by default and `LoghiCustomCallback` never
+    overrides it). That was disproven empirically on 2026-08-01: `custom_callback.py::_save_model`
+    saves the output of `tf.keras.models.clone_model(...)` -- a *fresh, uncompiled* model carrying
+    only copied weights -- so there is no optimizer in the saved artifact at all. Confirmed by
+    loading two real pilot checkpoints in the pinned container: both report
+    `optimizer.iterations == 0`."""
     scheduler_state_present: bool
-    """The LR schedule's own step counter lives inside the optimizer's saved state (`LoghiLearningRateSchedule`
-    is a `tf.keras.optimizers.schedules.LearningRateSchedule` bound to the optimizer) -- tracked
-    separately here because it is a distinct claim from "the optimizer variables exist," per the
-    brief's explicit "do not confuse loading model weights with resuming training."""
+    """**Always `False`**, for the same reason as `optimizer_state_present` above -- the LR
+    schedule's position is derived from the optimizer's `iterations` counter, and no optimizer is
+    saved. Tracked as a separate field because it is a distinct claim, per the brief's explicit "do
+    not confuse loading model weights with resuming training." Resuming this pipeline genuinely
+    restores weights (and ArchiveTrust's own externally-tracked epoch/best-metric bookkeeping), never
+    optimizer momentum or schedule position."""
     sampler_state_present: bool
     """Honestly `False` for every checkpoint produced by the pinned `loghi-htr` commit -- its
     `tf.data` shuffle pipeline is not checkpointed. Recorded as a fact, not silently omitted."""
