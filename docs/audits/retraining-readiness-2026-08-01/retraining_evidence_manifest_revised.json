@@ -1,0 +1,97 @@
+{
+  "review_date": "2026-08-01",
+  "supersedes_for_launch_purposes": "retraining_evidence_manifest.json (that file's run, training/full-corpus-20260801T192341Z, is now stale -- see R-016/R-003)",
+  "audited_run_directory": "training/full-corpus-20260801T213023Z",
+  "code_commit_hash_at_review": "bf9a53a8863d6ad4f4faf74b38e2aa9e9cc8fcf0",
+  "repository_dirty_at_review": true,
+  "repository_dirty_reason": "training/config/preflight_status.json was refreshed by real preflight reruns during this review; training/full-corpus-20260801T213023Z/ and docs/audits/ are untracked. No source code is uncommitted.",
+  "artifacts": {
+    "loghi_base_checkpoint": {
+      "path": ".loghi-upstream/pretrained-models/loghi-htr/generic-2023-02-15/model.keras",
+      "sha256": "0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95",
+      "matches_pinned_hash": true,
+      "verified_by": "Recomputed 4 additional times during this review (before/after 2 preflight reruns, before/after the real GPU optimizer-continuity probe); unchanged every time."
+    },
+    "loghi_htr_license": {
+      "path": ".loghi-upstream/loghi-htr/LICENSE",
+      "sha256": "8c97121b28c9b3cfa3256e42a68a66b807b8f7a8b8def50ef3c82203fecd2115",
+      "size_bytes": 1087,
+      "license_type": "MIT",
+      "copyright_holder": "rvankoert, 2022",
+      "note": "New in this revision -- the original audit did not locate this file. Also present, same MIT terms: .loghi-upstream/LICENSE, .loghi-upstream/laypa/LICENSE, .loghi-upstream/loghi-tooling/LICENSE."
+    },
+    "container_image": {
+      "tag": "loghi/docker.htr:latest",
+      "digest": "sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+      "verified_present_locally": true,
+      "docker_storage_root": "C:\\Users\\ize_c\\AppData\\Local\\Docker\\wsl\\disk\\docker_data.vhdx (72.7GB, on the C: drive, confirmed independent of the D: training-output volume)"
+    },
+    "disk_capacity": {
+      "measured_free_bytes": 322731458560,
+      "measured_free_gb": 322.73,
+      "measured_total_bytes": 1000203087872,
+      "measurement_method": "Get-Volume -DriveLetter D (SizeRemaining), cross-checked against Get-PSDrive D (Free) -- identical values",
+      "per_shard_cost_bytes": 745248170,
+      "per_shard_cost_measurement": "Individually measured (not averaged) across 6 real pilot epochs (1, 5, 10, 15, 20, 22): every one exactly 711MiB, composed of two full model.keras copies (372,594,085 bytes each) plus ~60KB of plots/config/csv.",
+      "full_171_shard_plan_required_gb": 127.44,
+      "one_57_shard_lap_required_gb": 42.48,
+      "remaining_reserve_after_full_plan_gb": 194.92,
+      "percent_of_free_space_consumed_by_full_plan": 39.6
+    },
+    "code_commit": {
+      "hash": "bf9a53a8863d6ad4f4faf74b38e2aa9e9cc8fcf0",
+      "message": "Close two more real launch-safety gaps found during an independent review",
+      "recorded_in_launch_manifest": "training/full-corpus-20260801T213023Z/launch_manifest.json"
+    },
+    "launch_manifest": {
+      "path": "training/full-corpus-20260801T213023Z/launch_manifest.json",
+      "sha256": "3256f89d1eb73da984aea860edfa8e99827febd8df3476fdbf06b7bb327bebf8",
+      "size_bytes": 3139
+    },
+    "run_state": {
+      "path": "training/full-corpus-20260801T213023Z/run-state/run_state.json",
+      "sha256": "4a180760db5b9d77c95b09f960cbb1c6de3470c025f419181c4e4cba839679b3",
+      "status": "prepared",
+      "display_status": "PREPARED_NOT_STARTED",
+      "pid": null,
+      "checkpoint_index_exists": false
+    },
+    "training_identity": {
+      "path": "training/full-corpus-20260801T213023Z/run-state/training_identity.json",
+      "sha256": "c06e45edce9e64ce12980061a6864a5b04e7f78fc20bdd336686d335fdeec79f",
+      "run_id": "loghi_training_run_bb23395b9a204e5f838c9475e110304f",
+      "parent_checkpoint": "generic-2023-02-15@0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95"
+    },
+    "sharding_summary": {
+      "path": "training/full-corpus-20260801T213023Z/shards/sharding_summary.json",
+      "sha256": "e8cb4fb5a3229789c8b573e0058b2fbaac6870f34689748e93618c593cee7716",
+      "line_id_set_hash": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f",
+      "note": "Identical line_id_set_hash to the previously-prepared run at a different commit -- confirms full shard-plan reproducibility across two independent re-preparations."
+    },
+    "preflight_status": {
+      "path": "training/config/preflight_status.json",
+      "sha256": "c9cf4a16dc170f9f83aa48f713bb86052e73dd30a3206c0bc1c1c4bec4003f1d",
+      "all_critical_passed": true,
+      "summary": "21/21",
+      "note": "Reconfirmed twice more in this review, at current HEAD, including a real Docker smoke test and a real checkpoint round trip."
+    },
+    "optimizer_continuity_probe_evidence": {
+      "description": "Real, functional tf.keras.models.load_model() calls against two already-existing real pilot checkpoints -- zero new training performed.",
+      "checkpoint_1": "training/loghi-swedish-v1/run-state/epoch_output/epoch_1/model_new10/best_val/model.keras",
+      "checkpoint_5": "training/loghi-swedish-v1/run-state/epoch_output/epoch_5/model_new10/best_val/model.keras",
+      "result_checkpoint_1": {"optimizer": "Adam", "iterations": 0, "learning_rate": 9.999999747378752e-05},
+      "result_checkpoint_5": {"optimizer": "Adam", "iterations": 0, "learning_rate": 9.999999747378752e-05},
+      "conclusion": "Optimizer state and LR schedule position do not survive a shard/container boundary, confirmed empirically; model weights do (indirect but strong evidence: the pilot's own real, monotonic 22-epoch CER improvement).",
+      "base_checkpoint_hash_after_this_test": "0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95 (unchanged, reconfirmed)"
+    }
+  },
+  "superseded_runs_preserved_as_evidence": [
+    {"path": "training/full-corpus-20260801T171555Z", "prepared_at_commit": "b45273f...", "status": "stale, do not launch"},
+    {"path": "training/full-corpus-20260801T192341Z", "prepared_at_commit": "d33a32e...", "status": "stale, do not launch"}
+  ],
+  "not_yet_evidenced": [
+    "A first real full-corpus shard has not been run -- no shard-1 telemetry, throughput, or checkpoint exists for this specific 171-shard plan.",
+    "Disk-full failure behavior has not been live-tested (deliberately, per instructions not to fill the real disk); code-level analysis only.",
+    "The corrected learning_rate_policy label has not yet been applied to launch_manifest.json's schema -- the field still reads 'constant_0.0001_decay_0.99', now known to be inaccurate for the multi-shard run; recommend correcting before or shortly after first launch, not blocking."
+  ]
+}

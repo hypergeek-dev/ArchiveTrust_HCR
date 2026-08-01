@@ -1,0 +1,120 @@
+{
+  "audit_date": "2026-08-01",
+  "audited_run_directory": "training/full-corpus-20260801T192341Z",
+  "code_commit_hash_at_audit": "d33a32eb7e67c9c886ff1cfa651a3f6c8d01c017",
+  "repository_dirty_at_audit": true,
+  "repository_dirty_reason": "training/config/preflight_status.json was refreshed by a real preflight rerun during this audit (a tracked file's content legitimately changed); training/full-corpus-20260801T192341Z/ is untracked (a new prepared run's small evidence files, not yet committed). No source code is uncommitted at the time this manifest was written.",
+  "artifacts": {
+    "loghi_base_checkpoint": {
+      "path": ".loghi-upstream/pretrained-models/loghi-htr/generic-2023-02-15/model.keras",
+      "sha256": "0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95",
+      "size_bytes": 372591597,
+      "matches_pinned_hash": true,
+      "pinned_hash_source": "src/archivetrust/providers/loghi/pinned_versions.py: model_checkpoint_hash",
+      "verified_by": "sha256 recomputed directly from the file, twice, before and after the second real preflight smoke test in this audit session; both times matched the pin exactly"
+    },
+    "pilot_train_manifest": {
+      "path": "training/loghi-swedish-v1/manifests/train_manifest.parquet",
+      "sha256": "f5e2e14f15d698a90022360d2fa6234344b6f342bc3fdc0cf78dc91b4654c7e2",
+      "size_bytes": 872114,
+      "note": "The pilot's own bounded 9999-line train split; NOT the full-corpus training manifest (see training_manifest below). Its lines are legitimately included in the full corpus by design."
+    },
+    "pilot_val_manifest": {
+      "path": "training/loghi-swedish-v1/manifests/val_manifest.parquet",
+      "sha256": "92f74011c568b04798c9c53725311633f2df2ea4fb8c408e1d73b4f197cea85c",
+      "size_bytes": 96836,
+      "line_count": 1000,
+      "reused_as": "the full-corpus run's own validation manifest, unmodified"
+    },
+    "pilot_test_manifest": {
+      "path": "training/loghi-swedish-v1/manifests/test_reserved_manifest.parquet",
+      "sha256": "cf6db52c1390282b6e2e3e95707681c9981e402bcd5303238b0eb85e75295e95",
+      "size_bytes": 79868,
+      "line_count": 810,
+      "note": "Reserved test set -- excluded from both pilot training and full-corpus shards; must remain untouched until final model selection (Gate 6/7)."
+    },
+    "source_inventory_dataset_identity": {
+      "path": "training/loghi-swedish-v1/source-inventory/full-inventory.parquet",
+      "sha256": "fc21a70825650927edcae753a20411cef8e4344e2c22bcbcaed1c0038b9b97b0",
+      "size_bytes": 73437123,
+      "total_rows": 565146,
+      "valid_rows": 563933,
+      "this_hash_is_the_dataset_hash_used_throughout_the_workflow": true
+    },
+    "training_manifest_full_corpus_shards": {
+      "path": "training/full-corpus-20260801T192341Z/shards/sharding_summary.json",
+      "sha256": "022576a7ead9f04c8c5182a8993ed777071f1730210392fa85f2a34e08fc0da4",
+      "line_id_set_hash": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f",
+      "shard_count": 171,
+      "usable_line_count": 562123,
+      "excluded_line_count": 1810,
+      "note": "line_id_set_hash is identical to the previously-prepared run (training/full-corpus-20260801T171555Z, seed=42) -- confirmed byte-for-byte reproducible sharding across a re-prepare cycle."
+    },
+    "resolved_monitoring_config": {
+      "path": "training/config/pilot_derived_monitoring.json",
+      "sha256": "256977a84adeb9fffe16a425981ef040cef3b87b0b10047c4c014e53a61cc721",
+      "size_bytes": 1479
+    },
+    "pilot_analysis": {
+      "path": "training/config/pilot_analysis.json",
+      "sha256": "af51ed8f8c1ed8f1d956ad47a66ec79eb54e944917a1d90b522d9b2fd15b48e2",
+      "size_bytes": 13125
+    },
+    "container_image": {
+      "tag": "loghi/docker.htr:latest",
+      "digest": "sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+      "pinned_in": "src/archivetrust/providers/loghi/pinned_versions.py",
+      "verified_present_locally": true,
+      "verification_method": "docker image inspect (exact digest match)"
+    },
+    "code_commit": {
+      "hash": "d33a32eb7e67c9c886ff1cfa651a3f6c8d01c017",
+      "message": "Close two real launch-guard gaps found during a retraining-readiness audit",
+      "recorded_in_launch_manifest": "training/full-corpus-20260801T192341Z/launch_manifest.json"
+    },
+    "launch_manifest": {
+      "path": "training/full-corpus-20260801T192341Z/launch_manifest.json",
+      "sha256": "6a801ff5946b0928bb59e00d929d523c60a5441c4771c2f7d3b966e86535c1e0",
+      "size_bytes": 3139
+    },
+    "run_state": {
+      "path": "training/full-corpus-20260801T192341Z/run-state/run_state.json",
+      "sha256": "de755f2772ceacd542974aa33b915f0c19ae455c41963ae4d596c305c7dd6afe",
+      "status": "prepared",
+      "display_status": "PREPARED_NOT_STARTED"
+    },
+    "training_identity": {
+      "path": "training/full-corpus-20260801T192341Z/run-state/training_identity.json",
+      "sha256": "8d16f97138132a72621940409c006cbf8e94eafed6619365b92ef549867983e2",
+      "run_id": "loghi_training_run_879e66158f0e4e6b9ba9d5c165f37c1b",
+      "parent_checkpoint": "generic-2023-02-15@0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95"
+    },
+    "preflight_status": {
+      "path": "training/config/preflight_status.json",
+      "sha256": "356133f3963e1df184b35377c969f3e665f0ec57c83a50887a30b83f8c5d1b3a",
+      "all_critical_passed": true,
+      "summary": "21/21",
+      "checked_at": "2026-08-01T19:20:57Z (re-verify freshness before any launch; guard rejects preflight older than 6h by default)"
+    },
+    "dataset_hash_record": {
+      "path": "training/config/dataset_hash_record.json",
+      "sha256": "81dd81511f06482fe7a023fc56a972a44e519ad3a751e40f01cd499a69d66c8f"
+    },
+    "audit_report": {
+      "path": "docs/audits/retraining-readiness-2026-08-01/retraining_readiness_audit.md",
+      "note": "hash intentionally omitted -- this manifest is generated before the audit report is finalized; treat the committed git blob of the audit report as its own integrity record."
+    },
+    "resume_proof_pilot": {
+      "path": "training/loghi-swedish-v1/reports/resume-proof.json",
+      "proof_passed": true,
+      "epoch_continued_not_restarted": true,
+      "global_step_continued_not_restarted": true,
+      "caveat": "See risk R-009 -- 'global_step_continued_not_restarted' is computed by a check that actually re-tests epoch continuity (TrainingSessionState.global_step is never incremented anywhere in training_session.py and is 0 in all 47 real pilot checkpoint_index.json entries). Treat this field's literal name as unverified; the epoch-continuity claim it actually tests is genuinely verified."
+    }
+  },
+  "not_yet_evidenced": [
+    "A first real full-corpus shard has not been run -- no shard-1 telemetry, throughput, or checkpoint exists for this specific 171-shard plan.",
+    "Optimizer-state continuity across shard boundaries at full-corpus scale (hours, not the pilot's 8-minute-per-epoch scale) has not been empirically measured -- only asserted from pinned-source reading plus a synthetic 3-epoch proof on a tiny fixture.",
+    "LR decay-per-shard has not been empirically confirmed by reading real per-shard learning-rate values -- the container's log.csv does not appear to log LR; the decay curve's correctness rests on source-code analysis of the pinned loghi-htr commit (.loghi-upstream/loghi-htr/src/model/optimization.py), not a runtime measurement."
+  ]
+}

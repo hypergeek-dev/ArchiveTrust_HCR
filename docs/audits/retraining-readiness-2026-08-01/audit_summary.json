@@ -1,0 +1,44 @@
+{
+  "decision": "NO-GO",
+  "audit_date": "2026-08-01",
+  "code_commit_hash": "d33a32eb7e67c9c886ff1cfa651a3f6c8d01c017",
+  "audited_run_directory": "training/full-corpus-20260801T192341Z",
+  "critical_count": 1,
+  "high_count": 4,
+  "medium_count": 8,
+  "low_count": 4,
+  "resolved_during_audit_count": 3,
+  "unanswered_count": 9,
+  "preflight_status": "21/21 passed (re-verified twice against current HEAD during this audit)",
+  "docker_status": "reachable, image present and digest-verified",
+  "gpu_status": "present, single GPU, WSL2 backend",
+  "disk_capacity_status": "INSUFFICIENT for the full prepared plan: ~95.4GB free vs ~124.4GB required for all 171 shards given zero checkpoint retention policy (R-018, blocking, CRITICAL); sufficient for one full 57-shard lap (~41.5GB)",
+  "prepared_status": "PREPARED_NOT_STARTED",
+  "launch_guard_status": "functional and verified; two real gaps found and fixed live during this audit (resume-of-terminal-run rejection, code-revision-drift rejection); one residual gap remains (R-007: shard-integrity re-check at launch is self-referential and validation-only, not test-set)",
+  "full_training_running": false,
+  "optimizer_steps_on_full_corpus_performed": 0,
+  "full_corpus_checkpoints_created": 0,
+  "active_docker_containers": 0,
+  "active_training_processes": 0,
+  "base_checkpoint_hash_verified": true,
+  "base_checkpoint_hash": "0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95",
+  "pilot_checkpoint_used_as_parent": false,
+  "train_validation_overlap": 0,
+  "train_test_overlap_at_prepare_time": 0,
+  "validation_test_overlap": 0,
+  "repository_test_suite_result": "2345 passed, 2 skipped, 0 failed (full_run focused suite: 206 passed)",
+  "final_blockers": [
+    "R-018: no checkpoint retention policy and no mid-run disk-space monitoring; the prepared 171-shard plan requires ~124.4GB but only ~95.4GB is currently free"
+  ],
+  "high_priority_conditions_not_blocking": [
+    "R-004: TrainingSessionState.global_step is never tracked (always 0 in every real checkpoint entry)",
+    "R-005: the resume-proof's 'global_step_continued_not_restarted' field actually re-tests epoch continuity due to a naming/logic bug, not global-step continuity",
+    "R-006: random_seed can silently diverge between what is persisted and what is used on resume, with no validation (unlike configuration_hash, which is validated)",
+    "R-007: launch-time shard-integrity re-check is self-referential (re-reads the same summary file its own frozen hash came from) and only re-verifies validation-set overlap, never test-set overlap"
+  ],
+  "required_human_approvals": [
+    "Repository maintainer: approve and implement the R-018 disk-capacity remediation before any real launch",
+    "ML lead: recalibrate/accept pilot-derived monitoring thresholds after Gate 5 (first full lap)",
+    "Governance/approving authority (not identified anywhere in this repository): define the authoritative success metric, minimum-improvement threshold, and final model acceptance authority before Gate 7"
+  ]
+}

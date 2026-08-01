@@ -1,0 +1,65 @@
+DO NOT RUN UNTIL GO DECISION IS APPROVED
+
+UPDATED after an independent review. Original decision: NO-GO. Current decision: CONDITIONAL GO
+(see opus_independent_review.md and retraining_readiness_audit_revised.md). The command below is
+recorded for reference and pre-launch rehearsal only. It has NOT been executed by either the
+original audit or this review, and must not be executed until every item below is independently
+re-verified against the REAL, CURRENT state at launch time -- not this document's snapshot:
+
+  1. Disk capacity was the original blocking condition (R-018) and is now RESOLVED (322.73GB free
+     measured vs 127.44GB required for the full 171-shard plan, a 61% margin) -- but re-measure at
+     launch time, do not trust this snapshot: `powershell -Command "Get-Volume -DriveLetter D | Select-Object SizeRemaining"`.
+  2. Random-seed drift on resume (R-006) and self-referential shard-integrity checking (R-007) were
+     found and fixed during the independent review -- confirm the fixes are present (git log should
+     show commit bf9a53a8863d6ad4f4faf74b38e2aa9e9cc8fcf0 or later) before trusting the guard.
+  3. This exact run directory has a fresh, passing preflight (re-run `preflight` immediately before
+     launch -- the guard enforces a 6-hour maximum age by default).
+  4. The repository is committed (or --allow-dirty-repository is used with an explicit, informed
+     acknowledgement of what is uncommitted).
+  5. A human has read and approved retraining_go_no_go_checklist_revised.md in full, item by item,
+     against the real state at launch time.
+  6. Governance conditions (success criteria, minimum-improvement threshold, approving authority --
+     see opus_independent_review.md Phase 4) are acknowledged as still-open, non-blocking-for-launch,
+     but required before final model acceptance.
+  7. The corrected understanding of learning-rate/optimizer behavior (R-019: no continuous cross-shard
+     decay, a fresh optimizer every shard, validated safe by the pilot's own real success) is
+     understood by whoever reviews the first shard/first-lap results -- do not be surprised by loss/
+     CER behavior that looks like 171 independent short fine-tunes chained by weights, not one
+     smoothly-decaying long run.
+
+Audited run: training/full-corpus-20260801T213023Z   (supersedes the two earlier, now-stale runs:
+  training/full-corpus-20260801T171555Z and training/full-corpus-20260801T192341Z -- do not launch
+  either of those; both are preserved as real audit evidence, not deleted.)
+Prepared at commit: bf9a53a8863d6ad4f4faf74b38e2aa9e9cc8fcf0
+Prepared: 171 shards, 562,123 usable lines, dataset hash fc21a70825650927edcae753a20411cef8e4344e2c22bcbcaed1c0038b9b97b0
+Shard plan hash: e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f (identical to the
+  earlier prepared runs -- confirms full shard-plan reproducibility across re-preparation)
+
+## Exact launch command (NOT executed)
+
+D:\ArchiveTrust_HCR\.venv\Scripts\python.exe -m archivetrust.htr.training.full_run start --run "D:\ArchiveTrust_HCR\training\full-corpus-20260801T213023Z" --hours 5.0 --batch-size 16 --confirm-full-corpus-run
+
+## Supporting commands (also not executed; safe to run at any time -- read-only or advisory)
+
+Status:
+D:\ArchiveTrust_HCR\.venv\Scripts\python.exe -m archivetrust.htr.training.full_run status --run "D:\ArchiveTrust_HCR\training\full-corpus-20260801T213023Z"
+
+Dashboard (read-only, cannot launch training):
+D:\ArchiveTrust_HCR\.venv\Scripts\python.exe -m archivetrust.htr.training.full_run gui
+
+Dry run (validates the launch guard and configuration without starting training -- safe to run
+repeatedly, including right now, to see the exact current guard verdict):
+D:\ArchiveTrust_HCR\.venv\Scripts\python.exe -m archivetrust.htr.training.full_run start --run "D:\ArchiveTrust_HCR\training\full-corpus-20260801T213023Z" --hours 5.0 --batch-size 16 --dry-run
+
+Safe graceful interrupt (once running):
+D:\ArchiveTrust_HCR\.venv\Scripts\python.exe -m archivetrust.htr.training.full_run stop --run "D:\ArchiveTrust_HCR\training\full-corpus-20260801T213023Z"
+
+Resume (template -- only valid once the run has actually started and stopped/been interrupted; the
+seed you supply here MUST match what --start used, or it will now be correctly rejected):
+D:\ArchiveTrust_HCR\.venv\Scripts\python.exe -m archivetrust.htr.training.full_run resume --run "D:\ArchiveTrust_HCR\training\full-corpus-20260801T213023Z" --hours <HOURS> --batch-size 16 --seed 42 --confirm-full-corpus-run
+
+Recommended first real invocation: a short --hours value (e.g. 1.0-2.0) to reach the first-shard
+review gate (first_shard_review_checklist.md) quickly, rather than committing to a full 5-hour block
+before any human review has happened.
+
+DO NOT RUN THE LAUNCH COMMAND UNTIL A HUMAN HAS COMPLETED retraining_go_no_go_checklist_revised.md.
