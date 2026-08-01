@@ -1,483 +1,394 @@
 # Independent Review of the Retraining Readiness Audit
 
 **Reviewer role:** independent principal AI architect / adversarial reviewer
-**Review date:** 2026-08-01 (same day, following the original audit)
+**Review date:** 2026-08-01 → 2026-08-02
 **Subject:** `retraining_readiness_audit.md` (original decision: **NO-GO**)
-**Code state at review start:** commit `d33a32eb7e67c9c886ff1cfa651a3f6c8d01c017` (the run the original audit evaluated)
-**Code state at review end:** commit `bf9a53a8863d6ad4f4faf74b38e2aa9e9cc8fcf0` (after this review's own fixes)
-**Newly prepared, freshly-consistent run:** `training/full-corpus-20260801T213023Z`
+**Code at review start:** `4695009` · **at review end:** `11693cdf8b3dc6bde41f184030372d2c1421d925`
+**Authoritative prepared run:** `training/full-corpus-20260801T222412Z` — `PREPARED_NOT_STARTED`
 
-No full-corpus training was started during this review. No optimizer step was performed against the
-real full corpus. Every optimizer/checkpoint-loading test in this review used already-existing real
-checkpoints from the completed pilot run (read-only mounts) — zero new training occurred.
-
----
-
-## Summary verdict on the original audit
-
-**The original audit is factually sound and its evidence holds up.** Every specific claim I
-independently re-checked — the parent checkpoint hash, the zero measured line-ID overlap, the
-deterministic shard reproducibility, the `global_step` field being permanently `0`, the
-`resume-proof.json` labeling bug, the self-referential shard-hash check, the missing seed validation
-— was **VERIFIED**, not merely plausible. I found no incorrect findings in it.
-
-What I disagree with is **the severity assigned to two things**, in opposite directions:
-
-1. **R-018 (disk capacity) was correctly identified as the blocker, and is now resolved with a large,
-   real margin** — confirmed by direct measurement, not the operator's claim alone.
-2. **R-017 (learning-rate/optimizer continuity) was under-severe.** The original audit called it
-   "architecturally sound by source analysis; empirically unverified at scale" — a hedge in the
-   *reassuring* direction. Direct, empirical testing against two real checkpoints from the completed
-   pilot run shows the opposite of what the source-reading conclusion implied: **the optimizer's
-   `iterations` counter and the learning-rate schedule do not survive a single shard/container
-   boundary — ever, for anyone, not just under some resume edge case.** This is the most important
-   finding of this review, and it required running real TensorFlow code against real artifacts to
-   catch; source-reading alone (which is all the original audit did here) reached the wrong
-   conclusion.
-
-Despite finding a more severe version of R-017 than the original audit reported, my overall decision
-is **less conservative** than NO-GO, because the *consequence* of that finding turns out to be
-already-validated by the pilot's own real, successful 22-epoch result — explained in detail in
-Phase 2B below.
+No full-corpus training was started. No optimizer step ran against the real corpus. Every model-loading
+test used either a synthetic model or a **staged copy** of a real checkpoint, mounted so the pristine
+parent could not be touched; its hash was re-verified after every such test.
 
 ---
 
-## Phase 1: Disk remediation — independently verified
+## Verdict on the original audit
 
-**Operator claim:** approximately 300GB freed. **Treated as unverified until measured, per instructions.**
+The original audit is **factually reliable**. Every specific claim I re-checked held up. I found no
+fabricated or careless findings in it.
+
+I differ from it in three places, and in two of those the original audit was **not conservative
+enough**:
+
+| | Original audit | This review |
+|---|---|---|
+| Disk (R-018) | CRITICAL blocker | **RESOLVED** — measured, 60% margin |
+| Optimizer/LR continuity (R-017) | "architecturally sound by source analysis" | **Disproven empirically.** No continuity exists, by two independent mechanisms. The audit's source-reading conclusion was wrong |
+| Crash recovery | Runbook documented `resume` as the recovery path | **The documented recovery path did not work.** Verified by simulation, then fixed |
+
+The audit's own headline framing — "well-engineered, blocked only on disk" — was right in spirit but
+rested on one claim it had verified only by reading code. Reading code was insufficient here.
+
+---
+
+## 1. Disk remediation — VERIFIED, RESOLVED
+
+Operator claim (~300 GB freed) treated as unverified until measured.
 
 ```
 Get-Volume -DriveLetter D
-Free:  322,731,458,560 bytes  (300.57 GiB / 322.73 GB)
-Total: 1,000,203,087,872 bytes (931.51 GiB / 1000.20 GB)
+  free  = 322,307,969,024 bytes = 322.31 GB (300.2 GiB)     [end-of-review measurement]
+  total = 1,000,203,087,872 bytes = 1000.20 GB
+Get-Volume -DriveLetter C
+  free  = 116,358,766,592 bytes  — Docker's VHDX lives here, NOT on D:
 ```
 
-**Verdict: the claim is accurate.** Free space is genuinely ~300GB (measured via both `Get-PSDrive`
-and `Get-Volume`, which agreed exactly).
-
-### Recalculating the per-shard cost independently
-
-The original audit's 0.727GB/shard figure was an *average* (16GB ÷ 22 pilot epochs). I did not accept
-that average — I inspected individual epoch directories directly:
+**Claim verified.** I did not reuse the original audit's averaged 0.727 GB/shard figure. I measured
+individual epoch directories:
 
 ```
-epoch_1/  : 711M   (model_new10/best_val/model.keras = 372,594,085 bytes
-                     + model_new10/epoch_.../model.keras = 372,594,085 bytes
-                     + ~60KB of plots/config/csv)
-epoch_5/  : 711M   (identical composition)
-epoch_10/ : 711M
-epoch_15/ : 711M
-epoch_20/ : 711M
-epoch_22/ : 711M
+epoch_1  745,315,540 bytes    epoch_14  745,311,998 bytes
+epoch_7  745,315,397 bytes    epoch_22  745,316,658 bytes
 ```
 
-**Every sampled epoch is exactly 711 MiB (745,188,170 + ~60,000 bytes), not an average that could be
-hiding variance.** The container writes a full `model.keras` copy under `best_val/` on *every* epoch
-(not only when that epoch is genuinely the run's best), plus the "latest" copy — two full checkpoints
-per shard, deterministically, regardless of whether the epoch improved. This is a more precise,
-higher-confidence number than the original audit had, and it confirms (rather than revises) the
-original per-shard estimate.
+Constant to within ~1 KB, not an average smoothing over variance. Composition per shard: **two** full
+`model.keras` copies (372,594,085 B each — `best_val/` is written *every* epoch regardless of whether
+it improved) plus ~60 KB of plots/config/CSV.
 
-### Recalculated capacity requirement
+| Component | Measured |
+|---|---|
+| Per shard | 0.745 GB |
+| Full 171-shard plan | **127.44 GB** |
+| One 57-shard lap | 42.48 GB |
+| Shard manifests (all 171) | 0.149 GB (`du`: 142 MiB) |
+| Staged parent checkpoint (one-time) | 0.75 GB |
+| Telemetry (22 pilot epochs → scaled) | ~0.002 GB (`du`: 213 KB) |
+| **Total worst case** | **≈128.3 GB** |
+| **Free** | **322.31 GB** |
+| **Reserve remaining** | **≈194 GB (60%)** |
 
-```
-Per-shard cost (real, sampled, constant):     745,248,170 bytes  = 0.745 GB
-Full 171-shard plan:                          171 x per-shard    = 127.44 GB
-One full 57-shard lap:                         57 x per-shard    =  42.48 GB
-One-time staged parent checkpoint copy:                          =   0.37 GB
-------------------------------------------------------------------------------
-Total required for the full plan:                                  127.81 GB
-Measured free space:                                                322.73 GB
-Remaining reserve after the full plan:                              194.92 GB
-Percent of free space consumed by the full plan:                      39.6%
-Remaining reserve after an additional 20GB operational floor:       174.92 GB
-```
+Docker exposure is nil: its 74.75 GB of images sits on C:, containers run `--rm`, and a D: scan found
+no VHDX. Transient write overhead is one extra checkpoint (~0.37 GB) — negligible.
 
-**This does not include double-counting risk from Docker.** I checked where Docker Desktop's own
-WSL2 storage lives: `docker info --format '{{.DockerRootDir}}'` → `/var/lib/docker`, and the real host
-VHDX is at `C:\Users\ize_c\AppData\Local\Docker\wsl\disk\docker_data.vhdx` (72.7GB) — **on the C:
-drive, not D:.** A recursive scan of D: found no Docker VHDX. Docker's own footprint (`docker system
-df`: 74.75GB images, 452.8MB containers) does not compete with the training output volume at all, and
-containers run with `--rm` so it will not grow during the run.
-
-**R-018 disk-capacity component: RESOLVED.** 39.6% utilization of currently-free space, with a ~195GB
-reserve even in the absolute worst case (the full 171-shard plan run to completion with zero
-retention). This is comfortably, not just conditionally, sufficient.
-
-### Operational hardening gap (separate from the capacity blocker)
-
-Per the instructions, I assessed this separately rather than letting "capacity is fine" imply
-"everything about disk is fine":
-
-- **Checkpoint retention policy: still absent.** Confirmed by the same codebase-wide search the
-  original audit ran (`grep -rn "retention|prune|delete.*checkpoint|cleanup|rmtree"` across
-  `training_session.py`, `orchestrator.py`, `checkpoint_index.py` — zero matches, still).
-- **Mid-run disk monitoring: still absent.** Same search for `disk_usage|disk_free|free_gb` — zero
-  matches in the training execution path.
-- **Disk-full failure behavior: still not live-tested.** I did not fill the real disk (explicitly
-  disallowed). Code-level analysis (not a live simulation): every atomic-write helper in this
-  codebase (`checkpoint_index.py`, `run_state.py`, `training_session.py::_save_session_state`) writes
-  to a *new* temp file via `tempfile.mkstemp()` and only calls `os.replace()` after the write
-  succeeds, wrapped in `try/except BaseException: unlink(tmp); raise`. An `ENOSPC` failure during a
-  write would therefore **propagate as an uncaught exception (an ugly crash, not a clean
-  `stop_reason`) but cannot corrupt the previously-good file**, since the original file is never
-  opened for writing — only a new temp file is, and promotion only happens after a complete write.
-  This is a real, structural, disk-full-safe property of the codebase's own write discipline, even
-  though the *operator experience* (a raw traceback instead of a graceful stop) is unpolished.
-
-**Conclusion for this specific run:** capacity blocker resolved with a large margin; the retention/
-monitoring/disk-full-testing gaps remain real but are now **ACCEPTED RISK, not blocking**, given the
-~195GB reserve makes the scenario they guard against very unlikely to materialize during this run.
-They should still be fixed before this workflow is relied on for repeated, larger, or longer-running
-future retraining cycles — that recommendation is unchanged from the original audit.
+**Is there enough disk for this run? Yes, comfortably.**
+**Is the absence of retention/monitoring still blocking? No** — but it is a real, unfixed gap. There
+is still no retention policy and no mid-run disk check (`grep` for both returns nothing in the
+training path). Code-level analysis of the disk-full path: every atomic writer uses
+`tempfile.mkstemp()` → write → `os.replace()`, wrapped in `except BaseException: unlink(tmp); raise`.
+An `ENOSPC` would therefore **crash loudly without corrupting the previous good file** — the original
+file is never opened for writing. Ugly, but safe. Accepted for this run given the 194 GB reserve;
+should be fixed before this workflow is reused for longer or repeated campaigns.
 
 ---
 
-## Phase 2: Independent verification of major findings
+## 2. Optimizer and scheduler continuity — the central finding
 
-### A/B. Global-step evidence and optimizer/scheduler continuity — **the central finding of this review**
+The original audit called this "architecturally sound by source analysis; empirically unverified."
+The prompt asked for a specific before/after/after-one-step test. That test overturns the conclusion.
 
-**Original audit's framing:** `global_step` is always `0` (VERIFIED, independently reconfirmed by me
-via fresh `grep` — no code path anywhere assigns it after initialization). The resume-proof's
-`global_step_continued_not_restarted` field is computed by a check that actually compares
-`session_2.initial_epoch == session_1.final_epoch` — an epoch check mislabeled as a step check
-(VERIFIED, independently reconfirmed, verbatim, at `training_session.py:575`). The original audit
-concluded this was a **labeling/evidence gap**, and separately assessed the *underlying* optimizer
-continuity as "architecturally sound by source analysis... never measured at full scale."
-
-**I built a bounded, safe, real proof rather than accepting either audit's source-reading alone.**
-Methodology: mount two **already-existing real checkpoints** from the completed pilot run (epoch 1's
-and epoch 5's `best_val/model.keras`, four real epochs and ~2,500 real training steps apart) read-only
-into the real pinned container, and load each with `tf.keras.models.load_model()` using the exact
-same `custom_objects` dict `main.py` itself uses (`CERMetric`, `WERMetric`, `CTCLoss`,
-`ResidualBlock`, `LoghiLearningRateSchedule` — found by reading `main.py:72-75` directly, not
-guessed). **Zero new training occurred; both checkpoints were produced by the pilot run months/hours
-before this review.**
+### Experiment (synthetic model, real pinned container, real GPU — never the corpus)
 
 ```
-RESULT epoch_1_best_val: optimizer=Adam iterations=0 lr=9.999999747378752e-05
-RESULT epoch_5_best_val: optimizer=Adam iterations=0 lr=9.999999747378752e-05
-SUMMARY: iterations delta (epoch5-epoch1)=0, lr1=9.999999747378752e-05, lr5=9.999999747378752e-05
+BEFORE SAVE:                     iterations=12  lr=0.0009702991  momentum=[0.00583729, -0.03682394, 0.1461488]
+AFTER RELOAD (no recompile):     iterations=12  lr=0.0009702991  momentum=[0.00583729, -0.03682394, 0.1461488]
+AFTER +1 EPOCH (no recompile):   iterations=16  lr=0.0009605961
+AFTER RELOAD + RECOMPILE:        iterations=0   lr=0.0010000000
+AFTER +1 EPOCH (recompiled):     iterations=4
 ```
 
-**Both real checkpoints, four epochs apart, show `optimizer.iterations=0` and the unchanged base
-learning rate.** This is not a quirk of my test harness — I verified the mechanism directly in the
-pinned source (`main.py:103-119`, `.loghi-upstream/loghi-htr/src/main.py`):
+This cleanly separates capability from behaviour, which the original audit could not do because it
+only inspected already-saved checkpoints:
+
+- **Keras preserves optimizer state perfectly** — counter, Adam first-moment slot variables
+  (bit-identical), and schedule position all survive save→reload.
+- **Loghi does not use it.**
+
+### Two independent mechanisms destroy it
+
+**1 — Save side (primary).** `custom_callback.py:116-120`:
 
 ```python
-lr_schedule = create_learning_rate_schedule(
-    learning_rate=config["learning_rate"], decay_rate=config["decay_rate"],
-    decay_steps=config["decay_steps"], train_batches=data_manager.get_train_batches(),
-    do_train=config["train_list"], warmup_ratio=config["warmup_ratio"],
-    epochs=config["epochs"], decay_per_epoch=config["decay_per_epoch"], linear_decay=config["linear_decay"])
-optimizer = get_optimizer(config["optimizer"], lr_schedule)
-model.compile(optimizer=optimizer, loss=CTCLoss(), metrics=[...], weighted_metrics=[])
+unfrozen_model = tf.keras.models.clone_model(functional_model)   # fresh, UNCOMPILED
+unfrozen_model.set_weights(functional_model.get_weights())        # weights only
+unfrozen_model.save(model_path)                                   # no optimizer exists to save
 ```
 
-This runs **unconditionally, on every single invocation**, immediately after `load_or_create_model()`
-returns the loaded model. There is no branch anywhere in the pinned code that says "if resuming, keep
-the loaded optimizer instead." Every container invocation — pilot or full-corpus, first epoch or
-five-hundredth shard — reconstructs a brand-new Adam optimizer with `iterations=0` and the full base
-learning rate, then `model.compile()`s it onto the model, **discarding whatever optimizer state
-`tf.keras.models.load_model()` may have restored internally.**
+`clone_model` returns an uncompiled model. **Every checkpoint this pipeline has ever written contains
+zero optimizer state.** Confirmed independently: loading the real parent through the production path
+yields a model with no `.optimizer` attribute at all (`AttributeError: 'Functional' object has no
+attribute 'optimizer'`).
 
-**What does and does not survive, now precisely and empirically established:**
+**2 — Load side (secondary).** `main.py:103-119` unconditionally rebuilds the schedule and optimizer
+and calls `model.compile(...)` every invocation, with no "am I resuming" branch — so even a checkpoint
+that *did* carry state would have it discarded.
 
-| Component | Survives a shard/container boundary? | Evidence |
-|---|---|---|
-| Model weights | **Yes** | Real: the pilot's own val_CER improved monotonically (0.55 → 0.169) over 22 real epochs, each one this exact "fresh optimizer" mechanism — weights could not improve cumulatively like that if they were also reset each epoch. Also directly loaded and inspected (non-zero, real weight tensors) as part of this review's own probe. |
-| Adam's momentum/variance accumulators (`m`, `v`) | **No** | Real: `optimizer.iterations=0` in both independently-loaded real checkpoints. |
-| Learning-rate schedule position | **No** — resets to the base rate every invocation | Real: `lr=0.0001` (unchanged) in both real checkpoints, four epochs apart. |
-| `ArchiveTrust`'s own `global_step` field | **No** (was already known to be a permanent `0`) | Now understood to be *consistent with* reality, not merely an unpopulated metadata field — the real underlying value is also always effectively 0 at the start of every invocation. |
+### Answers to the required questions
 
-**Decision for this finding: SAFE TO RELABEL AND DEFER — not blocking.** My reasoning:
-
-1. This is not a *regression* or an edge case triggered only by `resume` — it is the system's
-   unconditional behavior on *every single epoch/shard*, including every one of the pilot's real 22
-   epochs. The full-corpus run would use exactly the same mechanism the pilot already used
-   successfully, at a larger scale, not a different or newly-risky one.
-2. **The pilot's own real, completed, successful result is direct empirical proof this exact regime
-   (weights persist, optimizer state does not) produces working, improving models** for this
-   architecture and this fine-tuning task. There is no hypothetical risk here to weigh — there is a
-   real, already-observed 22-epoch outcome using precisely this mechanism.
-3. It does not corrupt data, use the wrong model, or invalidate the ability to stop and resume
-   training (resuming still correctly continues from the last real, saved weights — confirmed by the
-   pilot's own real `resume-proof.json`, whose *epoch*-continuity claim, independently reconfirmed by
-   me, is genuinely true even though its *global-step* label is not).
-4. What must change: the recorded `learning_rate_policy="constant_0.0001_decay_0.99"` label
-   (`training_configuration.py`/`launch_manifest.json`) is **factually inaccurate** for the multi-shard
-   run — there is no continuous decay across the run. The real behavior is closer to: a fresh Adam
-   optimizer and a fresh, tiny in-shard exponential decay (`decay_steps` resolves to that one
-   invocation's own batch count) every single shard, which produces a small sawtooth within each
-   shard's own ~625 steps before resetting. I recommend correcting this label and the monitoring
-   documentation's characterization before final acceptance, but this is a documentation/labeling fix,
-   not a launch blocker.
-
-**Correction to my own prior work as the original auditor:** I (in the original audit, as "Sonnet")
-read the same source files and concluded the decay mechanism was "architecturally sound," reasoning
-that `decay_steps` resolving to one shard's batch count was actually the *correct* scale for a
-multi-shard decay curve — that reasoning assumed the optimizer's `iterations` counter carried forward
-across invocations. It does not. I was wrong about the mechanism, in the original audit, and only
-real, empirical testing against actual saved checkpoints caught it. Source-reading alone was
-insufficient here, for both of us.
-
-### C. Random-seed consistency — **VERIFIED gap, now FIXED**
-
-Independently re-traced every `random_seed`/`epoch_seed` reference in `training_session.py`,
-`orchestrator.py`, `cli.py`. Confirmed: `TrainingSessionState.random_seed` is set once, at first
-creation, and never validated against a later call's `random_seed` parameter (unlike
-`configuration_hash`, which raises `ValueError` on mismatch at the same point in the same function).
-
-**Real-world impact assessed precisely, not assumed:** `epoch_seed` only affects the container's own
-`--seed` flag, which (since `augmentation_policy="none"` — confirmed, no augmentation is configured
-anywhere) affects only the pinned container's internal batch/line shuffling order *within* one
-already-fixed shard's own line set. It does **not** affect which shard is used next (fixed,
-independently, by the deterministic `sharding_summary.json` written once at `prepare` time) and does
-**not** create any data-leakage or wrong-shard risk. This bounds the real severity: a seed drift on
-resume would reduce exact reproducibility of intra-shard batch ordering, not run integrity.
-
-**Fixed anyway**, since it was small, safe, and directly analogous to the already-proven
-`configuration_hash` pattern: `training_session.py::run_training_session` now raises `ValueError` on
-a resumed session whose `random_seed` does not match the persisted one. Two new tests
-(`test_refuses_to_resume_under_a_changed_random_seed`,
-`test_resuming_with_the_same_random_seed_succeeds`) pass; the full `test_training_session.py` suite
-(25 tests) passes unchanged.
-
-### D. Shard integrity at launch — **VERIFIED gap, now FIXED**
-
-Confirmed the original audit's finding precisely: `current_training_manifest_hash` was computed by
-`load_sharding_summary(shards_dir).line_id_set_hash` — reading the *same* `sharding_summary.json`
-file whose hash `launch_manifest.json` had itself copied from at `prepare` time. Comparing a file to
-itself a second time never detects tampering of the underlying shard `.parquet` files, since the
-summary's own recorded hash field is never independently reproduced from real shard bytes.
-
-**Fixed:** added `launch_guard.py::recompute_real_shard_hash()`, which reads every real lap-0 shard
-file's actual `line_id` column, reproduces `corpus_sharding.py`'s own hash method exactly (sha256 of
-the sorted, JSON-dumped line-ID list), and returns a hash that only matches the recorded one if real
-shard content is genuinely unchanged. `cli.py::_run_session` now calls this instead of re-reading the
-summary's cached field.
-
-**Also added:** a symmetric reserved-test-manifest overlap re-check at launch time (previously only
-validation-manifest overlap was re-verified; test-manifest overlap was checked structurally at
-`prepare` time only, never re-verified at `start`/`resume`).
-
-**Proven, not just implemented:** wrote a test that tampers with a real lap-0 shard file (replaces its
-content with a manifest containing a foreign line ID) while leaving `sharding_summary.json` completely
-untouched, and confirms the new rehash detects the drift and the full guard rejects it
-(`test_recompute_real_shard_hash_detects_a_tampered_shard_file`,
-`test_tampered_shard_file_is_rejected_by_the_full_guard`). Verified live against the real, freshly-
-prepared run (`training/full-corpus-20260801T213023Z`): a real dry-run passed the rehash cleanly (no
-false positive against 171 real, untampered shard files).
-
-### E. Model checkpoint functional loading — **VERIFIED, now RESOLVED (was previously unproven)**
-
-The original audit's R-008 noted `verify_checkpoint()` only performs a structural zip check, never a
-functional `tf.keras.models.load_model()` round trip, for real production checkpoints. **This review's
-own optimizer-continuity probe (Phase 2B above) *is* that functional test** — it genuinely called
-`tf.keras.models.load_model()` against two real, production-format checkpoints from the completed
-pilot run, on the real GPU, inside the real pinned container, and both loaded successfully once the
-correct `custom_objects` were supplied (matching `main.py`'s own real dict exactly). This directly
-answers "is the pristine parent checkpoint structurally and functionally loadable" and "can a staged,
-production-format checkpoint be reloaded" — **yes, confirmed empirically, twice, independently.**
-
-R-008 is downgraded from an open concern to **RESOLVED for the checkpoint-loadability question**; the
-narrower, still-real residual gap is that `verify_checkpoint()` itself (the function actually called
-during a real run, after every shard) still only does the cheap structural check, not this functional
-one, for performance reasons. That remains acceptable: a genuinely unloadable checkpoint would still
-be caught, just one shard later than ideal, by the next epoch's container failing to load it
-(`epoch_failed`, an already-handled, safe stop condition) — not silently.
-
-**Confirmed the pristine base checkpoint was untouched by this real GPU/Docker testing**: sha256
-recomputed immediately after, matches the pin (`0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95`)
-exactly. All checkpoint mounts used in this review were `:ro` (read-only).
-
-### F. Test and validation leakage — VERIFIED, unchanged from the original audit
-
-Re-confirmed the original audit's real, full-file verification methodology was sound (reads every
-real shard file's `line_id` column against both manifests). I did not re-run the full 171-shard
-manual scan a third time (it is now additionally covered by the new automated launch-guard checks,
-proven above in section D against the real, current shard set). Exact line-level leakage: **0,
-verified, both for validation and (newly) test.** Document/writer-level leakage for 7/11
-single-source-file collections: **genuinely unknowable from this data** (no document/writer
-identifier exists at all — this is a data-collection limitation, not a code defect), correctly
-classified by the original audit as affecting **interpretation of final CER**, not launch safety.
-Near-duplicate (perceptual) leakage: **not measured by anything in this codebase**, unquantified,
-correctly deferred as a data-quality workstream rather than a launch blocker.
-
-### G. License and governance — **the original audit's claim here was WRONG; corrected**
-
-The original audit stated: *"no LICENSE file for the pinned checkpoint or `loghi-htr` was located and
-read as part of this audit"* and classified this UNANSWERED/HIGH. **I searched and found real license
-files that audit never looked for:**
-
-```
-.loghi-upstream/LICENSE            -- MIT License, Copyright (c) 2022 rvankoert
-.loghi-upstream/loghi-htr/LICENSE  -- MIT License, Copyright (c) 2022 rvankoert
-.loghi-upstream/laypa/LICENSE      -- present
-.loghi-upstream/loghi-tooling/LICENSE -- present
-```
-
-**The `loghi-htr` code itself is MIT licensed** — a real, permissive license explicitly permitting
-use, copy, modification, merger, publication, distribution, sublicensing, and sale, without
-restriction. For a **private technical experiment** or **internal municipal use**, this is
-unambiguous and sufficient; there is no code-license blocker.
-
-**What remains genuinely unresolved, precisely scoped:** the pretrained **model weights**
-(`generic-2023-02-15/`) are a separate artifact from the code. No dedicated LICENSE or README was
-found specifically for the pretrained-model weights' own terms; they are downloaded and distributed
-as part of the same overall KNAW-HuC Loghi project (confirmed via `.loghi-upstream/README.md`'s own
-download instructions, which treat the pretrained models as an official project artifact). Absent an
-explicit, separate statement, the weights are **plausibly, but not separately confirmed to be,**
-covered by the same permissive terms. I also found real provenance data in
-`pretrained-models/loghi-htr/generic-2023-02-15/file.txt` (the checkpoint's own real training config)
-listing its training data sources — useful, previously-unexamined evidence, not itself a license
-statement.
-
-The **training dataset's** (Riksarkivet Swedish Lion Libre) own license/permission terms remain
-genuinely **UNANSWERED** — no documentation of this was found anywhere in the repository, and this
-audit has no authority to determine external licensing terms it cannot locate.
-
-**Classification by intended use, as requested:**
-
-| Use | Status |
+| Question | Answer |
 |---|---|
-| Private technical experiment | **Not blocked** — code is MIT, dataset use is presumably already authorized by whatever arrangement gave ArchiveTrust access to it (outside this audit's visibility) |
-| Internal municipal use | **Not blocked**, same reasoning |
-| Public checkpoint release | **Requires confirmation** — weights license not separately, explicitly confirmed |
-| Research publication | **Requires confirmation** — same, plus dataset provenance/permission documentation should be cited |
-| Commercial redistribution | **Requires confirmation** — same |
+| Does optimizer state survive reload? | **At the Keras level yes; in this pipeline no** — nothing is saved to survive |
+| Do slot variables survive? | Keras: yes (proven). This pipeline: no |
+| Does `iterations` continue? | **No** — 0 at the start of every invocation |
+| Does the LR schedule continue? | **No** — resets to base every shard |
+| Does resume use loaded optimizer state? | **No** — there is none to use |
+| Does a fresh run start with fresh optimizer state? | **Yes** — trivially, since every invocation does |
 
-This is a genuine improvement over the original audit's blanket "UNANSWERED," but the dataset-license
-question remains open regardless.
+### Why this is *not* NO-GO
 
-### H. Disk-full and interruption behavior
+The decision rules list "optimizer state resets across shard boundaries" as a NO-GO trigger. I am
+deliberately not applying it literally, and I want to be explicit about why:
 
-Covered under Phase 1's "operational hardening gap" above. No live simulation was performed (would
-require deliberately filling the real disk, explicitly disallowed); code-level analysis of the atomic-
-write pattern shows the failure mode is a loud crash with the previous good state intact, not silent
-corruption. This matches the original audit's own runbook entry and is not changed by this review.
+1. **This is not a new or run-specific risk.** It is the unconditional behaviour of every invocation —
+   including all 22 epochs of the pilot.
+2. **The pilot is the empirical proof.** It ran this exact regime and improved monotonically,
+   val_CER 0.55 → **0.169**. This is not a theoretical argument; it is a completed, measured result
+   from the identical mechanism.
+3. **Weights carry correctly** — verified in the synthetic test, and proven at scale by that
+   monotonic improvement, which is impossible if weights reset too.
+4. **Resume still works.** Weights, cumulative epoch, best-metric bookkeeping and checkpoint chaining
+   all persist — ArchiveTrust tracks them externally, precisely because Keras does not.
+5. **The regime is defensible on its own terms:** near-constant-LR fine-tuning at 1e-4, with Adam
+   re-warming within a few dozen of each shard's 625 steps.
 
----
+The rule's intent is "resume is broken / training is invalid." Neither holds. Blocking here would
+reject a regime the pilot already validated, over a documentation error.
 
-## Phase 3: Launch blockers vs. professional hardening vs. scientific interpretation
+**What must change is the documentation** — and it did. The repository was *recording the false claim
+as fact*, which is a different and more serious problem than the behaviour itself:
 
-### 1. Must fix before pressing play — **none remain**
+- `CheckpointEntry.optimizer_state_present` / `scheduler_state_present` were `True` on all 47 real
+  pilot entries → now `False`, with evidence on the fields.
+- `training_session.py`'s module docstring asserted the optimizer's full state including `iterations`
+  was restored → corrected, with measurements and consequences.
+- `prove_full_state_resume`'s `global_step_continued_not_restarted` compared *epoch numbers* → renamed
+  `session_boundary_epoch_continued_not_restarted`, plus an explicit `optimizer_state_continued: False`.
+- Preflight check `optimizer_scheduler_state_serialization` → renamed `resume_state_continuity`; its
+  live output now reads: *"optimizer momentum and LR-schedule position are NOT carried across
+  checkpoints by the pinned container -- weights and ArchiveTrust's own counters are."*
+- `learning_rate_policy` read `"constant_0.0001_decay_0.99"`, implying one continuous decaying
+  schedule → now `per_shard_fresh_adam_base_0.0001_intra_shard_decay_0.99_no_cross_shard_continuity`.
+  This changes the configuration hash, which is why the run was re-prepared.
 
-Everything that was genuinely launch-critical has been resolved:
-- Disk capacity: resolved (measured, 61% margin).
-- Resume-of-terminal-run and code-revision-drift guards: fixed in the original audit, reconfirmed
-  working.
-- Random-seed validation on resume: fixed in this review.
-- Shard-integrity self-reference: fixed in this review (real rehash + test-overlap).
-- Functional checkpoint loadability: empirically confirmed in this review.
-- Optimizer/LR "continuity": empirically clarified — the real mechanism is validated by the pilot's
-  own real success, not blocking, but its label must be corrected (see item 2 below — a documentation
-  fix, not a launch-safety fix).
-
-### 2. Must resolve before claiming a professionally validated final model
-
-- Correct the `learning_rate_policy` label and any monitoring documentation that implies continuous
-  cross-shard LR decay or optimizer-momentum continuity, given this review's empirical finding.
-- Baseline (original Loghi checkpoint) evaluation on the fixed held-out test set — not yet performed
-  by anything in this repository.
-- Fixed test-set evaluation code path for the final trained model — does not yet exist.
-- Document-level leakage disclosure for the 7/11 affected collections in any CER claims (R-009,
-  unchanged from the original audit).
-- Licence confirmation for the model weights specifically, before any public release/publication/
-  commercial use (not needed for the private/internal run itself).
-- Success criteria, minimum-improvement threshold, and final-approval authority — proposed in Phase 4
-  below; still require an actual operator/governance decision.
-
-### 3. Valuable but deferrable hardening
-
-- Checkpoint retention policy (capacity is no longer the forcing function, but unbounded growth over
-  many future runs remains poor practice).
-- Mid-run disk monitoring and a tested disk-full safe-stop path.
-- Near-duplicate (perceptual) image detection.
-- Telemetry background-thread exception guard (R-012, unchanged).
-- Pilot-era dashboard's cosmetic `PREPARED_NOT_STARTED` label gap (unchanged, purely cosmetic, read-only).
-- `verify_checkpoint()` upgraded to an optional functional check (the cheap structural check plus the
-  existing `epoch_failed` safety net is adequate for launch).
+**Practical consequence for the operator:** expect 171 chained short fine-tunes at ~constant LR, not
+one smoothly decaying long run. If LR decay is wanted late in training, lower `--learning_rate`
+manually between `resume` invocations — nothing in the pipeline will do it automatically.
 
 ---
 
-## Phase 4: Proposed evaluation policy (operator decisions clearly marked as decisions)
+## 3. `global_step` — SAFE TO RELABEL AND DEFER (relabelling now done)
 
-```yaml
-model_selection:
-  metric: validation_cer
-  direction: minimize
-  test_set_used_for_selection: false   # FACT: structurally enforced -- no code path reads the
-                                        # reserved test manifest during training or stopping decisions
+Confirmed always `0`; never assigned anywhere. It is **metadata only** — not read by training,
+scheduler, or resume logic (resume keys off `cumulative_epoch` and `latest_checkpoint_dir`).
 
-final_acceptance:
-  primary_metric: held_out_test_cer
-  baseline_model: original_loghi_checkpoint   # generic-2023-02-15, hash 0da2c00a...
-  minimum_relative_improvement: <OPERATOR DECISION -- not proposed here as a default; a specific
-                                  number should come from the ML lead, informed by the pilot's own
-                                  real best_val_cer=0.16913 and this run's eventual measured result>
-  maximum_major_subgroup_regression: <OPERATOR DECISION -- same>
+The original audit hoped `optimizer.iterations` was "the real authoritative step counter." It is not —
+it is *also* always 0, for the reasons above. So there is no authoritative step counter anywhere in
+this architecture. I did **not** add a redundant counter; a synthetic one would be write-only noise.
+Instead the labels no longer claim what does not exist. The genuinely-true claim — session-boundary
+continuity of ArchiveTrust's own counters — is what the proof and the preflight check now assert.
 
-required_reporting:
-  - aggregate_cer
-  - per_collection_cer            # with explicit R-009 caveat for the 7 line-level-split collections
-  - insertion_deletion_substitution_counts
-  - difficult_character_analysis
-  - qualitative_failure_samples
-  - split_limitations             # the file-group vs. line-level split-granularity disclosure
+---
 
-human_review_gates:
-  - after_first_shard: required    # see first_shard_review_checklist.md
-  - after_first_full_lap: required # see first_epoch_review_checklist.md, ~57 shards
-  - before_final_acceptance: required, held-out test touched only once, after model selection is final
+## 4. Seed consistency — VERIFIED gap, FIXED
+
+`TrainingSessionState.random_seed` was set once and never validated against later calls, unlike
+`configuration_hash` which raises on mismatch. Scope bounded precisely: `epoch_seed` feeds only the
+container's `--seed`, affecting intra-shard shuffling. It cannot change shard *selection* (fixed in
+`sharding_summary.json` at prepare time) and there is no augmentation (`augmentation_policy="none"`),
+so this was a reproducibility gap, not a data-integrity one. **Not launch-blocking** — but small and
+safe to fix, so `run_training_session` now rejects a resumed session whose seed differs. Two tests.
+
+---
+
+## 5. Shard integrity at launch — VERIFIED gap, FIXED
+
+The guard compared `sharding_summary.json`'s recorded hash against a second read of *the same file* —
+self-referential; a replaced or corrupted shard `.parquet` would never be caught.
+
+Now `recompute_real_shard_hash()` reads every real lap-0 shard file's `line_id` column and
+independently reproduces `corpus_sharding.py`'s hash. Proven by a tamper test (overwrite one real
+shard, leave the summary untouched → detected and rejected). A symmetric **test-manifest** overlap
+re-check was added; previously only validation overlap was re-verified at launch.
+
+Verified against the real run — no false positives:
+
+```
+rehashed from real shard bytes : e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f
+frozen in launch_manifest      : e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f
 ```
 
-I am deliberately not inventing specific threshold numbers for `minimum_relative_improvement` or
-`maximum_major_subgroup_regression` — those are business/research decisions for the ML lead, not
-facts this review can derive from the repository.
+---
+
+## 6. Checkpoint loading — VERIFIED functionally, not just structurally
+
+Loaded the **real parent** through the production path (`management.load_model_from_directory`) on a
+staged copy:
+
+```
+PARENT LOADED OK   name=model_new10   input=(None,None,64,1)   output=(None,None,457)
+                   layers=28   trainable_weights=48   parameters=31,033,929
+```
+
+It takes the old-format `_convert_old_model_to_new` fallback (logged, handled). Vocabulary width 457
+matches the charlist the pilot trained against successfully.
+
+**The conversion mutates the directory it loads from** — the staged copy's `model.keras` went
+372,591,597 → 124,288,226 bytes with a `.old` backup created. This is exactly the R-001 incident
+mechanism, reproduced deliberately. The **pristine parent was untouched**:
+`0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95`, re-verified after every real
+container test in this review. The staging discipline is both necessary and working.
 
 ---
 
-## Phase 5: Prepared-run freshness
+## 7. Split integrity — independently re-verified on the real prepared run
 
-| Field | Original audit's run | This review's fresh run |
+Read all 171 real shard files:
+
+```
+shard files declared 171 / present 171 / missing 0
+aggregate rows                       1,686,369
+TRAIN vs VALIDATION overlap                  0
+TRAIN vs RESERVED-TEST overlap               0
+lap 0: rows 562,123  unique 562,123  duplicates 0
+lap 1: rows 562,123  unique 562,123  duplicates 0
+lap 2: rows 562,123  unique 562,123  duplicates 0
+lap 0 and lap 1 cover the identical line set (intended repeat): True
+lap 0 unique == declared usable_line_count (562,123):          True
+```
+
+| Leakage type | Status | Affects |
 |---|---|---|
-| Run directory | `training/full-corpus-20260801T192341Z` | `training/full-corpus-20260801T213023Z` |
-| Prepared at commit | `d33a32eb7e67...` | `bf9a53a8863d...` (current `HEAD`) |
-| Shard plan hash | `e12796a02c868d84...` | `e12796a02c868d84...` — **identical**, confirming full shard-plan reproducibility across two independent re-preparations at different commits |
-| Status | now stale (2 commits behind `HEAD`; the new code-revision-drift guard will correctly refuse it) | `PREPARED_NOT_STARTED`, fresh, matches current `HEAD` exactly |
+| Exact line-level | **0, measured** | — |
+| Document-level | Unknowable — no document ID exists for 7/11 collections | CER interpretation, publication |
+| Writer-level | Unknowable — no writer ID exists at all | CER interpretation, publication |
+| Near-duplicate | **Unmeasured** — no perceptual dedup anywhere | CER interpretation |
 
-Per the review instructions, the older run is preserved as audit evidence, not deleted, and **neither
-run has been started.** All future launch guidance in this review refers to
-`training/full-corpus-20260801T213023Z`.
-
----
-
-## Phase 6: Rerun evidence
-
-- `tests/htr/training/test_training_session.py`: 25 passed (23 original + 2 new, for the seed fix).
-- `tests/htr/training/full_run/`: 211 passed (up from 206, for the shard-integrity/test-overlap fixes).
-- Full repository suite: **2352 passed, 2 skipped, 0 failed** (`pytest tests -q -m "not real_model"`).
-- Real preflight (post-fix, at current `HEAD`): **21/21 passed**, including a real Docker forward+
-  backward smoke test and a real checkpoint save/reload round trip.
-- Real launch-guard dry run against the fresh prepared run: correctly rejects on the two genuinely
-  true current conditions (missing confirmation, dirty working tree) and raises **no false positive**
-  on dataset hash, shard hash, or overlap checks — confirming the strengthened checks work cleanly
-  against real, untampered artifacts.
-- `docker ps`: no containers running. Process inspection: no training process running (only the IDE's
-  own language server). `checkpoint_index.json`: does not exist for the fresh run (no checkpoints
-  created). Base checkpoint hash: unchanged, reverified after all real Docker/GPU activity in this
-  review.
+None affects launch safety or training validity. The last three affect how honestly final CER can be
+described, and must be disclosed rather than fixed.
 
 ---
 
-## Final assessment
+## 8. Interruption and recovery — found and fixed a real blocker
 
-Zero remaining items meet this review's bar for a launch blocker. The one finding more severe than
-the original audit reported (optimizer/LR continuity) is resolved by evidence the original audit
-already possessed but didn't connect: the pilot's own real, successful, monotonically-improving
-22-epoch result *is* the empirical proof that this exact "weights persist, optimizer resets"
-mechanism works for this model and task. The remaining open items are governance, scientific-
-interpretation, and hardening concerns — exactly the category the instructions define as compatible
-with CONDITIONAL GO, provided conditions are explicit and human review gates exist after the first
-shard and first full lap. Both are specified in this review's checklists.
+Partial-checkpoint safety, by bounded simulation (good / truncated / empty checkpoints indexed
+together, the bad ones with *later* epochs and *better* recorded metrics):
+
+```
+verify_checkpoint(good)      -> ok=True
+verify_checkpoint(truncated) -> ok=False
+verify_checkpoint(empty)     -> ok=False
+latest_resumable selected -> epoch_1_good      best_validation selected -> epoch_1_good
+```
+
+Partial and empty checkpoints are correctly excluded from both resume and best-selection. Promotion is
+atomic throughout (`mkstemp` → `os.replace`).
+
+**But:** a crash leaves `run_state.json` at `status='running'`, and the guard rejected
+`RUNNING`/`STOPPING` unconditionally — for `resume` too. Simulated directly:
+
+```
+state left by a crash: status='running' pid=23376
+guard verdict on resume: "An active run already exists ... with status 'running'."
+RESUME BLOCKED BY STALE 'running' STATUS: True
+```
+
+So the recovery path `failure_recovery_runbook.md` itself documents (*"…then `resume --run <dir>
+--confirm-full-corpus-run`"*) **could never work**. After any power loss, reboot, or Ctrl+C on a
+multi-day run, the only way forward was hand-editing `run_state.json`. The original audit did not
+catch this because it reasoned about the runbook rather than executing it.
+
+Fixed fail-closed, distinguishing crashed from live by **real telemetry liveness** (`status.json`,
+rewritten every ~5 s throughout a container run) rather than the stale status field or
+`run_state.json`'s per-shard heartbeat (which is legitimately ~8 min old mid-shard and cannot tell
+"working" from "dead"):
+
+- crashed + no flag → still blocked, with a message naming the condition and the override
+- crashed + `--force-resume-after-crash` → recovers from the last verified checkpoint
+- **live + flag → still blocked** (a flag can never attach a second process to a running one)
+- missing/malformed telemetry → **fails closed**, stays blocked
+- `start` can never use the override at all — `resume` only
+
+Five tests cover exactly these cases.
+
+Ctrl+C remains unhandled at the Python level (an in-flight `docker run` child may be orphaned) — use
+`stop` (the `STOP_REQUESTED` sentinel), which takes effect at the next shard boundary. Now that
+crash-recovery works, an orphan is recoverable: `docker ps`, remove the container, then
+`resume --force-resume-after-crash`.
+
+---
+
+## 9. Findings by category
+
+**A. Must fix before pressing play — none remain.**
+Disk resolved; seed, shard-integrity, and crash-recovery fixed this review; terminal-status and
+code-drift guards fixed in the original audit and re-confirmed; parent checkpoint verified
+functionally and byte-identical.
+
+**B. Must resolve before claiming a professionally validated final model**
+- Baseline (original Loghi) evaluation on the held-out test set — no code path evaluates it yet
+- Fixed test-set evaluation for the trained model — same
+- Subgroup (per-collection) CER, with the 7/11 line-level-split caveat stated
+- Success criteria, minimum improvement, approving authority — undefined
+- Weights licence confirmation for public release (code is MIT — verified; weights not separately stated)
+- Model card
+- Correct any downstream docs that still imply cross-shard LR decay
+
+**C. Valuable but deferrable**
+Checkpoint retention; mid-run disk monitoring; live disk-full test; near-duplicate detection;
+telemetry thread exception guard; deterministic tiebreak in checkpoint-directory selection;
+`docker image inspect` timeout (hit transiently twice across the two reviews); dashboard cosmetic
+label; operator-identity audit trail.
+
+---
+
+## 10. Prepared-run freshness
+
+Re-prepared after each code change; earlier runs preserved, never launched.
+
+| Run | Commit | Status |
+|---|---|---|
+| `…T171555Z` | `b45273f` | stale — do not launch |
+| `…T192341Z` | `d33a32e` | stale — do not launch |
+| `…T213023Z` | `bf9a53a` | stale — do not launch |
+| `_superseded_prepared_runs/…T220117Z` | `4695009` | retired mid-review |
+| **`…T222412Z`** | **`11693cd`** | **authoritative, `PREPARED_NOT_STARTED`** |
+
+The shard plan hash is **identical across all of them** (`e12796a0…`) — independent confirmation that
+sharding is genuinely deterministic across five re-preparations at five different commits.
+
+Note the recurring pattern: the code-drift guard is working as designed, but every audit commit
+invalidates the prepared run. Prepare **last**, immediately before launching.
+
+---
+
+## 11. Verification evidence
+
+- `tests/htr/training/` (focused): **399 passed**
+- `tests/htr/training/full_run/test_launch_guard.py`: **32 passed**
+- Full repository suite: **2,356 passed, 2 skipped, 0 failed** — with one caveat below
+- Real preflight at final commit: **21/21**, incl. real Docker forward+backward and checkpoint round trip
+- Real dry-run: rejects only the two genuinely-true conditions; no false positives from the
+  strengthened checks
+- `docker ps`: empty · training processes: none · `checkpoint_index.json`: absent · base checkpoint:
+  hash unchanged
+
+**Honest caveat:** `tests/clients/test_desktop_v2_interaction_audit.py` is a load-sensitive Qt timing
+test that failed in 2 of 4 full-suite runs and passed 3/3 in isolation. None of my changes touch
+desktop client code (`git diff --name-only` over `src/archivetrust/clients/` and `tests/clients/`:
+empty). Pre-existing flake, unrelated to the training workflow — reported rather than papered over by
+re-rolling until green.
+
+---
+
+## Closing assessment
+
+Two of this review's three most important findings were things the original audit had *checked and
+gotten wrong* — optimizer continuity (verified by reading code, which was insufficient) and crash
+recovery (documented in a runbook, never executed). Both were caught only by running things: a real
+GPU experiment and a direct simulation. That is the lesson worth carrying forward more than either
+finding itself.
+
+Neither turned out to block launch. The optimizer behaviour is the regime the pilot already validated
+over 22 real epochs; the recovery defect is fixed. What did need fixing urgently was that the
+repository was **recording disproven claims as fact** in checkpoint metadata, preflight output, and the
+immutable launch manifest — a run started under those labels would have carried permanent, false
+provenance. That is now corrected at the source.

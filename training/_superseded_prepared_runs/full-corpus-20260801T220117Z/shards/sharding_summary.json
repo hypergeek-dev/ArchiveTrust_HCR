@@ -1,0 +1,1040 @@
+{
+  "seed": 42,
+  "shard_line_count": 9999,
+  "total_valid_lines": 563933,
+  "excluded_line_count": 1810,
+  "usable_line_count": 562123,
+  "shards": [
+    {
+      "shard_index": 0,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00000.parquet"
+    },
+    {
+      "shard_index": 1,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00001.parquet"
+    },
+    {
+      "shard_index": 2,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00002.parquet"
+    },
+    {
+      "shard_index": 3,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00003.parquet"
+    },
+    {
+      "shard_index": 4,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00004.parquet"
+    },
+    {
+      "shard_index": 5,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00005.parquet"
+    },
+    {
+      "shard_index": 6,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00006.parquet"
+    },
+    {
+      "shard_index": 7,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00007.parquet"
+    },
+    {
+      "shard_index": 8,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00008.parquet"
+    },
+    {
+      "shard_index": 9,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00009.parquet"
+    },
+    {
+      "shard_index": 10,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00010.parquet"
+    },
+    {
+      "shard_index": 11,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00011.parquet"
+    },
+    {
+      "shard_index": 12,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00012.parquet"
+    },
+    {
+      "shard_index": 13,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00013.parquet"
+    },
+    {
+      "shard_index": 14,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00014.parquet"
+    },
+    {
+      "shard_index": 15,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00015.parquet"
+    },
+    {
+      "shard_index": 16,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00016.parquet"
+    },
+    {
+      "shard_index": 17,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00017.parquet"
+    },
+    {
+      "shard_index": 18,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00018.parquet"
+    },
+    {
+      "shard_index": 19,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00019.parquet"
+    },
+    {
+      "shard_index": 20,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00020.parquet"
+    },
+    {
+      "shard_index": 21,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00021.parquet"
+    },
+    {
+      "shard_index": 22,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00022.parquet"
+    },
+    {
+      "shard_index": 23,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00023.parquet"
+    },
+    {
+      "shard_index": 24,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00024.parquet"
+    },
+    {
+      "shard_index": 25,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00025.parquet"
+    },
+    {
+      "shard_index": 26,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00026.parquet"
+    },
+    {
+      "shard_index": 27,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00027.parquet"
+    },
+    {
+      "shard_index": 28,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00028.parquet"
+    },
+    {
+      "shard_index": 29,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00029.parquet"
+    },
+    {
+      "shard_index": 30,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00030.parquet"
+    },
+    {
+      "shard_index": 31,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00031.parquet"
+    },
+    {
+      "shard_index": 32,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00032.parquet"
+    },
+    {
+      "shard_index": 33,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00033.parquet"
+    },
+    {
+      "shard_index": 34,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00034.parquet"
+    },
+    {
+      "shard_index": 35,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00035.parquet"
+    },
+    {
+      "shard_index": 36,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00036.parquet"
+    },
+    {
+      "shard_index": 37,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00037.parquet"
+    },
+    {
+      "shard_index": 38,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00038.parquet"
+    },
+    {
+      "shard_index": 39,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00039.parquet"
+    },
+    {
+      "shard_index": 40,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00040.parquet"
+    },
+    {
+      "shard_index": 41,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00041.parquet"
+    },
+    {
+      "shard_index": 42,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00042.parquet"
+    },
+    {
+      "shard_index": 43,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00043.parquet"
+    },
+    {
+      "shard_index": 44,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00044.parquet"
+    },
+    {
+      "shard_index": 45,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00045.parquet"
+    },
+    {
+      "shard_index": 46,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00046.parquet"
+    },
+    {
+      "shard_index": 47,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00047.parquet"
+    },
+    {
+      "shard_index": 48,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00048.parquet"
+    },
+    {
+      "shard_index": 49,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00049.parquet"
+    },
+    {
+      "shard_index": 50,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00050.parquet"
+    },
+    {
+      "shard_index": 51,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00051.parquet"
+    },
+    {
+      "shard_index": 52,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00052.parquet"
+    },
+    {
+      "shard_index": 53,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00053.parquet"
+    },
+    {
+      "shard_index": 54,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00054.parquet"
+    },
+    {
+      "shard_index": 55,
+      "lap": 0,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00055.parquet"
+    },
+    {
+      "shard_index": 56,
+      "lap": 0,
+      "line_count": 2179,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00056.parquet"
+    },
+    {
+      "shard_index": 57,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00057.parquet"
+    },
+    {
+      "shard_index": 58,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00058.parquet"
+    },
+    {
+      "shard_index": 59,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00059.parquet"
+    },
+    {
+      "shard_index": 60,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00060.parquet"
+    },
+    {
+      "shard_index": 61,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00061.parquet"
+    },
+    {
+      "shard_index": 62,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00062.parquet"
+    },
+    {
+      "shard_index": 63,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00063.parquet"
+    },
+    {
+      "shard_index": 64,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00064.parquet"
+    },
+    {
+      "shard_index": 65,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00065.parquet"
+    },
+    {
+      "shard_index": 66,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00066.parquet"
+    },
+    {
+      "shard_index": 67,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00067.parquet"
+    },
+    {
+      "shard_index": 68,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00068.parquet"
+    },
+    {
+      "shard_index": 69,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00069.parquet"
+    },
+    {
+      "shard_index": 70,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00070.parquet"
+    },
+    {
+      "shard_index": 71,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00071.parquet"
+    },
+    {
+      "shard_index": 72,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00072.parquet"
+    },
+    {
+      "shard_index": 73,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00073.parquet"
+    },
+    {
+      "shard_index": 74,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00074.parquet"
+    },
+    {
+      "shard_index": 75,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00075.parquet"
+    },
+    {
+      "shard_index": 76,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00076.parquet"
+    },
+    {
+      "shard_index": 77,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00077.parquet"
+    },
+    {
+      "shard_index": 78,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00078.parquet"
+    },
+    {
+      "shard_index": 79,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00079.parquet"
+    },
+    {
+      "shard_index": 80,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00080.parquet"
+    },
+    {
+      "shard_index": 81,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00081.parquet"
+    },
+    {
+      "shard_index": 82,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00082.parquet"
+    },
+    {
+      "shard_index": 83,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00083.parquet"
+    },
+    {
+      "shard_index": 84,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00084.parquet"
+    },
+    {
+      "shard_index": 85,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00085.parquet"
+    },
+    {
+      "shard_index": 86,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00086.parquet"
+    },
+    {
+      "shard_index": 87,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00087.parquet"
+    },
+    {
+      "shard_index": 88,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00088.parquet"
+    },
+    {
+      "shard_index": 89,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00089.parquet"
+    },
+    {
+      "shard_index": 90,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00090.parquet"
+    },
+    {
+      "shard_index": 91,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00091.parquet"
+    },
+    {
+      "shard_index": 92,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00092.parquet"
+    },
+    {
+      "shard_index": 93,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00093.parquet"
+    },
+    {
+      "shard_index": 94,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00094.parquet"
+    },
+    {
+      "shard_index": 95,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00095.parquet"
+    },
+    {
+      "shard_index": 96,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00096.parquet"
+    },
+    {
+      "shard_index": 97,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00097.parquet"
+    },
+    {
+      "shard_index": 98,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00098.parquet"
+    },
+    {
+      "shard_index": 99,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00099.parquet"
+    },
+    {
+      "shard_index": 100,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00100.parquet"
+    },
+    {
+      "shard_index": 101,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00101.parquet"
+    },
+    {
+      "shard_index": 102,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00102.parquet"
+    },
+    {
+      "shard_index": 103,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00103.parquet"
+    },
+    {
+      "shard_index": 104,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00104.parquet"
+    },
+    {
+      "shard_index": 105,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00105.parquet"
+    },
+    {
+      "shard_index": 106,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00106.parquet"
+    },
+    {
+      "shard_index": 107,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00107.parquet"
+    },
+    {
+      "shard_index": 108,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00108.parquet"
+    },
+    {
+      "shard_index": 109,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00109.parquet"
+    },
+    {
+      "shard_index": 110,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00110.parquet"
+    },
+    {
+      "shard_index": 111,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00111.parquet"
+    },
+    {
+      "shard_index": 112,
+      "lap": 1,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00112.parquet"
+    },
+    {
+      "shard_index": 113,
+      "lap": 1,
+      "line_count": 2179,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00113.parquet"
+    },
+    {
+      "shard_index": 114,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00114.parquet"
+    },
+    {
+      "shard_index": 115,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00115.parquet"
+    },
+    {
+      "shard_index": 116,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00116.parquet"
+    },
+    {
+      "shard_index": 117,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00117.parquet"
+    },
+    {
+      "shard_index": 118,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00118.parquet"
+    },
+    {
+      "shard_index": 119,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00119.parquet"
+    },
+    {
+      "shard_index": 120,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00120.parquet"
+    },
+    {
+      "shard_index": 121,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00121.parquet"
+    },
+    {
+      "shard_index": 122,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00122.parquet"
+    },
+    {
+      "shard_index": 123,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00123.parquet"
+    },
+    {
+      "shard_index": 124,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00124.parquet"
+    },
+    {
+      "shard_index": 125,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00125.parquet"
+    },
+    {
+      "shard_index": 126,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00126.parquet"
+    },
+    {
+      "shard_index": 127,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00127.parquet"
+    },
+    {
+      "shard_index": 128,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00128.parquet"
+    },
+    {
+      "shard_index": 129,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00129.parquet"
+    },
+    {
+      "shard_index": 130,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00130.parquet"
+    },
+    {
+      "shard_index": 131,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00131.parquet"
+    },
+    {
+      "shard_index": 132,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00132.parquet"
+    },
+    {
+      "shard_index": 133,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00133.parquet"
+    },
+    {
+      "shard_index": 134,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00134.parquet"
+    },
+    {
+      "shard_index": 135,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00135.parquet"
+    },
+    {
+      "shard_index": 136,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00136.parquet"
+    },
+    {
+      "shard_index": 137,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00137.parquet"
+    },
+    {
+      "shard_index": 138,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00138.parquet"
+    },
+    {
+      "shard_index": 139,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00139.parquet"
+    },
+    {
+      "shard_index": 140,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00140.parquet"
+    },
+    {
+      "shard_index": 141,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00141.parquet"
+    },
+    {
+      "shard_index": 142,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00142.parquet"
+    },
+    {
+      "shard_index": 143,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00143.parquet"
+    },
+    {
+      "shard_index": 144,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00144.parquet"
+    },
+    {
+      "shard_index": 145,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00145.parquet"
+    },
+    {
+      "shard_index": 146,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00146.parquet"
+    },
+    {
+      "shard_index": 147,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00147.parquet"
+    },
+    {
+      "shard_index": 148,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00148.parquet"
+    },
+    {
+      "shard_index": 149,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00149.parquet"
+    },
+    {
+      "shard_index": 150,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00150.parquet"
+    },
+    {
+      "shard_index": 151,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00151.parquet"
+    },
+    {
+      "shard_index": 152,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00152.parquet"
+    },
+    {
+      "shard_index": 153,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00153.parquet"
+    },
+    {
+      "shard_index": 154,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00154.parquet"
+    },
+    {
+      "shard_index": 155,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00155.parquet"
+    },
+    {
+      "shard_index": 156,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00156.parquet"
+    },
+    {
+      "shard_index": 157,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00157.parquet"
+    },
+    {
+      "shard_index": 158,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00158.parquet"
+    },
+    {
+      "shard_index": 159,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00159.parquet"
+    },
+    {
+      "shard_index": 160,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00160.parquet"
+    },
+    {
+      "shard_index": 161,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00161.parquet"
+    },
+    {
+      "shard_index": 162,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00162.parquet"
+    },
+    {
+      "shard_index": 163,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00163.parquet"
+    },
+    {
+      "shard_index": 164,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00164.parquet"
+    },
+    {
+      "shard_index": 165,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00165.parquet"
+    },
+    {
+      "shard_index": 166,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00166.parquet"
+    },
+    {
+      "shard_index": 167,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00167.parquet"
+    },
+    {
+      "shard_index": 168,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00168.parquet"
+    },
+    {
+      "shard_index": 169,
+      "lap": 2,
+      "line_count": 9999,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00169.parquet"
+    },
+    {
+      "shard_index": 170,
+      "lap": 2,
+      "line_count": 2179,
+      "manifest_path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260801T220117Z\\shards\\shard_00170.parquet"
+    }
+  ],
+  "excluded_manifest_paths": [
+    "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\val_manifest.parquet",
+    "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\test_reserved_manifest.parquet"
+  ],
+  "line_id_set_hash": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f"
+}
