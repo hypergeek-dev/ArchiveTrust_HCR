@@ -1,0 +1,28 @@
+{
+  "pilot_run_id": "loghi_training_run_43b315ee036247a4a72b1cc484d813b4",
+  "derived_at": "2026-08-01T17:09:24Z",
+  "shard_line_count": 9999,
+  "steps_per_shard": 625,
+  "min_exposure_steps": 12500,
+  "min_exposure_basis": "estimated_plateau_epoch=20 (real, observed or extrapolated -- see pilot_analysis.plateau_is_extrapolated)",
+  "meaningful_improvement_threshold": 0.0007926970720291138,
+  "relative_improvement_threshold": 0.02,
+  "recommended_patience": 5,
+  "patience_basis": "max(floor=3, pilot's longest observed near-flat streak (3) + margin=2).",
+  "consecutive_worsening_threshold": 2,
+  "rolling_validation_window": 5,
+  "stale_telemetry_threshold_seconds": 60.0,
+  "low_disk_threshold_gb": 20.0,
+  "validation_metric": "val_CER",
+  "validation_mode": "minimize",
+  "checkpoint_frequency_shards": 1,
+  "validation_frequency_shards": 1,
+  "max_full_run_epochs": 171,
+  "warning_thresholds": {
+    "loss_explosion_multiplier": 10.0,
+    "loss_explosion_absolute_reference": 26.91033172607422,
+    "stall_timeout_seconds": 1446.7979120530065,
+    "check_nan_or_inf": true
+  },
+  "assumptions_and_method": "shard_line_count=9999 (defaulted to pilot train line count). min_exposure_steps basis: estimated_plateau_epoch=20 (real, observed or extrapolated -- see pilot_analysis.plateau_is_extrapolated). patience basis: max(floor=3, pilot's longest observed near-flat streak (3) + margin=2).. max_full_run_epochs: 3x one lap of 563933 lines."
+}
