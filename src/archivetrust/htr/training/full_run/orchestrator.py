@@ -80,6 +80,11 @@ def run_full_corpus_session(
     checkpoint_index_path: str | Path,
     epoch_runner: EpochRunner,
     shards: tuple[ShardInfo, ...],
+    # Index-aligned with `shards` -- the real, container-readable `<path>\t<text>` list file for each
+    # shard, produced at prepare time by `shard_training_data.py`. Kept as a separate argument rather
+    # than a field on `ShardInfo` so `corpus_sharding.py` stays purely about *which lines* a shard
+    # contains, with no knowledge of the trainer's input format.
+    shard_train_list_paths: tuple[str, ...],
     validation_list_path: str,
     parent_checkpoint_dir: str,
     run_id: str,
@@ -129,12 +134,17 @@ def run_full_corpus_session(
         patience = monitoring_config.recommended_patience if min_exposure_reached else None
 
         current_shard = shards[cumulative_shards]
+        # The trainer receives the shard's *training-list* file, never its Parquet manifest. The
+        # manifest describes which lines the shard contains; the list file is what the pinned
+        # container can actually open (`data/manager.py:257` reads it as UTF-8 text). Passing the
+        # Parquet here is exactly what made the first real Gate 4 shard attempt fail in 53s.
+        current_train_list = shard_train_list_paths[cumulative_shards]
 
         summary = run_training_session(
             run_state_dir=run_state_dir,
             checkpoint_index_path=checkpoint_index_path,
             epoch_runner=epoch_runner,
-            train_list_path=current_shard.manifest_path,
+            train_list_path=current_train_list,
             validation_list_path=validation_list_path,
             parent_checkpoint_dir=parent_checkpoint_dir,
             run_id=run_id,

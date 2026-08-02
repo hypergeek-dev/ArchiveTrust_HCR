@@ -118,6 +118,40 @@ def _dataset_hash() -> str | None:
     return digest.hexdigest()
 
 
+PROBE_LINE_COUNT = 8
+"""How many real lines a generated smoke-test probe list carries -- enough for the container to build
+a batch and complete a real forward+backward pass, small enough that the probe costs seconds."""
+
+
+def _full_corpus_probe_lists() -> tuple[str | None, str | None]:
+    """`(train_probe, val_probe)` cut from the real full-corpus training pool, or `(None, None)` if no
+    pool has been built yet. The probes are written *inside* the pool directory because the container
+    mounts a list file's parent at `/lists` -- a probe elsewhere could not resolve `/lists/images/...`.
+    """
+    root = TRAINING_ROOT / "_prepared_data"
+    if not root.exists():
+        return None, None
+    pools = sorted((p for p in root.iterdir() if p.is_dir() and (p / "train_list.txt").exists()),
+                   key=lambda p: p.stat().st_mtime, reverse=True)
+    if not pools:
+        return None, None
+    pool = pools[0]
+    probes = []
+    for source_name, probe_name in (("train_list.txt", "probe_train_list.txt"), ("val_list.txt", "probe_val_list.txt")):
+        source = pool / source_name
+        if not source.exists():
+            return None, None
+        with source.open(encoding="utf-8") as f:
+            head = [next(f, "") for _ in range(PROBE_LINE_COUNT)]
+        lines = [line for line in head if line.strip()]
+        if not lines:
+            return None, None
+        target = pool / probe_name
+        target.write_text("".join(lines), encoding="utf-8")
+        probes.append(str(target))
+    return probes[0], probes[1]
+
+
 def cmd_preflight(args: argparse.Namespace) -> int:
     from archivetrust.htr.training.full_run.monitoring_config import load_monitoring_config
     from archivetrust.htr.training.full_run.preflight import run_preflight
@@ -139,8 +173,15 @@ def cmd_preflight(args: argparse.Namespace) -> int:
             batch_size=args.batch_size, gradient_accumulation=1, precision="mixed_float16",
             max_image_width=65536, optimizer="adam", learning_rate=0.0001, timeout_seconds=900,
         )
-        probe_train_list = str(DEFAULT_PILOT_RUN_DIR / "prepared-data" / "probe_train_list.txt")
-        probe_val_list = str(DEFAULT_PILOT_RUN_DIR / "prepared-data" / "probe_val_list.txt")
+        # Prefer a probe derived from the *full-corpus* pool when one exists. The smoke test
+        # previously always used the pilot's own probe lists, which meant it exercised a data path
+        # the full run never uses -- it passed 21/21 four times while the real shard input was an
+        # unreadable Parquet file. Falling back to the pilot's probe only when no pool has been
+        # built yet (i.e. before the first `prepare`), so preflight still works from a clean slate.
+        probe_train_list, probe_val_list = _full_corpus_probe_lists()
+        if probe_train_list is None:
+            probe_train_list = str(DEFAULT_PILOT_RUN_DIR / "prepared-data" / "probe_train_list.txt")
+            probe_val_list = str(DEFAULT_PILOT_RUN_DIR / "prepared-data" / "probe_val_list.txt")
 
     report = run_preflight(
         base_model_dir=PARENT_CHECKPOINT_DIR,
@@ -272,6 +313,23 @@ def cmd_prepare(args: argparse.Namespace) -> int:
     )
 
     dataset_hash = _dataset_hash()
+
+    # Turn the Parquet shard manifests into what the container can actually read: extracted PNG line
+    # images plus UTF-8 `<container_path>\t<ground_truth>` list files. Omitting this call is what
+    # made the first real shard attempt fail in 53s -- the trainer was handed shard_00000.parquet.
+    from archivetrust.htr.training.full_run.shard_training_data import build_or_reuse_shard_training_data
+
+    print("Preparing trainer-consumable training data (extracting line images; first run is slow)...")
+    training_data = build_or_reuse_shard_training_data(
+        training_root=TRAINING_ROOT,
+        dataset_root=DATASET_ROOT,
+        sharding_summary=sharding_summary,
+        validation_manifest_path=val_manifest_path,
+        dataset_hash=dataset_hash or "unknown",
+        training_manifest_hash=sharding_summary.line_id_set_hash,
+    )
+    (run_dir / "training_data_paths.json").write_text(training_data.model_dump_json(indent=2), encoding="utf-8")
+
     run_state = create_initial_run_state(run_id=identity.run_id, configuration_hash=configuration_hash, dataset_hash=dataset_hash)
     save_run_state(run_state_dir, run_state)
 
@@ -338,6 +396,10 @@ def cmd_prepare(args: argparse.Namespace) -> int:
     print(f"Configured maximum epochs (shards): {config.max_full_run_epochs}")
     print(f"Configured minimum training exposure: {config.min_exposure_steps} steps ({config.min_exposure_basis})")
     print(f"Early-stopping patience: {config.recommended_patience}")
+    print(f"Training data pool: {training_data.pool_dir} "
+          f"({'reused existing' if training_data.reused_existing_pool else 'built fresh'})")
+    print(f"Extracted line images: {training_data.train_image_count} train, {training_data.validation_image_count} validation")
+    print(f"Per-shard training lists: {len(training_data.shard_list_paths)} (UTF-8 <path>TAB<text>, container-readable)")
     print("Validation interval: every shard")
     print("Checkpoint interval: every shard")
     print(f"Code commit: {run_state.code_revision} (repository dirty: {manifest.repository_dirty})")
@@ -394,6 +456,22 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
     launch_manifest = load_launch_manifest(run_dir / "launch_manifest.json") if (run_dir / "launch_manifest.json").exists() else None
     preflight_passed, preflight_age_seconds = _read_preflight_status()
     sharding_summary = load_sharding_summary(run_dir / "shards")
+
+    # The trainer-consumable artifacts resolved at prepare time. A run prepared before this wiring
+    # existed has no such file, and cannot train -- fail loudly here rather than handing the
+    # container a Parquet manifest it will reject after ~50s of container startup.
+    from archivetrust.htr.training.full_run.shard_training_data import ShardTrainingDataPaths
+
+    training_data_path = run_dir / "training_data_paths.json"
+    if not training_data_path.exists():
+        print(
+            f"No training_data_paths.json under {run_dir} -- this run was prepared before the "
+            "training-data wiring existed and its shards have no container-readable list files. "
+            "Re-run `prepare` to create a usable run.",
+            file=sys.stderr,
+        )
+        return 1
+    training_data = ShardTrainingDataPaths.model_validate_json(training_data_path.read_text(encoding="utf-8"))
 
     from archivetrust.htr.training.full_run.launch_guard import recompute_real_shard_hash
 
@@ -466,7 +544,8 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
         checkpoint_index_path=run_state_dir / "checkpoint_index.json",
         epoch_runner=runner,
         shards=sharding_summary.shards,
-        validation_list_path=str(DEFAULT_PILOT_RUN_DIR / "manifests" / "val_manifest.parquet"),
+        shard_train_list_paths=training_data.shard_list_paths,
+        validation_list_path=training_data.validation_list_path,
         parent_checkpoint_dir=str(PARENT_CHECKPOINT_DIR),
         run_id=state.run_id,
         configuration_hash=state.configuration_hash,

@@ -28,7 +28,11 @@ class ScriptedFullRunEpochRunner:
         self.calls: list[dict] = []
 
     def run_epoch(self, *, existing_model_dir, output_dir, train_list_path, validation_list_path, epoch_seed):
-        self.calls.append({"train_list_path": train_list_path, "output_dir": output_dir})
+        self.calls.append({
+            "train_list_path": train_list_path,
+            "validation_list_path": validation_list_path,
+            "output_dir": output_dir,
+        })
         n = len(self.calls)
         result = self._results[min(n - 1, len(self._results) - 1)]
         if result.ok and result.checkpoint_dir is None:
@@ -47,7 +51,14 @@ def _ok_result(val_cer, **overrides):
 
 
 def _shards(n, line_count=100):
-    return tuple(ShardInfo(shard_index=i, lap=0, line_count=line_count, manifest_path=f"shard_{i}.txt") for i in range(n))
+    return tuple(ShardInfo(shard_index=i, lap=0, line_count=line_count, manifest_path=f"shard_{i}.parquet") for i in range(n))
+
+
+def _lists(n):
+    """The container-readable training-list file per shard -- deliberately a DIFFERENT path from
+    the shard's Parquet manifest, so a regression that feeds the manifest to the trainer (the real
+    Gate 4 failure) shows up as a wrong path rather than passing silently."""
+    return tuple(f"shard_{i}_list.txt" for i in range(n))
 
 
 def _monitoring_config(**overrides):
@@ -85,7 +96,7 @@ def test_raises_without_a_prior_prepared_run_state(tmp_path, parent_checkpoint_d
     with pytest.raises(RuntimeError):
         run_full_corpus_session(
             run_state_dir=tmp_path / "never_prepared", checkpoint_index_path=tmp_path / "idx.json",
-            epoch_runner=ScriptedFullRunEpochRunner([_ok_result(0.5)]), shards=_shards(3),
+            epoch_runner=ScriptedFullRunEpochRunner([_ok_result(0.5)]), shards=_shards(3), shard_train_list_paths=_lists(3),
             validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
             configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
             max_wall_clock_seconds=1e9, stop_requested=lambda: False,
@@ -97,7 +108,7 @@ def test_completes_when_all_shards_are_consumed(run_dirs, parent_checkpoint_dir)
     runner = ScriptedFullRunEpochRunner([_ok_result(0.5 - i * 0.01) for i in range(3)])
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(3), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(3), shard_train_list_paths=_lists(3), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(recommended_patience=100),
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
@@ -118,7 +129,7 @@ def test_never_early_stops_before_minimum_exposure(run_dirs, parent_checkpoint_d
     config = _monitoring_config(recommended_patience=2, min_exposure_steps=50, steps_per_shard=10)  # 5 shards' worth
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(6), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(6), shard_train_list_paths=_lists(6), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=config,
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
@@ -135,7 +146,7 @@ def test_patience_triggers_after_minimum_exposure_is_reached(run_dirs, parent_ch
     config = _monitoring_config(recommended_patience=2, min_exposure_steps=10, steps_per_shard=10)  # 1 shard's worth
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(10), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(10), shard_train_list_paths=_lists(10), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=config,
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
@@ -150,7 +161,7 @@ def test_real_epoch_failure_marks_the_run_failed_not_completed(run_dirs, parent_
     runner = ScriptedFullRunEpochRunner([_ok_result(0.5), EpochResult(ok=False, duration_seconds=1.0, error_message="boom")])
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(5), shard_train_list_paths=_lists(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
@@ -164,7 +175,7 @@ def test_nan_val_cer_is_detected_and_marks_the_run_failed(run_dirs, parent_check
     runner = ScriptedFullRunEpochRunner([_ok_result(float("nan"))])
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(5), shard_train_list_paths=_lists(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
@@ -178,7 +189,7 @@ def test_infinite_train_loss_is_detected(run_dirs, parent_checkpoint_dir):
     runner = ScriptedFullRunEpochRunner([_ok_result(0.5, train_loss=float("inf"))])
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(5), shard_train_list_paths=_lists(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
@@ -192,7 +203,7 @@ def test_oom_signature_in_stderr_is_detected(run_dirs, parent_checkpoint_dir):
     )
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(5), shard_train_list_paths=_lists(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
@@ -209,7 +220,7 @@ def test_stalled_data_loading_is_detected_and_reported_not_marked_failed(run_dir
     })
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(5), shard_train_list_paths=_lists(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=config,
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
@@ -224,7 +235,7 @@ def test_missing_validation_result_is_detected(run_dirs, parent_checkpoint_dir):
     runner = ScriptedFullRunEpochRunner([_ok_result(None)])
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(5), shard_train_list_paths=_lists(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
@@ -242,7 +253,7 @@ def test_graceful_stop_request_halts_before_the_next_shard(run_dirs, parent_chec
 
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(5), shard_train_list_paths=_lists(5), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
         max_wall_clock_seconds=1e9, stop_requested=stop_after_one,
     )
@@ -258,7 +269,7 @@ def test_resuming_continues_from_the_real_persisted_shard_index(run_dirs, parent
 
     first = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(6), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(6), shard_train_list_paths=_lists(6), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=config,
         max_wall_clock_seconds=1e9, stop_requested=lambda: len(runner.calls) >= 2,
     )
@@ -267,13 +278,35 @@ def test_resuming_continues_from_the_real_persisted_shard_index(run_dirs, parent
     # a genuinely new call -- simulates a fresh process resuming
     second = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(6), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(6), shard_train_list_paths=_lists(6), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=config,
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
     assert second.cumulative_shards_completed == 6  # continued from 2, not restarted from 0
     # confirms the shard used for the 3rd call was shards[2], not shards[0] again
-    assert runner.calls[2]["train_list_path"] == "shard_2.txt"
+    assert runner.calls[2]["train_list_path"] == "shard_2_list.txt"
+
+
+def test_trainer_receives_the_list_file_never_the_parquet_manifest(run_dirs, parent_checkpoint_dir):
+    """Regression test for the real Gate 4 failure: the orchestrator handed the container
+    `shard_00000.parquet`, which `data/manager.py` opens as UTF-8 text and cannot parse, so the epoch
+    died in 53s having produced nothing. Every train_list_path must be a list file."""
+    run_state_dir, checkpoint_index_path = run_dirs
+    runner = ScriptedFullRunEpochRunner([_ok_result(0.5)] * 3)
+    run_full_corpus_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        shards=_shards(3), shard_train_list_paths=_lists(3), validation_list_path="val_list.txt",
+        parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1", configuration_hash="h1", random_seed=1,
+        monitoring_config=_monitoring_config(), max_wall_clock_seconds=1e9, stop_requested=lambda: False,
+    )
+    assert runner.calls, "no epoch was ever attempted"
+    for call in runner.calls:
+        assert not call["train_list_path"].endswith(".parquet"), (
+            f"trainer was handed a Parquet manifest ({call['train_list_path']}) -- the container "
+            "cannot read Parquet; this is the exact defect that failed Gate 4"
+        )
+        assert call["train_list_path"].endswith("_list.txt")
+        assert not call["validation_list_path"].endswith(".parquet")
 
 
 def test_time_budget_reached_stops_the_call(run_dirs, parent_checkpoint_dir):
@@ -281,7 +314,7 @@ def test_time_budget_reached_stops_the_call(run_dirs, parent_checkpoint_dir):
     runner = ScriptedFullRunEpochRunner([_ok_result(0.5)] * 10)
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(10), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(10), shard_train_list_paths=_lists(10), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(recommended_patience=100),
         max_wall_clock_seconds=0.0001, stop_requested=lambda: False,
     )
@@ -294,7 +327,7 @@ def test_heartbeat_reflects_real_latest_and_best_metrics(run_dirs, parent_checkp
     runner = ScriptedFullRunEpochRunner([_ok_result(0.5), _ok_result(0.3), _ok_result(0.4)])
     run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(3), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_shards(3), shard_train_list_paths=_lists(3), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(recommended_patience=100),
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )

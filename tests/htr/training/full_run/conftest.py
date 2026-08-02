@@ -140,3 +140,40 @@ def build_pilot_fixture(
 @pytest.fixture()
 def pilot_fixture_dir(tmp_path):
     return tmp_path / "pilot-fixture"
+
+
+def write_pilot_manifests_from_inventory(pilot_dir, inventory_path, *, val_count=2, test_count=1):
+    """Writes real `val_manifest.parquet` / `test_reserved_manifest.parquet` for a pilot fixture,
+    sampled from a real inventory so the rows genuinely resolve back to the synthetic source Parquet.
+
+    `build_pilot_fixture` only ever wrote `pilot_split_summary.json`, which was enough while nothing
+    read the manifests themselves. `cmd_prepare` now extracts real images through
+    `prepare_loghi_training_data`, which needs manifest rows whose
+    `(collection, source_parquet_file, row_index)` keys actually exist in the dataset -- so the
+    fixture has to carry real manifests, not just a summary.
+    """
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+
+    from archivetrust.htr.training.swedish_dataset_inventory import read_inventory
+
+    table = read_inventory(inventory_path, columns=[
+        "line_id", "collection", "source_parquet_file", "row_index",
+        "image_content_hash", "image_width", "image_height", "transcription_length",
+    ], valid_only=True)
+    rows = table.to_pylist()
+    manifests_dir = pilot_dir / "manifests"
+    manifests_dir.mkdir(parents=True, exist_ok=True)
+
+    written = {}
+    cursor = 0
+    for name, count, split in (("val_manifest", val_count, "val"), ("test_reserved_manifest", test_count, "test")):
+        chunk = rows[cursor:cursor + count]
+        cursor += count
+        payload = {k: pa.array([r[k] for r in chunk]) for k in table.schema.names}
+        payload["split"] = pa.array([split] * len(chunk), type=pa.string())
+        payload["split_granularity"] = pa.array(["file_group"] * len(chunk), type=pa.string())
+        path = manifests_dir / f"{name}.parquet"
+        pq.write_table(pa.table(payload), path)
+        written[name] = path
+    return written

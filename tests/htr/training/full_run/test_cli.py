@@ -6,7 +6,7 @@ import pytest
 
 import archivetrust.htr.training.full_run.cli as cli
 from archivetrust.htr.training.full_run.run_state import STATUS_PREPARED, create_initial_run_state, save_run_state
-from tests.htr.training.full_run.conftest import build_pilot_fixture
+from tests.htr.training.full_run.conftest import build_pilot_fixture, write_pilot_manifests_from_inventory
 
 
 def test_parser_exposes_every_required_subcommand():
@@ -109,6 +109,7 @@ def test_prepare_end_to_end_with_monkeypatched_paths(pilot_fixture_dir, tmp_path
     training_root = tmp_path / "training"
     inventory_path = tmp_path / "inventory.parquet"
     build_source_inventory(dataset_root=synthetic_dataset_root, output_path=inventory_path, charlist_path=synthetic_charlist)
+    write_pilot_manifests_from_inventory(pilot_fixture_dir, inventory_path)
 
     parent_checkpoint_dir = tmp_path / "parent_checkpoint"
     parent_checkpoint_dir.mkdir()
@@ -124,6 +125,9 @@ def test_prepare_end_to_end_with_monkeypatched_paths(pilot_fixture_dir, tmp_path
     monkeypatch.setattr(cli, "PARENT_CHECKPOINT_DIR", parent_checkpoint_dir)
     monkeypatch.setattr(cli, "CHARLIST_PATH", parent_checkpoint_dir / "charlist.txt")
     monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / "config")
+    # prepare now extracts real line images from the source dataset and writes the container-
+    # readable list files; point it at the synthetic dataset rather than the real F:\ drive.
+    monkeypatch.setattr(cli, "DATASET_ROOT", synthetic_dataset_root)
 
     cli.main(["analyze-pilot", "--pilot-run", str(pilot_fixture_dir), "--shard-line-count", "3", "--max-epochs", "2"])
     result = cli.main(["prepare", "--config", str(tmp_path / "config" / "pilot_derived_monitoring.json"), "--run-name", "test-full-run"])
@@ -144,6 +148,7 @@ def test_prepare_never_reuses_an_existing_run_name(pilot_fixture_dir, tmp_path, 
     training_root = tmp_path / "training"
     inventory_path = tmp_path / "inventory.parquet"
     build_source_inventory(dataset_root=synthetic_dataset_root, output_path=inventory_path, charlist_path=synthetic_charlist)
+    write_pilot_manifests_from_inventory(pilot_fixture_dir, inventory_path)
     parent_checkpoint_dir = tmp_path / "parent_checkpoint"
     parent_checkpoint_dir.mkdir()
     with zipfile.ZipFile(parent_checkpoint_dir / "model.keras", "w") as zf:
@@ -156,6 +161,9 @@ def test_prepare_never_reuses_an_existing_run_name(pilot_fixture_dir, tmp_path, 
     monkeypatch.setattr(cli, "PARENT_CHECKPOINT_DIR", parent_checkpoint_dir)
     monkeypatch.setattr(cli, "CHARLIST_PATH", parent_checkpoint_dir / "charlist.txt")
     monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / "config")
+    # prepare now extracts real line images from the source dataset and writes the container-
+    # readable list files; point it at the synthetic dataset rather than the real F:\ drive.
+    monkeypatch.setattr(cli, "DATASET_ROOT", synthetic_dataset_root)
 
     cli.main(["analyze-pilot", "--pilot-run", str(pilot_fixture_dir), "--shard-line-count", "3", "--max-epochs", "2"])
     config_path = str(tmp_path / "config" / "pilot_derived_monitoring.json")
@@ -189,6 +197,7 @@ def _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_data
     training_root = tmp_path / "training"
     inventory_path = tmp_path / "inventory.parquet"
     build_source_inventory(dataset_root=synthetic_dataset_root, output_path=inventory_path, charlist_path=synthetic_charlist)
+    write_pilot_manifests_from_inventory(pilot_fixture_dir, inventory_path)
     parent_checkpoint_dir = tmp_path / "parent_checkpoint"
     parent_checkpoint_dir.mkdir()
     with zipfile.ZipFile(parent_checkpoint_dir / "model.keras", "w") as zf:
@@ -201,6 +210,9 @@ def _prepare_a_real_run(pilot_fixture_dir, tmp_path, monkeypatch, synthetic_data
     monkeypatch.setattr(cli, "PARENT_CHECKPOINT_DIR", parent_checkpoint_dir)
     monkeypatch.setattr(cli, "CHARLIST_PATH", parent_checkpoint_dir / "charlist.txt")
     monkeypatch.setattr(cli, "CONFIG_DIR", tmp_path / "config")
+    # prepare now extracts real line images from the source dataset and writes the container-
+    # readable list files; point it at the synthetic dataset rather than the real F:\ drive.
+    monkeypatch.setattr(cli, "DATASET_ROOT", synthetic_dataset_root)
 
     cli.main(["analyze-pilot", "--pilot-run", str(pilot_fixture_dir), "--shard-line-count", "3", "--max-epochs", "2"])
     config_path = str(tmp_path / "config" / "pilot_derived_monitoring.json")
