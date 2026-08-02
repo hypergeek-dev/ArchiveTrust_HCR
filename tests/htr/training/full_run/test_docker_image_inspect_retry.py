@@ -96,3 +96,41 @@ def test_docker_cli_missing_fails_without_retrying(monkeypatch):
     assert ok is False
     assert n == 1
     assert "could not be executed" in msg
+
+
+def test_launch_guard_uses_the_same_retrying_check_not_a_private_copy(monkeypatch):
+    """A real false negative: the guard kept its own 15s-timeout copy that mapped *every* failure --
+    including a timeout on a contended daemon -- to "image not available", and refused a legitimate
+    resume while the pinned image was present locally with the exact expected digest. Both call sites
+    must now share one classified implementation."""
+    import archivetrust.htr.training.full_run.launch_guard as lg
+
+    attempts = {"n": 0}
+
+    def _fake(*a, **k):
+        attempts["n"] += 1
+        if attempts["n"] == 1:
+            raise subprocess.TimeoutExpired(cmd="docker", timeout=30.0)
+        return _Result()
+
+    monkeypatch.setattr(pf.subprocess, "run", _fake)
+    import time as _t
+    monkeypatch.setattr(_t, "sleep", lambda s: None)
+
+    ok, msg = lg._container_image_available("img:tag", None)
+    assert ok is True, "a transient timeout must not be reported as a missing image"
+    assert attempts["n"] == 2, "the guard must retry, not fail on the first timeout"
+    assert "timeout" in msg, "the transient failure must still be surfaced, not silently swallowed"
+
+
+def test_launch_guard_reports_a_genuinely_absent_image_distinctly(monkeypatch):
+    import archivetrust.htr.training.full_run.launch_guard as lg
+
+    monkeypatch.setattr(
+        pf.subprocess, "run",
+        lambda *a, **k: _Result(returncode=1, stderr="Error: No such image: img:tag"),
+    )
+    ok, msg = lg._container_image_available("img:tag", None)
+    assert ok is False
+    assert "image_absent" in msg
+    assert "docker pull" in msg, "an absent image needs an actionable fix, unlike a timeout"

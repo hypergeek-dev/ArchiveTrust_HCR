@@ -130,6 +130,11 @@ def run_full_corpus_session(
     monitoring_config: FullRunMonitoringConfig,
     max_wall_clock_seconds: float,
     stop_requested: Callable[[], bool],
+    # Stop as soon as a full corpus lap completes, rather than rolling straight into the next one.
+    # The lap boundary is the human decision gate: a completed epoch is the first point at which
+    # validation movement reflects the whole corpus rather than a subset, so continuing past it
+    # should be an explicit operator choice, not a default.
+    stop_at_epoch_boundary: bool = False,
 ) -> FullRunSessionSummary:
     run_state_dir = Path(run_state_dir)
 
@@ -168,7 +173,21 @@ def run_full_corpus_session(
             monitoring_config.min_exposure_steps is None
             or cumulative_exposure_steps >= monitoring_config.min_exposure_steps
         )
-        patience = monitoring_config.recommended_patience if min_exposure_reached else None
+        # Early stopping must not fire before one complete corpus lap. `min_exposure_steps` was
+        # derived from the pilot, whose whole training set was 9,999 lines -- so it is satisfied
+        # after ~20 shards, long before the model has seen the corpus even once. Stopping there
+        # would end the run on evidence from a fraction of the data, and shard-to-shard val_CER
+        # movement at that scale is noise-dominated rather than a real plateau.
+        #
+        # `epochs_since_improvement` keeps accumulating and is still reported either way -- passing
+        # `early_stopping_patience=None` only withholds the *authority to act* on it, so the counter
+        # remains informational until a lap completes.
+        lap_position = compute_epoch_position(
+            global_shards_completed=cumulative_shards, shards=shards, total_shards_planned=len(shards)
+        )
+        full_lap_completed = lap_position.epochs_completed >= 1
+        patience_may_act = min_exposure_reached and full_lap_completed
+        patience = monitoring_config.recommended_patience if patience_may_act else None
 
         current_shard = shards[cumulative_shards]
         # The trainer receives the shard's *training-list* file, never its Parquet manifest. The
@@ -263,9 +282,17 @@ def run_full_corpus_session(
             stop_reason = "missing_validation_result"
             break
 
-        if min_exposure_reached and summary.stop_reason == "no_val_cer_improvement":
+        if patience_may_act and summary.stop_reason == "no_val_cer_improvement":
             stop_reason = "no_val_cer_improvement"
             completed = True
+            break
+
+        if stop_at_epoch_boundary and position.is_epoch_boundary:
+            # Hand back to the operator at the lap boundary. Deliberately *not* `completed`: the
+            # corpus plan has further laps, so this is a decision gate, and the run must stay
+            # resumable. Marking it completed here would make the next lap unreachable, because
+            # resuming a terminal run is refused.
+            stop_reason = "epoch_boundary_reached"
             break
 
     if completed:

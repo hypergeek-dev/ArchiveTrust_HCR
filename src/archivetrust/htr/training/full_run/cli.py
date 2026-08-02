@@ -622,6 +622,7 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
         monitoring_config=monitoring_config,
         max_wall_clock_seconds=args.hours * 3600.0,
         stop_requested=lambda: stop_sentinel.exists(),
+        stop_at_epoch_boundary=args.stop_at_epoch_boundary,
     )
 
     print(f"stop_reason: {summary.stop_reason}")
@@ -729,6 +730,7 @@ def build_parser() -> argparse.ArgumentParser:
     start.add_argument("--allow-code-revision-drift", action="store_true", help="allow the current git commit to differ from the one recorded at `prepare` time")
     start.add_argument("--no-docker-check", action="store_true", help="skip the launch guard's docker daemon/image checks")
     start.add_argument("--force-integrity-check", action="store_true", help="rehash every shard and re-run full overlap validation, ignoring the cached fingerprint")
+    start.add_argument("--stop-at-epoch-boundary", action="store_true", help="stop as soon as one full corpus lap completes, instead of rolling into the next")
     start.set_defaults(func=cmd_start)
 
     status = subparsers.add_parser("status", help="show a run's current state")
@@ -754,6 +756,7 @@ def build_parser() -> argparse.ArgumentParser:
     resume.add_argument("--allow-code-revision-drift", action="store_true", help="allow the current git commit to differ from the one recorded at `prepare` time")
     resume.add_argument("--no-docker-check", action="store_true", help="skip the launch guard's docker daemon/image checks")
     resume.add_argument("--force-integrity-check", action="store_true", help="rehash every shard and re-run full overlap validation, ignoring the cached fingerprint")
+    resume.add_argument("--stop-at-epoch-boundary", action="store_true", help="stop as soon as one full corpus lap completes, instead of rolling into the next")
     resume.add_argument(
         "--force-resume-after-crash", action="store_true",
         help="recover a run left marked running/stopping by a crash; only takes effect when live "

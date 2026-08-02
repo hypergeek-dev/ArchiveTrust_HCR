@@ -42,15 +42,15 @@ def _docker_reachable() -> bool:
     return completed.returncode == 0
 
 
-def _container_image_available(image_tag: str, image_digest: str | None) -> bool:
-    ref = f"{image_tag}@{image_digest}" if image_digest else image_tag
-    try:
-        completed = subprocess.run(
-            ["docker", "image", "inspect", ref], capture_output=True, text=True, timeout=15.0, check=False,
-        )
-    except (subprocess.SubprocessError, OSError):
-        return False
-    return completed.returncode == 0
+def _container_image_available(image_tag: str, image_digest: str | None) -> tuple[bool, str]:
+    """Delegates to preflight's bounded-retry, failure-classifying check rather than keeping a second,
+    weaker copy here. The private copy this replaces used a bare 15s timeout and mapped *every*
+    failure -- including a timeout on a contended Docker Desktop daemon -- to "image not available",
+    which produced a real false negative that blocked a legitimate resume while the pinned image was
+    present locally with the exact expected digest."""
+    from archivetrust.htr.training.full_run.preflight import _check_container_image_available
+
+    return _check_container_image_available(image_tag, image_digest)
 
 
 CRASHED_RUN_TELEMETRY_STALE_SECONDS = 300.0
@@ -273,8 +273,13 @@ def evaluate_launch_guard(
     if check_docker:
         if not _docker_reachable():
             problems.append("Docker daemon is not reachable (docker ps failed).")
-        elif not _container_image_available(container_image_tag, container_image_digest):
-            problems.append(f"Pinned container image not available locally: {container_image_tag}.")
+        else:
+            image_ok, image_detail = _container_image_available(container_image_tag, container_image_digest)
+            if not image_ok:
+                # Carry the classified detail through verbatim: "image_absent" and "could not confirm
+                # after N attempts" call for different operator actions, and the old message asserted
+                # the former for both.
+                problems.append(f"Pinned container image check failed: {image_detail}")
 
     return problems
 

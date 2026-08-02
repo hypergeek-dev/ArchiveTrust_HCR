@@ -190,7 +190,31 @@ docs/experiments/lion-loghi-comparison/runs/
 # docs/experiments/technical-reliability-screening/ above. Manifests, reports, and derived monitoring
 # config (small, real evidence -- split composition, character-compatibility/memory-probe/resume-proof
 # results, pilot-derived monitoring values) ARE committed.
-training/*/run-state/
+# `run-state/` is excluded by its heavy subpaths rather than wholesale, so the small JSON evidence
+# beside them stays under version control. `run_state.json` is the run's audit file by design and
+# `session_state.json` carries the real validation history -- excluding the whole directory meant a
+# completed training run left no committed record of what it actually did. Measured on the 53-shard
+# full-corpus run: epoch_output 39.5GB, staged_parent_checkpoint 497MB, telemetry 1.5MB and growing,
+# versus 225KB for everything kept. `integrity_cache.json` is excluded too -- it is a regenerable
+# cache keyed on file mtimes, so committing it would churn on every run without adding evidence.
+# Every pattern here is depth-independent (`**`). Single-level equivalents were tried first and
+# missed 3.98GB sitting in nested paths the flat form does not reach -- run-state/resume-proof/
+# epoch_output/, run-state/memory-probe/, run-state/smoke-staged-parent/ -- the same shape of miss
+# that previously let 141MB of shard Parquet reach the remote.
+training/**/epoch_output/
+training/**/staged_parent_checkpoint/
+training/**/smoke-staged-parent/
+training/**/memory-probe/
+training/**/inspect_out/
+training/**/telemetry/
+training/**/integrity_cache.json
+# Backstop independent of directory naming: serialized model weights are the actual weight, and a
+# future run directory that invents a new subdirectory name must not be able to smuggle them in.
+training/**/*.keras
+training/**/*.keras.old
+training/**/*.h5
+training/**/*.hdf5
+training/**/*.pb
 training/*/prepared-data/
 training/*/source-inventory/
 training/*/shards/

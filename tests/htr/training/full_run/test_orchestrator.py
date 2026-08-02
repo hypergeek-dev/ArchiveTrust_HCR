@@ -137,21 +137,25 @@ def test_never_early_stops_before_minimum_exposure(run_dirs, parent_checkpoint_d
     assert summary.cumulative_shards_completed >= 5
 
 
-def test_patience_triggers_after_minimum_exposure_is_reached(run_dirs, parent_checkpoint_dir):
+def test_patience_triggers_after_minimum_exposure_and_a_completed_lap(run_dirs, parent_checkpoint_dir):
+    """Patience now requires BOTH minimum exposure and one completed corpus lap. Previously a
+    single-lap plan let it fire mid-lap; with a 5-shard lap inside a 20-shard plan it must wait for
+    the lap boundary and then act."""
     run_state_dir, checkpoint_index_path = run_dirs
-    # improves once, then plateaus -- patience=2 should trigger shortly after min exposure
-    runner = ScriptedFullRunEpochRunner(
-        [_ok_result(0.5), _ok_result(0.3), _ok_result(0.3), _ok_result(0.3), _ok_result(0.3)]
-    )
-    config = _monitoring_config(recommended_patience=2, min_exposure_steps=10, steps_per_shard=10)  # 1 shard's worth
+    # improves once, then plateaus forever
+    runner = ScriptedFullRunEpochRunner([_ok_result(0.5)] + [_ok_result(0.3)] * 25)
+    config = _monitoring_config(recommended_patience=2, min_exposure_steps=10, steps_per_shard=10)
     summary = run_full_corpus_session(
         run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
-        shards=_shards(10), shard_train_list_paths=_lists(10), validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
+        shards=_lap_shards(20, 5), shard_train_list_paths=tuple(f"s{i}_list.txt" for i in range(20)),
+        validation_list_path="val.txt", parent_checkpoint_dir=parent_checkpoint_dir, run_id="r1",
         configuration_hash="h1", random_seed=1, monitoring_config=config,
         max_wall_clock_seconds=1e9, stop_requested=lambda: False,
     )
     assert summary.stop_reason == "no_val_cer_improvement"
     assert summary.completed is True
+    assert summary.cumulative_shards_completed >= 5, "must not stop before the first lap completes"
+    assert summary.cumulative_shards_completed < 20, "must stop early once past the lap gate"
     final_state = load_run_state(run_state_dir)
     assert final_state.status == STATUS_COMPLETED
 
@@ -402,3 +406,94 @@ def test_run_state_records_epoch_position_not_shards_as_epochs(run_dirs, parent_
     assert st.epochs_completed == 0, "2 of 3 shards is not an epoch"
     assert st.shards_completed_in_current_epoch == 2
     assert st.epoch_progress == pytest.approx(2 / 3)
+
+
+def test_early_stopping_cannot_fire_before_one_full_corpus_lap(run_dirs, parent_checkpoint_dir):
+    """Operator requirement: patience is informational until a full lap completes. min_exposure is
+    satisfied after ~20 shards (it was derived from a 9,999-line pilot), so without this gate the run
+    would stop on evidence from a fraction of the corpus."""
+    run_state_dir, checkpoint_index_path = run_dirs
+    # Improves once then plateaus forever -- patience=2 would trigger almost immediately.
+    runner = ScriptedFullRunEpochRunner([_ok_result(0.5)] + [_ok_result(0.4)] * 20)
+    config = _monitoring_config(recommended_patience=2, min_exposure_steps=10, steps_per_shard=10)
+    summary = run_full_corpus_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        shards=_lap_shards(20, 10), shard_train_list_paths=tuple(f"s{i}_list.txt" for i in range(20)),
+        validation_list_path="val_list.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, monitoring_config=config,
+        max_wall_clock_seconds=1e9, stop_requested=lambda: False,
+    )
+    # 10 shards per lap: it must reach at least shard 10, not stop at ~3 where patience would bite.
+    assert summary.cumulative_shards_completed >= 10, (
+        f"stopped after {summary.cumulative_shards_completed} shards -- before completing a lap")
+
+
+def test_patience_counter_still_accumulates_while_it_is_only_informational(run_dirs, parent_checkpoint_dir):
+    """The counter must keep being calculated and displayed -- only its authority to stop is withheld."""
+    from archivetrust.htr.training.training_session import load_session_state
+
+    run_state_dir, checkpoint_index_path = run_dirs
+    runner = ScriptedFullRunEpochRunner([_ok_result(0.5)] + [_ok_result(0.4)] * 8)
+    config = _monitoring_config(recommended_patience=2, min_exposure_steps=10, steps_per_shard=10)
+    run_full_corpus_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        shards=_lap_shards(20, 10), shard_train_list_paths=tuple(f"s{i}_list.txt" for i in range(20)),
+        validation_list_path="val_list.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, monitoring_config=config,
+        max_wall_clock_seconds=1e9, stop_requested=lambda: len(runner.calls) >= 6,
+    )
+    state = load_session_state(run_state_dir)
+    assert state.epochs_since_improvement > 0, "counter must still accumulate for reporting"
+
+
+def test_stop_at_epoch_boundary_hands_back_at_the_lap_and_stays_resumable(run_dirs, parent_checkpoint_dir):
+    """Operator requirement: at the lap boundary, stop at the human decision gate and do not begin
+    lap 2. The run must remain resumable, so this is a `stopped` state, never `completed`."""
+    from archivetrust.htr.training.full_run.run_state import STATUS_STOPPED, load_run_state
+
+    run_state_dir, checkpoint_index_path = run_dirs
+    # Keeps improving, so nothing else would ever stop it before the plan is exhausted.
+    runner = ScriptedFullRunEpochRunner([_ok_result(0.5 - i * 0.01) for i in range(30)])
+    summary = run_full_corpus_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        shards=_lap_shards(20, 5), shard_train_list_paths=tuple(f"s{i}_list.txt" for i in range(20)),
+        validation_list_path="val_list.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
+        max_wall_clock_seconds=1e9, stop_requested=lambda: False,
+        stop_at_epoch_boundary=True,
+    )
+    assert summary.cumulative_shards_completed == 5, "must stop at the first lap boundary exactly"
+    assert summary.stop_reason == "epoch_boundary_reached"
+    assert summary.completed is False, "a lap boundary is a decision gate, not run completion"
+    assert load_run_state(run_state_dir).status == STATUS_STOPPED
+
+
+def test_without_the_flag_a_lap_boundary_does_not_stop_the_run(run_dirs, parent_checkpoint_dir):
+    """The gate is opt-in: the default multi-lap plan still rolls straight into the next lap."""
+    run_state_dir, checkpoint_index_path = run_dirs
+    runner = ScriptedFullRunEpochRunner([_ok_result(0.5 - i * 0.01) for i in range(30)])
+    summary = run_full_corpus_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        shards=_lap_shards(20, 5), shard_train_list_paths=tuple(f"s{i}_list.txt" for i in range(20)),
+        validation_list_path="val_list.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
+        max_wall_clock_seconds=1e9, stop_requested=lambda: False,
+    )
+    assert summary.cumulative_shards_completed == 20
+
+
+def test_early_stopping_still_works_after_a_lap_is_complete(run_dirs, parent_checkpoint_dir):
+    """The gate delays patience; it must not disable it permanently."""
+    run_state_dir, checkpoint_index_path = run_dirs
+    runner = ScriptedFullRunEpochRunner([_ok_result(0.5)] + [_ok_result(0.4)] * 30)
+    config = _monitoring_config(recommended_patience=2, min_exposure_steps=10, steps_per_shard=10)
+    summary = run_full_corpus_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        shards=_lap_shards(30, 5), shard_train_list_paths=tuple(f"s{i}_list.txt" for i in range(30)),
+        validation_list_path="val_list.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, monitoring_config=config,
+        max_wall_clock_seconds=1e9, stop_requested=lambda: False,
+    )
+    assert summary.stop_reason == "no_val_cer_improvement"
+    assert summary.cumulative_shards_completed >= 5, "must have completed at least one 5-shard lap first"
+    assert summary.cumulative_shards_completed < 30, "must have stopped early once past the lap gate"
