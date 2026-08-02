@@ -41,7 +41,7 @@ def test_status_panel_has_a_label_for_every_required_field():
     window = MainWindow()
     try:
         required = {
-            "status", "monitoring_state", "current_epoch", "current_global_step",
+            "status", "monitoring_state", "epoch_position", "global_shards", "current_global_step",
             "latest_val_cer", "best_val_cer", "epochs_since_improvement",
             "latest_checkpoint", "best_checkpoint", "resumable", "stop_reason",
         }
@@ -72,7 +72,9 @@ def test_refresh_status_reflects_a_real_run_state(tmp_path):
     run_dir = tmp_path / "myrun"
     state = heartbeat(
         mark_running(create_initial_run_state(run_id="r1", configuration_hash="h1")),
-        current_epoch=5, latest_metrics={"val_cer": 0.25}, best_metrics={"val_cer": 0.22},
+        current_epoch=5, global_shards_completed=5, epochs_completed=0,
+        shards_completed_in_current_epoch=5, shards_per_epoch=57, epoch_progress=5/57,
+        latest_metrics={"val_cer": 0.25}, best_metrics={"val_cer": 0.22},
     )
     save_run_state(run_dir / "run-state", state)
 
@@ -81,7 +83,11 @@ def test_refresh_status_reflects_a_real_run_state(tmp_path):
     try:
         window._run_dir_edit.setText(str(run_dir))
         window._refresh_status()
-        assert window._status_labels["current_epoch"].text() == "5"
+        # 5 shards is NOT 5 epochs -- the panel must say so explicitly.
+        position = window._status_labels["epoch_position"].text()
+        assert "epochs_completed=0" in position
+        assert "5/57" in position
+        assert window._status_labels["global_shards"].text() == "5"
         assert window._status_labels["latest_val_cer"].text() == "0.25"
         assert window._status_labels["best_val_cer"].text() == "0.22"
     finally:

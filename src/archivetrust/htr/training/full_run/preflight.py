@@ -112,17 +112,74 @@ def _check_docker_daemon_reachable() -> tuple[bool, str]:
     return True, "Docker daemon reachable (docker ps succeeded)."
 
 
+IMAGE_INSPECT_TIMEOUT_SECONDS = 30.0
+IMAGE_INSPECT_MAX_ATTEMPTS = 3
+IMAGE_INSPECT_BACKOFF_SECONDS = 2.0
+"""`docker image inspect` timed out at 15s on six separate real preflight runs in this project and
+succeeded on retry every time -- a slow/contended Docker Desktop daemon, not a missing image. A bare
+timeout was reported as a hard FAIL, which is a false negative that blocks a legitimate launch. It is
+now retried with backoff, and the *reason* is classified rather than collapsed into one message: a
+timeout, a genuinely absent image, an unreachable daemon, and an unparseable response need different
+operator responses. The warning is still surfaced when a retry succeeds -- never silently swallowed."""
+
+
+def _classify_inspect_failure(stderr: str, returncode: int) -> str:
+    """Distinguishes the real failure modes `docker image inspect` can report, so a transient daemon
+    stall is never mistaken for a missing image."""
+    text = (stderr or "").lower()
+    if "no such image" in text or "no such object" in text:
+        return "image_absent"
+    if any(s in text for s in ("cannot connect to the docker daemon", "docker daemon is not running",
+                               "error during connect", "pipe/docker_engine")):
+        return "daemon_unreachable"
+    if returncode != 0:
+        return "inspect_error"
+    return "malformed_response"
+
+
 def _check_container_image_available(image_tag: str, image_digest: str | None) -> tuple[bool, str]:
+    import time as _time
+
     ref = f"{image_tag}@{image_digest}" if image_digest else image_tag
-    try:
-        completed = subprocess.run(
-            ["docker", "image", "inspect", ref], capture_output=True, text=True, timeout=15.0, check=False,
-        )
-    except (subprocess.SubprocessError, OSError) as exc:
-        return False, f"docker image inspect failed to run: {exc}"
-    if completed.returncode != 0:
-        return False, f"Pinned image not present locally: {ref} (run `docker pull {image_tag}`)."
-    return True, f"Pinned image present locally: {ref}."
+    attempts: list[str] = []
+
+    for attempt in range(1, IMAGE_INSPECT_MAX_ATTEMPTS + 1):
+        try:
+            completed = subprocess.run(
+                ["docker", "image", "inspect", ref], capture_output=True, text=True,
+                timeout=IMAGE_INSPECT_TIMEOUT_SECONDS, check=False,
+            )
+        except subprocess.TimeoutExpired:
+            attempts.append(f"attempt {attempt}: timeout after {IMAGE_INSPECT_TIMEOUT_SECONDS:.0f}s")
+            if attempt < IMAGE_INSPECT_MAX_ATTEMPTS:
+                _time.sleep(IMAGE_INSPECT_BACKOFF_SECONDS * attempt)
+            continue
+        except OSError as exc:
+            attempts.append(f"attempt {attempt}: docker CLI could not be executed ({exc})")
+            break
+
+        if completed.returncode == 0:
+            if not (completed.stdout or "").strip().startswith("["):
+                attempts.append(f"attempt {attempt}: malformed_response (exit 0, unparseable output)")
+                if attempt < IMAGE_INSPECT_MAX_ATTEMPTS:
+                    _time.sleep(IMAGE_INSPECT_BACKOFF_SECONDS * attempt)
+                    continue
+                break
+            note = f" (succeeded on attempt {attempt} after: {'; '.join(attempts)})" if attempts else ""
+            return True, f"Pinned image present locally: {ref}.{note}"
+
+        kind = _classify_inspect_failure(completed.stderr, completed.returncode)
+        attempts.append(f"attempt {attempt}: {kind}")
+        if kind == "image_absent":
+            # A genuinely missing image will not appear on retry -- fail immediately with the fix.
+            return False, f"image_absent: pinned image not present locally: {ref}. Run `docker pull {image_tag}`."
+        if attempt < IMAGE_INSPECT_MAX_ATTEMPTS:
+            _time.sleep(IMAGE_INSPECT_BACKOFF_SECONDS * attempt)
+
+    return False, (
+        f"Could not confirm the pinned image {ref} after {IMAGE_INSPECT_MAX_ATTEMPTS} attempts: "
+        + "; ".join(attempts)
+    )
 
 
 def _check_gpu_available(require_gpu: bool) -> tuple[bool, str]:

@@ -28,6 +28,7 @@ from pydantic import BaseModel, ConfigDict
 
 from archivetrust.htr.training.checkpoint_index import verify_checkpoint
 from archivetrust.htr.training.full_run.corpus_sharding import ShardInfo
+from archivetrust.htr.training.full_run.epoch_accounting import compute_epoch_position
 from archivetrust.htr.training.full_run.monitoring_config import FullRunMonitoringConfig
 from archivetrust.htr.training.full_run.run_state import (
     FullRunState,
@@ -61,6 +62,42 @@ class FullRunSessionSummary(BaseModel):
     completed: bool
     """`True` only when `stop_reason` represents a genuine, verified completion -- gates
     `run_state.py::mark_completed` (never set on a failure or a mid-run stop)."""
+
+
+def _record_end_of_epoch_checkpoint(
+    *, checkpoint_index_path, checkpoint_dir: str, run_id: str, configuration_hash: str,
+    position, metrics: dict,
+) -> None:
+    """Adds an `end_of_epoch` entry for a checkpoint that has just completed a full corpus pass.
+
+    Deliberately a separate index entry pointing at the same directory as `latest`, rather than a
+    copy: `checkpoint_index.py` is append-only and already models one physical checkpoint carrying
+    several kinds. Verified before being marked resumable, so an interrupted or truncated write can
+    never be promoted over the last good epoch boundary."""
+    from archivetrust.domain.shared.ids import new_id
+    from archivetrust.htr.training.checkpoint_index import CheckpointEntry, append_checkpoint_entry
+
+    verified, model_hash, _ = verify_checkpoint(checkpoint_dir)
+    append_checkpoint_entry(
+        checkpoint_index_path,
+        CheckpointEntry(
+            checkpoint_id=new_id("loghi_checkpoint"),
+            run_id=run_id, session_id="epoch_boundary",
+            source_checkpoint=checkpoint_dir,
+            epoch=position.epochs_completed,
+            global_step=position.global_shards_completed,
+            cumulative_training_seconds=0.0, session_training_seconds=0.0,
+            checkpoint_dir=checkpoint_dir, model_file_hash=model_hash,
+            model_state_present=verified, optimizer_state_present=False,
+            scheduler_state_present=False, sampler_state_present=False,
+            configuration_hash=configuration_hash,
+            training_manifest_hash="", validation_manifest_hash="",
+            validation_metrics={k: v for k, v in metrics.items() if v is not None},
+            created_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            verification_status="verified" if verified else "verification_failed",
+            resumable=verified, checkpoint_kind="end_of_epoch",
+        ),
+    )
 
 
 def _has_nan_or_inf(*values: float | None) -> bool:
@@ -173,10 +210,22 @@ def run_full_corpus_session(
         reloaded_state = load_session_state(run_state_dir)
         best_metrics = {"val_cer": reloaded_state.best_val_cer} if reloaded_state else {}
 
+        # `cumulative_epoch` counts SHARDS despite its name (see epoch_accounting.py). Translate it
+        # into honest epoch/shard positions before anything reports progress.
+        shards_done = reloaded_state.cumulative_epoch if reloaded_state else cumulative_shards + 1
+        position = compute_epoch_position(
+            global_shards_completed=shards_done, shards=shards, total_shards_planned=len(shards)
+        )
+
         full_run_state = heartbeat(
             full_run_state,
-            current_epoch=reloaded_state.cumulative_epoch if reloaded_state else cumulative_shards + 1,
-            samples_processed=(reloaded_state.cumulative_epoch if reloaded_state else 0) * current_shard.line_count,
+            current_epoch=shards_done,  # legacy field, kept readable for old run_state.json consumers
+            global_shards_completed=position.global_shards_completed,
+            epochs_completed=position.epochs_completed,
+            shards_completed_in_current_epoch=position.shards_completed_in_current_epoch,
+            shards_per_epoch=position.shards_per_epoch,
+            epoch_progress=position.epoch_progress,
+            samples_processed=shards_done * current_shard.line_count,
             latest_metrics=latest_metrics,
             best_metrics=best_metrics,
             epochs_since_improvement=reloaded_state.epochs_since_improvement if reloaded_state else 0,
@@ -184,6 +233,17 @@ def run_full_corpus_session(
             best_checkpoint=summary.best_checkpoint_dir,
         )
         save_run_state(run_state_dir, full_run_state)
+
+        if position.is_epoch_boundary and summary.latest_checkpoint_dir:
+            # A full pass over the corpus just finished: record an end_of_epoch checkpoint entry so
+            # the epoch boundary is recoverable and auditable independently of `latest`, which the
+            # next shard will move on from. Verified before it is recorded as resumable.
+            _record_end_of_epoch_checkpoint(
+                checkpoint_index_path=checkpoint_index_path,
+                checkpoint_dir=summary.latest_checkpoint_dir,
+                run_id=run_id, configuration_hash=configuration_hash,
+                position=position, metrics=latest_metrics,
+            )
 
         if not last_result.ok:
             stop_reason = "epoch_failed"

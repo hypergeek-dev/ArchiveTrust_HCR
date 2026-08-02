@@ -48,6 +48,18 @@ class FullRunState(BaseModel):
     ended_at: str | None = None
     last_heartbeat_at: str | None = None
     current_epoch: int = 0
+    """**Misleadingly named -- this counts SHARDS, not epochs.** Retained under the old name so
+    existing persisted `run_state.json` files stay readable, but every user-facing surface now reports
+    the corrected fields below. One epoch is 57 shards at full-corpus scale; treating this as an epoch
+    count overstates progress by 57x. Prefer `global_shards_completed`."""
+    global_shards_completed: int = 0
+    """Total shard executions completed across the run -- the honest name for `current_epoch`."""
+    epochs_completed: int = 0
+    """Full passes over the corpus completed. Increments only when a lap's final shard finishes."""
+    shards_completed_in_current_epoch: int = 0
+    shards_per_epoch: int = 0
+    """Derived from the real shard plan (lap-0 shard count), 0 until a run has started."""
+    epoch_progress: float = 0.0
     """The current shard index -- one full-run "epoch" = one shard (`corpus_sharding.py`)."""
     current_global_step: int = 0
     samples_processed: int = 0

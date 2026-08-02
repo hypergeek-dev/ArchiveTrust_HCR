@@ -393,14 +393,15 @@ def cmd_prepare(args: argparse.Namespace) -> int:
     print(f"Excluded reserved test lines: {test_line_count}")
     print(f"Dataset hash: {dataset_hash}")
     print(f"Estimated steps per shard: {config.steps_per_shard}")
-    print(f"Configured maximum epochs (shards): {config.max_full_run_epochs}")
+    print(f"Configured maximum SHARD executions: {config.max_full_run_epochs} "
+          f"(= {config.max_full_run_epochs // max(1, len([s for s in sharding_summary.shards if s.lap == 0]))} full epochs over the corpus)")
     print(f"Configured minimum training exposure: {config.min_exposure_steps} steps ({config.min_exposure_basis})")
     print(f"Early-stopping patience: {config.recommended_patience}")
     print(f"Training data pool: {training_data.pool_dir} "
           f"({'reused existing' if training_data.reused_existing_pool else 'built fresh'})")
     print(f"Extracted line images: {training_data.train_image_count} train, {training_data.validation_image_count} validation")
     print(f"Per-shard training lists: {len(training_data.shard_list_paths)} (UTF-8 <path>TAB<text>, container-readable)")
-    print("Validation interval: every shard")
+    print("Validation interval: every shard (full 1000-line held-out set)")
     print("Checkpoint interval: every shard")
     print(f"Code commit: {run_state.code_revision} (repository dirty: {manifest.repository_dirty})")
     print(f"Container image: {manifest.container_image_name}")
@@ -415,6 +416,64 @@ def cmd_prepare(args: argparse.Namespace) -> int:
     print("Exact manual launch command (NOT executed):")
     print(f"  {preview.launch_command}")
     return 0
+
+
+def _validate_shard_integrity(
+    *, run_dir: Path, launch_manifest, dataset_hash, validation_manifest_path: Path,
+    test_manifest_path: Path, configuration_hash: str, force_full_check: bool,
+) -> tuple[str | None, bool, str, float]:
+    """`(training_manifest_hash, overlap_already_checked, human_note, seconds)`.
+
+    Full validation on the first run and whenever anything changed; a fingerprint re-verification
+    plus a deterministic content sample otherwise. Never skips validation outright -- see
+    `integrity_cache.py` for why the cache is a fingerprint rather than a bypass."""
+    import hashlib
+    import time as _time
+
+    from archivetrust.htr.training.full_run.corpus_sharding import load_sharding_summary
+    from archivetrust.htr.training.full_run.integrity_cache import (
+        build_cache, cache_is_valid, deterministic_sample_indices, load_cache,
+        sampled_shard_hash, save_cache,
+    )
+    from archivetrust.htr.training.full_run.launch_guard import (
+        _shard_line_id_overlap_with_manifest, recompute_real_shard_hash,
+    )
+
+    started = _time.monotonic()
+    shards_dir = run_dir / "shards"
+    summary = load_sharding_summary(shards_dir)
+    shard_paths = [Path(s.manifest_path) for s in summary.shards]
+    val_hash = hashlib.sha256(validation_manifest_path.read_bytes()).hexdigest() if validation_manifest_path.exists() else ""
+    recorded_hash = launch_manifest.training_manifest_hash if launch_manifest else None
+
+    cache = None if force_full_check else load_cache(run_dir)
+    ok, reason = cache_is_valid(
+        cache, shard_paths=shard_paths, dataset_hash=dataset_hash,
+        training_manifest_hash=recorded_hash, validation_manifest_hash=val_hash,
+        configuration_hash=configuration_hash,
+    )
+    if ok and cache is not None:
+        indices = deterministic_sample_indices(
+            manifest_hash=cache.training_manifest_hash, shard_count=len(shard_paths)
+        )
+        sampled_shard_hash(shard_paths, indices)  # real content re-read, not metadata alone
+        note = (
+            f"cached ({reason}); re-read {len(indices)} sampled shards; "
+            f"overlap val={cache.validation_overlap} test={cache.test_overlap}"
+        )
+        return cache.training_manifest_hash, True, note, _time.monotonic() - started
+
+    full_hash = recompute_real_shard_hash(shards_dir)
+    val_overlap = _shard_line_id_overlap_with_manifest(shards_dir, validation_manifest_path) if validation_manifest_path.exists() else 0
+    test_overlap = _shard_line_id_overlap_with_manifest(shards_dir, test_manifest_path) if test_manifest_path.exists() else 0
+    save_cache(run_dir, build_cache(
+        shard_paths=shard_paths, dataset_hash=dataset_hash, training_manifest_hash=full_hash,
+        validation_manifest_hash=val_hash, configuration_hash=configuration_hash,
+        validation_overlap=val_overlap, test_overlap=test_overlap,
+    ))
+    trigger = "forced" if force_full_check else reason
+    note = f"FULL validation ({trigger}); {len(shard_paths)} shards rehashed; overlap val={val_overlap} test={test_overlap}"
+    return full_hash, True, note, _time.monotonic() - started
 
 
 def cmd_start(args: argparse.Namespace) -> int:
@@ -473,7 +532,16 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
         return 1
     training_data = ShardTrainingDataPaths.model_validate_json(training_data_path.read_text(encoding="utf-8"))
 
-    from archivetrust.htr.training.full_run.launch_guard import recompute_real_shard_hash
+    manifest_hash, overlap_checked, integrity_note, integrity_seconds = _validate_shard_integrity(
+        run_dir=run_dir,
+        launch_manifest=launch_manifest,
+        dataset_hash=_dataset_hash(),
+        validation_manifest_path=DEFAULT_PILOT_RUN_DIR / "manifests" / "val_manifest.parquet",
+        test_manifest_path=DEFAULT_PILOT_RUN_DIR / "manifests" / "test_reserved_manifest.parquet",
+        configuration_hash=state.configuration_hash,
+        force_full_check=getattr(args, "force_integrity_check", False),
+    )
+    print(f"Shard integrity: {integrity_note} ({integrity_seconds:.1f}s)")
 
     guard_kwargs = dict(
         confirmed=args.confirm_full_corpus_run,
@@ -481,10 +549,11 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
         run_state=state,
         launch_manifest=launch_manifest,
         current_dataset_hash=_dataset_hash(),
-        # A real rehash of every real lap-0 shard file's actual line_id column -- not just a second
-        # read of sharding_summary.json's own recorded hash field (which would never catch a shard
-        # file replaced or corrupted after `prepare` without the summary itself being touched).
-        current_training_manifest_hash=recompute_real_shard_hash(run_dir / "shards"),
+        current_training_manifest_hash=manifest_hash,
+        # Overlap was validated by _validate_shard_integrity (fully on a cache miss, and its cached
+        # result re-verified against a real fingerprint on a hit), so the guard must not repeat the
+        # 342-file scan. Passing the already-validated verdict rather than re-deriving it.
+        check_train_val_overlap=not overlap_checked,
         test_manifest_path=DEFAULT_PILOT_RUN_DIR / "manifests" / "test_reserved_manifest.parquet",
         preflight_passed=preflight_passed,
         preflight_age_seconds=preflight_age_seconds,
@@ -571,6 +640,29 @@ def cmd_status(args: argparse.Namespace) -> int:
         print(f"No run_state.json under {run_state_dir}.")
         return 1
     print(f"display_status: {display_status(state)}")
+
+    # Progress in units that mean what they say. `current_epoch` counts SHARDS despite its name; one
+    # epoch is `shards_per_epoch` (57) shards, so reporting shards as epochs overstates progress 57x.
+    shards_dir = Path(args.run) / "shards"
+    if shards_dir.exists():
+        from archivetrust.htr.training.full_run.corpus_sharding import load_sharding_summary
+        from archivetrust.htr.training.full_run.epoch_accounting import compute_epoch_position
+
+        try:
+            summary = load_sharding_summary(shards_dir)
+            pos = compute_epoch_position(
+                global_shards_completed=state.current_epoch,
+                shards=summary.shards, total_shards_planned=len(summary.shards),
+            )
+            print(f"shards_completed_in_current_epoch: {pos.shards_completed_in_current_epoch} / {pos.shards_per_epoch}")
+            print(f"epochs_completed: {pos.epochs_completed}")
+            print(f"epoch_progress: {pos.epoch_progress:.4f}")
+            print(f"global_shards_completed: {pos.global_shards_completed} / {pos.total_shards_planned}")
+            print(f"total_epochs_planned: {pos.total_epochs_planned}")
+            print(f"at_epoch_boundary: {pos.is_epoch_boundary}")
+        except (OSError, ValueError) as exc:
+            print(f"(epoch position unavailable: {exc})")
+
     print(json.dumps(state.model_dump(), indent=2, ensure_ascii=False))
     return 0
 
@@ -636,6 +728,7 @@ def build_parser() -> argparse.ArgumentParser:
     start.add_argument("--allow-dirty-repository", action="store_true")
     start.add_argument("--allow-code-revision-drift", action="store_true", help="allow the current git commit to differ from the one recorded at `prepare` time")
     start.add_argument("--no-docker-check", action="store_true", help="skip the launch guard's docker daemon/image checks")
+    start.add_argument("--force-integrity-check", action="store_true", help="rehash every shard and re-run full overlap validation, ignoring the cached fingerprint")
     start.set_defaults(func=cmd_start)
 
     status = subparsers.add_parser("status", help="show a run's current state")
@@ -660,6 +753,7 @@ def build_parser() -> argparse.ArgumentParser:
     resume.add_argument("--allow-dirty-repository", action="store_true")
     resume.add_argument("--allow-code-revision-drift", action="store_true", help="allow the current git commit to differ from the one recorded at `prepare` time")
     resume.add_argument("--no-docker-check", action="store_true", help="skip the launch guard's docker daemon/image checks")
+    resume.add_argument("--force-integrity-check", action="store_true", help="rehash every shard and re-run full overlap validation, ignoring the cached fingerprint")
     resume.add_argument(
         "--force-resume-after-crash", action="store_true",
         help="recover a run left marked running/stopping by a crash; only takes effect when live "

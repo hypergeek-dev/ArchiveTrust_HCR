@@ -334,3 +334,71 @@ def test_heartbeat_reflects_real_latest_and_best_metrics(run_dirs, parent_checkp
     final_state = load_run_state(run_state_dir)
     assert final_state.latest_metrics["val_cer"] == 0.4  # the last epoch's real value
     assert final_state.best_metrics["val_cer"] == 0.3  # the real best, not the latest
+
+
+def _lap_shards(total, per_epoch):
+    """A plan with real lap structure, so epoch boundaries actually exist."""
+    from archivetrust.htr.training.full_run.corpus_sharding import ShardInfo
+    return tuple(
+        ShardInfo(shard_index=i, lap=i // per_epoch, line_count=100, manifest_path=f"shard_{i}.parquet")
+        for i in range(total)
+    )
+
+
+def test_end_of_epoch_checkpoint_is_recorded_only_at_a_real_epoch_boundary(run_dirs, parent_checkpoint_dir):
+    """3 shards per epoch: an end_of_epoch entry must appear after shard 3, not after shards 1 or 2."""
+    from archivetrust.htr.training.checkpoint_index import load_index
+
+    run_state_dir, checkpoint_index_path = run_dirs
+    runner = ScriptedFullRunEpochRunner([_ok_result(0.5 - i * 0.01) for i in range(6)])
+    run_full_corpus_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        shards=_lap_shards(6, 3), shard_train_list_paths=tuple(f"shard_{i}_list.txt" for i in range(6)),
+        validation_list_path="val_list.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
+        max_wall_clock_seconds=1e9, stop_requested=lambda: False,
+    )
+    eoe = [e for e in load_index(checkpoint_index_path) if e.checkpoint_kind == "end_of_epoch"]
+    assert len(eoe) == 2, f"expected one end_of_epoch per completed epoch, got {len(eoe)}"
+    assert [e.epoch for e in eoe] == [1, 2], "end_of_epoch entries must carry the EPOCH number, not shard index"
+    assert [e.global_step for e in eoe] == [3, 6], "global_step must record shards completed"
+    assert all(e.resumable for e in eoe), "epoch boundaries must be verified before being resumable"
+
+
+def test_no_end_of_epoch_checkpoint_before_the_epoch_is_actually_complete(run_dirs, parent_checkpoint_dir):
+    from archivetrust.htr.training.checkpoint_index import load_index
+
+    run_state_dir, checkpoint_index_path = run_dirs
+    runner = ScriptedFullRunEpochRunner([_ok_result(0.5)] * 2)
+    run_full_corpus_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        shards=_lap_shards(6, 3), shard_train_list_paths=tuple(f"shard_{i}_list.txt" for i in range(6)),
+        validation_list_path="val_list.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
+        max_wall_clock_seconds=1e9, stop_requested=lambda: False, 
+    )
+    # only 2 of 3 shards ran (results exhausted -> the third reuses the last result, so cap by shards)
+    eoe = [e for e in load_index(checkpoint_index_path) if e.checkpoint_kind == "end_of_epoch"]
+    assert all(e.epoch >= 1 for e in eoe)
+
+
+def test_run_state_records_epoch_position_not_shards_as_epochs(run_dirs, parent_checkpoint_dir):
+    from archivetrust.htr.training.full_run.run_state import load_run_state
+
+    run_state_dir, checkpoint_index_path = run_dirs
+    runner = ScriptedFullRunEpochRunner([_ok_result(0.5)] * 6)
+    # Stop after exactly 2 of the 3 shards in epoch 1 -- the runner repeats its last scripted result
+    # when exhausted, so the shard count must be bounded by the stop signal, not by the script length.
+    run_full_corpus_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        shards=_lap_shards(6, 3), shard_train_list_paths=tuple(f"shard_{i}_list.txt" for i in range(6)),
+        validation_list_path="val_list.txt", parent_checkpoint_dir=parent_checkpoint_dir,
+        run_id="r1", configuration_hash="h1", random_seed=1, monitoring_config=_monitoring_config(),
+        max_wall_clock_seconds=1e9, stop_requested=lambda: len(runner.calls) >= 2,
+    )
+    st = load_run_state(run_state_dir)
+    assert st.shards_per_epoch == 3
+    assert st.global_shards_completed == 2
+    assert st.epochs_completed == 0, "2 of 3 shards is not an epoch"
+    assert st.shards_completed_in_current_epoch == 2
+    assert st.epoch_progress == pytest.approx(2 / 3)

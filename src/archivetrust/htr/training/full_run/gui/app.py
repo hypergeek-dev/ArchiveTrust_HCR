@@ -184,7 +184,8 @@ class MainWindow(QMainWindow):
         self._status_labels: dict[str, QLabel] = {}
         for key, label in [
             ("status", "Run status:"), ("monitoring_state", "Monitoring state:"),
-            ("current_epoch", "Current epoch (shard):"), ("current_global_step", "Global step:"),
+            ("epoch_position", "Epoch position:"), ("global_shards", "Shards completed:"),
+            ("current_global_step", "Global step:"),
             ("latest_val_cer", "Latest val CER:"), ("best_val_cer", "Best val CER:"),
             ("latest_train_loss", "Latest train loss:"), ("latest_val_loss", "Latest val loss:"),
             ("epochs_since_improvement", "Epochs since improvement:"),
@@ -341,7 +342,11 @@ class MainWindow(QMainWindow):
 
         labels = self._status_labels
         labels["status"].setText(display_status(state))
-        labels["current_epoch"].setText(str(state.current_epoch))
+        labels["epoch_position"].setText(
+            f"epochs_completed={state.epochs_completed} "
+            f"| shard {state.shards_completed_in_current_epoch}/{state.shards_per_epoch or '?'} "
+            f"| {state.epoch_progress:.1%} of epoch")
+        labels["global_shards"].setText(str(state.global_shards_completed or state.current_epoch))
         labels["current_global_step"].setText(str(state.current_global_step))
         labels["latest_val_cer"].setText(str(state.latest_metrics.get("val_cer")))
         labels["best_val_cer"].setText(str(state.best_metrics.get("val_cer")))
