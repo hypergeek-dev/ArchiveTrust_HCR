@@ -71,3 +71,45 @@ def test_write_prepared_marker_creates_a_readable_file(tmp_path):
     text = marker_path.read_text(encoding="utf-8")
     assert "PREPARED" in text
     assert "NOT" in text
+
+
+def test_dirty_check_fails_closed_when_the_probe_errors(monkeypatch):
+    """Real incident: once the 562k-file training-data pool existed, `git status --porcelain` took
+    ~44s, blew the dirty-check timeout, and the handler returned False -- so a prepared run recorded
+    `repository_dirty: False` while the tree was genuinely dirty. An undeterminable answer must be
+    the conservative one."""
+    import subprocess
+
+    import archivetrust.htr.training.full_run.launch_manifest as lm
+
+    def _timeout(*a, **k):
+        raise subprocess.TimeoutExpired(cmd="git status", timeout=60.0)
+
+    monkeypatch.setattr(lm.subprocess, "run", _timeout)
+    assert lm._is_repository_dirty() is True
+
+
+def test_dirty_check_fails_closed_when_git_is_unavailable(monkeypatch):
+    import archivetrust.htr.training.full_run.launch_manifest as lm
+
+    def _oserror(*a, **k):
+        raise OSError("git not found")
+
+    monkeypatch.setattr(lm.subprocess, "run", _oserror)
+    assert lm._is_repository_dirty() is True
+
+
+def test_dirty_check_reports_clean_only_on_genuinely_empty_output(monkeypatch):
+    import archivetrust.htr.training.full_run.launch_manifest as lm
+
+    class _Completed:
+        stdout = "   \n  "
+
+    monkeypatch.setattr(lm.subprocess, "run", lambda *a, **k: _Completed())
+    assert lm._is_repository_dirty() is False
+
+    class _Dirty:
+        stdout = " M src/thing.py\n"
+
+    monkeypatch.setattr(lm.subprocess, "run", lambda *a, **k: _Dirty())
+    assert lm._is_repository_dirty() is True

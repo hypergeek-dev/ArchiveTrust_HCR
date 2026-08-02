@@ -1,11 +1,10 @@
 {
-  "decision": "CONDITIONAL GO",
+  "decision": "SUPERSEDED -- see decision_status",
   "previous_decision": "NO-GO",
   "previous_critical_disk_blocker": "RESOLVED",
   "review_date": "2026-08-02",
   "code_commit_hash": "11693cdf8b3dc6bde41f184030372d2c1421d925",
   "authoritative_run_directory": "training/full-corpus-20260801T222412Z",
-
   "critical_count": 0,
   "high_count": 0,
   "medium_count": 7,
@@ -15,7 +14,6 @@
   "resolved_cumulative_count": 10,
   "new_findings_count": 4,
   "incorrect_original_findings_count": 2,
-
   "measured_free_disk_bytes": 322307969024,
   "measured_free_disk_gb": 322.31,
   "measurement_method": "Get-Volume -DriveLetter D (SizeRemaining), cross-checked with Get-PSDrive",
@@ -25,17 +23,14 @@
   "projected_remaining_reserve_gb": 194.0,
   "percent_of_free_space_consumed": 39.8,
   "docker_storage_on_separate_volume": true,
-
   "preflight_status": "21/21 passed at the final commit",
   "docker_status": "reachable; pinned image present, digest verified",
   "gpu_status": "present (NVIDIA RTX 3070), WSL2 backend",
   "prepared_status": "PREPARED_NOT_STARTED",
-
   "original_loghi_checkpoint": "verified, functionally loadable via the production path",
   "original_checkpoint_hash": "0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95",
   "original_checkpoint_hash_unchanged": true,
   "pilot_checkpoint_used_as_parent": false,
-
   "optimizer_continuity": "DOES NOT SURVIVE shard boundaries -- empirically proven, two independent mechanisms. NOT blocking: identical to the regime the pilot validated over 22 real epochs. False claims about it corrected at the source.",
   "scheduler_continuity": "resets to base LR every shard; effective regime is near-constant-LR fine-tuning",
   "global_step_claim": "corrected and relabelled -- always 0, metadata only; optimizer.iterations is also always 0, so no authoritative step counter exists and none is now claimed",
@@ -44,7 +39,6 @@
   "checkpoint_functional_reload": "VERIFIED -- real parent and two real pilot checkpoints loaded on the real GPU",
   "resume_verification": "VERIFIED and REPAIRED -- crash recovery was impossible and is now fixed fail-closed",
   "partial_checkpoint_selection": "correctly excluded from both resume and best-selection (bounded simulation)",
-
   "train_validation_overlap": 0,
   "train_test_overlap": 0,
   "validation_test_overlap": 0,
@@ -53,20 +47,16 @@
   "aggregate_shard_rows": 1686369,
   "usable_line_count": 562123,
   "laps_intentionally_repeat_same_records": true,
-
   "repository_test_suite_result": "2356 passed, 2 skipped, 0 failed (with one pre-existing flaky Qt UI test, unrelated to training -- see R-022)",
   "focused_training_tests": "399 passed",
   "launch_guard_tests": "32 passed",
-
   "full_training_running": false,
   "optimizer_steps_on_full_corpus_performed": 0,
   "full_corpus_checkpoints_created": 0,
   "active_docker_containers": 0,
   "active_training_processes": 0,
   "launch_command_executed": false,
-
   "final_blockers": [],
-
   "accepted_launch_risks": [
     "R-019: no cross-shard optimizer/LR continuity -- validated by the pilot's own 22-epoch success; expect chained short fine-tunes at ~constant LR",
     "R-018: no checkpoint retention policy, no mid-run disk monitor, no live disk-full test -- accepted on a measured 60% disk reserve",
@@ -75,7 +65,6 @@
     "R-012: telemetry thread lacks a broad exception guard -- fails closed, can only over-block",
     "R-015: docker image inspect timeout can cause a spurious preflight failure -- retry"
   ],
-
   "must_resolve_before_final_model_acceptance": [
     "Baseline (original Loghi) evaluation on the held-out test set -- no code path evaluates it yet",
     "Fixed test-set evaluation for the trained model",
@@ -84,10 +73,23 @@
     "Pretrained-weights licence confirmation before any public release or publication",
     "Model card with lineage, limitations, and known failure modes"
   ],
-
   "required_human_approvals": [
     "ML lead: sign off Gate 4 (first shard) before unattended continuation",
     "ML lead: sign off Gate 5 (first full 57-shard lap), including whether the constant-LR regime warrants a manual --learning_rate reduction for later laps",
     "ML lead / governance: define acceptance criteria and approving authority before Gate 7"
-  ]
+  ],
+  "decision_status": "The CONDITIONAL GO recorded here was FALSIFIED on 2026-08-02 by the first real shard execution (Gate 4). The full-corpus preparation path had never produced trainer-consumable data: the container was handed Parquet shard manifests it cannot read, and line images were never extracted. No prepared run could have trained. Root cause fixed in commit cbf9b21 and verified through the real container interface; a re-decision follows once a run is prepared with the fix in place. See gate4_first_shard_review_record.md and risk R-023.",
+  "gate4_first_shard_result": {
+    "outcome": "FAILED -- correctly caught",
+    "stop_reason": "epoch_failed",
+    "runtime_seconds": 53,
+    "expected_runtime_seconds": 482,
+    "shards_completed": 0,
+    "full_corpus_checkpoints_created": 0,
+    "optimizer_steps_on_full_corpus": 0,
+    "base_checkpoint_hash_unchanged": true,
+    "containers_left_running": 0,
+    "safety_behaviour": "all correct -- stopped cleanly at a shard boundary, status recorded honestly as failed"
+  },
+  "standing_lesson": "Every verification before Gate 4 either used known-good pilot data or stopped before the trainer. Shard CONTENTS were verified exhaustively; shard FORMAT never was. No readiness decision should be issued again until real artifacts have been fed to the real trainer interface at least once."
 }

@@ -82,13 +82,23 @@ class LaunchManifest(BaseModel):
 
 
 def _is_repository_dirty() -> bool:
+    """**Fails closed.** An earlier version returned `False` (i.e. "clean") whenever the probe failed,
+    which is the permissive answer to a question it could not answer. That fired for real: once the
+    shared training-data pool existed, `git status --porcelain` took ~44s to walk 562k generated
+    files, blew the 10s timeout, and a prepared run recorded `repository_dirty: False` while the tree
+    was genuinely dirty -- a reproducibility claim that was simply false. Unknown now means dirty, so
+    the launch guard asks for an explicit `--allow-dirty-repository` rather than silently waving a
+    run through.
+
+    The timeout is also raised, and `--untracked-files=normal` is left at its default so generated
+    output still counts; the real fix for the slow case is `.gitignore`, not a looser probe."""
     try:
         completed = subprocess.run(
-            ["git", "status", "--porcelain"], capture_output=True, text=True, timeout=10.0, check=True,
+            ["git", "status", "--porcelain"], capture_output=True, text=True, timeout=60.0, check=True,
         )
-        return bool(completed.stdout.strip())
     except (subprocess.SubprocessError, OSError):
-        return False
+        return True
+    return bool(completed.stdout.strip())
 
 
 def build_launch_manifest(

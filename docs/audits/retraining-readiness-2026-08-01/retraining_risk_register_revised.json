@@ -2,7 +2,7 @@
   "review_date": "2026-08-02",
   "reviewer": "independent principal AI architect (adversarial review of the original audit)",
   "code_commit": "11693cdf8b3dc6bde41f184030372d2c1421d925",
-  "note": "Supersedes retraining_risk_register.json for decision-making. The original is preserved unmodified as an audit trail. Every original finding appears here with its independently-verified disposition. New findings from this review are appended (R-019 onward).",
+  "note": "Supersedes retraining_risk_register.json for decision-making. The original is preserved unmodified as an audit trail. Every original finding appears here with its independently-verified disposition. New findings from this review are appended (R-019 onward). R-023 added 2026-08-02 after the first real shard execution falsified the CONDITIONAL GO decision.",
   "risks": [
     {
       "risk_id": "R-001",
@@ -10,7 +10,8 @@
       "original_severity": "CRITICAL",
       "opus_classification": "RESOLVED",
       "evidence": "Fix present (_stage_writable_checkpoint_for_smoke_test) with regression test. Independently re-demonstrated this review: loading the real parent through the production path mutated the STAGED copy (372,591,597 -> 124,288,226 bytes, .old backup created) while the pristine parent stayed byte-identical at 0da2c00a... The staging discipline is both necessary and working.",
-      "resolved": true, "blocking": false,
+      "resolved": true,
+      "blocking": false,
       "required_action": "None.",
       "accepted_risk": null
     },
@@ -20,8 +21,10 @@
       "original_severity": "HIGH",
       "opus_classification": "RESOLVED",
       "evidence": "is_resume rejection present and tested; re-confirmed in this review's 32-test launch-guard suite.",
-      "resolved": true, "blocking": false,
-      "required_action": "None.", "accepted_risk": null
+      "resolved": true,
+      "blocking": false,
+      "required_action": "None.",
+      "accepted_risk": null
     },
     {
       "risk_id": "R-003",
@@ -29,7 +32,8 @@
       "original_severity": "HIGH",
       "opus_classification": "RESOLVED",
       "evidence": "Fix present and demonstrated live again this review: each of my own commits invalidated the then-current prepared run, and the guard refused it every time. Working as designed.",
-      "resolved": true, "blocking": false,
+      "resolved": true,
+      "blocking": false,
       "required_action": "Prepare LAST, immediately before launching -- any later commit (including documentation) invalidates a prepared run.",
       "accepted_risk": null
     },
@@ -39,7 +43,8 @@
       "original_severity": "HIGH",
       "opus_classification": "SAFE TO RELABEL AND DEFER -- relabelling now done",
       "evidence": "Confirmed always 0, never assigned. Metadata only: not read by training, scheduler, or resume logic (resume keys off cumulative_epoch + latest_checkpoint_dir). The original audit hoped optimizer.iterations was the real authoritative counter; this review proved it is ALSO always 0 (see R-019), so no authoritative step counter exists anywhere in this architecture.",
-      "resolved": false, "blocking": false,
+      "resolved": false,
+      "blocking": false,
       "required_action": "Done: labels no longer claim what does not exist. A redundant synthetic counter was deliberately NOT added -- it would be write-only noise.",
       "accepted_risk": "No step-level resumability exists or is claimed. Shard-level resumability is real and sufficient."
     },
@@ -49,8 +54,10 @@
       "original_severity": "HIGH",
       "opus_classification": "RESOLVED (relabelled to match reality)",
       "evidence": "Confirmed verbatim. Renamed to session_boundary_epoch_continued_not_restarted; an explicit optimizer_state_continued: False plus an explanatory note are now emitted. The preflight check that consumed it (optimizer_scheduler_state_serialization) was renamed resume_state_continuity and its live output now states plainly what is and is not carried across checkpoints.",
-      "resolved": true, "blocking": false,
-      "required_action": "None.", "accepted_risk": null
+      "resolved": true,
+      "blocking": false,
+      "required_action": "None.",
+      "accepted_risk": null
     },
     {
       "risk_id": "R-006",
@@ -58,7 +65,8 @@
       "original_severity": "HIGH",
       "opus_classification": "RESOLVED (fixed in the prior review pass, re-verified here)",
       "evidence": "run_training_session raises ValueError on seed mismatch, mirroring configuration_hash. Scope bounded precisely: epoch_seed feeds only the container's --seed (intra-shard shuffling); it cannot change shard selection (fixed at prepare time) and there is no augmentation. Reproducibility gap, not data-integrity.",
-      "resolved": true, "blocking": false,
+      "resolved": true,
+      "blocking": false,
       "required_action": "Use the same --seed on every start/resume for a run (now enforced automatically).",
       "accepted_risk": null
     },
@@ -68,8 +76,10 @@
       "original_severity": "HIGH",
       "opus_classification": "RESOLVED (fixed prior pass, independently verified here)",
       "evidence": "recompute_real_shard_hash() reads every real lap-0 shard file and independently reproduces the hash. Tamper test passes (overwrite a real shard, leave summary untouched -> detected). Verified no false positive on the real 171-shard set: rehash == frozen manifest hash (e12796a0...). Symmetric test-manifest overlap check added.",
-      "resolved": true, "blocking": false,
-      "required_action": "None.", "accepted_risk": null
+      "resolved": true,
+      "blocking": false,
+      "required_action": "None.",
+      "accepted_risk": null
     },
     {
       "risk_id": "R-008",
@@ -77,7 +87,8 @@
       "original_severity": "MEDIUM",
       "opus_classification": "RESOLVED for the underlying question",
       "evidence": "This review functionally loaded the REAL PARENT checkpoint through the production code path (management.load_model_from_directory) on a staged copy: model_new10, input (None,None,64,1), output (None,None,457), 28 layers, 31,033,929 parameters. Also functionally loaded two real pilot checkpoints. All succeeded.",
-      "resolved": true, "blocking": false,
+      "resolved": true,
+      "blocking": false,
       "required_action": "None. verify_checkpoint's cheap structural check remains adequate per-shard; a genuinely unloadable checkpoint is still caught one shard later by the existing epoch_failed safe stop.",
       "accepted_risk": "One shard of wasted wall-clock in the unlikely structural-pass / functional-fail case."
     },
@@ -87,7 +98,8 @@
       "original_severity": "MEDIUM_HIGH",
       "opus_classification": "UNCHANGED -- correctly classified as scientific interpretation, not launch safety",
       "evidence": "Exact line-level leakage independently re-measured as 0 across all 171 real shard files (train-vs-validation AND train-vs-test). Document/writer overlap is unknowable -- no such identifier exists in the source data. Not classified as proven exact leakage.",
-      "resolved": false, "blocking": false,
+      "resolved": false,
+      "blocking": false,
       "required_action": "Disclose explicitly in any per-collection or aggregate CER claim.",
       "accepted_risk": "Data-collection limitation, not a code defect. Affects CER interpretation and publication claims only."
     },
@@ -97,7 +109,8 @@
       "original_severity": "MEDIUM",
       "opus_classification": "UNCHANGED",
       "evidence": "Confirmed absent. Exact content-hash dedup exists and works.",
-      "resolved": false, "blocking": false,
+      "resolved": false,
+      "blocking": false,
       "required_action": "Defer to a data-quality workstream.",
       "accepted_risk": "Unquantified but bounded by exact-hash dedup already removing verbatim repeats."
     },
@@ -107,7 +120,8 @@
       "original_severity": "MEDIUM",
       "opus_classification": "UNCHANGED -- deferrable",
       "evidence": "Source-level finding stands; masked by consistently-observed one-file-per-epoch behaviour across all real pilot data and this review's probes.",
-      "resolved": false, "blocking": false,
+      "resolved": false,
+      "blocking": false,
       "required_action": "Low-risk hardening: sort deterministically before selection.",
       "accepted_risk": "Not observed in any real run."
     },
@@ -117,7 +131,8 @@
       "original_severity": "LOW_MEDIUM",
       "opus_classification": "UNCHANGED, but now slightly more consequential",
       "evidence": "Still present. Newly relevant because crash-detection (R-020) reads telemetry/status.json: a dead sampler makes a LIVE run look crashed. Fails closed in the safe direction -- the override still refuses when telemetry is absent/malformed -- so it cannot cause a duplicate run, only an unnecessary block.",
-      "resolved": false, "blocking": false,
+      "resolved": false,
+      "blocking": false,
       "required_action": "Wrap _tick() in a broad except that logs and continues.",
       "accepted_risk": "Worst case is an over-cautious block, never a duplicate process."
     },
@@ -127,7 +142,8 @@
       "original_severity": "MEDIUM",
       "opus_classification": "UNCHANGED",
       "evidence": "Same as original audit.",
-      "resolved": false, "blocking": false,
+      "resolved": false,
+      "blocking": false,
       "required_action": "Populate, or remove if never intended.",
       "accepted_risk": "epoch + configuration_hash allow indirect reconstruction."
     },
@@ -137,7 +153,8 @@
       "original_severity": "LOW",
       "opus_classification": "UNCHANGED -- accepted, single-GPU host",
       "evidence": "Same as original audit. RTX 3070 confirmed as the only GPU during this review's container runs.",
-      "resolved": false, "blocking": false,
+      "resolved": false,
+      "blocking": false,
       "required_action": "Note for future multi-GPU deployment.",
       "accepted_risk": "Not applicable to this host."
     },
@@ -147,7 +164,8 @@
       "original_severity": "LOW",
       "opus_classification": "RECONFIRMED -- recurring",
       "evidence": "Hit again in this review (a third real occurrence across the two reviews); a retry passes cleanly every time. Never a false PASS, only a self-resolving false FAIL.",
-      "resolved": false, "blocking": false,
+      "resolved": false,
+      "blocking": false,
       "required_action": "Raise the timeout or add one internal retry.",
       "accepted_risk": "Operator retries; documented in the checklist."
     },
@@ -157,7 +175,8 @@
       "original_severity": "MEDIUM",
       "opus_classification": "RECONFIRMED -- now a recurring operational pattern, not a one-off",
       "evidence": "Five prepared runs now exist across five commits; each was invalidated by the next commit, and the guard refused each one. The shard plan hash was IDENTICAL across all five (e12796a0...), independently confirming deterministic sharding.",
-      "resolved": false, "blocking": false,
+      "resolved": false,
+      "blocking": false,
       "required_action": "Launch only training/full-corpus-20260801T222412Z (commit 11693cd). Prepare LAST, immediately before launch. Earlier runs preserved unlaunched as evidence.",
       "accepted_risk": null
     },
@@ -167,8 +186,10 @@
       "original_severity": "MEDIUM",
       "opus_classification": "INCORRECT FINDING -- superseded by R-019",
       "evidence": "The original audit's source-reading conclusion was wrong. Empirical testing disproves it. See R-019.",
-      "resolved": false, "blocking": false,
-      "required_action": "See R-019.", "accepted_risk": "See R-019."
+      "resolved": false,
+      "blocking": false,
+      "required_action": "See R-019.",
+      "accepted_risk": "See R-019."
     },
     {
       "risk_id": "R-018",
@@ -176,7 +197,8 @@
       "original_severity": "CRITICAL",
       "opus_classification": "CAPACITY RESOLVED; hardening gap remains, ACCEPTED",
       "evidence": "Independently measured: 322.31 GB free (operator claim verified, not assumed). Per-shard cost re-derived from individual epoch directories rather than an average: 745,315,540 bytes, constant to ~1KB across epochs 1/7/14/22. Full 171-shard plan 127.44 GB + 0.75 GB staged parent + 0.15 GB shards = ~128.3 GB. Reserve ~194 GB (60%). Docker's 74.75 GB sits on C:, not D: (verified via DockerRootDir and a D: VHDX scan). Retention and mid-run monitoring still absent; disk-full path analysed at code level -- mkstemp/os.replace means a loud crash, never corruption of the prior good file.",
-      "resolved": true, "blocking": false,
+      "resolved": true,
+      "blocking": false,
       "required_action": "None blocking. Implement retention + mid-run disk checks before reusing this workflow for longer or repeated campaigns.",
       "accepted_risk": "No retention policy, no mid-run disk monitor, no live disk-full test -- accepted for this run on the strength of a 60% measured reserve."
     },
@@ -239,6 +261,22 @@
       "status": "open",
       "verification_method": "4 full-suite runs + 3 isolated runs.",
       "required_action": "Stabilise separately; do not treat as a training-workflow signal."
+    },
+    {
+      "risk_id": "R-023",
+      "title": "Full-corpus preparation never produced trainer-consumable data -- the run could not have trained at all",
+      "category": "correctness / verification_blind_spot",
+      "severity": "CRITICAL (was blocking; now resolved)",
+      "likelihood": "confirmed_by_real_execution",
+      "impact": "cmd_prepare produced Parquet shard manifests and handed them to the container as --train_list. Upstream data/manager.py:257 reads a training list as UTF-8 text (<image_path>TAB<ground_truth>) and cannot parse Parquet. Separately, the line images were never extracted for the full corpus at all -- no prepared-data/ existed in any prepared run, whereas the pilot had 10,999 PNGs plus train_list.txt. Every prepared run, across all six preparations and three audit passes, was in a PREPARED_NOT_STARTED state it could never successfully have left. The readiness decision of CONDITIONAL GO was therefore based on a run that could not train.",
+      "evidence": "First real shard attempt (Gate 4, operator-authorised, bounded to one shard): stop_reason=epoch_failed, 53s runtime vs ~482s expected, epoch_output/epoch_1/ empty, 0 shards completed. The staged parent checkpoint converted normally first (372,591,597 -> 124,288,226 bytes), proving it died on data rather than on the model. See gate4_first_shard_review_record.md.",
+      "why_missed": "The preflight smoke test used the PILOT's probe lists (real text files, real extracted images), so it exercised a data path the full run never uses -- passing 21/21 four times while the real shard input was unreadable. The dry-run stops before the trainer by design. The audits verified shard CONTENTS exhaustively (line IDs, overlap, duplicates, hashes, determinism) but never that shards were in a FORMAT the container could consume. Content correctness and interface correctness are different properties; only the former was ever checked.",
+      "mitigation": "Fixed in commit cbf9b21. New shard_training_data.py calls the existing, pilot-proven prepare_loghi_training_data() adapter and solves two problems the pilot never faced: (1) laps triplicate images -- 3 laps over the same 562,123 lines would extract ~1.7M files/~250GB, so images are extracted once from the lap-0 union and shared; (2) the container mounts a list file's PARENT at /lists, forcing a flat pool layout. The pool is keyed by (dataset hash, shard-plan hash) so reuse is verifiable and re-preparation does not re-extract ~82GB. The preflight smoke test now prefers a probe cut from the full-corpus pool. _run_session refuses a run prepared before this wiring rather than failing ~50s into a container start.",
+      "owner": "repository maintainer",
+      "blocking": false,
+      "status": "resolved",
+      "verification_method": "Real production interface, not unit tests alone: a bounded pool built from real shard data fed to the real pinned container via ContainerEpochRunner -- exit_code 0, train_cer 0.662, val_cer 0.538, valid checkpoint written, pristine parent hash unchanged. Plus 12 new unit tests covering the lap-triplication trap, container list format, image resolvability, and pool reuse keying. Full suite 2370 passed.",
+      "required_action": "None for the defect. Standing lesson: no readiness decision should be issued again until real artifacts have been fed to the real trainer interface at least once."
     }
   ]
 }
