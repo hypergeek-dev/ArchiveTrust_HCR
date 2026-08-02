@@ -50,11 +50,18 @@ PILOT_REFERENCE = {
 
 
 def _resolve_checkpoint(index_path: Path, kind: str) -> tuple[str, str, int]:
+    """Returns `(checkpoint_dir, model_file_hash, shard_number)`.
+
+    `epoch` means different things per kind, which is why the shard number is derived rather than
+    read off one field: for `latest`/`best_val` the orchestrator writes the shard counter into
+    `epoch`, but for `end_of_epoch` it writes the *lap* number there and puts the shard count in
+    `global_step`. Reporting `epoch` blindly would label the lap-boundary checkpoint "shard 1"."""
     entries = [e for e in load_index(index_path) if e.checkpoint_kind == kind]
     if not entries:
         raise SystemExit(f"no `{kind}` checkpoint recorded in {index_path}")
     latest = max(entries, key=lambda e: (e.epoch, e.created_at))
-    return latest.checkpoint_dir, (latest.model_file_hash or ""), latest.epoch
+    shard_number = latest.global_step if kind == "end_of_epoch" else latest.epoch
+    return latest.checkpoint_dir, (latest.model_file_hash or ""), shard_number
 
 
 def main() -> int:
@@ -127,7 +134,12 @@ def main() -> int:
     print("inference command:\n  " + " ".join(argv), flush=True)
 
     started = time.monotonic()
-    completed = subprocess.run(argv, capture_output=True, text=True, check=False)
+    # The container logs UTF-8; Windows' default cp1252 decode raises on its output and kills the
+    # reader thread, which would leave the failure path with no stderr to report exactly when it is
+    # needed most.
+    completed = subprocess.run(
+        argv, capture_output=True, text=True, check=False, encoding="utf-8", errors="replace",
+    )
     elapsed = time.monotonic() - started
     print(f"inference exited {completed.returncode} in {elapsed:.0f}s")
 

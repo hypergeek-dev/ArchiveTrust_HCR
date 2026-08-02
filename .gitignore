@@ -204,6 +204,10 @@ docs/experiments/lion-loghi-comparison/runs/
 training/**/epoch_output/
 training/**/staged_parent_checkpoint/
 training/**/smoke-staged-parent/
+# Disposable copies the lap evaluation mounts read-write so inference cannot mutate the recorded
+# checkpoint. Regenerated on demand; the evaluation's real evidence is results.txt and
+# lap_evaluation.json beside them.
+training/**/staged_checkpoint/
 training/**/memory-probe/
 training/**/inspect_out/
 training/**/telemetry/

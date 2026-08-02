@@ -56,6 +56,25 @@ def word_error_rate(reference: str, hypothesis: str) -> float:
     return levenshtein("".join(vocab[w] for w in ref), "".join(vocab[w] for w in hyp)) / len(ref)
 
 
+def line_error_rate(pairs: list[tuple[str, str]]) -> float:
+    """Fraction of lines that are not exactly correct.
+
+    **This, not `word_error_rate`, is what the container reports as "WER".** `WERMetric` in the pinned
+    image computes `tf.edit_distance` over character labels and then counts lines whose distance is
+    non-zero, dividing by the line count -- its local variable is even named `correct_words_amount`
+    while counting incorrect *lines*. Confirmed numerically on the lap-1 validation set: the container
+    reported 0.8930 and exactly 893 of 1,000 lines contained at least one error, while the true word
+    error rate over the same predictions was 0.4878.
+
+    Reported alongside the real WER so the container's figure can be reconciled rather than
+    misread -- earlier documents in this project cited ~0.89 as a word error rate, overstating
+    word-level error by roughly 1.8x.
+    """
+    if not pairs:
+        return 0.0
+    return sum(1 for reference, hypothesis in pairs if reference != hypothesis) / len(pairs)
+
+
 class CorpusMetrics(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -63,6 +82,10 @@ class CorpusMetrics(BaseModel):
     corpus_cer: float
     """`total edits / total reference characters` -- comparable with the container's CERMetric."""
     corpus_wer: float
+    """A real word error rate: word-level Levenshtein over word tokens. NOT comparable with the
+    container's "WER" -- see `line_error_rate`, which is."""
+    line_error_rate: float
+    """Fraction of lines with any error. The figure the container's `WERMetric` actually reports."""
     mean_per_line_cer: float
     """Reported alongside `corpus_cer` because they diverge when line lengths vary, and this corpus's
     weakest subgroup is also its shortest-line subgroup."""
@@ -73,7 +96,7 @@ class CorpusMetrics(BaseModel):
 def corpus_metrics(pairs: list[tuple[str, str]]) -> CorpusMetrics:
     """`pairs` is `[(reference, hypothesis), ...]`."""
     if not pairs:
-        return CorpusMetrics(sample_count=0, corpus_cer=0.0, corpus_wer=0.0,
+        return CorpusMetrics(sample_count=0, corpus_cer=0.0, corpus_wer=0.0, line_error_rate=0.0,
                              mean_per_line_cer=0.0, total_reference_chars=0, total_edits=0)
     edits = sum(levenshtein(r, h) for r, h in pairs)
     chars = sum(len(r) for r, _ in pairs)
@@ -83,6 +106,7 @@ def corpus_metrics(pairs: list[tuple[str, str]]) -> CorpusMetrics:
         sample_count=len(pairs),
         corpus_cer=edits / max(chars, 1),
         corpus_wer=word_edits / max(words, 1),
+        line_error_rate=line_error_rate(pairs),
         mean_per_line_cer=sum(character_error_rate(r, h) for r, h in pairs) / len(pairs),
         total_reference_chars=chars,
         total_edits=edits,

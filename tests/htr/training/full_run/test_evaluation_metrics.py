@@ -102,3 +102,34 @@ def test_rejection_coverage_reports_accepted_fraction_and_its_error_rate():
     assert by_t[0.85]["accepted_count"] == 1
     # Accepting only high-confidence lines should lower the error rate of what is accepted.
     assert by_t[0.85]["mean_cer_of_accepted"] < by_t[0.0]["mean_cer_of_accepted"]
+
+
+def test_line_error_rate_is_what_the_container_calls_wer():
+    """The container's `WERMetric` counts lines whose character edit distance is non-zero and divides
+    by line count -- a line error rate, despite the name. Confirmed on the real lap-1 validation set:
+    it reported 0.8930 and exactly 893 of 1,000 lines contained an error, while the true word error
+    rate over the same predictions was 0.4878. Reported separately so the container's figure can be
+    reconciled instead of misread as a word error rate."""
+    from archivetrust.htr.training.full_run.evaluation_metrics import line_error_rate
+
+    pairs = [("a b c d", "a b c d"), ("a b c d", "a b c X")]
+    assert line_error_rate(pairs) == pytest.approx(0.5), "one of two lines has an error"
+    # The same data has a far lower word error rate: 1 wrong word out of 8.
+    assert corpus_metrics(pairs).corpus_wer == pytest.approx(1 / 8)
+
+
+def test_line_error_rate_and_word_error_rate_diverge_widely():
+    """A single wrong character makes a line fully 'incorrect' but barely moves word or character
+    error -- which is exactly why quoting one as the other overstates the error."""
+    pairs = [("the quick brown fox jumps", "the quick brown fox jumpX")] * 10
+    m = corpus_metrics(pairs)
+    assert m.line_error_rate == pytest.approx(1.0)
+    assert m.corpus_wer == pytest.approx(0.2)
+    assert m.corpus_cer < 0.05
+
+
+def test_empty_input_line_error_rate_is_safe():
+    from archivetrust.htr.training.full_run.evaluation_metrics import line_error_rate
+
+    assert line_error_rate([]) == 0.0
+    assert corpus_metrics([]).line_error_rate == 0.0
