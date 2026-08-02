@@ -194,6 +194,10 @@ training/*/run-state/
 training/*/prepared-data/
 training/*/source-inventory/
 training/*/shards/
+# Also match nested run directories (e.g. training/_superseded_prepared_runs/<run>/shards/),
+# which the single-level pattern above misses -- 141MB of regenerable shard Parquet reached
+# the remote before this was noticed.
+training/**/shards/
 
 # Shared full-corpus training-data pool: ~562k extracted line-image PNGs (~85GB) plus the
 # per-shard training lists, all regenerable from the source dataset + committed manifests by
