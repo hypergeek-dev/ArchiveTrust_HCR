@@ -1,0 +1,105 @@
+{
+  "experiment_id": "experiment_1",
+  "description": "Generic Loghi checkpoint fine-tuned for one complete, uninterrupted full-corpus epoch in a single trainer/container lifecycle -- the corrected-method run.",
+  "run_directory": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z",
+  "methodological_facts": [
+    "optimizer.iterations advanced continuously from 0 to 35,099 across the whole epoch",
+    "optimizer state (Adam moments) was continuous within the one process -- no resets",
+    "learning rate decayed smoothly along one schedule for the whole epoch",
+    "no shard-level trainer restart occurred at any point",
+    "no crash or manual intervention occurred after launch",
+    "one full corpus pass consisted of exactly one trainer/container invocation"
+  ],
+  "parent_model_name": "loghi generic pretrained checkpoint (original, pristine -- never a pilot output)",
+  "parent_checkpoint_path": "D:\\ArchiveTrust_HCR\\.loghi-upstream\\pretrained-models\\loghi-htr\\generic-2023-02-15",
+  "parent_checkpoint_sha256": "0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95",
+  "parent_checkpoint_sha256_matches_pin": true,
+  "pilot_or_prior_run_checkpoint_used_as_parent": false,
+  "architecture": "new10",
+  "character_vocabulary": {
+    "sha256": "f1877392e09591cf40517c5ef636d6011a1c2b61e4a240b508167d0c94ff6754",
+    "source_path": "D:\\ArchiveTrust_HCR\\.loghi-upstream\\pretrained-models\\loghi-htr\\generic-2023-02-15\\charlist.txt"
+  },
+  "training_dataset_identity": {
+    "dataset_id": "riksarkivet_swedish_lion_libre_training_data",
+    "dataset_hash": "fc21a70825650927edcae753a20411cef8e4344e2c22bcbcaed1c0038b9b97b0",
+    "train_manifest_hash": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f",
+    "train_manifest_path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\train_manifest.parquet",
+    "dataset_inventory_path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\source-inventory\\full-inventory.parquet",
+    "train_line_count": 562123
+  },
+  "validation_dataset_identity": {
+    "val_manifest_hash": "92f74011c568b04798c9c53725311633f2df2ea4fb8c408e1d73b4f197cea85c",
+    "val_manifest_path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\val_manifest.parquet",
+    "validation_line_count": 1000
+  },
+  "reserved_test_set_identity": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\test_reserved_manifest.parquet",
+    "excluded_line_count": 810,
+    "note": "SEALED. Not opened, not read, not hashed by this preservation pass or by either experiment's training or evaluation. Existence confirmed by directory listing metadata only."
+  },
+  "initialization_method": "weights-only load from the pristine pinned parent checkpoint (tf.keras.models.load_model on a directory; no VGSL-from-scratch build)",
+  "optimizer": "adam",
+  "initial_learning_rate": 0.0001,
+  "learning_rate_schedule": "single_continuous_epoch_fresh_adam_base_0.0001_continuous_decay_0.99_across_full_corpus",
+  "batch_size": 16,
+  "precision_policy": "mixed_float16 (loghi-htr's own setup/environment.py applies this automatically whenever a GPU is used and --use_float32 is not passed; neither experiment passed --use_float32)",
+  "seed": 42,
+  "code_commit": "26fdf29105f26d3c8394de10528e9a8866ffcc41",
+  "repository_dirty_at_launch": true,
+  "docker_image_name": "loghi/docker.htr:latest",
+  "docker_image_digest": "sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+  "gpu_model": "NVIDIA GeForce RTX 3070",
+  "started_at": "2026-08-03T19:21:47Z",
+  "ended_at": "2026-08-03T23:57:33Z",
+  "cumulative_training_seconds": 16543.1574517,
+  "run_status": "completed",
+  "stop_reason": "target_epochs_reached",
+  "authoritative_held_out_result": {
+    "corpus_cer": 0.1747163592571465,
+    "corpus_wer": 0.49558160504959425,
+    "scored_line_count": 1000,
+    "validation_line_count": 1000,
+    "evaluation_source": "training\\experiment-1-continuous-epoch-20260803T192146Z\\lap-evaluation\\lap1_best_val\\lap_evaluation.json",
+    "evaluation_checkpoint": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\epoch_output\\epoch_1\\model_new10\\best_val",
+    "evaluation_checkpoint_sha256": "a1fbb832b6610f91c833db41bdb36949e1652cd7ac082eff870356ba58ee142f"
+  },
+  "checkpoint_references": {
+    "best_val": {
+      "checkpoint_dir": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\epoch_output\\epoch_1\\model_new10\\best_val",
+      "recorded_sha256": "a1fbb832b6610f91c833db41bdb36949e1652cd7ac082eff870356ba58ee142f",
+      "live_verified_sha256": "a1fbb832b6610f91c833db41bdb36949e1652cd7ac082eff870356ba58ee142f",
+      "hash_matches_recorded": true,
+      "live_verification_ok": true,
+      "live_verification_extra": {
+        "tokenizer_present": true,
+        "config_present": true
+      },
+      "verified_at": "2026-08-04T04:49:09Z",
+      "note": "Referenced by path + hash only. Model weights (.keras) are NOT copied into the preservation package -- this record, plus the original checkpoint directory, is the reproducibility artifact."
+    },
+    "latest": {
+      "checkpoint_dir": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\epoch_output\\epoch_1\\model_new10\\epoch_0_CER_0.1949_val_0.1755",
+      "recorded_sha256": "53e66e1c8160947ea648d04970b34624b3548252e922b5203f4ac9e4ef89f569",
+      "live_verified_sha256": "53e66e1c8160947ea648d04970b34624b3548252e922b5203f4ac9e4ef89f569",
+      "hash_matches_recorded": true,
+      "live_verification_ok": true,
+      "live_verification_extra": {
+        "tokenizer_present": true,
+        "config_present": true
+      },
+      "verified_at": "2026-08-04T04:49:09Z",
+      "note": "Referenced by path + hash only. Model weights (.keras) are NOT copied into the preservation package -- this record, plus the original checkpoint directory, is the reproducibility artifact."
+    }
+  },
+  "immutability_note": "This metadata.json is a derived, read-only summary written by scripts/build_preservation_package.py. The authoritative source for every field is the original run directory named above, which this preservation pass did not modify.",
+  "optimizer_continuity_proof": {
+    "source": "training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\epoch_output\\epoch_1\\optimizer_trace.csv",
+    "optimizer_iterations_start": 0,
+    "optimizer_iterations_end": 35099,
+    "monotonically_non_decreasing": true,
+    "learning_rate_start": 9.999999747378752e-05,
+    "learning_rate_end": 9.900096483761445e-05
+  },
+  "note_on_checkpoint_kinds": "Experiment 1 has no separate 'end_of_epoch' checkpoint_kind entry (unlike Experiment 0): run_training_session() was called directly, bypassing the shard orchestrator that records that category. Since Experiment 1 has exactly one epoch, its 'latest' and 'end_of_session' entries already point at the same checkpoint -- there is no separate shard-boundary-vs-lap distinction to make."
+}

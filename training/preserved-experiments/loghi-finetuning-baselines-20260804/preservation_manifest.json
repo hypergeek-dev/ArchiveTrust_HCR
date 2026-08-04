@@ -1,0 +1,20 @@
+{
+  "package_name": "loghi-finetuning-baselines-20260804",
+  "created_at": "2026-08-04T04:49:09Z",
+  "built_by": "scripts/build_preservation_package.py",
+  "repository_head_at_build_time": "26fdf29105f26d3c8394de10528e9a8866ffcc41",
+  "experiments": {
+    "experiment_0": {
+      "run_directory": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z",
+      "preserved_at": "D:\\ArchiveTrust_HCR\\training\\preserved-experiments\\loghi-finetuning-baselines-20260804\\experiment_0"
+    },
+    "experiment_1": {
+      "run_directory": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z",
+      "preserved_at": "D:\\ArchiveTrust_HCR\\training\\preserved-experiments\\loghi-finetuning-baselines-20260804\\experiment_1"
+    }
+  },
+  "controlled_comparison": true,
+  "sealed_test_set_accessed": false,
+  "model_weights_copied": false,
+  "original_run_directories_modified": false
+}

@@ -1,0 +1,12 @@
+{
+  "dataset_id": "riksarkivet_swedish_lion_libre_training_data",
+  "dataset_hash": "fc21a70825650927edcae753a20411cef8e4344e2c22bcbcaed1c0038b9b97b0",
+  "dataset_inventory_path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\source-inventory\\full-inventory.parquet",
+  "train_manifest_path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\train_manifest.parquet",
+  "train_manifest_hash": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f",
+  "validation_manifest_path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\val_manifest.parquet",
+  "validation_manifest_hash": "92f74011c568b04798c9c53725311633f2df2ea4fb8c408e1d73b4f197cea85c",
+  "reserved_test_manifest_path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\test_reserved_manifest.parquet",
+  "reserved_test_manifest_note": "SEALED. Path recorded for lineage only; not opened, read, or hashed by this preservation pass, matching the instruction not to access the sealed 810-line test set.",
+  "identical_across_both_experiments": true
+}

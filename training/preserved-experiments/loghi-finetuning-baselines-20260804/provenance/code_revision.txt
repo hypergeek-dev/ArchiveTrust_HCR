@@ -1,0 +1,4 @@
+Experiment 0 code revision: b518e51bc5578edc3ce58b041383c23cfd4e16db
+Experiment 1 code revision: 26fdf29105f26d3c8394de10528e9a8866ffcc41
+Preservation-pass HEAD at build time: 26fdf29105f26d3c8394de10528e9a8866ffcc41
+See repository_diff.patch for the src/ diff between the two experiments' commits.

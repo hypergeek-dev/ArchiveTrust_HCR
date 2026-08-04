@@ -1,0 +1,106 @@
+{
+  "run_root": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z",
+    "exists": true,
+    "note": ""
+  },
+  "parent_checkpoint_dir": {
+    "path": "D:\\ArchiveTrust_HCR\\.loghi-upstream\\pretrained-models\\loghi-htr\\generic-2023-02-15",
+    "exists": true,
+    "note": ""
+  },
+  "resolved_training_configuration": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\training_identity.json",
+    "exists": true,
+    "note": ""
+  },
+  "launch_manifest": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\launch_manifest.json",
+    "exists": true,
+    "note": ""
+  },
+  "dataset_inventory": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\source-inventory\\full-inventory.parquet",
+    "exists": true,
+    "note": ""
+  },
+  "train_manifest": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\train_manifest.parquet",
+    "exists": true,
+    "note": ""
+  },
+  "validation_manifest": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\val_manifest.parquet",
+    "exists": true,
+    "note": ""
+  },
+  "reserved_test_manifest": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\test_reserved_manifest.parquet",
+    "exists": true,
+    "note": "SEALED -- not opened by this pass"
+  },
+  "generated_training_pool": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\_prepared_data\\fc21a708_e12796a0",
+    "exists": true,
+    "note": "shared content-addressed pool both experiments trained from"
+  },
+  "validation_list": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\_prepared_data\\fc21a708_e12796a0\\val_list.txt",
+    "exists": true,
+    "note": ""
+  },
+  "checkpoint_index": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\checkpoint_index.json",
+    "exists": true,
+    "note": ""
+  },
+  "run_state": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\run_state.json",
+    "exists": true,
+    "note": ""
+  },
+  "session_state": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\session_state.json",
+    "exists": true,
+    "note": ""
+  },
+  "telemetry_samples": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\telemetry\\gpu_samples.jsonl",
+    "exists": true,
+    "note": ""
+  },
+  "telemetry_status": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\telemetry\\status.json",
+    "exists": true,
+    "note": ""
+  },
+  "independent_evaluation_output": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\lap-evaluation\\lap1_best_val\\lap_evaluation.json",
+    "exists": true,
+    "note": ""
+  },
+  "prediction_file": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\lap-evaluation\\lap1_best_val\\results.txt",
+    "exists": true,
+    "note": ""
+  },
+  "best_checkpoint": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\epoch_output\\epoch_1\\model_new10\\best_val",
+    "exists": true
+  },
+  "end_of_epoch_checkpoint": {
+    "path": null,
+    "note": "no distinct end_of_epoch entry -- see metadata.json's note_on_checkpoint_kinds"
+  },
+  "generated_training_list": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\_prepared_data\\fc21a708_e12796a0\\train_list.txt",
+    "note": "single full-corpus list, 562,123 lines -- reused unmodified from the same pool Experiment 0's data prep built"
+  },
+  "optimizer_continuity_trace": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\epoch_output\\epoch_1\\optimizer_trace.csv"
+  },
+  "single_epoch_log": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z\\run-state\\epoch_output\\epoch_1\\log.csv",
+    "note": "one row only -- see comparison notes on logging granularity"
+  }
+}

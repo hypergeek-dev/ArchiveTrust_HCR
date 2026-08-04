@@ -1,0 +1,13 @@
+{
+  "checkpoint_dir": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\run-state\\epoch_output\\epoch_48\\model_new10\\best_val",
+  "recorded_sha256": "57a43f8ec22c756a1af75da15307243d5f211fa1ef98336d0de6d944a691d12f",
+  "live_verified_sha256": "ade57f9f28250731d8bcbabcf03e2b362a6ae7075e56afc2be44f4d9d6c07dfd",
+  "hash_matches_recorded": false,
+  "live_verification_ok": true,
+  "live_verification_extra": {
+    "tokenizer_present": true,
+    "config_present": true
+  },
+  "verified_at": "2026-08-04T04:49:08Z",
+  "note": "Referenced by path + hash only. Model weights (.keras) are NOT copied into the preservation package -- this record, plus the original checkpoint directory, is the reproducibility artifact."
+}

@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-08-04T04:49:09Z",
+  "controlled": true,
+  "unexpected_mismatches": {},
+  "intended_independent_variable": "trainer lifecycle / optimizer and LR continuity",
+  "disclosed_differences": [
+    {
+      "field": "code_commit",
+      "experiment_0": "b518e51bc5578edc3ce58b041383c23cfd4e16db",
+      "experiment_1": "26fdf29105f26d3c8394de10528e9a8866ffcc41",
+      "material": false,
+      "explanation": "4 commits landed between the two runs, confined to src/archivetrust/htr/training/full_run/ (shard-orchestration bookkeeping, the new end-of-lap evaluation suite, CLI/preflight additions). None touch container_epoch_runner.py, training_session.py, checkpoint_index.py, or training_identity.py -- the code paths that actually build the docker invocation and training configuration. See provenance/repository_diff.patch."
+    },
+    {
+      "field": "trainer_lifecycle / optimizer and LR continuity",
+      "experiment_0": "57 separate trainer invocations, optimizer/scheduler reset each time",
+      "experiment_1": "1 continuous trainer invocation, optimizer/scheduler never reset",
+      "material": true,
+      "explanation": "This is the sole INTENDED independent variable of this comparison."
+    }
+  ],
+  "held_out_results": {
+    "experiment_0": {
+      "corpus_cer": 0.17278316536730684,
+      "corpus_wer": 0.4944995491433724
+    },
+    "experiment_1": {
+      "corpus_cer": 0.1747163592571465,
+      "corpus_wer": 0.49558160504959425
+    },
+    "cer_delta_exp1_minus_exp0": 0.0019,
+    "wer_delta_exp1_minus_exp0": 0.0011
+  },
+  "authoritative_interpretation": "Correcting optimizer and learning-rate continuity was methodologically necessary, but it did not materially improve held-out generalisation after one full epoch for this corpus, architecture, optimizer, and learning-rate configuration. The difference between the experiments is within observed noise (CER delta +0.0019, WER delta +0.0011 for Experiment 1 relative to Experiment 0). This does not mean Experiment 1 is meaningfully worse, does not mean Experiment 0 is superior, and does not mean optimizer continuity never matters -- the supported conclusion is limited to this exact comparison and training budget."
+}

@@ -1,0 +1,10 @@
+{
+  "evaluation_code": "src/archivetrust/htr/training/full_run/lap_evaluation.py + evaluation_metrics.py",
+  "evaluation_cli": "scripts/evaluate_full_run_lap.py",
+  "cer_definition": "corpus-level sum(Levenshtein edits) / sum(reference characters) -- matches the container's own CERMetric weighting",
+  "wer_definition": "true word-level Levenshtein over word tokens (distinct from the container's own line-error-rate 'WER_metric')",
+  "same_evaluation_code_used_for_both_experiments": true,
+  "same_validation_set_used_for_both_experiments": true,
+  "experiment_0_evaluation_output": "training\\full-corpus-20260802T044250Z\\lap-evaluation\\lap1_best_val\\lap_evaluation.json",
+  "experiment_1_evaluation_output": "training\\experiment-1-continuous-epoch-20260803T192146Z\\lap-evaluation\\lap1_best_val\\lap_evaluation.json"
+}

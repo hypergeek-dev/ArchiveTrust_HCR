@@ -1,0 +1,6 @@
+{
+  "image_name": "loghi/docker.htr:latest",
+  "image_digest": "sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+  "identical_across_both_experiments": true,
+  "live_reverified_at_build_time": "loghi/docker.htr@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8"
+}

@@ -1,0 +1,6 @@
+metric,experiment_0,experiment_1,delta_exp1_minus_exp0
+held_out_corpus_cer,0.17278316536730684,0.1747163592571465,0.0019
+held_out_corpus_wer,0.4944995491433724,0.49558160504959425,0.0011
+in_training_best_val_cer,0.17423425614833832,0.17553427815437317,0.0013
+trainer_invocation_count,57,1,-56
+cumulative_training_seconds,25093.17073539998,16543.1574517,-8550.0

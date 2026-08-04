@@ -1,0 +1,1320 @@
+# git diff b518e51bc5578edc3ce58b041383c23cfd4e16db 26fdf29105f26d3c8394de10528e9a8866ffcc41 -- src/
+# Scoped to src/ only: the full diff between these commits also includes each run's own generated report/log artifacts, which are not code and are already preserved in this package's experiment_0/ and experiment_1/ subdirectories.
+
+diff --git a/src/archivetrust/htr/training/full_run/cli.py b/src/archivetrust/htr/training/full_run/cli.py
+index 03a29bd..c546971 100644
+--- a/src/archivetrust/htr/training/full_run/cli.py
++++ b/src/archivetrust/htr/training/full_run/cli.py
+@@ -393,14 +393,15 @@ def cmd_prepare(args: argparse.Namespace) -> int:
+     print(f"Excluded reserved test lines: {test_line_count}")
+     print(f"Dataset hash: {dataset_hash}")
+     print(f"Estimated steps per shard: {config.steps_per_shard}")
+-    print(f"Configured maximum epochs (shards): {config.max_full_run_epochs}")
++    print(f"Configured maximum SHARD executions: {config.max_full_run_epochs} "
++          f"(= {config.max_full_run_epochs // max(1, len([s for s in sharding_summary.shards if s.lap == 0]))} full epochs over the corpus)")
+     print(f"Configured minimum training exposure: {config.min_exposure_steps} steps ({config.min_exposure_basis})")
+     print(f"Early-stopping patience: {config.recommended_patience}")
+     print(f"Training data pool: {training_data.pool_dir} "
+           f"({'reused existing' if training_data.reused_existing_pool else 'built fresh'})")
+     print(f"Extracted line images: {training_data.train_image_count} train, {training_data.validation_image_count} validation")
+     print(f"Per-shard training lists: {len(training_data.shard_list_paths)} (UTF-8 <path>TAB<text>, container-readable)")
+-    print("Validation interval: every shard")
++    print("Validation interval: every shard (full 1000-line held-out set)")
+     print("Checkpoint interval: every shard")
+     print(f"Code commit: {run_state.code_revision} (repository dirty: {manifest.repository_dirty})")
+     print(f"Container image: {manifest.container_image_name}")
+@@ -417,6 +418,64 @@ def cmd_prepare(args: argparse.Namespace) -> int:
+     return 0
+ 
+ 
++def _validate_shard_integrity(
++    *, run_dir: Path, launch_manifest, dataset_hash, validation_manifest_path: Path,
++    test_manifest_path: Path, configuration_hash: str, force_full_check: bool,
++) -> tuple[str | None, bool, str, float]:
++    """`(training_manifest_hash, overlap_already_checked, human_note, seconds)`.
++
++    Full validation on the first run and whenever anything changed; a fingerprint re-verification
++    plus a deterministic content sample otherwise. Never skips validation outright -- see
++    `integrity_cache.py` for why the cache is a fingerprint rather than a bypass."""
++    import hashlib
++    import time as _time
++
++    from archivetrust.htr.training.full_run.corpus_sharding import load_sharding_summary
++    from archivetrust.htr.training.full_run.integrity_cache import (
++        build_cache, cache_is_valid, deterministic_sample_indices, load_cache,
++        sampled_shard_hash, save_cache,
++    )
++    from archivetrust.htr.training.full_run.launch_guard import (
++        _shard_line_id_overlap_with_manifest, recompute_real_shard_hash,
++    )
++
++    started = _time.monotonic()
++    shards_dir = run_dir / "shards"
++    summary = load_sharding_summary(shards_dir)
++    shard_paths = [Path(s.manifest_path) for s in summary.shards]
++    val_hash = hashlib.sha256(validation_manifest_path.read_bytes()).hexdigest() if validation_manifest_path.exists() else ""
++    recorded_hash = launch_manifest.training_manifest_hash if launch_manifest else None
++
++    cache = None if force_full_check else load_cache(run_dir)
++    ok, reason = cache_is_valid(
++        cache, shard_paths=shard_paths, dataset_hash=dataset_hash,
++        training_manifest_hash=recorded_hash, validation_manifest_hash=val_hash,
++        configuration_hash=configuration_hash,
++    )
++    if ok and cache is not None:
++        indices = deterministic_sample_indices(
++            manifest_hash=cache.training_manifest_hash, shard_count=len(shard_paths)
++        )
++        sampled_shard_hash(shard_paths, indices)  # real content re-read, not metadata alone
++        note = (
++            f"cached ({reason}); re-read {len(indices)} sampled shards; "
++            f"overlap val={cache.validation_overlap} test={cache.test_overlap}"
++        )
++        return cache.training_manifest_hash, True, note, _time.monotonic() - started
++
++    full_hash = recompute_real_shard_hash(shards_dir)
++    val_overlap = _shard_line_id_overlap_with_manifest(shards_dir, validation_manifest_path) if validation_manifest_path.exists() else 0
++    test_overlap = _shard_line_id_overlap_with_manifest(shards_dir, test_manifest_path) if test_manifest_path.exists() else 0
++    save_cache(run_dir, build_cache(
++        shard_paths=shard_paths, dataset_hash=dataset_hash, training_manifest_hash=full_hash,
++        validation_manifest_hash=val_hash, configuration_hash=configuration_hash,
++        validation_overlap=val_overlap, test_overlap=test_overlap,
++    ))
++    trigger = "forced" if force_full_check else reason
++    note = f"FULL validation ({trigger}); {len(shard_paths)} shards rehashed; overlap val={val_overlap} test={test_overlap}"
++    return full_hash, True, note, _time.monotonic() - started
++
++
+ def cmd_start(args: argparse.Namespace) -> int:
+     return _run_session(args, resume=False)
+ 
+@@ -473,7 +532,16 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
+         return 1
+     training_data = ShardTrainingDataPaths.model_validate_json(training_data_path.read_text(encoding="utf-8"))
+ 
+-    from archivetrust.htr.training.full_run.launch_guard import recompute_real_shard_hash
++    manifest_hash, overlap_checked, integrity_note, integrity_seconds = _validate_shard_integrity(
++        run_dir=run_dir,
++        launch_manifest=launch_manifest,
++        dataset_hash=_dataset_hash(),
++        validation_manifest_path=DEFAULT_PILOT_RUN_DIR / "manifests" / "val_manifest.parquet",
++        test_manifest_path=DEFAULT_PILOT_RUN_DIR / "manifests" / "test_reserved_manifest.parquet",
++        configuration_hash=state.configuration_hash,
++        force_full_check=getattr(args, "force_integrity_check", False),
++    )
++    print(f"Shard integrity: {integrity_note} ({integrity_seconds:.1f}s)")
+ 
+     guard_kwargs = dict(
+         confirmed=args.confirm_full_corpus_run,
+@@ -481,10 +549,11 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
+         run_state=state,
+         launch_manifest=launch_manifest,
+         current_dataset_hash=_dataset_hash(),
+-        # A real rehash of every real lap-0 shard file's actual line_id column -- not just a second
+-        # read of sharding_summary.json's own recorded hash field (which would never catch a shard
+-        # file replaced or corrupted after `prepare` without the summary itself being touched).
+-        current_training_manifest_hash=recompute_real_shard_hash(run_dir / "shards"),
++        current_training_manifest_hash=manifest_hash,
++        # Overlap was validated by _validate_shard_integrity (fully on a cache miss, and its cached
++        # result re-verified against a real fingerprint on a hit), so the guard must not repeat the
++        # 342-file scan. Passing the already-validated verdict rather than re-deriving it.
++        check_train_val_overlap=not overlap_checked,
+         test_manifest_path=DEFAULT_PILOT_RUN_DIR / "manifests" / "test_reserved_manifest.parquet",
+         preflight_passed=preflight_passed,
+         preflight_age_seconds=preflight_age_seconds,
+@@ -553,6 +622,7 @@ def _run_session(args: argparse.Namespace, *, resume: bool) -> int:
+         monitoring_config=monitoring_config,
+         max_wall_clock_seconds=args.hours * 3600.0,
+         stop_requested=lambda: stop_sentinel.exists(),
++        stop_at_epoch_boundary=args.stop_at_epoch_boundary,
+     )
+ 
+     print(f"stop_reason: {summary.stop_reason}")
+@@ -571,6 +641,29 @@ def cmd_status(args: argparse.Namespace) -> int:
+         print(f"No run_state.json under {run_state_dir}.")
+         return 1
+     print(f"display_status: {display_status(state)}")
++
++    # Progress in units that mean what they say. `current_epoch` counts SHARDS despite its name; one
++    # epoch is `shards_per_epoch` (57) shards, so reporting shards as epochs overstates progress 57x.
++    shards_dir = Path(args.run) / "shards"
++    if shards_dir.exists():
++        from archivetrust.htr.training.full_run.corpus_sharding import load_sharding_summary
++        from archivetrust.htr.training.full_run.epoch_accounting import compute_epoch_position
++
++        try:
++            summary = load_sharding_summary(shards_dir)
++            pos = compute_epoch_position(
++                global_shards_completed=state.current_epoch,
++                shards=summary.shards, total_shards_planned=len(summary.shards),
++            )
++            print(f"shards_completed_in_current_epoch: {pos.shards_completed_in_current_epoch} / {pos.shards_per_epoch}")
++            print(f"epochs_completed: {pos.epochs_completed}")
++            print(f"epoch_progress: {pos.epoch_progress:.4f}")
++            print(f"global_shards_completed: {pos.global_shards_completed} / {pos.total_shards_planned}")
++            print(f"total_epochs_planned: {pos.total_epochs_planned}")
++            print(f"at_epoch_boundary: {pos.is_epoch_boundary}")
++        except (OSError, ValueError) as exc:
++            print(f"(epoch position unavailable: {exc})")
++
+     print(json.dumps(state.model_dump(), indent=2, ensure_ascii=False))
+     return 0
+ 
+@@ -636,6 +729,8 @@ def build_parser() -> argparse.ArgumentParser:
+     start.add_argument("--allow-dirty-repository", action="store_true")
+     start.add_argument("--allow-code-revision-drift", action="store_true", help="allow the current git commit to differ from the one recorded at `prepare` time")
+     start.add_argument("--no-docker-check", action="store_true", help="skip the launch guard's docker daemon/image checks")
++    start.add_argument("--force-integrity-check", action="store_true", help="rehash every shard and re-run full overlap validation, ignoring the cached fingerprint")
++    start.add_argument("--stop-at-epoch-boundary", action="store_true", help="stop as soon as one full corpus lap completes, instead of rolling into the next")
+     start.set_defaults(func=cmd_start)
+ 
+     status = subparsers.add_parser("status", help="show a run's current state")
+@@ -660,6 +755,8 @@ def build_parser() -> argparse.ArgumentParser:
+     resume.add_argument("--allow-dirty-repository", action="store_true")
+     resume.add_argument("--allow-code-revision-drift", action="store_true", help="allow the current git commit to differ from the one recorded at `prepare` time")
+     resume.add_argument("--no-docker-check", action="store_true", help="skip the launch guard's docker daemon/image checks")
++    resume.add_argument("--force-integrity-check", action="store_true", help="rehash every shard and re-run full overlap validation, ignoring the cached fingerprint")
++    resume.add_argument("--stop-at-epoch-boundary", action="store_true", help="stop as soon as one full corpus lap completes, instead of rolling into the next")
+     resume.add_argument(
+         "--force-resume-after-crash", action="store_true",
+         help="recover a run left marked running/stopping by a crash; only takes effect when live "
+diff --git a/src/archivetrust/htr/training/full_run/epoch_accounting.py b/src/archivetrust/htr/training/full_run/epoch_accounting.py
+new file mode 100644
+index 0000000..2eaacec
+--- /dev/null
++++ b/src/archivetrust/htr/training/full_run/epoch_accounting.py
+@@ -0,0 +1,85 @@
++"""Correct epoch/shard progress accounting for the full-corpus run.
++
++**The terminology this module exists to fix.** The orchestrator's internal unit of work is a *shard*
++-- one container invocation over ~9,999 lines. `TrainingSessionState.cumulative_epoch` counts those
++shards, and because the pilot's single 9,999-line pass genuinely was its whole training set, the
++codebase inherited the habit of calling one shard "an epoch". At full-corpus scale that is simply
++wrong: one pass over the 562,123-line corpus takes **57 shards**, so completing one shard is 1/57th
++of an epoch, not an epoch.
++
++Reporting a shard as an epoch overstates progress by 57x and invites false conclusions -- a single
++shard's validation result is not evidence about epoch-level convergence or overfitting.
++
++`shards_per_epoch` is derived from the real shard plan (`sharding_summary.json`), never assumed: it is
++the number of shards in lap 0, which by construction covers every usable line exactly once. Laps and
++epochs are the same partition viewed from two sides -- `corpus_sharding.py` builds a lap as one
++complete pass, so lap boundaries *are* epoch boundaries.
++"""
++
++from __future__ import annotations
++
++from pydantic import BaseModel, ConfigDict
++
++
++class EpochPosition(BaseModel):
++    """Where a run actually is, in units that mean what they say."""
++
++    model_config = ConfigDict(frozen=True)
++
++    global_shards_completed: int
++    """Total shard executions finished across the whole run -- the raw counter the orchestrator
++    increments. Formerly (and misleadingly) surfaced as 'cumulative_epoch'."""
++    total_shards_planned: int
++    shards_per_epoch: int
++    """Shards in one complete pass over the corpus (57 for the real plan), derived from lap 0."""
++    epochs_completed: int
++    """Full passes over the corpus finished. Only increments when a lap's final shard completes."""
++    shards_completed_in_current_epoch: int
++    """0..shards_per_epoch-1 -- progress within the epoch currently in flight."""
++    epoch_progress: float
++    """`shards_completed_in_current_epoch / shards_per_epoch`, 0.0-1.0."""
++    total_epochs_planned: int
++    is_epoch_boundary: bool
++    """True when the last completed shard finished a full pass, i.e. an end-of-epoch checkpoint and a
++    full validation gate are due."""
++
++    def summary_line(self) -> str:
++        return (
++            f"epoch {self.epochs_completed + (0 if self.is_epoch_boundary else 1)}"
++            f" | shards_completed_in_current_epoch: {self.shards_completed_in_current_epoch}"
++            f"/{self.shards_per_epoch}"
++            f" | epochs_completed: {self.epochs_completed}"
++            f" | epoch_progress: {self.epoch_progress:.4f}"
++            f" | global_shards_completed: {self.global_shards_completed}/{self.total_shards_planned}"
++        )
++
++
++def shards_per_epoch_from_plan(shards) -> int:
++    """Number of shards in one full corpus pass, read from the real plan rather than assumed.
++
++    Counts lap-0 shards: `corpus_sharding.build_full_corpus_shards` emits lap 0 as exactly one
++    complete, duplicate-free pass over every usable line, so its length is the epoch size. Falls back
++    to the total shard count when the plan carries no lap information at all (a degenerate single-lap
++    plan), which keeps the accounting honest instead of dividing by zero."""
++    lap0 = sum(1 for s in shards if getattr(s, "lap", 0) == 0)
++    return lap0 or len(shards) or 1
++
++
++def compute_epoch_position(*, global_shards_completed: int, shards, total_shards_planned: int | None = None) -> EpochPosition:
++    per_epoch = shards_per_epoch_from_plan(shards)
++    total = total_shards_planned if total_shards_planned is not None else len(shards)
++    completed_epochs = global_shards_completed // per_epoch
++    within = global_shards_completed % per_epoch
++    return EpochPosition(
++        global_shards_completed=global_shards_completed,
++        total_shards_planned=total,
++        shards_per_epoch=per_epoch,
++        epochs_completed=completed_epochs,
++        shards_completed_in_current_epoch=within,
++        epoch_progress=within / per_epoch,
++        total_epochs_planned=max(1, -(-total // per_epoch)),
++        # A boundary is "the shard just completed was the last of a lap": within wraps to 0 while at
++        # least one shard has run. Deliberately not `within == per_epoch - 1`, which would fire one
++        # shard early and promote an end_of_epoch checkpoint before the epoch was actually finished.
++        is_epoch_boundary=global_shards_completed > 0 and within == 0,
++    )
+diff --git a/src/archivetrust/htr/training/full_run/evaluation_metrics.py b/src/archivetrust/htr/training/full_run/evaluation_metrics.py
+new file mode 100644
+index 0000000..a612119
+--- /dev/null
++++ b/src/archivetrust/htr/training/full_run/evaluation_metrics.py
+@@ -0,0 +1,157 @@
++"""CER/WER on true Levenshtein edit distance, plus confidence-calibration bucketing.
++
++**Why this module exists.** A manual inspection during the first shard review used
++`difflib.SequenceMatcher` to approximate CER and reported 0.82 where the real figure was 0.25 --
++a 3x overstatement that briefly looked like a contradiction of the container's own metric.
++`difflib` finds *matching blocks*, not a minimum edit script: it never considers substitutions and
++cannot cross a mismatch to find a better alignment, so it systematically overestimates distance.
++CER is defined on Levenshtein distance, so Levenshtein is what this computes.
++
++**Corpus-level, not mean-of-per-line.** `sum(edits) / sum(reference_chars)` weights every character
++equally, which is what the container's own `CERMetric` reports and therefore what a comparison
++against it must use. Averaging per-line CER instead over-weights short lines -- and short lines are
++exactly where this corpus is weakest (`alvsborgs_losen`'s terse tax entries), so the two differ
++materially rather than academically. Both are returned, labelled, so a reader can see the gap.
++"""
++
++from __future__ import annotations
++
++from pydantic import BaseModel, ConfigDict
++
++
++def levenshtein(a: str, b: str) -> int:
++    """Minimum single-character insertions, deletions and substitutions turning `a` into `b`."""
++    if a == b:
++        return 0
++    if not a:
++        return len(b)
++    if not b:
++        return len(a)
++    previous = list(range(len(b) + 1))
++    for i, ca in enumerate(a, start=1):
++        current = [i]
++        for j, cb in enumerate(b, start=1):
++            current.append(min(
++                previous[j] + 1,        # deletion
++                current[j - 1] + 1,     # insertion
++                previous[j - 1] + (ca != cb),  # substitution
++            ))
++        previous = current
++    return previous[-1]
++
++
++def character_error_rate(reference: str, hypothesis: str) -> float:
++    if not reference:
++        return 0.0 if not hypothesis else 1.0
++    return levenshtein(reference, hypothesis) / len(reference)
++
++
++def word_error_rate(reference: str, hypothesis: str) -> float:
++    """Levenshtein over word tokens rather than characters -- the same distance, different alphabet."""
++    ref, hyp = reference.split(), hypothesis.split()
++    if not ref:
++        return 0.0 if not hyp else 1.0
++    # Map each distinct word to a single sentinel character so the character routine can be reused.
++    vocab = {w: chr(i + 256) for i, w in enumerate(dict.fromkeys(ref + hyp))}
++    return levenshtein("".join(vocab[w] for w in ref), "".join(vocab[w] for w in hyp)) / len(ref)
++
++
++def line_error_rate(pairs: list[tuple[str, str]]) -> float:
++    """Fraction of lines that are not exactly correct.
++
++    **This, not `word_error_rate`, is what the container reports as "WER".** `WERMetric` in the pinned
++    image computes `tf.edit_distance` over character labels and then counts lines whose distance is
++    non-zero, dividing by the line count -- its local variable is even named `correct_words_amount`
++    while counting incorrect *lines*. Confirmed numerically on the lap-1 validation set: the container
++    reported 0.8930 and exactly 893 of 1,000 lines contained at least one error, while the true word
++    error rate over the same predictions was 0.4878.
++
++    Reported alongside the real WER so the container's figure can be reconciled rather than
++    misread -- earlier documents in this project cited ~0.89 as a word error rate, overstating
++    word-level error by roughly 1.8x.
++    """
++    if not pairs:
++        return 0.0
++    return sum(1 for reference, hypothesis in pairs if reference != hypothesis) / len(pairs)
++
++
++class CorpusMetrics(BaseModel):
++    model_config = ConfigDict(frozen=True)
++
++    sample_count: int
++    corpus_cer: float
++    """`total edits / total reference characters` -- comparable with the container's CERMetric."""
++    corpus_wer: float
++    """A real word error rate: word-level Levenshtein over word tokens. NOT comparable with the
++    container's "WER" -- see `line_error_rate`, which is."""
++    line_error_rate: float
++    """Fraction of lines with any error. The figure the container's `WERMetric` actually reports."""
++    mean_per_line_cer: float
++    """Reported alongside `corpus_cer` because they diverge when line lengths vary, and this corpus's
++    weakest subgroup is also its shortest-line subgroup."""
++    total_reference_chars: int
++    total_edits: int
++
++
++def corpus_metrics(pairs: list[tuple[str, str]]) -> CorpusMetrics:
++    """`pairs` is `[(reference, hypothesis), ...]`."""
++    if not pairs:
++        return CorpusMetrics(sample_count=0, corpus_cer=0.0, corpus_wer=0.0, line_error_rate=0.0,
++                             mean_per_line_cer=0.0, total_reference_chars=0, total_edits=0)
++    edits = sum(levenshtein(r, h) for r, h in pairs)
++    chars = sum(len(r) for r, _ in pairs)
++    word_edits = sum(word_error_rate(r, h) * max(len(r.split()), 1) for r, h in pairs)
++    words = sum(max(len(r.split()), 1) for r, _ in pairs)
++    return CorpusMetrics(
++        sample_count=len(pairs),
++        corpus_cer=edits / max(chars, 1),
++        corpus_wer=word_edits / max(words, 1),
++        line_error_rate=line_error_rate(pairs),
++        mean_per_line_cer=sum(character_error_rate(r, h) for r, h in pairs) / len(pairs),
++        total_reference_chars=chars,
++        total_edits=edits,
++    )
++
++
++class ConfidenceBucket(BaseModel):
++    model_config = ConfigDict(frozen=True)
++
++    lower: float
++    upper: float
++    sample_count: int
++    mean_cer: float | None
++    median_cer: float | None
++
++
++def confidence_buckets(
++    records: list[tuple[float, float]], *, edges: tuple[float, ...] = (0.0, 0.2, 0.4, 0.6, 0.8, 1.01)
++) -> list[ConfidenceBucket]:
++    """`records` is `[(confidence, cer), ...]`. Empty buckets are reported with `None` statistics
++    rather than silently dropped -- a gap in coverage is itself calibration evidence."""
++    from statistics import mean, median
++
++    out = []
++    for lo, hi in zip(edges, edges[1:]):
++        vals = [cer for conf, cer in records if lo <= conf < hi]
++        out.append(ConfidenceBucket(
++            lower=lo, upper=hi, sample_count=len(vals),
++            mean_cer=mean(vals) if vals else None,
++            median_cer=median(vals) if vals else None,
++        ))
++    return out
++
++
++def rejection_coverage(records: list[tuple[float, float]], thresholds: tuple[float, ...]) -> list[dict]:
++    """For each threshold: what fraction of lines would be auto-accepted, and the CER of that
++    accepted subset. The practical question a confidence score has to answer."""
++    out = []
++    total = len(records)
++    for t in thresholds:
++        kept = [cer for conf, cer in records if conf >= t]
++        out.append({
++            "threshold": t,
++            "coverage": len(kept) / total if total else 0.0,
++            "accepted_count": len(kept),
++            "mean_cer_of_accepted": (sum(kept) / len(kept)) if kept else None,
++        })
++    return out
+diff --git a/src/archivetrust/htr/training/full_run/gui/app.py b/src/archivetrust/htr/training/full_run/gui/app.py
+index 50a4f30..71c3acf 100644
+--- a/src/archivetrust/htr/training/full_run/gui/app.py
++++ b/src/archivetrust/htr/training/full_run/gui/app.py
+@@ -184,7 +184,8 @@ class MainWindow(QMainWindow):
+         self._status_labels: dict[str, QLabel] = {}
+         for key, label in [
+             ("status", "Run status:"), ("monitoring_state", "Monitoring state:"),
+-            ("current_epoch", "Current epoch (shard):"), ("current_global_step", "Global step:"),
++            ("epoch_position", "Epoch position:"), ("global_shards", "Shards completed:"),
++            ("current_global_step", "Global step:"),
+             ("latest_val_cer", "Latest val CER:"), ("best_val_cer", "Best val CER:"),
+             ("latest_train_loss", "Latest train loss:"), ("latest_val_loss", "Latest val loss:"),
+             ("epochs_since_improvement", "Epochs since improvement:"),
+@@ -341,7 +342,11 @@ class MainWindow(QMainWindow):
+ 
+         labels = self._status_labels
+         labels["status"].setText(display_status(state))
+-        labels["current_epoch"].setText(str(state.current_epoch))
++        labels["epoch_position"].setText(
++            f"epochs_completed={state.epochs_completed} "
++            f"| shard {state.shards_completed_in_current_epoch}/{state.shards_per_epoch or '?'} "
++            f"| {state.epoch_progress:.1%} of epoch")
++        labels["global_shards"].setText(str(state.global_shards_completed or state.current_epoch))
+         labels["current_global_step"].setText(str(state.current_global_step))
+         labels["latest_val_cer"].setText(str(state.latest_metrics.get("val_cer")))
+         labels["best_val_cer"].setText(str(state.best_metrics.get("val_cer")))
+diff --git a/src/archivetrust/htr/training/full_run/integrity_cache.py b/src/archivetrust/htr/training/full_run/integrity_cache.py
+new file mode 100644
+index 0000000..dd538c1
+--- /dev/null
++++ b/src/archivetrust/htr/training/full_run/integrity_cache.py
+@@ -0,0 +1,181 @@
++"""Cached shard-integrity validation, so resuming does not re-read the entire shard set every time.
++
++**The problem this solves, which I introduced.** Strengthening the launch guard (R-007) made it
++rehash every lap-0 shard *and* re-check overlap against the validation and reserved-test manifests --
++57 + 171 + 171 = 399 Parquet reads on every `start` and every `resume`. That is correct but slow, and
++the cost is paid before the container even launches, on a run that may resume dozens of times.
++
++**The rule this must not break: never skip validation to save time.** So the cache is not a bypass,
++it is a *fingerprint* of the inputs whose full validation already succeeded:
++
++- **First run** performs the complete check -- every shard hashed, full overlap validation -- and
++  records the result together with a fingerprint of every shard file (size + mtime) plus the dataset,
++  validation, and configuration identities it was validated against.
++- **Resume** re-verifies that fingerprint: file count, every file's size and mtime, and the recorded
++  dataset/validation/configuration hashes. It then rehashes a *deterministic* sample of shards, so
++  content is still genuinely re-read on every resume rather than trusted purely from metadata.
++- **Any mismatch** -- a changed size, mtime, count, dataset hash, validation-manifest hash, or
++  configuration hash -- discards the cache and forces the full check.
++- `force_full_check=True` (CLI: `--force-integrity-check`) always performs the complete validation.
++
++The deterministic sample is seeded by the manifest hash, so it is reproducible and auditable rather
++than a random subset that might differ between two people investigating the same run. A tampered
++shard that preserves both size and mtime and is missed by the sample would still be caught at the
++next full check, and cannot survive a dataset/config change -- but this is a genuine, disclosed
++narrowing of guarantee versus rehashing everything, which is why the override flag exists.
++"""
++
++from __future__ import annotations
++
++import hashlib
++import json
++import os
++import random
++import tempfile
++from pathlib import Path
++
++from pydantic import BaseModel, ConfigDict
++
++INTEGRITY_CACHE_NAME = "integrity_cache.json"
++DEFAULT_SAMPLE_SIZE = 8
++"""Shards rehashed on every resume even when the fingerprint matches. Small enough to be fast
++(~8 Parquet reads instead of 399), large enough that repeated resumes cover the set."""
++
++
++class ShardFingerprint(BaseModel):
++    model_config = ConfigDict(frozen=True)
++
++    path: str
++    size_bytes: int
++    mtime_ns: int
++
++
++class IntegrityCache(BaseModel):
++    model_config = ConfigDict(frozen=True)
++
++    training_manifest_hash: str
++    dataset_hash: str
++    validation_manifest_hash: str
++    configuration_hash: str
++    shard_count: int
++    fingerprints: tuple[ShardFingerprint, ...]
++    validation_overlap: int
++    test_overlap: int
++    validated_at: str
++
++
++def _fingerprint(path: Path) -> ShardFingerprint:
++    st = path.stat()
++    return ShardFingerprint(path=str(path), size_bytes=st.st_size, mtime_ns=st.st_mtime_ns)
++
++
++def deterministic_sample_indices(*, manifest_hash: str, shard_count: int, sample_size: int = DEFAULT_SAMPLE_SIZE) -> list[int]:
++    """Reproducible from the manifest hash alone, so any two people auditing the same run rehash the
++    same shards."""
++    if shard_count <= sample_size:
++        return list(range(shard_count))
++    rng = random.Random(int(manifest_hash[:16], 16))
++    return sorted(rng.sample(range(shard_count), sample_size))
++
++
++def cache_path(run_dir: str | Path) -> Path:
++    return Path(run_dir) / "run-state" / INTEGRITY_CACHE_NAME
++
++
++def load_cache(run_dir: str | Path) -> IntegrityCache | None:
++    p = cache_path(run_dir)
++    if not p.exists():
++        return None
++    try:
++        return IntegrityCache.model_validate_json(p.read_text(encoding="utf-8"))
++    except (OSError, ValueError):
++        return None
++
++
++def save_cache(run_dir: str | Path, cache: IntegrityCache) -> None:
++    p = cache_path(run_dir)
++    p.parent.mkdir(parents=True, exist_ok=True)
++    fd, tmp = tempfile.mkstemp(dir=str(p.parent), prefix=".tmp-integrity-")
++    try:
++        with os.fdopen(fd, "w", encoding="utf-8") as f:
++            f.write(cache.model_dump_json(indent=2))
++        os.replace(tmp, str(p))
++    except BaseException:
++        Path(tmp).unlink(missing_ok=True)
++        raise
++
++
++def cache_is_valid(
++    cache: IntegrityCache | None,
++    *,
++    shard_paths: list[Path],
++    dataset_hash: str | None,
++    training_manifest_hash: str | None,
++    validation_manifest_hash: str,
++    configuration_hash: str,
++) -> tuple[bool, str]:
++    """`(is_valid, reason)`. Any identity or fingerprint mismatch invalidates -- the caller must then
++    perform the full check rather than proceeding."""
++    if cache is None:
++        return False, "no cached integrity result"
++    if cache.training_manifest_hash != (training_manifest_hash or ""):
++        return False, "training manifest hash changed since the cached validation"
++    if cache.dataset_hash != (dataset_hash or ""):
++        return False, "dataset hash changed since the cached validation"
++    if cache.validation_manifest_hash != validation_manifest_hash:
++        return False, "validation manifest hash changed since the cached validation"
++    if cache.configuration_hash != configuration_hash:
++        return False, "configuration hash changed since the cached validation"
++    if cache.shard_count != len(shard_paths):
++        return False, f"shard count changed ({cache.shard_count} -> {len(shard_paths)})"
++
++    recorded = {f.path: f for f in cache.fingerprints}
++    for path in shard_paths:
++        f = recorded.get(str(path))
++        if f is None:
++            return False, f"shard not present in the cached fingerprint set: {path.name}"
++        if not path.exists():
++            return False, f"shard file is missing: {path.name}"
++        st = path.stat()
++        if st.st_size != f.size_bytes:
++            return False, f"shard size changed: {path.name}"
++        if st.st_mtime_ns != f.mtime_ns:
++            return False, f"shard modification time changed: {path.name}"
++    return True, "fingerprint matches the cached full validation"
++
++
++def build_cache(
++    *,
++    shard_paths: list[Path],
++    dataset_hash: str | None,
++    training_manifest_hash: str | None,
++    validation_manifest_hash: str,
++    configuration_hash: str,
++    validation_overlap: int,
++    test_overlap: int,
++) -> IntegrityCache:
++    import time
++
++    return IntegrityCache(
++        training_manifest_hash=training_manifest_hash or "",
++        dataset_hash=dataset_hash or "",
++        validation_manifest_hash=validation_manifest_hash,
++        configuration_hash=configuration_hash,
++        shard_count=len(shard_paths),
++        fingerprints=tuple(_fingerprint(p) for p in shard_paths),
++        validation_overlap=validation_overlap,
++        test_overlap=test_overlap,
++        validated_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
++    )
++
++
++def sampled_shard_hash(shard_paths: list[Path], indices: list[int]) -> str:
++    """Rehashes only the sampled shards' real `line_id` content -- so even a cache hit re-reads real
++    bytes rather than trusting metadata alone."""
++    import pyarrow.parquet as pq
++
++    digest = hashlib.sha256()
++    for i in indices:
++        ids = pq.read_table(shard_paths[i], columns=["line_id"]).column("line_id").to_pylist()
++        digest.update(json.dumps(sorted(ids)).encode("utf-8"))
++    return digest.hexdigest()
+diff --git a/src/archivetrust/htr/training/full_run/lap_evaluation.py b/src/archivetrust/htr/training/full_run/lap_evaluation.py
+new file mode 100644
+index 0000000..fe65f08
+--- /dev/null
++++ b/src/archivetrust/htr/training/full_run/lap_evaluation.py
+@@ -0,0 +1,356 @@
++"""End-of-lap evaluation: the evidence produced at a completed corpus lap, not at a shard.
++
++**Why this is lap-scoped.** A shard is 1/57th of the corpus. Its validation figure moves by less than
++the noise between adjacent shards -- lap 1's shards 49-53 all sat within 0.002 CER of each other --
++so a single shard's result is not evidence of convergence, overfitting, or anything else worth acting
++on. This module runs only when a full pass over the corpus has completed, which is the first point at
++which validation movement reflects the whole corpus.
++
++**What it produces**, all from one real inference pass over the full 1,000-line validation set with
++the lap's checkpoint:
++
++- corpus CER/WER overall (edit-weighted, comparable with the container's own `CERMetric`),
++- the same per collection, so a corpus-wide average cannot hide a collapsing subgroup --
++  `alvsborgs_losen` is tracked explicitly because its terse tax entries are the shortest lines in the
++  corpus and its CER has run far above the mean,
++- confidence calibration over all 1,000 lines: buckets with counts and mean/median CER, plus
++  rejection coverage at candidate thresholds,
++- a deterministic stratified inspection sample covering every collection, for human reading.
++
++The inspection sample is *stratified and seeded*, never the head of a file. Reading the first N lines
++of `val_list.txt` samples one collection, because the list is grouped by collection -- an earlier
++manual review did exactly that and drew conclusions about the model from `alvsborgs_losen` alone.
++"""
++
++from __future__ import annotations
++
++import hashlib
++import json
++import os
++import tempfile
++from pathlib import Path
++
++from pydantic import BaseModel, ConfigDict
++
++from archivetrust.htr.training.full_run.evaluation_metrics import (
++    ConfidenceBucket,
++    CorpusMetrics,
++    character_error_rate,
++    confidence_buckets,
++    corpus_metrics,
++    rejection_coverage,
++)
++
++COLLECTION_SUFFIX = "_lines__"
++"""Extracted line images are named `<collection>_lines__<source>.parquet__<row>.png`, so the
++collection is the segment before the first `_lines__`. Derived from the real filenames rather than a
++separate lookup table, which would be one more thing to keep in sync."""
++
++
++def collection_of(image_path: str) -> str:
++    name = Path(image_path).name
++    head, sep, _ = name.partition(COLLECTION_SUFFIX)
++    return head if sep else "unknown"
++
++
++def parse_ground_truth_list(text: str) -> dict[str, str]:
++    """`<image_path>\\t<ground_truth>` -- the exact UTF-8 format the container's data manager reads.
++
++    Ground truth may itself contain tab characters, so the split is bounded to the first one."""
++    out: dict[str, str] = {}
++    for line in text.splitlines():
++        if not line.strip():
++            continue
++        path, sep, truth = line.partition("\t")
++        if sep:
++            out[path] = truth
++    return out
++
++
++def parse_results_file(text: str) -> dict[str, tuple[float, str]]:
++    """`<image_path>\\t<confidence>\\t<prediction>` -- the container's `--results_file` format.
++
++    A prediction can legitimately be empty (the model output nothing for that line); that is a real
++    result and is kept, not dropped, because discarding it would silently improve every metric."""
++    out: dict[str, tuple[float, str]] = {}
++    for line in text.splitlines():
++        if not line.strip():
++            continue
++        parts = line.split("\t", 2)
++        if len(parts) < 2:
++            continue
++        path, raw_confidence = parts[0], parts[1]
++        prediction = parts[2] if len(parts) > 2 else ""
++        try:
++            confidence = float(raw_confidence)
++        except ValueError:
++            continue
++        out[path] = (confidence, prediction)
++    return out
++
++
++class LineResult(BaseModel):
++    model_config = ConfigDict(frozen=True)
++
++    image_path: str
++    collection: str
++    ground_truth: str
++    prediction: str
++    confidence: float
++    cer: float
++
++
++def join_predictions(
++    ground_truth: dict[str, str], results: dict[str, tuple[float, str]]
++) -> tuple[list[LineResult], list[str]]:
++    """Returns `(joined, missing)`. `missing` is every validation line the inference pass produced no
++    result for -- reported rather than ignored, because a silently shrinking denominator would make
++    the CER look better the more lines failed."""
++    joined: list[LineResult] = []
++    missing: list[str] = []
++    for path, truth in ground_truth.items():
++        if path not in results:
++            missing.append(path)
++            continue
++        confidence, prediction = results[path]
++        joined.append(LineResult(
++            image_path=path, collection=collection_of(path), ground_truth=truth,
++            prediction=prediction, confidence=confidence,
++            cer=character_error_rate(truth, prediction),
++        ))
++    return joined, missing
++
++
++class CollectionMetrics(BaseModel):
++    model_config = ConfigDict(frozen=True)
++
++    collection: str
++    metrics: CorpusMetrics
++    mean_confidence: float
++
++
++def per_collection_metrics(lines: list[LineResult]) -> list[CollectionMetrics]:
++    """Sorted worst-CER-first: the question at a decision gate is which subgroup is failing, so the
++    answer should be the first row rather than something the reader has to search for."""
++    by_collection: dict[str, list[LineResult]] = {}
++    for line in lines:
++        by_collection.setdefault(line.collection, []).append(line)
++
++    out = [
++        CollectionMetrics(
++            collection=name,
++            metrics=corpus_metrics([(r.ground_truth, r.prediction) for r in rows]),
++            mean_confidence=sum(r.confidence for r in rows) / len(rows),
++        )
++        for name, rows in by_collection.items()
++    ]
++    return sorted(out, key=lambda c: c.metrics.corpus_cer, reverse=True)
++
++
++def stratified_inspection_sample(
++    lines: list[LineResult], *, per_collection: int, seed_material: str
++) -> list[LineResult]:
++    """A fixed, reproducible sample with equal representation from every collection.
++
++    Seeded from `seed_material` (the checkpoint identity) rather than a wall-clock or arbitrary seed,
++    so the same lap always yields the same sample and two laps can be read side by side. Selection is
++    by a stable hash of the image path, so it does not depend on dict iteration order, on how many
++    lines a collection happens to have, or on Python's PRNG implementation.
++    """
++    by_collection: dict[str, list[LineResult]] = {}
++    for line in lines:
++        by_collection.setdefault(line.collection, []).append(line)
++
++    out: list[LineResult] = []
++    for name in sorted(by_collection):
++        rows = sorted(
++            by_collection[name],
++            key=lambda r: hashlib.sha256(f"{seed_material}:{r.image_path}".encode()).hexdigest(),
++        )
++        out.extend(rows[:per_collection])
++    return out
++
++
++class LapEvaluation(BaseModel):
++    model_config = ConfigDict(frozen=True)
++
++    run_id: str
++    checkpoint_dir: str
++    checkpoint_hash: str
++    epochs_completed: int
++    global_shards_completed: int
++    shards_per_epoch: int
++
++    validation_line_count: int
++    scored_line_count: int
++    missing_result_count: int
++    """Validation lines the inference pass returned nothing for. Non-zero means every figure below is
++    computed over a subset, and the report says so rather than quietly renormalising."""
++
++    overall: CorpusMetrics
++    per_collection: list[CollectionMetrics]
++    worst_collection: str
++    best_collection: str
++
++    confidence_buckets: list[ConfidenceBucket]
++    rejection_coverage: list[dict]
++
++    inspection_sample: list[LineResult]
++
++    comparison: dict
++    """Prior reference points this lap is measured against, each labelled with what it actually was --
++    a pilot pass over 9,999 lines is not comparable to a corpus lap, and saying so is part of the
++    evidence."""
++
++
++def evaluate_lap(
++    *,
++    run_id: str,
++    checkpoint_dir: str,
++    checkpoint_hash: str,
++    epochs_completed: int,
++    global_shards_completed: int,
++    shards_per_epoch: int,
++    ground_truth_text: str,
++    results_text: str,
++    comparison: dict,
++    inspection_per_collection: int = 3,
++    rejection_thresholds: tuple[float, ...] = (0.0, 0.5, 0.7, 0.8, 0.9, 0.95),
++) -> LapEvaluation:
++    ground_truth = parse_ground_truth_list(ground_truth_text)
++    results = parse_results_file(results_text)
++    lines, missing = join_predictions(ground_truth, results)
++
++    collections = per_collection_metrics(lines)
++    calibration_records = [(r.confidence, r.cer) for r in lines]
++
++    return LapEvaluation(
++        run_id=run_id, checkpoint_dir=checkpoint_dir, checkpoint_hash=checkpoint_hash,
++        epochs_completed=epochs_completed, global_shards_completed=global_shards_completed,
++        shards_per_epoch=shards_per_epoch,
++        validation_line_count=len(ground_truth),
++        scored_line_count=len(lines),
++        missing_result_count=len(missing),
++        overall=corpus_metrics([(r.ground_truth, r.prediction) for r in lines]),
++        per_collection=collections,
++        worst_collection=collections[0].collection if collections else "",
++        best_collection=collections[-1].collection if collections else "",
++        confidence_buckets=confidence_buckets(calibration_records),
++        rejection_coverage=rejection_coverage(calibration_records, thresholds=rejection_thresholds),
++        inspection_sample=stratified_inspection_sample(
++            lines, per_collection=inspection_per_collection, seed_material=checkpoint_hash,
++        ),
++        comparison=comparison,
++    )
++
++
++def save_lap_evaluation(path: Path, evaluation: LapEvaluation) -> None:
++    """Atomic, same write-temp-then-`os.replace` discipline as every other state file here."""
++    path.parent.mkdir(parents=True, exist_ok=True)
++    fd, tmp = tempfile.mkstemp(dir=str(path.parent), suffix=".tmp")
++    try:
++        with os.fdopen(fd, "w", encoding="utf-8") as handle:
++            handle.write(evaluation.model_dump_json(indent=2))
++        os.replace(tmp, path)
++    except BaseException:
++        Path(tmp).unlink(missing_ok=True)
++        raise
++
++
++def build_inference_argv(
++    *, image_ref: str, model_host: Path, output_host: Path, inference_list_host: Path,
++    batch_size: int, gpu_flag: str = "all",
++) -> list[str]:
++    """Inference-only container invocation, mirroring `container_epoch_runner.py`'s mount discipline:
++    the list file's *parent* is mounted at `/lists`, because the image paths inside the list are
++    already written as `/lists/images/...`. The model directory is mounted read-write for the same
++    real reason the training runner documents -- the tokenizer loader writes `tokenizer.json` back
++    into it when loading a legacy checkpoint. Host paths are passed through unchanged, matching that
++    runner: the Windows Docker CLI handles `D:\\...`-style paths in `-v` mounts itself.
++    """
++    return [
++        "docker", "run", "--rm", "--gpus", gpu_flag,
++        "-v", f"{model_host}:/model",
++        "-v", f"{output_host}:/output",
++        "-v", f"{inference_list_host.parent}:/lists:ro",
++        "--entrypoint", "python3", image_ref, "main.py",
++        "--model", "/model",
++        "--inference_list", f"/lists/{inference_list_host.name}",
++        "--results_file", "/output/results.txt",
++        "--output", "/output",
++        "--batch_size", str(batch_size),
++        "--gpu", "0",
++    ]
++
++
++def render_report(evaluation: LapEvaluation) -> str:
++    """Markdown for a human reading the decision gate."""
++    e = evaluation
++    lines = [
++        f"# End-of-lap evaluation -- lap {e.epochs_completed}",
++        "",
++        f"- run: `{e.run_id}`",
++        f"- checkpoint: `{e.checkpoint_dir}`",
++        f"- checkpoint sha256: `{e.checkpoint_hash}`",
++        f"- position: {e.global_shards_completed} shards = {e.epochs_completed} "
++        f"full corpus lap(s) of {e.shards_per_epoch} shards each",
++        f"- validation lines: {e.scored_line_count} scored of {e.validation_line_count}"
++        + (f" -- **{e.missing_result_count} produced no result**" if e.missing_result_count else ""),
++        "",
++        "## Overall",
++        "",
++        f"| metric | value |",
++        f"| --- | --- |",
++        f"| corpus CER | **{e.overall.corpus_cer:.4f}** |",
++        f"| corpus WER (true word error rate) | {e.overall.corpus_wer:.4f} |",
++        f"| line error rate (what the container calls \"WER\") | {e.overall.line_error_rate:.4f} |",
++        f"| mean per-line CER | {e.overall.mean_per_line_cer:.4f} |",
++        f"| total edits | {e.overall.total_edits:,} |",
++        f"| total reference chars | {e.overall.total_reference_chars:,} |",
++        "",
++        "Corpus CER is edit-weighted (`total edits / total reference chars`) and is the figure "
++        "comparable with the container's own `CERMetric`. The per-line mean is shown beside it "
++        "because they diverge when line lengths vary.",
++        "",
++        "## Per collection (worst first)",
++        "",
++        "| collection | CER | WER | lines | ref chars | mean confidence |",
++        "| --- | --- | --- | --- | --- | --- |",
++    ]
++    for c in e.per_collection:
++        lines.append(
++            f"| {c.collection} | {c.metrics.corpus_cer:.4f} | {c.metrics.corpus_wer:.4f} | "
++            f"{c.metrics.sample_count} | {c.metrics.total_reference_chars:,} | {c.mean_confidence:.3f} |"
++        )
++
++    lines += ["", "## Confidence calibration", "",
++              "| confidence bucket | lines | mean CER | median CER |", "| --- | --- | --- | --- |"]
++    for b in e.confidence_buckets:
++        mean = f"{b.mean_cer:.4f}" if b.mean_cer is not None else "-- (no lines)"
++        median = f"{b.median_cer:.4f}" if b.median_cer is not None else "-- (no lines)"
++        lines.append(f"| {b.lower:.1f} - {b.upper:.2f} | {b.sample_count} | {mean} | {median} |")
++
++    lines += ["", "### Rejection coverage", "",
++              "| threshold | coverage | accepted lines | CER of accepted |", "| --- | --- | --- | --- |"]
++    for row in e.rejection_coverage:
++        cer = f"{row['mean_cer_of_accepted']:.4f}" if row["mean_cer_of_accepted"] is not None else "--"
++        lines.append(
++            f"| {row['threshold']:.2f} | {row['coverage']:.1%} | {row['accepted_count']} | {cer} |"
++        )
++
++    lines += ["", "## Inspection sample", "",
++              f"Stratified: the same number of lines from every collection, selected by a stable hash "
++              f"seeded on the checkpoint identity, so this sample is reproducible and comparable "
++              f"across laps.", ""]
++    for r in e.inspection_sample:
++        lines += [
++            f"**{r.collection}** -- CER {r.cer:.3f}, confidence {r.confidence:.3f}",
++            "",
++            f"- truth: `{r.ground_truth}`",
++            f"- pred:  `{r.prediction}`",
++            "",
++        ]
++
++    lines += ["## Comparison with prior reference points", "", "```json",
++              json.dumps(e.comparison, indent=2, ensure_ascii=False), "```", ""]
++    return "\n".join(lines)
+diff --git a/src/archivetrust/htr/training/full_run/launch_guard.py b/src/archivetrust/htr/training/full_run/launch_guard.py
+index 5978821..e67f4c9 100644
+--- a/src/archivetrust/htr/training/full_run/launch_guard.py
++++ b/src/archivetrust/htr/training/full_run/launch_guard.py
+@@ -42,15 +42,15 @@ def _docker_reachable() -> bool:
+     return completed.returncode == 0
+ 
+ 
+-def _container_image_available(image_tag: str, image_digest: str | None) -> bool:
+-    ref = f"{image_tag}@{image_digest}" if image_digest else image_tag
+-    try:
+-        completed = subprocess.run(
+-            ["docker", "image", "inspect", ref], capture_output=True, text=True, timeout=15.0, check=False,
+-        )
+-    except (subprocess.SubprocessError, OSError):
+-        return False
+-    return completed.returncode == 0
++def _container_image_available(image_tag: str, image_digest: str | None) -> tuple[bool, str]:
++    """Delegates to preflight's bounded-retry, failure-classifying check rather than keeping a second,
++    weaker copy here. The private copy this replaces used a bare 15s timeout and mapped *every*
++    failure -- including a timeout on a contended Docker Desktop daemon -- to "image not available",
++    which produced a real false negative that blocked a legitimate resume while the pinned image was
++    present locally with the exact expected digest."""
++    from archivetrust.htr.training.full_run.preflight import _check_container_image_available
++
++    return _check_container_image_available(image_tag, image_digest)
+ 
+ 
+ CRASHED_RUN_TELEMETRY_STALE_SECONDS = 300.0
+@@ -273,8 +273,13 @@ def evaluate_launch_guard(
+     if check_docker:
+         if not _docker_reachable():
+             problems.append("Docker daemon is not reachable (docker ps failed).")
+-        elif not _container_image_available(container_image_tag, container_image_digest):
+-            problems.append(f"Pinned container image not available locally: {container_image_tag}.")
++        else:
++            image_ok, image_detail = _container_image_available(container_image_tag, container_image_digest)
++            if not image_ok:
++                # Carry the classified detail through verbatim: "image_absent" and "could not confirm
++                # after N attempts" call for different operator actions, and the old message asserted
++                # the former for both.
++                problems.append(f"Pinned container image check failed: {image_detail}")
+ 
+     return problems
+ 
+diff --git a/src/archivetrust/htr/training/full_run/orchestrator.py b/src/archivetrust/htr/training/full_run/orchestrator.py
+index 4a46add..0fef280 100644
+--- a/src/archivetrust/htr/training/full_run/orchestrator.py
++++ b/src/archivetrust/htr/training/full_run/orchestrator.py
+@@ -28,6 +28,7 @@ from pydantic import BaseModel, ConfigDict
+ 
+ from archivetrust.htr.training.checkpoint_index import verify_checkpoint
+ from archivetrust.htr.training.full_run.corpus_sharding import ShardInfo
++from archivetrust.htr.training.full_run.epoch_accounting import compute_epoch_position
+ from archivetrust.htr.training.full_run.monitoring_config import FullRunMonitoringConfig
+ from archivetrust.htr.training.full_run.run_state import (
+     FullRunState,
+@@ -63,6 +64,42 @@ class FullRunSessionSummary(BaseModel):
+     `run_state.py::mark_completed` (never set on a failure or a mid-run stop)."""
+ 
+ 
++def _record_end_of_epoch_checkpoint(
++    *, checkpoint_index_path, checkpoint_dir: str, run_id: str, configuration_hash: str,
++    position, metrics: dict,
++) -> None:
++    """Adds an `end_of_epoch` entry for a checkpoint that has just completed a full corpus pass.
++
++    Deliberately a separate index entry pointing at the same directory as `latest`, rather than a
++    copy: `checkpoint_index.py` is append-only and already models one physical checkpoint carrying
++    several kinds. Verified before being marked resumable, so an interrupted or truncated write can
++    never be promoted over the last good epoch boundary."""
++    from archivetrust.domain.shared.ids import new_id
++    from archivetrust.htr.training.checkpoint_index import CheckpointEntry, append_checkpoint_entry
++
++    verified, model_hash, _ = verify_checkpoint(checkpoint_dir)
++    append_checkpoint_entry(
++        checkpoint_index_path,
++        CheckpointEntry(
++            checkpoint_id=new_id("loghi_checkpoint"),
++            run_id=run_id, session_id="epoch_boundary",
++            source_checkpoint=checkpoint_dir,
++            epoch=position.epochs_completed,
++            global_step=position.global_shards_completed,
++            cumulative_training_seconds=0.0, session_training_seconds=0.0,
++            checkpoint_dir=checkpoint_dir, model_file_hash=model_hash,
++            model_state_present=verified, optimizer_state_present=False,
++            scheduler_state_present=False, sampler_state_present=False,
++            configuration_hash=configuration_hash,
++            training_manifest_hash="", validation_manifest_hash="",
++            validation_metrics={k: v for k, v in metrics.items() if v is not None},
++            created_at=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
++            verification_status="verified" if verified else "verification_failed",
++            resumable=verified, checkpoint_kind="end_of_epoch",
++        ),
++    )
++
++
+ def _has_nan_or_inf(*values: float | None) -> bool:
+     return any(v is not None and (math.isnan(v) or math.isinf(v)) for v in values)
+ 
+@@ -93,6 +130,11 @@ def run_full_corpus_session(
+     monitoring_config: FullRunMonitoringConfig,
+     max_wall_clock_seconds: float,
+     stop_requested: Callable[[], bool],
++    # Stop as soon as a full corpus lap completes, rather than rolling straight into the next one.
++    # The lap boundary is the human decision gate: a completed epoch is the first point at which
++    # validation movement reflects the whole corpus rather than a subset, so continuing past it
++    # should be an explicit operator choice, not a default.
++    stop_at_epoch_boundary: bool = False,
+ ) -> FullRunSessionSummary:
+     run_state_dir = Path(run_state_dir)
+ 
+@@ -131,7 +173,21 @@ def run_full_corpus_session(
+             monitoring_config.min_exposure_steps is None
+             or cumulative_exposure_steps >= monitoring_config.min_exposure_steps
+         )
+-        patience = monitoring_config.recommended_patience if min_exposure_reached else None
++        # Early stopping must not fire before one complete corpus lap. `min_exposure_steps` was
++        # derived from the pilot, whose whole training set was 9,999 lines -- so it is satisfied
++        # after ~20 shards, long before the model has seen the corpus even once. Stopping there
++        # would end the run on evidence from a fraction of the data, and shard-to-shard val_CER
++        # movement at that scale is noise-dominated rather than a real plateau.
++        #
++        # `epochs_since_improvement` keeps accumulating and is still reported either way -- passing
++        # `early_stopping_patience=None` only withholds the *authority to act* on it, so the counter
++        # remains informational until a lap completes.
++        lap_position = compute_epoch_position(
++            global_shards_completed=cumulative_shards, shards=shards, total_shards_planned=len(shards)
++        )
++        full_lap_completed = lap_position.epochs_completed >= 1
++        patience_may_act = min_exposure_reached and full_lap_completed
++        patience = monitoring_config.recommended_patience if patience_may_act else None
+ 
+         current_shard = shards[cumulative_shards]
+         # The trainer receives the shard's *training-list* file, never its Parquet manifest. The
+@@ -173,10 +229,22 @@ def run_full_corpus_session(
+         reloaded_state = load_session_state(run_state_dir)
+         best_metrics = {"val_cer": reloaded_state.best_val_cer} if reloaded_state else {}
+ 
++        # `cumulative_epoch` counts SHARDS despite its name (see epoch_accounting.py). Translate it
++        # into honest epoch/shard positions before anything reports progress.
++        shards_done = reloaded_state.cumulative_epoch if reloaded_state else cumulative_shards + 1
++        position = compute_epoch_position(
++            global_shards_completed=shards_done, shards=shards, total_shards_planned=len(shards)
++        )
++
+         full_run_state = heartbeat(
+             full_run_state,
+-            current_epoch=reloaded_state.cumulative_epoch if reloaded_state else cumulative_shards + 1,
+-            samples_processed=(reloaded_state.cumulative_epoch if reloaded_state else 0) * current_shard.line_count,
++            current_epoch=shards_done,  # legacy field, kept readable for old run_state.json consumers
++            global_shards_completed=position.global_shards_completed,
++            epochs_completed=position.epochs_completed,
++            shards_completed_in_current_epoch=position.shards_completed_in_current_epoch,
++            shards_per_epoch=position.shards_per_epoch,
++            epoch_progress=position.epoch_progress,
++            samples_processed=shards_done * current_shard.line_count,
+             latest_metrics=latest_metrics,
+             best_metrics=best_metrics,
+             epochs_since_improvement=reloaded_state.epochs_since_improvement if reloaded_state else 0,
+@@ -185,6 +253,17 @@ def run_full_corpus_session(
+         )
+         save_run_state(run_state_dir, full_run_state)
+ 
++        if position.is_epoch_boundary and summary.latest_checkpoint_dir:
++            # A full pass over the corpus just finished: record an end_of_epoch checkpoint entry so
++            # the epoch boundary is recoverable and auditable independently of `latest`, which the
++            # next shard will move on from. Verified before it is recorded as resumable.
++            _record_end_of_epoch_checkpoint(
++                checkpoint_index_path=checkpoint_index_path,
++                checkpoint_dir=summary.latest_checkpoint_dir,
++                run_id=run_id, configuration_hash=configuration_hash,
++                position=position, metrics=latest_metrics,
++            )
++
+         if not last_result.ok:
+             stop_reason = "epoch_failed"
+             break
+@@ -203,11 +282,19 @@ def run_full_corpus_session(
+             stop_reason = "missing_validation_result"
+             break
+ 
+-        if min_exposure_reached and summary.stop_reason == "no_val_cer_improvement":
++        if patience_may_act and summary.stop_reason == "no_val_cer_improvement":
+             stop_reason = "no_val_cer_improvement"
+             completed = True
+             break
+ 
++        if stop_at_epoch_boundary and position.is_epoch_boundary:
++            # Hand back to the operator at the lap boundary. Deliberately *not* `completed`: the
++            # corpus plan has further laps, so this is a decision gate, and the run must stay
++            # resumable. Marking it completed here would make the next lap unreachable, because
++            # resuming a terminal run is refused.
++            stop_reason = "epoch_boundary_reached"
++            break
++
+     if completed:
+         final_state = load_session_state(run_state_dir)
+         checkpoint_ok = (
+diff --git a/src/archivetrust/htr/training/full_run/preflight.py b/src/archivetrust/htr/training/full_run/preflight.py
+index 90c6af3..e0ee269 100644
+--- a/src/archivetrust/htr/training/full_run/preflight.py
++++ b/src/archivetrust/htr/training/full_run/preflight.py
+@@ -112,17 +112,74 @@ def _check_docker_daemon_reachable() -> tuple[bool, str]:
+     return True, "Docker daemon reachable (docker ps succeeded)."
+ 
+ 
++IMAGE_INSPECT_TIMEOUT_SECONDS = 30.0
++IMAGE_INSPECT_MAX_ATTEMPTS = 3
++IMAGE_INSPECT_BACKOFF_SECONDS = 2.0
++"""`docker image inspect` timed out at 15s on six separate real preflight runs in this project and
++succeeded on retry every time -- a slow/contended Docker Desktop daemon, not a missing image. A bare
++timeout was reported as a hard FAIL, which is a false negative that blocks a legitimate launch. It is
++now retried with backoff, and the *reason* is classified rather than collapsed into one message: a
++timeout, a genuinely absent image, an unreachable daemon, and an unparseable response need different
++operator responses. The warning is still surfaced when a retry succeeds -- never silently swallowed."""
++
++
++def _classify_inspect_failure(stderr: str, returncode: int) -> str:
++    """Distinguishes the real failure modes `docker image inspect` can report, so a transient daemon
++    stall is never mistaken for a missing image."""
++    text = (stderr or "").lower()
++    if "no such image" in text or "no such object" in text:
++        return "image_absent"
++    if any(s in text for s in ("cannot connect to the docker daemon", "docker daemon is not running",
++                               "error during connect", "pipe/docker_engine")):
++        return "daemon_unreachable"
++    if returncode != 0:
++        return "inspect_error"
++    return "malformed_response"
++
++
+ def _check_container_image_available(image_tag: str, image_digest: str | None) -> tuple[bool, str]:
++    import time as _time
++
+     ref = f"{image_tag}@{image_digest}" if image_digest else image_tag
+-    try:
+-        completed = subprocess.run(
+-            ["docker", "image", "inspect", ref], capture_output=True, text=True, timeout=15.0, check=False,
+-        )
+-    except (subprocess.SubprocessError, OSError) as exc:
+-        return False, f"docker image inspect failed to run: {exc}"
+-    if completed.returncode != 0:
+-        return False, f"Pinned image not present locally: {ref} (run `docker pull {image_tag}`)."
+-    return True, f"Pinned image present locally: {ref}."
++    attempts: list[str] = []
++
++    for attempt in range(1, IMAGE_INSPECT_MAX_ATTEMPTS + 1):
++        try:
++            completed = subprocess.run(
++                ["docker", "image", "inspect", ref], capture_output=True, text=True,
++                timeout=IMAGE_INSPECT_TIMEOUT_SECONDS, check=False,
++            )
++        except subprocess.TimeoutExpired:
++            attempts.append(f"attempt {attempt}: timeout after {IMAGE_INSPECT_TIMEOUT_SECONDS:.0f}s")
++            if attempt < IMAGE_INSPECT_MAX_ATTEMPTS:
++                _time.sleep(IMAGE_INSPECT_BACKOFF_SECONDS * attempt)
++            continue
++        except OSError as exc:
++            attempts.append(f"attempt {attempt}: docker CLI could not be executed ({exc})")
++            break
++
++        if completed.returncode == 0:
++            if not (completed.stdout or "").strip().startswith("["):
++                attempts.append(f"attempt {attempt}: malformed_response (exit 0, unparseable output)")
++                if attempt < IMAGE_INSPECT_MAX_ATTEMPTS:
++                    _time.sleep(IMAGE_INSPECT_BACKOFF_SECONDS * attempt)
++                    continue
++                break
++            note = f" (succeeded on attempt {attempt} after: {'; '.join(attempts)})" if attempts else ""
++            return True, f"Pinned image present locally: {ref}.{note}"
++
++        kind = _classify_inspect_failure(completed.stderr, completed.returncode)
++        attempts.append(f"attempt {attempt}: {kind}")
++        if kind == "image_absent":
++            # A genuinely missing image will not appear on retry -- fail immediately with the fix.
++            return False, f"image_absent: pinned image not present locally: {ref}. Run `docker pull {image_tag}`."
++        if attempt < IMAGE_INSPECT_MAX_ATTEMPTS:
++            _time.sleep(IMAGE_INSPECT_BACKOFF_SECONDS * attempt)
++
++    return False, (
++        f"Could not confirm the pinned image {ref} after {IMAGE_INSPECT_MAX_ATTEMPTS} attempts: "
++        + "; ".join(attempts)
++    )
+ 
+ 
+ def _check_gpu_available(require_gpu: bool) -> tuple[bool, str]:
+diff --git a/src/archivetrust/htr/training/full_run/run_state.py b/src/archivetrust/htr/training/full_run/run_state.py
+index bb404e4..3f45e07 100644
+--- a/src/archivetrust/htr/training/full_run/run_state.py
++++ b/src/archivetrust/htr/training/full_run/run_state.py
+@@ -48,6 +48,18 @@ class FullRunState(BaseModel):
+     ended_at: str | None = None
+     last_heartbeat_at: str | None = None
+     current_epoch: int = 0
++    """**Misleadingly named -- this counts SHARDS, not epochs.** Retained under the old name so
++    existing persisted `run_state.json` files stay readable, but every user-facing surface now reports
++    the corrected fields below. One epoch is 57 shards at full-corpus scale; treating this as an epoch
++    count overstates progress by 57x. Prefer `global_shards_completed`."""
++    global_shards_completed: int = 0
++    """Total shard executions completed across the run -- the honest name for `current_epoch`."""
++    epochs_completed: int = 0
++    """Full passes over the corpus completed. Increments only when a lap's final shard finishes."""
++    shards_completed_in_current_epoch: int = 0
++    shards_per_epoch: int = 0
++    """Derived from the real shard plan (lap-0 shard count), 0 until a run has started."""
++    epoch_progress: float = 0.0
+     """The current shard index -- one full-run "epoch" = one shard (`corpus_sharding.py`)."""
+     current_global_step: int = 0
+     samples_processed: int = 0

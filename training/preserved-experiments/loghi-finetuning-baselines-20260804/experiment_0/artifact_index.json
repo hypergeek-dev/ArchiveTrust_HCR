@@ -1,0 +1,104 @@
+{
+  "run_root": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z",
+    "exists": true,
+    "note": ""
+  },
+  "parent_checkpoint_dir": {
+    "path": "D:\\ArchiveTrust_HCR\\.loghi-upstream\\pretrained-models\\loghi-htr\\generic-2023-02-15",
+    "exists": true,
+    "note": ""
+  },
+  "resolved_training_configuration": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\run-state\\training_identity.json",
+    "exists": true,
+    "note": ""
+  },
+  "launch_manifest": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\launch_manifest.json",
+    "exists": true,
+    "note": ""
+  },
+  "dataset_inventory": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\source-inventory\\full-inventory.parquet",
+    "exists": true,
+    "note": ""
+  },
+  "train_manifest": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\train_manifest.parquet",
+    "exists": true,
+    "note": ""
+  },
+  "validation_manifest": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\val_manifest.parquet",
+    "exists": true,
+    "note": ""
+  },
+  "reserved_test_manifest": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\loghi-swedish-v1\\manifests\\test_reserved_manifest.parquet",
+    "exists": true,
+    "note": "SEALED -- not opened by this pass"
+  },
+  "generated_training_pool": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\_prepared_data\\fc21a708_e12796a0",
+    "exists": true,
+    "note": "shared content-addressed pool both experiments trained from"
+  },
+  "validation_list": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\_prepared_data\\fc21a708_e12796a0\\val_list.txt",
+    "exists": true,
+    "note": ""
+  },
+  "checkpoint_index": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\run-state\\checkpoint_index.json",
+    "exists": true,
+    "note": ""
+  },
+  "run_state": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\run-state\\run_state.json",
+    "exists": true,
+    "note": ""
+  },
+  "session_state": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\run-state\\session_state.json",
+    "exists": true,
+    "note": ""
+  },
+  "telemetry_samples": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\run-state\\telemetry\\gpu_samples.jsonl",
+    "exists": true,
+    "note": ""
+  },
+  "telemetry_status": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\run-state\\telemetry\\status.json",
+    "exists": true,
+    "note": ""
+  },
+  "independent_evaluation_output": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\lap-evaluation\\lap1_best_val\\lap_evaluation.json",
+    "exists": true,
+    "note": ""
+  },
+  "prediction_file": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\lap-evaluation\\lap1_best_val\\results.txt",
+    "exists": true,
+    "note": ""
+  },
+  "end_of_epoch_checkpoint": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\run-state\\epoch_output\\epoch_57\\model_new10\\epoch_0_CER_0.1463_val_0.1756",
+    "exists": true
+  },
+  "best_checkpoint": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\run-state\\epoch_output\\epoch_48\\model_new10\\best_val",
+    "exists": true
+  },
+  "generated_shard_lists": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\_prepared_data\\fc21a708_e12796a0",
+    "count": 171,
+    "note": "shard_NNNNN_list.txt, derived slices of train_list.txt"
+  },
+  "per_shard_logs": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z\\run-state\\epoch_output\\epoch_<1..57>\\log.csv",
+    "note": "one log.csv per shard invocation (57 total), CSVLogger epoch-level rows"
+  }
+}
