@@ -260,7 +260,7 @@ def run_training_session(
     epoch_runner: EpochRunner,
     train_list_path: str,
     validation_list_path: str,
-    parent_checkpoint_dir: str,
+    parent_checkpoint_dir: str | None,
     run_id: str,
     configuration_hash: str,
     random_seed: int,
@@ -277,6 +277,13 @@ def run_training_session(
     for that many consecutive epochs -- counted across resumed sessions via `TrainingSessionState.
     epochs_since_improvement`, not reset by a session boundary, so a sequence of short sessions cannot
     silently defeat patience-based stopping.
+
+    `parent_checkpoint_dir=None` is the from-scratch path (Experiment 2 and onward): no checkpoint is
+    staged, `existing_model_dir` stays `None` for the first epoch, and `epoch_runner.run_epoch(...)` is
+    responsible for turning that into a real "train from random initialization" invocation --
+    `ScratchEpochRunner` does exactly this and refuses (raises) if it is ever handed a non-`None`
+    `existing_model_dir`, so "no pretrained checkpoint" stays a structural guarantee here too, not
+    just this function's default.
     """
     run_state_dir = Path(run_state_dir)
     state = load_session_state(run_state_dir)
@@ -317,7 +324,12 @@ def run_training_session(
     epoch_results: list[EpochResult] = []
     stop_reason = "time_budget_reached"
 
-    if state.latest_checkpoint_dir is None:
+    if state.latest_checkpoint_dir is None and parent_checkpoint_dir is None:
+        # From-scratch path (Experiment 2 and onward): no parent checkpoint exists to stage or mount.
+        # `existing_model_dir` stays `None` -- `ScratchEpochRunner.run_epoch` turns that into a real
+        # `--model recommended` invocation and raises if it is ever handed anything else.
+        existing_model_dir = None
+    elif state.latest_checkpoint_dir is None:
         # First epoch this run has ever executed: never hand the pristine pinned parent checkpoint
         # to the container directly. A real bug this module's own smoke test caught:
         # `Tokenizer.load_from_file` writes a converted `tokenizer.json` *back into the model
@@ -402,7 +414,7 @@ def run_training_session(
                     checkpoint_id=latest_id,
                     run_id=run_id,
                     session_id=session_id,
-                    source_checkpoint=existing_model_dir,
+                    source_checkpoint=existing_model_dir or "RANDOM_INITIALIZATION",
                     epoch=state.cumulative_epoch,
                     global_step=state.global_step,
                     cumulative_training_seconds=state.cumulative_training_seconds,

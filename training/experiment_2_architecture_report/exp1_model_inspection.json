@@ -1,0 +1,177 @@
+{
+  "model_name": "model_new10",
+  "input_shape": "(None, None, 64, 1)",
+  "total_params": 31033929,
+  "trainable_params": 31033401,
+  "non_trainable_params": 528,
+  "layers": [
+    {
+      "name": "image",
+      "type": "InputLayer",
+      "output_shape": "(None, None, 64, 1)",
+      "param_count": 0
+    },
+    {
+      "name": "Conv1",
+      "type": "Conv2D",
+      "output_shape": "(None, None, 64, 24)",
+      "param_count": 240
+    },
+    {
+      "name": "batch_normalization",
+      "type": "BatchNormalization",
+      "output_shape": "(None, None, 64, 24)",
+      "param_count": 96
+    },
+    {
+      "name": "pool1",
+      "type": "MaxPooling2D",
+      "output_shape": "(None, None, 32, 24)",
+      "param_count": 0
+    },
+    {
+      "name": "dropout",
+      "type": "Dropout",
+      "output_shape": "(None, None, 32, 24)",
+      "param_count": 0
+    },
+    {
+      "name": "Conv2",
+      "type": "Conv2D",
+      "output_shape": "(None, None, 32, 48)",
+      "param_count": 10416
+    },
+    {
+      "name": "batch_normalization_1",
+      "type": "BatchNormalization",
+      "output_shape": "(None, None, 32, 48)",
+      "param_count": 192
+    },
+    {
+      "name": "pool2",
+      "type": "MaxPooling2D",
+      "output_shape": "(None, None, 16, 48)",
+      "param_count": 0
+    },
+    {
+      "name": "dropout_1",
+      "type": "Dropout",
+      "output_shape": "(None, None, 16, 48)",
+      "param_count": 0
+    },
+    {
+      "name": "Conv3",
+      "type": "Conv2D",
+      "output_shape": "(None, None, 16, 96)",
+      "param_count": 41568
+    },
+    {
+      "name": "batch_normalization_2",
+      "type": "BatchNormalization",
+      "output_shape": "(None, None, 16, 96)",
+      "param_count": 384
+    },
+    {
+      "name": "dropout_2",
+      "type": "Dropout",
+      "output_shape": "(None, None, 16, 96)",
+      "param_count": 0
+    },
+    {
+      "name": "Conv4",
+      "type": "Conv2D",
+      "output_shape": "(None, None, 16, 96)",
+      "param_count": 83040
+    },
+    {
+      "name": "batch_normalization_3",
+      "type": "BatchNormalization",
+      "output_shape": "(None, None, 16, 96)",
+      "param_count": 384
+    },
+    {
+      "name": "pool4",
+      "type": "MaxPooling2D",
+      "output_shape": "(None, None, 8, 96)",
+      "param_count": 0
+    },
+    {
+      "name": "dropout_3",
+      "type": "Dropout",
+      "output_shape": "(None, None, 8, 96)",
+      "param_count": 0
+    },
+    {
+      "name": "reshape",
+      "type": "Reshape",
+      "output_shape": "(None, None, 768)",
+      "param_count": 0
+    },
+    {
+      "name": "bidirectional_1",
+      "type": "Bidirectional",
+      "output_shape": "(None, None, 1024)",
+      "param_count": 5246976
+    },
+    {
+      "name": "dropout_4",
+      "type": "Dropout",
+      "output_shape": "(None, None, 1024)",
+      "param_count": 0
+    },
+    {
+      "name": "bidirectional_2",
+      "type": "Bidirectional",
+      "output_shape": "(None, None, 1024)",
+      "param_count": 6295552
+    },
+    {
+      "name": "dropout_5",
+      "type": "Dropout",
+      "output_shape": "(None, None, 1024)",
+      "param_count": 0
+    },
+    {
+      "name": "bidirectional_3",
+      "type": "Bidirectional",
+      "output_shape": "(None, None, 1024)",
+      "param_count": 6295552
+    },
+    {
+      "name": "dropout_6",
+      "type": "Dropout",
+      "output_shape": "(None, None, 1024)",
+      "param_count": 0
+    },
+    {
+      "name": "bidirectional_4",
+      "type": "Bidirectional",
+      "output_shape": "(None, None, 1024)",
+      "param_count": 6295552
+    },
+    {
+      "name": "dropout_7",
+      "type": "Dropout",
+      "output_shape": "(None, None, 1024)",
+      "param_count": 0
+    },
+    {
+      "name": "bidirectional_5",
+      "type": "Bidirectional",
+      "output_shape": "(None, None, 1024)",
+      "param_count": 6295552
+    },
+    {
+      "name": "dense3",
+      "type": "Dense",
+      "output_shape": "(None, None, 457)",
+      "param_count": 468425
+    },
+    {
+      "name": "activation",
+      "type": "Activation",
+      "output_shape": "(None, None, 457)",
+      "param_count": 0
+    }
+  ]
+}
