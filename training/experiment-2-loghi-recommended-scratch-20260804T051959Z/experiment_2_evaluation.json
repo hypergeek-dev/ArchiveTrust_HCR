@@ -1,0 +1,528 @@
+{
+  "run_id": "loghi_training_run_d20dc825910945acbabc3ba7162d340b",
+  "checkpoint_dir": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\run-state\\epoch_output\\epoch_1\\recommended\\best_val",
+  "checkpoint_hash": "232ac54eddbe5d3c9f9ebc71f6f4899ce29d3e1f0e60e1dd9c830d3c8ee9c72a",
+  "epochs_completed": 1,
+  "global_shards_completed": 1,
+  "shards_per_epoch": 1,
+  "validation_line_count": 1000,
+  "scored_line_count": 1000,
+  "missing_result_count": 0,
+  "overall": {
+    "sample_count": 1000,
+    "corpus_cer": 0.19176649553146985,
+    "corpus_wer": 0.5469792605951308,
+    "line_error_rate": 0.935,
+    "mean_per_line_cer": 0.19981358339691604,
+    "total_reference_chars": 31554,
+    "total_edits": 6051
+  },
+  "per_collection": [
+    {
+      "collection": "alvsborgs_losen",
+      "metrics": {
+        "sample_count": 91,
+        "corpus_cer": 0.34891485809682804,
+        "corpus_wer": 0.6220806794055201,
+        "line_error_rate": 0.978021978021978,
+        "mean_per_line_cer": 0.33028938039081573,
+        "total_reference_chars": 1797,
+        "total_edits": 627
+      },
+      "mean_confidence": 0.5801457944479618
+    },
+    {
+      "collection": "jonkopings_radhusratt_och_magistrat",
+      "metrics": {
+        "sample_count": 91,
+        "corpus_cer": 0.2956290608387478,
+        "corpus_wer": 0.7580372250423012,
+        "line_error_rate": 1.0,
+        "mean_per_line_cer": 0.29198692221164896,
+        "total_reference_chars": 3386,
+        "total_edits": 1001
+      },
+      "mean_confidence": 0.653393474827101
+    },
+    {
+      "collection": "gota_hovratt",
+      "metrics": {
+        "sample_count": 91,
+        "corpus_cer": 0.2383595436324391,
+        "corpus_wer": 0.6341030195381883,
+        "line_error_rate": 0.989010989010989,
+        "mean_per_line_cer": 0.24636884467777367,
+        "total_reference_chars": 3243,
+        "total_edits": 773
+      },
+      "mean_confidence": 0.7156825895820346
+    },
+    {
+      "collection": "bergmastaren_i_nora_htr",
+      "metrics": {
+        "sample_count": 91,
+        "corpus_cer": 0.23113207547169812,
+        "corpus_wer": 0.6739606126914661,
+        "line_error_rate": 0.945054945054945,
+        "mean_per_line_cer": 0.23834032019284263,
+        "total_reference_chars": 2756,
+        "total_edits": 637
+      },
+      "mean_confidence": 0.7358289249650725
+    },
+    {
+      "collection": "trolldomskommissionen",
+      "metrics": {
+        "sample_count": 90,
+        "corpus_cer": 0.2192610539067232,
+        "corpus_wer": 0.5947368421052631,
+        "line_error_rate": 0.9555555555555556,
+        "mean_per_line_cer": 0.2187501576440404,
+        "total_reference_chars": 3302,
+        "total_edits": 724
+      },
+      "mean_confidence": 0.7494642233269082
+    },
+    {
+      "collection": "krigshovrattens_dombocker",
+      "metrics": {
+        "sample_count": 91,
+        "corpus_cer": 0.1724374357216318,
+        "corpus_wer": 0.5449101796407185,
+        "line_error_rate": 0.9560439560439561,
+        "mean_per_line_cer": 0.1770104792086478,
+        "total_reference_chars": 2917,
+        "total_edits": 503
+      },
+      "mean_confidence": 0.7862459771580749
+    },
+    {
+      "collection": "carl_fredrik_pahlmans_resejournaler",
+      "metrics": {
+        "sample_count": 91,
+        "corpus_cer": 0.15403976843694941,
+        "corpus_wer": 0.489766081871345,
+        "line_error_rate": 0.967032967032967,
+        "mean_per_line_cer": 0.1653420834742308,
+        "total_reference_chars": 3973,
+        "total_edits": 612
+      },
+      "mean_confidence": 0.8341507980456719
+    },
+    {
+      "collection": "goteborgs_poliskammare_fore_1900",
+      "metrics": {
+        "sample_count": 91,
+        "corpus_cer": 0.14969325153374233,
+        "corpus_wer": 0.4692874692874693,
+        "line_error_rate": 0.9230769230769231,
+        "mean_per_line_cer": 0.17397498803000347,
+        "total_reference_chars": 2445,
+        "total_edits": 366
+      },
+      "mean_confidence": 0.8291472925876195
+    },
+    {
+      "collection": "frihetstidens_utskottshandlingar",
+      "metrics": {
+        "sample_count": 91,
+        "corpus_cer": 0.12437810945273632,
+        "corpus_wer": 0.4219512195121951,
+        "line_error_rate": 0.9230769230769231,
+        "mean_per_line_cer": 0.1573725363382858,
+        "total_reference_chars": 2412,
+        "total_edits": 300
+      },
+      "mean_confidence": 0.8003234037986169
+    },
+    {
+      "collection": "svea_hovratt",
+      "metrics": {
+        "sample_count": 91,
+        "corpus_cer": 0.11839568067875048,
+        "corpus_wer": 0.44362745098039214,
+        "line_error_rate": 0.8461538461538461,
+        "mean_per_line_cer": 0.1272318486819379,
+        "total_reference_chars": 2593,
+        "total_edits": 307
+      },
+      "mean_confidence": 0.8372986609791662
+    },
+    {
+      "collection": "bergskollegium_relationer_och_skrivelser",
+      "metrics": {
+        "sample_count": 91,
+        "corpus_cer": 0.07362637362637363,
+        "corpus_wer": 0.2795031055900621,
+        "line_error_rate": 0.8021978021978022,
+        "mean_per_line_cer": 0.0714899507383452,
+        "total_reference_chars": 2730,
+        "total_edits": 201
+      },
+      "mean_confidence": 0.9220026024095305
+    }
+  ],
+  "worst_collection": "alvsborgs_losen",
+  "best_collection": "bergskollegium_relationer_och_skrivelser",
+  "confidence_buckets": [
+    {
+      "lower": 0.0,
+      "upper": 0.2,
+      "sample_count": 18,
+      "mean_cer": 0.7727629938067637,
+      "median_cer": 0.6948051948051948
+    },
+    {
+      "lower": 0.2,
+      "upper": 0.4,
+      "sample_count": 31,
+      "mean_cer": 0.5723155137425765,
+      "median_cer": 0.5454545454545454
+    },
+    {
+      "lower": 0.4,
+      "upper": 0.6,
+      "sample_count": 106,
+      "mean_cer": 0.38290913190496323,
+      "median_cer": 0.35632861635220126
+    },
+    {
+      "lower": 0.6,
+      "upper": 0.8,
+      "sample_count": 304,
+      "mean_cer": 0.23579980018708926,
+      "median_cer": 0.21680376028202114
+    },
+    {
+      "lower": 0.8,
+      "upper": 1.01,
+      "sample_count": 541,
+      "mean_cer": 0.1033097252191741,
+      "median_cer": 0.09375
+    }
+  ],
+  "rejection_coverage": [
+    {
+      "threshold": 0.0,
+      "coverage": 1.0,
+      "accepted_count": 1000,
+      "mean_cer_of_accepted": 0.19981358339691604
+    },
+    {
+      "threshold": 0.5,
+      "coverage": 0.923,
+      "accepted_count": 923,
+      "mean_cer_of_accepted": 0.16734834125760645
+    },
+    {
+      "threshold": 0.7,
+      "coverage": 0.737,
+      "accepted_count": 737,
+      "mean_cer_of_accepted": 0.13161177741804475
+    },
+    {
+      "threshold": 0.8,
+      "coverage": 0.541,
+      "accepted_count": 541,
+      "mean_cer_of_accepted": 0.1033097252191741
+    },
+    {
+      "threshold": 0.9,
+      "coverage": 0.228,
+      "accepted_count": 228,
+      "mean_cer_of_accepted": 0.058617779254844314
+    },
+    {
+      "threshold": 0.95,
+      "coverage": 0.081,
+      "accepted_count": 81,
+      "mean_cer_of_accepted": 0.02996116160170967
+    }
+  ],
+  "inspection_sample": [
+    {
+      "image_path": "/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1799.png",
+      "collection": "alvsborgs_losen",
+      "ground_truth": "Suma aff Grenge Sochn",
+      "prediction": "Enna oht Bengs Trche",
+      "confidence": 0.5115211009979248,
+      "cer": 0.5714285714285714
+    },
+    {
+      "image_path": "/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2501.png",
+      "collection": "alvsborgs_losen",
+      "ground_truth": "Får — 2",
+      "prediction": "Får — 2",
+      "confidence": 0.5886940360069275,
+      "cer": 0.0
+    },
+    {
+      "image_path": "/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3002.png",
+      "collection": "alvsborgs_losen",
+      "ground_truth": "Sölff — 10 lott",
+      "prediction": "Sölff — 10 ott",
+      "confidence": 0.821526825428009,
+      "cer": 0.06666666666666667
+    },
+    {
+      "image_path": "/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6656.png",
+      "collection": "bergmastaren_i_nora_htr",
+      "ground_truth": "begärdt mera pgr, Och therhos stod på, at",
+      "prediction": "hjert men ue i der Josos sinladt Hages at",
+      "confidence": 0.6143527030944824,
+      "cer": 0.7073170731707317
+    },
+    {
+      "image_path": "/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6175.png",
+      "collection": "bergmastaren_i_nora_htr",
+      "ground_truth": "13. 9",
+      "prediction": "13.9",
+      "confidence": 0.6809606552124023,
+      "cer": 0.2
+    },
+    {
+      "image_path": "/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2262.png",
+      "collection": "bergmastaren_i_nora_htr",
+      "ground_truth": "H. Robsam",
+      "prediction": "H. Rossam 1.",
+      "confidence": 0.842236340045929,
+      "cer": 0.4444444444444444
+    },
+    {
+      "image_path": "/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__2419.png",
+      "collection": "bergskollegium_relationer_och_skrivelser",
+      "ground_truth": "Sålunda warder med Glantzertzen",
+      "prediction": "Sålunda warder med glantzertzen",
+      "confidence": 0.8934693932533264,
+      "cer": 0.03225806451612903
+    },
+    {
+      "image_path": "/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__19261.png",
+      "collection": "bergskollegium_relationer_och_skrivelser",
+      "ground_truth": "sig bör igenomslagne",
+      "prediction": "sig bör igenomslagnr",
+      "confidence": 0.9375271201133728,
+      "cer": 0.05
+    },
+    {
+      "image_path": "/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__2574.png",
+      "collection": "bergskollegium_relationer_och_skrivelser",
+      "ground_truth": "Thut 5816 Cent:r darin 181 qv:r 12 loth",
+      "prediction": "Thut 5816 Cent: darin 181 mkr 12 loth",
+      "confidence": 0.8563342094421387,
+      "cer": 0.10256410256410256
+    },
+    {
+      "image_path": "/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3945.png",
+      "collection": "carl_fredrik_pahlmans_resejournaler",
+      "ground_truth": "långt skägg etc. Cardinalerne äfven kläddda i dyr¬",
+      "prediction": "länst skägg. etp Cardinaterne äfven klädda i Sypr¬",
+      "confidence": 0.8856417536735535,
+      "cer": 0.18
+    },
+    {
+      "image_path": "/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4728.png",
+      "collection": "carl_fredrik_pahlmans_resejournaler",
+      "ground_truth": "den aflidnes",
+      "prediction": "den aflidras",
+      "confidence": 0.8761553764343262,
+      "cer": 0.16666666666666666
+    },
+    {
+      "image_path": "/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5745.png",
+      "collection": "carl_fredrik_pahlmans_resejournaler",
+      "ground_truth": "domar och prydnader. Dessutom kan man väl säga att det",
+      "prediction": "Gonar och pngdnader. Desertom han man väd sag att de",
+      "confidence": 0.8020153641700745,
+      "cer": 0.2037037037037037
+    },
+    {
+      "image_path": "/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__1499.png",
+      "collection": "frihetstidens_utskottshandlingar",
+      "ground_truth": "§: 12.",
+      "prediction": "8o 12.",
+      "confidence": 0.6776405572891235,
+      "cer": 0.3333333333333333
+    },
+    {
+      "image_path": "/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__1289.png",
+      "collection": "frihetstidens_utskottshandlingar",
+      "ground_truth": "6 Exemplar aflemnas, Af hwilka",
+      "prediction": "6 Exemplar aflomna, Af hwilka",
+      "confidence": 0.8869845271110535,
+      "cer": 0.06666666666666667
+    },
+    {
+      "image_path": "/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__8029.png",
+      "collection": "frihetstidens_utskottshandlingar",
+      "ground_truth": "to förebygga, men theremot icke",
+      "prediction": "to förebygga, men theremet icke",
+      "confidence": 0.9485464692115784,
+      "cer": 0.03225806451612903
+    },
+    {
+      "image_path": "/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2596.png",
+      "collection": "gota_hovratt",
+      "ground_truth": "öfwer unge drängen Håkan olofzon an¬",
+      "prediction": "öfwer mgedringen Haken losfens en¬",
+      "confidence": 0.7127634286880493,
+      "cer": 0.3333333333333333
+    },
+    {
+      "image_path": "/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1894.png",
+      "collection": "gota_hovratt",
+      "ground_truth": "Tingzrätten har altså efter 1653 års straff¬",
+      "prediction": "Tingrätten har altså efter 1673 ärs skraff",
+      "confidence": 0.8480984568595886,
+      "cer": 0.11363636363636363
+    },
+    {
+      "image_path": "/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1096.png",
+      "collection": "gota_hovratt",
+      "ground_truth": "gande, om denna Biörnen Larßon för be¬",
+      "prediction": "gande, om dedtrig Biänng Larßon för be¬",
+      "confidence": 0.7788921594619751,
+      "cer": 0.23684210526315788
+    },
+    {
+      "image_path": "/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__8851.png",
+      "collection": "goteborgs_poliskammare_fore_1900",
+      "ground_truth": "Per Cederborg.",
+      "prediction": "Per Cederborg.",
+      "confidence": 0.9672979116439819,
+      "cer": 0.0
+    },
+    {
+      "image_path": "/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__11359.png",
+      "collection": "goteborgs_poliskammare_fore_1900",
+      "ground_truth": "hvars befälhafvare jag i skrifvelse",
+      "prediction": "hvers befälhafvare jg i skrifvelse",
+      "confidence": 0.8487392067909241,
+      "cer": 0.05714285714285714
+    },
+    {
+      "image_path": "/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__3060.png",
+      "collection": "goteborgs_poliskammare_fore_1900",
+      "ground_truth": "Angereds Sn för omkring 3 veckor sedan",
+      "prediction": "Aegerede dn för omking 3 äcks sedan",
+      "confidence": 0.7360804677009583,
+      "cer": 0.21052631578947367
+    },
+    {
+      "image_path": "/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__611.png",
+      "collection": "jonkopings_radhusratt_och_magistrat",
+      "ground_truth": "städes våre, och effter han",
+      "prediction": "städes wäre, och effwe han",
+      "confidence": 0.8412488102912903,
+      "cer": 0.14814814814814814
+    },
+    {
+      "image_path": "/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__290.png",
+      "collection": "jonkopings_radhusratt_och_magistrat",
+      "ground_truth": "Ten Andre dömdes och för dett",
+      "prediction": "sra Ander döndes och få dett",
+      "confidence": 0.7150349020957947,
+      "cer": 0.27586206896551724
+    },
+    {
+      "image_path": "/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__56.png",
+      "collection": "jonkopings_radhusratt_och_magistrat",
+      "ground_truth": "serck, et båndekläde, och möket",
+      "prediction": "serk, et bändakläd, och möe",
+      "confidence": 0.6669433116912842,
+      "cer": 0.1935483870967742
+    },
+    {
+      "image_path": "/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__14028.png",
+      "collection": "krigshovrattens_dombocker",
+      "ground_truth": "han hit till Stockholm blifwit",
+      "prediction": "han het till Stockhjolm blifvit",
+      "confidence": 0.887825071811676,
+      "cer": 0.1
+    },
+    {
+      "image_path": "/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__15602.png",
+      "collection": "krigshovrattens_dombocker",
+      "ground_truth": "Compagnie No 26 Erik Eklund förekommo",
+      "prediction": "Compagne No 26 Eit: Elund förekomma",
+      "confidence": 0.7315601706504822,
+      "cer": 0.16216216216216217
+    },
+    {
+      "image_path": "/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__16924.png",
+      "collection": "krigshovrattens_dombocker",
+      "ground_truth": "des lämnades företräde åt henne",
+      "prediction": "des lämnades företrade åt henne",
+      "confidence": 0.9050416350364685,
+      "cer": 0.03225806451612903
+    },
+    {
+      "image_path": "/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__5614.png",
+      "collection": "svea_hovratt",
+      "ground_truth": "Större Rummet.",
+      "prediction": "Större Rummet.",
+      "confidence": 0.9302776455879211,
+      "cer": 0.0
+    },
+    {
+      "image_path": "/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__12221.png",
+      "collection": "svea_hovratt",
+      "ground_truth": "må anses hafwa sitt wad förlo¬",
+      "prediction": "mte anser hafwa sett wad förlo¬",
+      "confidence": 0.8443260788917542,
+      "cer": 0.13333333333333333
+    },
+    {
+      "image_path": "/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__2251.png",
+      "collection": "svea_hovratt",
+      "ground_truth": "äfwen sig anmält, ej ännu wijst",
+      "prediction": "äfwen sig anmält, ej ännu wyjst",
+      "confidence": 0.9239570498466492,
+      "cer": 0.03225806451612903
+    },
+    {
+      "image_path": "/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__17662.png",
+      "collection": "trolldomskommissionen",
+      "ground_truth": "och gitte skuk låte saningen koma i dagzliuset",
+      "prediction": "och Eyfte skätt låte sinnign kona i dagtiusok",
+      "confidence": 0.6686728000640869,
+      "cer": 0.32608695652173914
+    },
+    {
+      "image_path": "/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__7982.png",
+      "collection": "trolldomskommissionen",
+      "ground_truth": "bekjennelsse kunde marit nu icke brin¬",
+      "prediction": "tekjennelse kunde marit nu icke tem¬",
+      "confidence": 0.8350378274917603,
+      "cer": 0.15789473684210525
+    },
+    {
+      "image_path": "/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4511.png",
+      "collection": "trolldomskommissionen",
+      "ground_truth": "och dwahla per prastigias inbilla något sitt tien¬",
+      "prediction": "och derehl pe pnstigie inbella något sik tä¬",
+      "confidence": 0.5717657208442688,
+      "cer": 0.3
+    }
+  ],
+  "comparison": {
+    "pilot_best_val_cer": 0.1691,
+    "pilot_best_val_cer_note": "Best validation CER reached by the 9,999-line pilot training pass. NOT a corpus lap: the pilot repeatedly revisited one fixed 9,999-line subset, so it is a different quantity, shown for orientation rather than as a like-for-like target.",
+    "pilot_single_pass_cer": 0.2481,
+    "pilot_single_pass_cer_note": "CER after a single 9,999-line pilot training pass -- roughly comparable in optimizer steps to one full-corpus shard, not to a lap.",
+    "checkpoint_kind_evaluated": "best_val",
+    "checkpoint_recorded_at_shard": 1,
+    "run_best_val_cer_during_lap": 0.19398820400238037,
+    "final_shard_metrics": {
+      "train_cer": 0.2749086022377014,
+      "val_cer": 0.19398820400238037,
+      "train_wer": 0.9423084855079651,
+      "val_wer": 0.9350000023841858,
+      "train_loss": 32.00843811035156,
+      "val_loss": 23.21910858154297
+    },
+    "final_shard_metrics_note": "Train and validation CER/WER/loss as the container itself reported them at the end of the lap's final shard. The train/val gap here is the overfitting signal; the corpus CER above is an independent recomputation from raw predictions.",
+    "in_training_val_cer_note": "The in-training figures above come from the container's own validation at the end of each shard, on this same 1,000-line set. They are the right thing to compare this pass against; the pilot numbers are context, not a target.",
+    "inference_seconds": 75.0
+  }
+}

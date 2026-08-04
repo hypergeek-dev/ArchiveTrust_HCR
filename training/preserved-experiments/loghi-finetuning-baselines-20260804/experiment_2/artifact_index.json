@@ -1,0 +1,33 @@
+{
+  "run_root": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z",
+    "exists": true
+  },
+  "architecture_report": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment_2_architecture_report\\architecture_report_and_preflight.json"
+  },
+  "character_inventory": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment_2_character_inventory.json"
+  },
+  "checkpoint_index": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\run-state\\checkpoint_index.json"
+  },
+  "run_state": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\run-state\\run_state.json"
+  },
+  "telemetry_samples": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\run-state\\telemetry\\gpu_samples.jsonl"
+  },
+  "optimizer_trace": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\run-state\\epoch_output\\epoch_1\\optimizer_trace.csv"
+  },
+  "independent_evaluation_output": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\lap-evaluation\\lap1_best_val\\lap_evaluation.json"
+  },
+  "comparison": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\experiment_0_1_2_comparison.json"
+  },
+  "decision": {
+    "path": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\experiment_2_decision.json"
+  }
+}

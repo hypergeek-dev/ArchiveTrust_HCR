@@ -1,0 +1,37 @@
+{
+  "run_id": "loghi_training_run_d20dc825910945acbabc3ba7162d340b",
+  "status": "completed",
+  "pid": 34676,
+  "started_at": "2026-08-04T05:19:59Z",
+  "last_resumed_at": null,
+  "ended_at": "2026-08-04T09:37:42Z",
+  "last_heartbeat_at": "2026-08-04T09:37:42Z",
+  "current_epoch": 1,
+  "global_shards_completed": 1,
+  "epochs_completed": 1,
+  "shards_completed_in_current_epoch": 1,
+  "shards_per_epoch": 1,
+  "epoch_progress": 0.0,
+  "current_global_step": 0,
+  "samples_processed": 0,
+  "latest_metrics": {
+    "train_cer": 0.2749086022377014,
+    "val_cer": 0.19398820400238037,
+    "train_wer": 0.9423084855079651,
+    "val_wer": 0.9350000023841858,
+    "train_loss": 32.00843811035156,
+    "val_loss": 23.21910858154297
+  },
+  "best_metrics": {
+    "val_cer": 0.19398820400238037
+  },
+  "epochs_since_improvement": 0,
+  "latest_checkpoint": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\run-state\\epoch_output\\epoch_1\\recommended\\epoch_0_CER_0.2749_val_0.1940",
+  "best_checkpoint": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\run-state\\epoch_output\\epoch_1\\recommended\\best_val",
+  "resume_count": 0,
+  "stop_reason": "target_epochs_reached",
+  "failure_detail": null,
+  "configuration_hash": "5bb8a93dd9ab384fbf2f1708da2fa74c56d118a179b0d6416480ed1654267aff",
+  "dataset_hash": "fc21a70825650927edcae753a20411cef8e4344e2c22bcbcaed1c0038b9b97b0",
+  "code_revision": "4108be17dc7aa5cc78b8eb5e02782064ddfef7dc"
+}

@@ -1,0 +1,1206 @@
+{
+  "generated_at": "2026-08-04T09:43:17Z",
+  "evidence_discipline_note": "See loghi_experiments_0_1_2_report.md for MEASURED/VERIFIED FROM SOURCE/INFERRED/HYPOTHESIS/UNRESOLVED classification of every claim.",
+  "headline_table": [
+    {
+      "experiment": 0,
+      "initialization": "Generic pretrained Loghi",
+      "architecture": "Generic checkpoint architecture (new10)",
+      "trainer_lifecycle": "57 resets",
+      "epochs": 1,
+      "cer": 0.17278316536730684,
+      "true_wer": 0.4944995491433724
+    },
+    {
+      "experiment": 1,
+      "initialization": "Generic pretrained Loghi",
+      "architecture": "Generic checkpoint architecture (new10)",
+      "trainer_lifecycle": "Continuous",
+      "epochs": 1,
+      "cer": 0.1747163592571465,
+      "true_wer": 0.49558160504959425
+    },
+    {
+      "experiment": 2,
+      "initialization": "Random initialization",
+      "architecture": "Recommended VGSL",
+      "trainer_lifecycle": "Continuous",
+      "epochs": 1,
+      "cer": 0.19176649553146985,
+      "true_wer": 0.5469792605951308
+    }
+  ],
+  "runtime_seconds": {
+    "experiment_0": 25093.17073539998,
+    "experiment_1": 16543.1574517,
+    "experiment_2": 15460.019519399997
+  },
+  "optimizer_steps": {
+    "experiment_0": null,
+    "experiment_1": 35099,
+    "experiment_2": 35111
+  },
+  "starting_train_cer": {
+    "experiment_1": 0.33475178480148315,
+    "experiment_2": 1.030945897102356
+  },
+  "ending_train_cer": {
+    "experiment_0": null,
+    "experiment_1": 0.19487333297729492,
+    "experiment_2": 0.2749086022377014
+  },
+  "validation_trajectory": {
+    "experiment_1": {
+      "in_training_best_val_cer": 0.17553427815437317,
+      "held_out_corpus_cer": 0.1747163592571465
+    },
+    "experiment_2": {
+      "in_training_best_val_cer": 0.19398820400238037,
+      "held_out_corpus_cer": 0.19176649553146985
+    }
+  },
+  "best_checkpoint_timing": {
+    "experiment_0": "epoch 48 of 57 (best_val improved before the final shard)",
+    "experiment_1": "end of the single epoch (only one validation pass exists)",
+    "experiment_2": "end of the single epoch (only one validation pass exists)"
+  },
+  "confidence_calibration": {
+    "experiment_2_buckets": [
+      {
+        "lower": 0.0,
+        "upper": 0.2,
+        "sample_count": 18,
+        "mean_cer": 0.7727629938067637,
+        "median_cer": 0.6948051948051948
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.4,
+        "sample_count": 31,
+        "mean_cer": 0.5723155137425765,
+        "median_cer": 0.5454545454545454
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.6,
+        "sample_count": 106,
+        "mean_cer": 0.38290913190496323,
+        "median_cer": 0.35632861635220126
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.8,
+        "sample_count": 304,
+        "mean_cer": 0.23579980018708926,
+        "median_cer": 0.21680376028202114
+      },
+      {
+        "lower": 0.8,
+        "upper": 1.01,
+        "sample_count": 541,
+        "mean_cer": 0.1033097252191741,
+        "median_cer": 0.09375
+      }
+    ]
+  },
+  "parameter_count": {
+    "experiment_1_generic_checkpoint": 31033929,
+    "experiment_2_recommended_scratch": 30694654
+  },
+  "gpu_memory_used_mb_peak": {
+    "experiment_0": 7400.0,
+    "experiment_1": 7534.0,
+    "experiment_2": 7835.0
+  },
+  "checkpoint_size_bytes": {
+    "experiment_0": 372594085,
+    "experiment_1": 372594089,
+    "experiment_2": 368525198
+  },
+  "throughput_lines_per_second": {
+    "experiment_0": null,
+    "experiment_1": 33.946603097964875,
+    "experiment_2": 36.337340926061295
+  },
+  "per_collection": {
+    "experiment_0": [
+      {
+        "collection": "alvsborgs_losen",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.2760155815247635,
+          "corpus_wer": 0.5031847133757962,
+          "line_error_rate": 0.9010989010989011,
+          "mean_per_line_cer": 0.26159173697694305,
+          "total_reference_chars": 1797,
+          "total_edits": 496
+        },
+        "mean_confidence": 0.7294820683834317
+      },
+      {
+        "collection": "jonkopings_radhusratt_och_magistrat",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.26580035440047256,
+          "corpus_wer": 0.7326565143824028,
+          "line_error_rate": 1.0,
+          "mean_per_line_cer": 0.2621405096647877,
+          "total_reference_chars": 3386,
+          "total_edits": 900
+        },
+        "mean_confidence": 0.7400430434352749
+      },
+      {
+        "collection": "gota_hovratt",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.22818378045020044,
+          "corpus_wer": 0.5985790408525755,
+          "line_error_rate": 0.978021978021978,
+          "mean_per_line_cer": 0.23460269922986107,
+          "total_reference_chars": 3243,
+          "total_edits": 740
+        },
+        "mean_confidence": 0.7799582203010936
+      },
+      {
+        "collection": "trolldomskommissionen",
+        "metrics": {
+          "sample_count": 90,
+          "corpus_cer": 0.2225923682616596,
+          "corpus_wer": 0.5877192982456141,
+          "line_error_rate": 0.9666666666666667,
+          "mean_per_line_cer": 0.21210478071740302,
+          "total_reference_chars": 3302,
+          "total_edits": 735
+        },
+        "mean_confidence": 0.7959338693776065
+      },
+      {
+        "collection": "bergmastaren_i_nora_htr",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.2195210449927431,
+          "corpus_wer": 0.6389496717724289,
+          "line_error_rate": 0.945054945054945,
+          "mean_per_line_cer": 0.2188894682124087,
+          "total_reference_chars": 2756,
+          "total_edits": 605
+        },
+        "mean_confidence": 0.768636880340157
+      },
+      {
+        "collection": "krigshovrattens_dombocker",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.164552622557422,
+          "corpus_wer": 0.48502994011976047,
+          "line_error_rate": 0.8901098901098901,
+          "mean_per_line_cer": 0.15642473147985153,
+          "total_reference_chars": 2917,
+          "total_edits": 480
+        },
+        "mean_confidence": 0.8315382078289986
+      },
+      {
+        "collection": "goteborgs_poliskammare_fore_1900",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.13374233128834356,
+          "corpus_wer": 0.40540540540540543,
+          "line_error_rate": 0.8461538461538461,
+          "mean_per_line_cer": 0.14867421100694675,
+          "total_reference_chars": 2445,
+          "total_edits": 327
+        },
+        "mean_confidence": 0.8856856456169715
+      },
+      {
+        "collection": "carl_fredrik_pahlmans_resejournaler",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.11855021394412282,
+          "corpus_wer": 0.402046783625731,
+          "line_error_rate": 0.945054945054945,
+          "mean_per_line_cer": 0.12448974241381953,
+          "total_reference_chars": 3973,
+          "total_edits": 471
+        },
+        "mean_confidence": 0.8891037034464406
+      },
+      {
+        "collection": "svea_hovratt",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.11723871962977246,
+          "corpus_wer": 0.40441176470588236,
+          "line_error_rate": 0.8791208791208791,
+          "mean_per_line_cer": 0.12133619261136921,
+          "total_reference_chars": 2593,
+          "total_edits": 304
+        },
+        "mean_confidence": 0.8889434648739113
+      },
+      {
+        "collection": "frihetstidens_utskottshandlingar",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.09950248756218906,
+          "corpus_wer": 0.36585365853658536,
+          "line_error_rate": 0.8351648351648352,
+          "mean_per_line_cer": 0.11431348477067577,
+          "total_reference_chars": 2412,
+          "total_edits": 240
+        },
+        "mean_confidence": 0.8839917543170216
+      },
+      {
+        "collection": "bergskollegium_relationer_och_skrivelser",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.05641025641025641,
+          "corpus_wer": 0.2277432712215321,
+          "line_error_rate": 0.6593406593406593,
+          "mean_per_line_cer": 0.054925752110578735,
+          "total_reference_chars": 2730,
+          "total_edits": 154
+        },
+        "mean_confidence": 0.9461815855005286
+      }
+    ],
+    "experiment_1": [
+      {
+        "collection": "alvsborgs_losen",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.2860322760155815,
+          "corpus_wer": 0.5201698513800425,
+          "line_error_rate": 0.9010989010989011,
+          "mean_per_line_cer": 0.279464239020311,
+          "total_reference_chars": 1797,
+          "total_edits": 514
+        },
+        "mean_confidence": 0.7049851651497923
+      },
+      {
+        "collection": "jonkopings_radhusratt_och_magistrat",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.25930301240401654,
+          "corpus_wer": 0.7072758037225042,
+          "line_error_rate": 0.989010989010989,
+          "mean_per_line_cer": 0.2528932044324094,
+          "total_reference_chars": 3386,
+          "total_edits": 878
+        },
+        "mean_confidence": 0.7262319865135046
+      },
+      {
+        "collection": "gota_hovratt",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.2399013259327783,
+          "corpus_wer": 0.6181172291296625,
+          "line_error_rate": 0.978021978021978,
+          "mean_per_line_cer": 0.2486422217616763,
+          "total_reference_chars": 3243,
+          "total_edits": 778
+        },
+        "mean_confidence": 0.7733111771253439
+      },
+      {
+        "collection": "bergmastaren_i_nora_htr",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.23294629898403482,
+          "corpus_wer": 0.6673960612691466,
+          "line_error_rate": 0.9560439560439561,
+          "mean_per_line_cer": 0.23145046163031066,
+          "total_reference_chars": 2756,
+          "total_edits": 642
+        },
+        "mean_confidence": 0.7584574325726583
+      },
+      {
+        "collection": "trolldomskommissionen",
+        "metrics": {
+          "sample_count": 90,
+          "corpus_cer": 0.2204724409448819,
+          "corpus_wer": 0.5807017543859649,
+          "line_error_rate": 0.9555555555555556,
+          "mean_per_line_cer": 0.21089227017620185,
+          "total_reference_chars": 3302,
+          "total_edits": 728
+        },
+        "mean_confidence": 0.7834557944494817
+      },
+      {
+        "collection": "krigshovrattens_dombocker",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.16660953033938977,
+          "corpus_wer": 0.4930139720558882,
+          "line_error_rate": 0.8791208791208791,
+          "mean_per_line_cer": 0.16483243913518655,
+          "total_reference_chars": 2917,
+          "total_edits": 486
+        },
+        "mean_confidence": 0.8182651714145482
+      },
+      {
+        "collection": "goteborgs_poliskammare_fore_1900",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.1341513292433538,
+          "corpus_wer": 0.40540540540540543,
+          "line_error_rate": 0.8461538461538461,
+          "mean_per_line_cer": 0.14627296000362194,
+          "total_reference_chars": 2445,
+          "total_edits": 328
+        },
+        "mean_confidence": 0.8832877166978605
+      },
+      {
+        "collection": "carl_fredrik_pahlmans_resejournaler",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.11729171910395167,
+          "corpus_wer": 0.39473684210526316,
+          "line_error_rate": 0.945054945054945,
+          "mean_per_line_cer": 0.12097838926357034,
+          "total_reference_chars": 3973,
+          "total_edits": 466
+        },
+        "mean_confidence": 0.883850674707811
+      },
+      {
+        "collection": "svea_hovratt",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.1153104512148091,
+          "corpus_wer": 0.38235294117647056,
+          "line_error_rate": 0.8681318681318682,
+          "mean_per_line_cer": 0.11856755440269702,
+          "total_reference_chars": 2593,
+          "total_edits": 299
+        },
+        "mean_confidence": 0.8887940501118754
+      },
+      {
+        "collection": "frihetstidens_utskottshandlingar",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.09867330016583747,
+          "corpus_wer": 0.36829268292682926,
+          "line_error_rate": 0.8241758241758241,
+          "mean_per_line_cer": 0.11260210172509595,
+          "total_reference_chars": 2412,
+          "total_edits": 238
+        },
+        "mean_confidence": 0.8789066010779076
+      },
+      {
+        "collection": "bergskollegium_relationer_och_skrivelser",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.05714285714285714,
+          "corpus_wer": 0.2318840579710145,
+          "line_error_rate": 0.7142857142857143,
+          "mean_per_line_cer": 0.05468037404561649,
+          "total_reference_chars": 2730,
+          "total_edits": 156
+        },
+        "mean_confidence": 0.9463145483981122
+      }
+    ],
+    "experiment_2": [
+      {
+        "collection": "alvsborgs_losen",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.34891485809682804,
+          "corpus_wer": 0.6220806794055201,
+          "line_error_rate": 0.978021978021978,
+          "mean_per_line_cer": 0.33028938039081573,
+          "total_reference_chars": 1797,
+          "total_edits": 627
+        },
+        "mean_confidence": 0.5801457944479618
+      },
+      {
+        "collection": "jonkopings_radhusratt_och_magistrat",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.2956290608387478,
+          "corpus_wer": 0.7580372250423012,
+          "line_error_rate": 1.0,
+          "mean_per_line_cer": 0.29198692221164896,
+          "total_reference_chars": 3386,
+          "total_edits": 1001
+        },
+        "mean_confidence": 0.653393474827101
+      },
+      {
+        "collection": "gota_hovratt",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.2383595436324391,
+          "corpus_wer": 0.6341030195381883,
+          "line_error_rate": 0.989010989010989,
+          "mean_per_line_cer": 0.24636884467777367,
+          "total_reference_chars": 3243,
+          "total_edits": 773
+        },
+        "mean_confidence": 0.7156825895820346
+      },
+      {
+        "collection": "bergmastaren_i_nora_htr",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.23113207547169812,
+          "corpus_wer": 0.6739606126914661,
+          "line_error_rate": 0.945054945054945,
+          "mean_per_line_cer": 0.23834032019284263,
+          "total_reference_chars": 2756,
+          "total_edits": 637
+        },
+        "mean_confidence": 0.7358289249650725
+      },
+      {
+        "collection": "trolldomskommissionen",
+        "metrics": {
+          "sample_count": 90,
+          "corpus_cer": 0.2192610539067232,
+          "corpus_wer": 0.5947368421052631,
+          "line_error_rate": 0.9555555555555556,
+          "mean_per_line_cer": 0.2187501576440404,
+          "total_reference_chars": 3302,
+          "total_edits": 724
+        },
+        "mean_confidence": 0.7494642233269082
+      },
+      {
+        "collection": "krigshovrattens_dombocker",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.1724374357216318,
+          "corpus_wer": 0.5449101796407185,
+          "line_error_rate": 0.9560439560439561,
+          "mean_per_line_cer": 0.1770104792086478,
+          "total_reference_chars": 2917,
+          "total_edits": 503
+        },
+        "mean_confidence": 0.7862459771580749
+      },
+      {
+        "collection": "carl_fredrik_pahlmans_resejournaler",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.15403976843694941,
+          "corpus_wer": 0.489766081871345,
+          "line_error_rate": 0.967032967032967,
+          "mean_per_line_cer": 0.1653420834742308,
+          "total_reference_chars": 3973,
+          "total_edits": 612
+        },
+        "mean_confidence": 0.8341507980456719
+      },
+      {
+        "collection": "goteborgs_poliskammare_fore_1900",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.14969325153374233,
+          "corpus_wer": 0.4692874692874693,
+          "line_error_rate": 0.9230769230769231,
+          "mean_per_line_cer": 0.17397498803000347,
+          "total_reference_chars": 2445,
+          "total_edits": 366
+        },
+        "mean_confidence": 0.8291472925876195
+      },
+      {
+        "collection": "frihetstidens_utskottshandlingar",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.12437810945273632,
+          "corpus_wer": 0.4219512195121951,
+          "line_error_rate": 0.9230769230769231,
+          "mean_per_line_cer": 0.1573725363382858,
+          "total_reference_chars": 2412,
+          "total_edits": 300
+        },
+        "mean_confidence": 0.8003234037986169
+      },
+      {
+        "collection": "svea_hovratt",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.11839568067875048,
+          "corpus_wer": 0.44362745098039214,
+          "line_error_rate": 0.8461538461538461,
+          "mean_per_line_cer": 0.1272318486819379,
+          "total_reference_chars": 2593,
+          "total_edits": 307
+        },
+        "mean_confidence": 0.8372986609791662
+      },
+      {
+        "collection": "bergskollegium_relationer_och_skrivelser",
+        "metrics": {
+          "sample_count": 91,
+          "corpus_cer": 0.07362637362637363,
+          "corpus_wer": 0.2795031055900621,
+          "line_error_rate": 0.8021978021978022,
+          "mean_per_line_cer": 0.0714899507383452,
+          "total_reference_chars": 2730,
+          "total_edits": 201
+        },
+        "mean_confidence": 0.9220026024095305
+      }
+    ]
+  },
+  "raw_contexts": {
+    "experiment_0": {
+      "run_id": "loghi_training_run_8847b9fcbbdf4c6b8256481944f5bded",
+      "status": "stopped",
+      "started_at": "2026-08-02T04:47:04Z",
+      "ended_at": "2026-08-02T12:48:45Z",
+      "runtime_seconds": 25093.17073539998,
+      "in_training_best_val_cer": 0.17423425614833832,
+      "optimizer_steps": null,
+      "starting_train_cer": null,
+      "ending_train_cer": null,
+      "held_out_corpus_cer": 0.17278316536730684,
+      "held_out_corpus_wer": 0.4944995491433724,
+      "held_out_line_error_rate": 0.895,
+      "learning_rate_policy": "per_shard_fresh_adam_base_0.0001_intra_shard_decay_0.99_no_cross_shard_continuity",
+      "batch_size": 16,
+      "optimizer": "adam",
+      "gpu_memory_used_mb_peak": 7400.0,
+      "checkpoint_size_bytes": 372594085,
+      "per_collection": [
+        {
+          "collection": "alvsborgs_losen",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.2760155815247635,
+            "corpus_wer": 0.5031847133757962,
+            "line_error_rate": 0.9010989010989011,
+            "mean_per_line_cer": 0.26159173697694305,
+            "total_reference_chars": 1797,
+            "total_edits": 496
+          },
+          "mean_confidence": 0.7294820683834317
+        },
+        {
+          "collection": "jonkopings_radhusratt_och_magistrat",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.26580035440047256,
+            "corpus_wer": 0.7326565143824028,
+            "line_error_rate": 1.0,
+            "mean_per_line_cer": 0.2621405096647877,
+            "total_reference_chars": 3386,
+            "total_edits": 900
+          },
+          "mean_confidence": 0.7400430434352749
+        },
+        {
+          "collection": "gota_hovratt",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.22818378045020044,
+            "corpus_wer": 0.5985790408525755,
+            "line_error_rate": 0.978021978021978,
+            "mean_per_line_cer": 0.23460269922986107,
+            "total_reference_chars": 3243,
+            "total_edits": 740
+          },
+          "mean_confidence": 0.7799582203010936
+        },
+        {
+          "collection": "trolldomskommissionen",
+          "metrics": {
+            "sample_count": 90,
+            "corpus_cer": 0.2225923682616596,
+            "corpus_wer": 0.5877192982456141,
+            "line_error_rate": 0.9666666666666667,
+            "mean_per_line_cer": 0.21210478071740302,
+            "total_reference_chars": 3302,
+            "total_edits": 735
+          },
+          "mean_confidence": 0.7959338693776065
+        },
+        {
+          "collection": "bergmastaren_i_nora_htr",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.2195210449927431,
+            "corpus_wer": 0.6389496717724289,
+            "line_error_rate": 0.945054945054945,
+            "mean_per_line_cer": 0.2188894682124087,
+            "total_reference_chars": 2756,
+            "total_edits": 605
+          },
+          "mean_confidence": 0.768636880340157
+        },
+        {
+          "collection": "krigshovrattens_dombocker",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.164552622557422,
+            "corpus_wer": 0.48502994011976047,
+            "line_error_rate": 0.8901098901098901,
+            "mean_per_line_cer": 0.15642473147985153,
+            "total_reference_chars": 2917,
+            "total_edits": 480
+          },
+          "mean_confidence": 0.8315382078289986
+        },
+        {
+          "collection": "goteborgs_poliskammare_fore_1900",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.13374233128834356,
+            "corpus_wer": 0.40540540540540543,
+            "line_error_rate": 0.8461538461538461,
+            "mean_per_line_cer": 0.14867421100694675,
+            "total_reference_chars": 2445,
+            "total_edits": 327
+          },
+          "mean_confidence": 0.8856856456169715
+        },
+        {
+          "collection": "carl_fredrik_pahlmans_resejournaler",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.11855021394412282,
+            "corpus_wer": 0.402046783625731,
+            "line_error_rate": 0.945054945054945,
+            "mean_per_line_cer": 0.12448974241381953,
+            "total_reference_chars": 3973,
+            "total_edits": 471
+          },
+          "mean_confidence": 0.8891037034464406
+        },
+        {
+          "collection": "svea_hovratt",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.11723871962977246,
+            "corpus_wer": 0.40441176470588236,
+            "line_error_rate": 0.8791208791208791,
+            "mean_per_line_cer": 0.12133619261136921,
+            "total_reference_chars": 2593,
+            "total_edits": 304
+          },
+          "mean_confidence": 0.8889434648739113
+        },
+        {
+          "collection": "frihetstidens_utskottshandlingar",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.09950248756218906,
+            "corpus_wer": 0.36585365853658536,
+            "line_error_rate": 0.8351648351648352,
+            "mean_per_line_cer": 0.11431348477067577,
+            "total_reference_chars": 2412,
+            "total_edits": 240
+          },
+          "mean_confidence": 0.8839917543170216
+        },
+        {
+          "collection": "bergskollegium_relationer_och_skrivelser",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.05641025641025641,
+            "corpus_wer": 0.2277432712215321,
+            "line_error_rate": 0.6593406593406593,
+            "mean_per_line_cer": 0.054925752110578735,
+            "total_reference_chars": 2730,
+            "total_edits": 154
+          },
+          "mean_confidence": 0.9461815855005286
+        }
+      ],
+      "confidence_buckets": [
+        {
+          "lower": 0.0,
+          "upper": 0.2,
+          "sample_count": 8,
+          "mean_cer": 0.669741267403796,
+          "median_cer": 0.638961038961039
+        },
+        {
+          "lower": 0.2,
+          "upper": 0.4,
+          "sample_count": 17,
+          "mean_cer": 0.5572730397841468,
+          "median_cer": 0.5
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.6,
+          "sample_count": 44,
+          "mean_cer": 0.4217264407430145,
+          "median_cer": 0.39230769230769236
+        },
+        {
+          "lower": 0.6,
+          "upper": 0.8,
+          "sample_count": 235,
+          "mean_cer": 0.2734821294806245,
+          "median_cer": 0.25925925925925924
+        },
+        {
+          "lower": 0.8,
+          "upper": 1.01,
+          "sample_count": 696,
+          "mean_cer": 0.10904590620660207,
+          "median_cer": 0.09375
+        }
+      ],
+      "identity_config": {
+        "train_manifest_hash": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f",
+        "val_manifest_hash": "92f74011c568b04798c9c53725311633f2df2ea4fb8c408e1d73b4f197cea85c",
+        "charlist_hash": "f1877392e09591cf40517c5ef636d6011a1c2b61e4a240b508167d0c94ff6754",
+        "preprocessing_version": "byte_identical_from_source_parquet",
+        "model_architecture": "new10",
+        "parent_checkpoint_hash": "0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95",
+        "learning_rate_policy": "per_shard_fresh_adam_base_0.0001_intra_shard_decay_0.99_no_cross_shard_continuity",
+        "optimizer": "adam",
+        "augmentation_policy": "none"
+      },
+      "initialization": "pretrained (generic Loghi checkpoint)",
+      "architecture": "new10"
+    },
+    "experiment_1": {
+      "run_id": "loghi_training_run_6b2d57d1b30240aa9f4c0982375f4d6e",
+      "status": "completed",
+      "started_at": "2026-08-03T19:21:47Z",
+      "ended_at": "2026-08-03T23:57:33Z",
+      "runtime_seconds": 16543.1574517,
+      "in_training_best_val_cer": 0.17553427815437317,
+      "optimizer_steps": 35099,
+      "starting_train_cer": 0.33475178480148315,
+      "ending_train_cer": 0.19487333297729492,
+      "held_out_corpus_cer": 0.1747163592571465,
+      "held_out_corpus_wer": 0.49558160504959425,
+      "held_out_line_error_rate": 0.896,
+      "learning_rate_policy": "single_continuous_epoch_fresh_adam_base_0.0001_continuous_decay_0.99_across_full_corpus",
+      "batch_size": 16,
+      "optimizer": "adam",
+      "gpu_memory_used_mb_peak": 7534.0,
+      "checkpoint_size_bytes": 372594089,
+      "per_collection": [
+        {
+          "collection": "alvsborgs_losen",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.2860322760155815,
+            "corpus_wer": 0.5201698513800425,
+            "line_error_rate": 0.9010989010989011,
+            "mean_per_line_cer": 0.279464239020311,
+            "total_reference_chars": 1797,
+            "total_edits": 514
+          },
+          "mean_confidence": 0.7049851651497923
+        },
+        {
+          "collection": "jonkopings_radhusratt_och_magistrat",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.25930301240401654,
+            "corpus_wer": 0.7072758037225042,
+            "line_error_rate": 0.989010989010989,
+            "mean_per_line_cer": 0.2528932044324094,
+            "total_reference_chars": 3386,
+            "total_edits": 878
+          },
+          "mean_confidence": 0.7262319865135046
+        },
+        {
+          "collection": "gota_hovratt",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.2399013259327783,
+            "corpus_wer": 0.6181172291296625,
+            "line_error_rate": 0.978021978021978,
+            "mean_per_line_cer": 0.2486422217616763,
+            "total_reference_chars": 3243,
+            "total_edits": 778
+          },
+          "mean_confidence": 0.7733111771253439
+        },
+        {
+          "collection": "bergmastaren_i_nora_htr",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.23294629898403482,
+            "corpus_wer": 0.6673960612691466,
+            "line_error_rate": 0.9560439560439561,
+            "mean_per_line_cer": 0.23145046163031066,
+            "total_reference_chars": 2756,
+            "total_edits": 642
+          },
+          "mean_confidence": 0.7584574325726583
+        },
+        {
+          "collection": "trolldomskommissionen",
+          "metrics": {
+            "sample_count": 90,
+            "corpus_cer": 0.2204724409448819,
+            "corpus_wer": 0.5807017543859649,
+            "line_error_rate": 0.9555555555555556,
+            "mean_per_line_cer": 0.21089227017620185,
+            "total_reference_chars": 3302,
+            "total_edits": 728
+          },
+          "mean_confidence": 0.7834557944494817
+        },
+        {
+          "collection": "krigshovrattens_dombocker",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.16660953033938977,
+            "corpus_wer": 0.4930139720558882,
+            "line_error_rate": 0.8791208791208791,
+            "mean_per_line_cer": 0.16483243913518655,
+            "total_reference_chars": 2917,
+            "total_edits": 486
+          },
+          "mean_confidence": 0.8182651714145482
+        },
+        {
+          "collection": "goteborgs_poliskammare_fore_1900",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.1341513292433538,
+            "corpus_wer": 0.40540540540540543,
+            "line_error_rate": 0.8461538461538461,
+            "mean_per_line_cer": 0.14627296000362194,
+            "total_reference_chars": 2445,
+            "total_edits": 328
+          },
+          "mean_confidence": 0.8832877166978605
+        },
+        {
+          "collection": "carl_fredrik_pahlmans_resejournaler",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.11729171910395167,
+            "corpus_wer": 0.39473684210526316,
+            "line_error_rate": 0.945054945054945,
+            "mean_per_line_cer": 0.12097838926357034,
+            "total_reference_chars": 3973,
+            "total_edits": 466
+          },
+          "mean_confidence": 0.883850674707811
+        },
+        {
+          "collection": "svea_hovratt",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.1153104512148091,
+            "corpus_wer": 0.38235294117647056,
+            "line_error_rate": 0.8681318681318682,
+            "mean_per_line_cer": 0.11856755440269702,
+            "total_reference_chars": 2593,
+            "total_edits": 299
+          },
+          "mean_confidence": 0.8887940501118754
+        },
+        {
+          "collection": "frihetstidens_utskottshandlingar",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.09867330016583747,
+            "corpus_wer": 0.36829268292682926,
+            "line_error_rate": 0.8241758241758241,
+            "mean_per_line_cer": 0.11260210172509595,
+            "total_reference_chars": 2412,
+            "total_edits": 238
+          },
+          "mean_confidence": 0.8789066010779076
+        },
+        {
+          "collection": "bergskollegium_relationer_och_skrivelser",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.05714285714285714,
+            "corpus_wer": 0.2318840579710145,
+            "line_error_rate": 0.7142857142857143,
+            "mean_per_line_cer": 0.05468037404561649,
+            "total_reference_chars": 2730,
+            "total_edits": 156
+          },
+          "mean_confidence": 0.9463145483981122
+        }
+      ],
+      "confidence_buckets": [
+        {
+          "lower": 0.0,
+          "upper": 0.2,
+          "sample_count": 10,
+          "mean_cer": 0.6435711490613829,
+          "median_cer": 0.6226502311248074
+        },
+        {
+          "lower": 0.2,
+          "upper": 0.4,
+          "sample_count": 19,
+          "mean_cer": 0.5241730842077228,
+          "median_cer": 0.5189873417721519
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.6,
+          "sample_count": 57,
+          "mean_cer": 0.4697253220108853,
+          "median_cer": 0.42857142857142855
+        },
+        {
+          "lower": 0.6,
+          "upper": 0.8,
+          "sample_count": 231,
+          "mean_cer": 0.2591264803409909,
+          "median_cer": 0.25
+        },
+        {
+          "lower": 0.8,
+          "upper": 1.01,
+          "sample_count": 683,
+          "mean_cer": 0.10749294721108837,
+          "median_cer": 0.08928571428571429
+        }
+      ],
+      "identity_config": {
+        "train_manifest_hash": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f",
+        "val_manifest_hash": "92f74011c568b04798c9c53725311633f2df2ea4fb8c408e1d73b4f197cea85c",
+        "charlist_hash": "f1877392e09591cf40517c5ef636d6011a1c2b61e4a240b508167d0c94ff6754",
+        "preprocessing_version": "byte_identical_from_source_parquet",
+        "model_architecture": "new10",
+        "parent_checkpoint_hash": "0da2c00ab2b12b23e9f64c01ec67ad29724f275eeadb4561843f8a29ff6fff95",
+        "learning_rate_policy": "single_continuous_epoch_fresh_adam_base_0.0001_continuous_decay_0.99_across_full_corpus",
+        "optimizer": "adam",
+        "augmentation_policy": "none"
+      },
+      "initialization": "pretrained (generic Loghi checkpoint)",
+      "architecture": "new10"
+    },
+    "experiment_2": {
+      "run_id": "loghi_training_run_d20dc825910945acbabc3ba7162d340b",
+      "status": "completed",
+      "started_at": "2026-08-04T05:19:59Z",
+      "ended_at": "2026-08-04T09:37:42Z",
+      "runtime_seconds": 15460.019519399997,
+      "in_training_best_val_cer": 0.19398820400238037,
+      "optimizer_steps": 35111,
+      "starting_train_cer": 1.030945897102356,
+      "ending_train_cer": 0.2749086022377014,
+      "held_out_corpus_cer": 0.19176649553146985,
+      "held_out_corpus_wer": 0.5469792605951308,
+      "held_out_line_error_rate": 0.935,
+      "learning_rate_policy": "single_continuous_epoch_random_init_fresh_adam_base_0.0001_continuous_decay_0.99_across_full_corpus",
+      "batch_size": 16,
+      "optimizer": "adam",
+      "gpu_memory_used_mb_peak": 7835.0,
+      "checkpoint_size_bytes": 368525198,
+      "per_collection": [
+        {
+          "collection": "alvsborgs_losen",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.34891485809682804,
+            "corpus_wer": 0.6220806794055201,
+            "line_error_rate": 0.978021978021978,
+            "mean_per_line_cer": 0.33028938039081573,
+            "total_reference_chars": 1797,
+            "total_edits": 627
+          },
+          "mean_confidence": 0.5801457944479618
+        },
+        {
+          "collection": "jonkopings_radhusratt_och_magistrat",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.2956290608387478,
+            "corpus_wer": 0.7580372250423012,
+            "line_error_rate": 1.0,
+            "mean_per_line_cer": 0.29198692221164896,
+            "total_reference_chars": 3386,
+            "total_edits": 1001
+          },
+          "mean_confidence": 0.653393474827101
+        },
+        {
+          "collection": "gota_hovratt",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.2383595436324391,
+            "corpus_wer": 0.6341030195381883,
+            "line_error_rate": 0.989010989010989,
+            "mean_per_line_cer": 0.24636884467777367,
+            "total_reference_chars": 3243,
+            "total_edits": 773
+          },
+          "mean_confidence": 0.7156825895820346
+        },
+        {
+          "collection": "bergmastaren_i_nora_htr",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.23113207547169812,
+            "corpus_wer": 0.6739606126914661,
+            "line_error_rate": 0.945054945054945,
+            "mean_per_line_cer": 0.23834032019284263,
+            "total_reference_chars": 2756,
+            "total_edits": 637
+          },
+          "mean_confidence": 0.7358289249650725
+        },
+        {
+          "collection": "trolldomskommissionen",
+          "metrics": {
+            "sample_count": 90,
+            "corpus_cer": 0.2192610539067232,
+            "corpus_wer": 0.5947368421052631,
+            "line_error_rate": 0.9555555555555556,
+            "mean_per_line_cer": 0.2187501576440404,
+            "total_reference_chars": 3302,
+            "total_edits": 724
+          },
+          "mean_confidence": 0.7494642233269082
+        },
+        {
+          "collection": "krigshovrattens_dombocker",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.1724374357216318,
+            "corpus_wer": 0.5449101796407185,
+            "line_error_rate": 0.9560439560439561,
+            "mean_per_line_cer": 0.1770104792086478,
+            "total_reference_chars": 2917,
+            "total_edits": 503
+          },
+          "mean_confidence": 0.7862459771580749
+        },
+        {
+          "collection": "carl_fredrik_pahlmans_resejournaler",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.15403976843694941,
+            "corpus_wer": 0.489766081871345,
+            "line_error_rate": 0.967032967032967,
+            "mean_per_line_cer": 0.1653420834742308,
+            "total_reference_chars": 3973,
+            "total_edits": 612
+          },
+          "mean_confidence": 0.8341507980456719
+        },
+        {
+          "collection": "goteborgs_poliskammare_fore_1900",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.14969325153374233,
+            "corpus_wer": 0.4692874692874693,
+            "line_error_rate": 0.9230769230769231,
+            "mean_per_line_cer": 0.17397498803000347,
+            "total_reference_chars": 2445,
+            "total_edits": 366
+          },
+          "mean_confidence": 0.8291472925876195
+        },
+        {
+          "collection": "frihetstidens_utskottshandlingar",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.12437810945273632,
+            "corpus_wer": 0.4219512195121951,
+            "line_error_rate": 0.9230769230769231,
+            "mean_per_line_cer": 0.1573725363382858,
+            "total_reference_chars": 2412,
+            "total_edits": 300
+          },
+          "mean_confidence": 0.8003234037986169
+        },
+        {
+          "collection": "svea_hovratt",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.11839568067875048,
+            "corpus_wer": 0.44362745098039214,
+            "line_error_rate": 0.8461538461538461,
+            "mean_per_line_cer": 0.1272318486819379,
+            "total_reference_chars": 2593,
+            "total_edits": 307
+          },
+          "mean_confidence": 0.8372986609791662
+        },
+        {
+          "collection": "bergskollegium_relationer_och_skrivelser",
+          "metrics": {
+            "sample_count": 91,
+            "corpus_cer": 0.07362637362637363,
+            "corpus_wer": 0.2795031055900621,
+            "line_error_rate": 0.8021978021978022,
+            "mean_per_line_cer": 0.0714899507383452,
+            "total_reference_chars": 2730,
+            "total_edits": 201
+          },
+          "mean_confidence": 0.9220026024095305
+        }
+      ],
+      "confidence_buckets": [
+        {
+          "lower": 0.0,
+          "upper": 0.2,
+          "sample_count": 18,
+          "mean_cer": 0.7727629938067637,
+          "median_cer": 0.6948051948051948
+        },
+        {
+          "lower": 0.2,
+          "upper": 0.4,
+          "sample_count": 31,
+          "mean_cer": 0.5723155137425765,
+          "median_cer": 0.5454545454545454
+        },
+        {
+          "lower": 0.4,
+          "upper": 0.6,
+          "sample_count": 106,
+          "mean_cer": 0.38290913190496323,
+          "median_cer": 0.35632861635220126
+        },
+        {
+          "lower": 0.6,
+          "upper": 0.8,
+          "sample_count": 304,
+          "mean_cer": 0.23579980018708926,
+          "median_cer": 0.21680376028202114
+        },
+        {
+          "lower": 0.8,
+          "upper": 1.01,
+          "sample_count": 541,
+          "mean_cer": 0.1033097252191741,
+          "median_cer": 0.09375
+        }
+      ],
+      "identity_config": {
+        "train_manifest_hash": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f",
+        "val_manifest_hash": "92f74011c568b04798c9c53725311633f2df2ea4fb8c408e1d73b4f197cea85c",
+        "charlist_hash": "c0fb042e0dff9ad337dc60465c6af8cc738151505abc5b1e151155582fb09d92",
+        "preprocessing_version": "byte_identical_from_source_parquet",
+        "model_architecture": "recommended",
+        "parent_checkpoint_hash": "RANDOM_INITIALIZATION",
+        "learning_rate_policy": "single_continuous_epoch_random_init_fresh_adam_base_0.0001_continuous_decay_0.99_across_full_corpus",
+        "optimizer": "adam",
+        "augmentation_policy": "none"
+      },
+      "initialization": "random",
+      "architecture": "recommended"
+    }
+  }
+}

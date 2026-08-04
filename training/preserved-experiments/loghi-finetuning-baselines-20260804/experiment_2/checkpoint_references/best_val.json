@@ -1,0 +1,8 @@
+{
+  "checkpoint_dir": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z\\run-state\\epoch_output\\epoch_1\\recommended\\best_val",
+  "recorded_sha256": "232ac54eddbe5d3c9f9ebc71f6f4899ce29d3e1f0e60e1dd9c830d3c8ee9c72a",
+  "live_verified_sha256": "232ac54eddbe5d3c9f9ebc71f6f4899ce29d3e1f0e60e1dd9c830d3c8ee9c72a",
+  "hash_matches_recorded": true,
+  "live_verification_ok": true,
+  "verified_at": "2026-08-04T09:46:00Z"
+}

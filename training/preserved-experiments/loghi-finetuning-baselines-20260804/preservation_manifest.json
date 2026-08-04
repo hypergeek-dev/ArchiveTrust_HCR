@@ -11,10 +11,16 @@
     "experiment_1": {
       "run_directory": "D:\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z",
       "preserved_at": "D:\\ArchiveTrust_HCR\\training\\preserved-experiments\\loghi-finetuning-baselines-20260804\\experiment_1"
+    },
+    "experiment_2": {
+      "run_directory": "D:\\ArchiveTrust_HCR\\training\\experiment-2-loghi-recommended-scratch-20260804T051959Z",
+      "preserved_at": "D:\\ArchiveTrust_HCR\\training\\preserved-experiments\\loghi-finetuning-baselines-20260804\\experiment_2",
+      "added_at": "2026-08-04T09:46:03Z"
     }
   },
   "controlled_comparison": true,
   "sealed_test_set_accessed": false,
   "model_weights_copied": false,
-  "original_run_directories_modified": false
+  "original_run_directories_modified": false,
+  "extended_without_modifying_experiment_0_or_1": true
 }

@@ -523,3 +523,49 @@ def test_last_session_ended_at_is_set_and_survives_a_simulated_new_process(
     )
     reloaded = load_session_state(run_state_dir)
     assert reloaded.last_session_ended_at is not None
+
+
+# --- Experiment 2 (scratch training): parent_checkpoint_dir=None additive path ---
+
+def test_scratch_run_never_stages_a_checkpoint_and_passes_none_to_the_runner(run_state_dir, checkpoint_index_path):
+    """No pretrained checkpoint exists for a scratch run -- `existing_model_dir` must reach the
+    epoch_runner as `None`, and no `staged_parent_checkpoint/` directory should ever be created."""
+    runner = FakeEpochRunner()
+    run_training_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        train_list_path="train.txt", validation_list_path="val.txt", parent_checkpoint_dir=None,
+        run_id="r1", configuration_hash="h1", random_seed=1, max_wall_clock_seconds=1e9,
+        stop_requested=lambda: False, max_epochs_this_call=1,
+    )
+    assert runner.calls[0]["existing_model_dir"] is None
+    assert not (run_state_dir / "staged_parent_checkpoint").exists()
+
+
+def test_scratch_run_records_random_initialization_sentinel_not_a_blank_source(run_state_dir, checkpoint_index_path):
+    """`CheckpointEntry.source_checkpoint` is typed as a non-optional str -- a scratch run's first
+    checkpoint must record an honest, unambiguous sentinel, never an empty string (which the
+    fine-tuning path's docstring already uses to mean something different: 'started from the real
+    pinned generic checkpoint')."""
+    runner = FakeEpochRunner()
+    run_training_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        train_list_path="train.txt", validation_list_path="val.txt", parent_checkpoint_dir=None,
+        run_id="r1", configuration_hash="h1", random_seed=1, max_wall_clock_seconds=1e9,
+        stop_requested=lambda: False, max_epochs_this_call=1,
+    )
+    entries = load_index(checkpoint_index_path)
+    latest_entry = next(e for e in entries if e.checkpoint_kind == "latest")
+    assert latest_entry.source_checkpoint == "RANDOM_INITIALIZATION"
+
+
+def test_scratch_run_completes_exactly_one_epoch_and_does_not_auto_continue(run_state_dir, checkpoint_index_path):
+    runner = FakeEpochRunner()
+    summary = run_training_session(
+        run_state_dir=run_state_dir, checkpoint_index_path=checkpoint_index_path, epoch_runner=runner,
+        train_list_path="train.txt", validation_list_path="val.txt", parent_checkpoint_dir=None,
+        run_id="r1", configuration_hash="h1", random_seed=1, max_wall_clock_seconds=1e9,
+        stop_requested=lambda: False, max_epochs_this_call=1,
+    )
+    assert summary.epochs_completed_this_session == 1
+    assert summary.stop_reason == "target_epochs_reached"
+    assert len(runner.calls) == 1  # no second invocation happened
