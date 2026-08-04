@@ -1,0 +1,12 @@
+{
+  "pool_dir": "D:\\ArchiveTrust_HCR\\training\\_prepared_data\\fc21a708_e12796a0",
+  "validation_list_path": "D:\\ArchiveTrust_HCR\\training\\_prepared_data\\fc21a708_e12796a0\\val_list.txt",
+  "shard_list_paths": [
+    "D:\\ArchiveTrust_HCR\\training\\_prepared_data\\fc21a708_e12796a0\\train_list.txt"
+  ],
+  "train_image_count": 562123,
+  "validation_image_count": 1000,
+  "reused_existing_pool": true,
+  "dataset_hash": "fc21a70825650927edcae753a20411cef8e4344e2c22bcbcaed1c0038b9b97b0",
+  "training_manifest_hash": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f"
+}

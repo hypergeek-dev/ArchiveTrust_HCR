@@ -54,6 +54,7 @@ class ContainerEpochRunner:
         beam_width: int = 1,
         timeout_seconds: float = DEFAULT_EPOCH_TIMEOUT_SECONDS,
         run_state_dir: str | Path | None = None,
+        extra_volume_mounts: tuple[tuple[str, str], ...] = (),
     ) -> None:
         self._batch_size = batch_size
         self._gradient_accumulation = gradient_accumulation
@@ -67,6 +68,11 @@ class ContainerEpochRunner:
         """`None` (the default, and what every existing test's `ContainerEpochRunner()` construction
         gets) disables the background `TelemetrySampler` entirely -- no GPU/`psutil` dependency enters
         a test run that never opts in. The real launcher passes its real `RUN_STATE_DIR` here."""
+        self._extra_volume_mounts = extra_volume_mounts
+        """`(host_path, container_path)` pairs appended as additional `-v host:container` mounts, e.g.
+        overriding one file inside the pinned image for a single run without editing the vendored,
+        pinned `.loghi-upstream` checkout on disk. Defaults to `()` -- zero effect on every existing
+        caller (Experiment 0's shard pipeline included)."""
 
     def _build_argv(
         self, *, existing_model_dir: str, output_dir: str, train_list_path: str, validation_list_path: str, epoch_seed: int
@@ -122,6 +128,10 @@ class ContainerEpochRunner:
             f"{translate(str(output_host))}:/output",
             "-v",
             f"{translate(str(train_list_host.parent))}:/lists:ro",
+        ]
+        for host_path, container_path in self._extra_volume_mounts:
+            argv += ["-v", f"{translate(str(Path(host_path).resolve()))}:{container_path}"]
+        argv += [
             "--entrypoint",
             "python3",
             image_ref,
