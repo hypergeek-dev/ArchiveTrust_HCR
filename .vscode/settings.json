@@ -1,3 +1,10 @@
 {
-  "git.autoRepositoryDetection": false
+  "git.autoRepositoryDetection": false,
+  "git.ignoredRepositories": [
+    ".loghi-upstream",
+    ".loghi-upstream/laypa",
+    ".loghi-upstream/loghi-htr",
+    ".loghi-upstream/loghi-tooling",
+    ".loghi-upstream/prima-core-libs"
+  ]
 }
