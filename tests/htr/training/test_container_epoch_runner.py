@@ -98,9 +98,74 @@ def test_batch_size_and_learning_rate_come_from_the_configured_runner(paths):
     assert argv[argv.index("--seed") + 1] == "7"
 
 
-def test_epochs_is_always_exactly_one_container_invocation_is_one_epoch(runner, paths):
+def test_epochs_defaults_to_one_container_invocation_is_one_epoch(runner, paths):
     argv = runner._build_argv(epoch_seed=1, **paths)
     assert argv[argv.index("--epochs") + 1] == "1"
+
+
+def test_epochs_per_invocation_is_configurable(paths):
+    """`--epochs 2` (or more) in ONE container invocation keeps the same Keras optimizer object alive
+    across every one of those real epochs -- `model.fit(epochs=N)` never rebuilds it between them --
+    a strictly stronger continuity guarantee than chaining N separate single-epoch invocations."""
+    runner = ContainerEpochRunner(
+        batch_size=16, gradient_accumulation=1, precision="mixed_float16", max_image_width=2000,
+        optimizer="adam", learning_rate=0.0001, epochs_per_invocation=2,
+    )
+    argv = runner._build_argv(epoch_seed=1, **paths)
+    assert argv[argv.index("--epochs") + 1] == "2"
+
+
+def test_latest_checkpoint_is_the_highest_epoch_number_not_glob_order(runner, paths, tmp_path, monkeypatch):
+    """A real, previously-latent bug: with only ever one epoch_N dir per invocation (every caller
+    before epochs_per_invocation existed), whichever non-best_val match `rglob` visited last was
+    always the only match, so iteration order never mattered. With 2+ real epochs in one invocation,
+    multiple epoch_N dirs can exist, and filesystem enumeration order does not reliably follow epoch
+    order. Deliberately creates them so the numerically-earlier epoch is the LAST one `Path.rglob`
+    actually visits (directory created last), and asserts the real `run_epoch()` still picks the true
+    latest by parsed epoch number, not by visit order."""
+    import zipfile
+
+    import archivetrust.htr.training.container_epoch_runner as cer_mod
+    from archivetrust.providers.loghi.environment import LoghiEnvironmentReport
+
+    monkeypatch.setattr(
+        cer_mod, "probe_loghi_environment",
+        lambda: LoghiEnvironmentReport(
+            host_os="Windows", docker_cli_present=True, docker_version="1", wsl_present=True,
+            wsl_distros=(), linux_distribution=None, nvidia_toolkit_version=None,
+            cuda_visible_devices=None, execution_mode=None,
+        ),
+    )
+
+    output_dir = tmp_path / "output"
+
+    def _fake_run(*args, **kwargs):
+        # Simulate what a real --epochs 2 invocation produces: two epoch_N checkpoint dirs. Created
+        # in an order where the numerically-EARLIER epoch is created (and thus glob-visited) LAST.
+        model_root = output_dir / "model_name"
+        for name in ("epoch_10_CER_0.10_val_0.10", "epoch_9_CER_0.20_val_0.20"):
+            d = model_root / name
+            d.mkdir(parents=True)
+            with zipfile.ZipFile(d / "model.keras", "w") as zf:
+                zf.writestr("config.json", "{}")
+
+        class _FakeCompleted:
+            returncode = 0
+            stdout = ""
+            stderr = ""
+
+        return _FakeCompleted()
+
+    monkeypatch.setattr(cer_mod.subprocess, "run", _fake_run)
+
+    result = runner.run_epoch(
+        existing_model_dir=paths["existing_model_dir"], output_dir=str(output_dir),
+        train_list_path=paths["train_list_path"], validation_list_path=paths["validation_list_path"],
+        epoch_seed=1,
+    )
+    assert result.ok
+    assert "epoch_10_" in result.checkpoint_dir
+    assert "epoch_9_" not in result.checkpoint_dir
 
 
 def test_float32_flag_only_appears_for_float32_precision(paths):

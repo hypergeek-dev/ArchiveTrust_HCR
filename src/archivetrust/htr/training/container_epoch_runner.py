@@ -55,6 +55,7 @@ class ContainerEpochRunner:
         timeout_seconds: float = DEFAULT_EPOCH_TIMEOUT_SECONDS,
         run_state_dir: str | Path | None = None,
         extra_volume_mounts: tuple[tuple[str, str], ...] = (),
+        epochs_per_invocation: int = 1,
     ) -> None:
         self._batch_size = batch_size
         self._gradient_accumulation = gradient_accumulation
@@ -65,6 +66,15 @@ class ContainerEpochRunner:
         self._beam_width = beam_width
         self._timeout_seconds = timeout_seconds
         self._run_state_dir = run_state_dir
+        self._epochs_per_invocation = epochs_per_invocation
+        """How many real Keras epochs `--epochs` requests from THIS ONE container invocation --
+        distinct from `training_session.py`'s own "epoch" bookkeeping, which counts container
+        invocations, not Keras epochs. Defaults to 1, matching every existing caller (Experiment 0's
+        shard pipeline, Experiment 1's single continuous epoch). Passing >1 keeps the SAME optimizer
+        object alive across multiple real Keras epochs within one process -- `model.fit(epochs=N)`
+        never rebuilds it between epochs -- which is a strictly stronger continuity guarantee than
+        chaining N separate single-epoch invocations, and needs no cross-process checkpoint restore
+        at all for the transition between those epochs."""
         """`None` (the default, and what every existing test's `ContainerEpochRunner()` construction
         gets) disables the background `TelemetrySampler` entirely -- no GPU/`psutil` dependency enters
         a test run that never opts in. The real launcher passes its real `RUN_STATE_DIR` here."""
@@ -149,7 +159,7 @@ class ContainerEpochRunner:
             "--output",
             "/output",
             "--epochs",
-            "1",
+            str(self._epochs_per_invocation),
             "--batch_size",
             str(self._batch_size),
             "--seed",
@@ -243,13 +253,24 @@ class ContainerEpochRunner:
         output_root = Path(output_dir)
         model_dirs = list(output_root.rglob("*.keras"))
         latest_dir = None
+        latest_epoch_number = -1
         best_dir = None
         for model_file in model_dirs:
-            parent = str(model_file.parent)
-            if model_file.parent.name == "best_val":
-                best_dir = parent
-            else:
-                latest_dir = parent
+            parent = model_file.parent
+            if parent.name == "best_val":
+                best_dir = str(parent)
+                continue
+            # `custom_callback.py` names each real-Keras-epoch checkpoint dir "epoch_{N}_CER_...".
+            # With `epochs_per_invocation > 1`, more than one such directory can exist under the same
+            # output_dir -- filesystem/glob enumeration order does NOT reliably match epoch order (a
+            # real, previously-latent bug: every prior single-epoch invocation only ever produced one
+            # such directory, so this never mattered before). Parse the real epoch number and keep
+            # the numerically highest one, not merely whichever the glob happened to visit last.
+            epoch_match = _EPOCH_NUMBER_FROM_DIR_NAME.search(parent.name)
+            epoch_number = int(epoch_match.group(1)) if epoch_match else -1
+            if epoch_number >= latest_epoch_number:
+                latest_epoch_number = epoch_number
+                latest_dir = str(parent)
 
         train_cer, val_cer, train_wer, val_wer, train_loss, val_loss = _parse_latest_metrics(output_root)
 

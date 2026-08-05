@@ -67,6 +67,7 @@ class ScratchEpochRunner:
         run_state_dir: str | Path | None = None,
         extra_volume_mounts: tuple[tuple[str, str], ...] = (),
         architecture: str = "recommended",
+        epochs_per_invocation: int = 1,
     ) -> None:
         self._batch_size = batch_size
         self._gradient_accumulation = gradient_accumulation
@@ -79,6 +80,10 @@ class ScratchEpochRunner:
         self._run_state_dir = run_state_dir
         self._extra_volume_mounts = extra_volume_mounts
         self._architecture = architecture
+        self._epochs_per_invocation = epochs_per_invocation
+        """See `ContainerEpochRunner`'s identical field for the full rationale: `--epochs N > 1` in
+        one invocation keeps the same Keras optimizer object alive across all N real epochs, with no
+        cross-process restore needed for the transitions between them."""
 
     def _build_argv(
         self, *, output_dir: str, train_list_path: str, validation_list_path: str, epoch_seed: int
@@ -116,7 +121,7 @@ class ScratchEpochRunner:
             "--validation_list", f"/lists/{val_list_host.name}",
             "--do_validate",
             "--output", "/output",
-            "--epochs", "1",
+            "--epochs", str(self._epochs_per_invocation),
             "--batch_size", str(self._batch_size),
             "--seed", str(epoch_seed),
             "--learning_rate", str(self._learning_rate),
@@ -186,13 +191,21 @@ class ScratchEpochRunner:
         output_root = Path(output_dir)
         model_dirs = list(output_root.rglob("*.keras"))
         latest_dir = None
+        latest_epoch_number = -1
         best_dir = None
         for model_file in model_dirs:
-            parent = str(model_file.parent)
-            if model_file.parent.name == "best_val":
-                best_dir = parent
-            else:
-                latest_dir = parent
+            parent = model_file.parent
+            if parent.name == "best_val":
+                best_dir = str(parent)
+                continue
+            # See container_epoch_runner.py's identical fix for the full rationale: with
+            # epochs_per_invocation > 1, more than one epoch_N checkpoint dir can exist, and
+            # filesystem/glob enumeration order does not reliably match epoch order.
+            epoch_match = _EPOCH_NUMBER_FROM_DIR_NAME.search(parent.name)
+            epoch_number = int(epoch_match.group(1)) if epoch_match else -1
+            if epoch_number >= latest_epoch_number:
+                latest_epoch_number = epoch_number
+                latest_dir = str(parent)
 
         train_cer, val_cer, train_wer, val_wer, train_loss, val_loss = _parse_latest_metrics(output_root)
 
