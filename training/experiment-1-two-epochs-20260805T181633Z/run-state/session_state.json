@@ -1,0 +1,35 @@
+{
+  "run_id": "loghi_training_run_0d0e1322897948d6b3c0fe7682bd9cf9",
+  "configuration_hash": "631f05b2ec0e028b9f822706fe7b341e9538df159bf961be288807b065a56fe7",
+  "random_seed": 42,
+  "cumulative_epoch": 1,
+  "global_step": 0,
+  "best_val_cer": 0.15337054431438446,
+  "best_checkpoint_dir": "D:\\ArchiveTrust_HCR\\training\\experiment-1-two-epochs-20260805T181633Z\\run-state\\epoch_output\\epoch_1\\model_new10\\best_val",
+  "latest_checkpoint_dir": "D:\\ArchiveTrust_HCR\\training\\experiment-1-two-epochs-20260805T181633Z\\run-state\\epoch_output\\epoch_1\\model_new10\\epoch_1_CER_0.1351_val_0.1534",
+  "validation_history": [
+    {
+      "epoch": 1,
+      "train_cer": 0.1351269632577896,
+      "val_cer": 0.15337054431438446,
+      "train_wer": 0.8271514773368835,
+      "val_wer": 0.8659999966621399,
+      "train_loss": 16.248558044433594,
+      "val_loss": 19.53328514099121,
+      "duration_seconds": 27777.150054799975
+    }
+  ],
+  "session_count": 1,
+  "cumulative_training_seconds": 27777.150054799975,
+  "recent_epoch_durations": [
+    27777.150054799975
+  ],
+  "epochs_since_improvement": 0,
+  "last_stop_reason": "target_epochs_reached",
+  "last_stopped_mid_epoch": false,
+  "last_stop_boundary": "after_validation_at_epoch_boundary",
+  "last_session_ended_at": "2026-08-06T01:59:32Z",
+  "configured_wall_clock_hours": 30.0,
+  "configured_max_epochs_this_call": 1,
+  "configured_early_stopping_patience": null
+}

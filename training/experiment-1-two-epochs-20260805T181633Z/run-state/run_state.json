@@ -1,0 +1,37 @@
+{
+  "run_id": "loghi_training_run_0d0e1322897948d6b3c0fe7682bd9cf9",
+  "status": "completed",
+  "pid": 56108,
+  "started_at": "2026-08-05T18:16:33Z",
+  "last_resumed_at": null,
+  "ended_at": "2026-08-06T01:59:33Z",
+  "last_heartbeat_at": "2026-08-06T01:59:33Z",
+  "current_epoch": 1,
+  "global_shards_completed": 1,
+  "epochs_completed": 2,
+  "shards_completed_in_current_epoch": 1,
+  "shards_per_epoch": 1,
+  "epoch_progress": 0.0,
+  "current_global_step": 0,
+  "samples_processed": 0,
+  "latest_metrics": {
+    "train_cer": 0.1351269632577896,
+    "val_cer": 0.15337054431438446,
+    "train_wer": 0.8271514773368835,
+    "val_wer": 0.8659999966621399,
+    "train_loss": 16.248558044433594,
+    "val_loss": 19.53328514099121
+  },
+  "best_metrics": {
+    "val_cer": 0.15337054431438446
+  },
+  "epochs_since_improvement": 0,
+  "latest_checkpoint": "D:\\ArchiveTrust_HCR\\training\\experiment-1-two-epochs-20260805T181633Z\\run-state\\epoch_output\\epoch_1\\model_new10\\epoch_1_CER_0.1351_val_0.1534",
+  "best_checkpoint": "D:\\ArchiveTrust_HCR\\training\\experiment-1-two-epochs-20260805T181633Z\\run-state\\epoch_output\\epoch_1\\model_new10\\best_val",
+  "resume_count": 0,
+  "stop_reason": "target_epochs_reached",
+  "failure_detail": null,
+  "configuration_hash": "631f05b2ec0e028b9f822706fe7b341e9538df159bf961be288807b065a56fe7",
+  "dataset_hash": "fc21a70825650927edcae753a20411cef8e4344e2c22bcbcaed1c0038b9b97b0",
+  "code_revision": "9957edfd13c9476f7044ee13a85dcabe85936f7b"
+}

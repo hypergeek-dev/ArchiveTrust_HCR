@@ -1,0 +1,22 @@
+{
+  "run_id": "loghi_training_run_5be4c4ab0ceb444a9b333f0913b8f215",
+  "configuration_hash": "a5e166ef3d84e60d570cdf814aabf1869f95b9822bce6f4a6c0281f0f566932a",
+  "random_seed": 42,
+  "cumulative_epoch": 0,
+  "global_step": 0,
+  "best_val_cer": null,
+  "best_checkpoint_dir": null,
+  "latest_checkpoint_dir": null,
+  "validation_history": [],
+  "session_count": 0,
+  "cumulative_training_seconds": 0.0,
+  "recent_epoch_durations": [],
+  "epochs_since_improvement": 0,
+  "last_stop_reason": null,
+  "last_stopped_mid_epoch": null,
+  "last_stop_boundary": null,
+  "last_session_ended_at": null,
+  "configured_wall_clock_hours": 30.0,
+  "configured_max_epochs_this_call": 1,
+  "configured_early_stopping_patience": null
+}
