@@ -1,0 +1,37 @@
+{
+  "run_id": "loghi_training_run_e45c88d9c7a94f149cd53438751bae1b",
+  "status": "completed",
+  "pid": 25612,
+  "started_at": "2026-08-13T12:49:55Z",
+  "last_resumed_at": null,
+  "ended_at": "2026-08-13T15:55:51Z",
+  "last_heartbeat_at": "2026-08-13T15:55:51Z",
+  "current_epoch": 1,
+  "global_shards_completed": 1,
+  "epochs_completed": 1,
+  "shards_completed_in_current_epoch": 1,
+  "shards_per_epoch": 1,
+  "epoch_progress": 0.0,
+  "current_global_step": 0,
+  "samples_processed": 0,
+  "latest_metrics": {
+    "train_cer": 0.05623653903603554,
+    "val_cer": 0.10076732933521271,
+    "train_wer": 0.6122164130210876,
+    "val_wer": 0.7549999952316284,
+    "train_loss": 6.820504188537598,
+    "val_loss": 12.660988807678223
+  },
+  "best_metrics": {
+    "val_cer": 0.10076732933521271
+  },
+  "epochs_since_improvement": 0,
+  "latest_checkpoint": "C:\\Users\\denni\\OneDrive\\Desktop\\ArchiveTrust_HCR\\training\\experiment-2-epoch7-from-epoch6-checkpoint-20260813T124955Z\\run-state\\epoch_output\\epoch_1\\recommended\\epoch_0_CER_0.0562_val_0.1008",
+  "best_checkpoint": "C:\\Users\\denni\\OneDrive\\Desktop\\ArchiveTrust_HCR\\training\\experiment-2-epoch7-from-epoch6-checkpoint-20260813T124955Z\\run-state\\epoch_output\\epoch_1\\recommended\\best_val",
+  "resume_count": 0,
+  "stop_reason": "target_epochs_reached",
+  "failure_detail": null,
+  "configuration_hash": "fb67d77fa6ceee2bfcd491fdb7cd4ef19162aa8c4630a9e0bf30642d2d7c89db",
+  "dataset_hash": "fc21a70825650927edcae753a20411cef8e4344e2c22bcbcaed1c0038b9b97b0",
+  "code_revision": "7545f99bfaf703f9ec96c0fc7fe7977a7717f747"
+}

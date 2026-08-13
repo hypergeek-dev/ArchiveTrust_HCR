@@ -1,0 +1,23 @@
+{
+  "identity": {
+    "method_id": "loghi_swedish_finetuned_v1",
+    "parent_method_id": "loghi",
+    "parent_checkpoint": "experiment_2_epoch6_checkpoint@885937e525b47ca0e4f9370747387bf8c31413a2fff017ece7eb7068e7445f6b",
+    "training_dataset": "riksarkivet_swedish_lion_libre_training_data",
+    "training_phase": "full_corpus",
+    "run_id": "loghi_training_run_e45c88d9c7a94f149cd53438751bae1b",
+    "created_at": "2026-08-13T12:49:55Z"
+  },
+  "configuration_hash": "fb67d77fa6ceee2bfcd491fdb7cd4ef19162aa8c4630a9e0bf30642d2d7c89db",
+  "configuration": {
+    "train_manifest_hash": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f",
+    "val_manifest_hash": "92f74011c568b04798c9c53725311633f2df2ea4fb8c408e1d73b4f197cea85c",
+    "charlist_hash": "a6cb9dfe416c36d0d04caa35f8e3381606ea0e473acab56e18d5ec3be825d01e",
+    "preprocessing_version": "byte_identical_from_source_parquet",
+    "model_architecture": "recommended",
+    "parent_checkpoint_hash": "885937e525b47ca0e4f9370747387bf8c31413a2fff017ece7eb7068e7445f6b",
+    "learning_rate_policy": "epoch7_salvage_single_epoch_fresh_adam_base_0.0001_continuing_experiment2_own_verified_epoch6_checkpoint_weights_only_no_optimizer_state_restored",
+    "optimizer": "adam",
+    "augmentation_policy": "none"
+  }
+}

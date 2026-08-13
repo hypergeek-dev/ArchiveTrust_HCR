@@ -1,0 +1,35 @@
+{
+  "run_id": "loghi_training_run_e45c88d9c7a94f149cd53438751bae1b",
+  "configuration_hash": "fb67d77fa6ceee2bfcd491fdb7cd4ef19162aa8c4630a9e0bf30642d2d7c89db",
+  "random_seed": 42,
+  "cumulative_epoch": 1,
+  "global_step": 0,
+  "best_val_cer": 0.10076732933521271,
+  "best_checkpoint_dir": "C:\\Users\\denni\\OneDrive\\Desktop\\ArchiveTrust_HCR\\training\\experiment-2-epoch7-from-epoch6-checkpoint-20260813T124955Z\\run-state\\epoch_output\\epoch_1\\recommended\\best_val",
+  "latest_checkpoint_dir": "C:\\Users\\denni\\OneDrive\\Desktop\\ArchiveTrust_HCR\\training\\experiment-2-epoch7-from-epoch6-checkpoint-20260813T124955Z\\run-state\\epoch_output\\epoch_1\\recommended\\epoch_0_CER_0.0562_val_0.1008",
+  "validation_history": [
+    {
+      "epoch": 1,
+      "train_cer": 0.05623653903603554,
+      "val_cer": 0.10076732933521271,
+      "train_wer": 0.6122164130210876,
+      "val_wer": 0.7549999952316284,
+      "train_loss": 6.820504188537598,
+      "val_loss": 12.660988807678223,
+      "duration_seconds": 11153.005889200002
+    }
+  ],
+  "session_count": 1,
+  "cumulative_training_seconds": 11153.005889200002,
+  "recent_epoch_durations": [
+    11153.005889200002
+  ],
+  "epochs_since_improvement": 0,
+  "last_stop_reason": "target_epochs_reached",
+  "last_stopped_mid_epoch": false,
+  "last_stop_boundary": "after_validation_at_epoch_boundary",
+  "last_session_ended_at": "2026-08-13T15:55:50Z",
+  "configured_wall_clock_hours": 16.0,
+  "configured_max_epochs_this_call": 1,
+  "configured_early_stopping_patience": null
+}

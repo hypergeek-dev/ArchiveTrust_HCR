@@ -1,0 +1,1000 @@
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__47.png	0.9153909087181091	Suin— ½ mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__66.png	0.9914334416389465	penigar 31 mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__110.png	0.8138139843940735	Tomar Ibidl
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__139.png	0.9441781640052795	Enkor — 1 mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__149.png	0.9510012865066528	vnghnött — 12 ör
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__169.png	0.958712100982666	vnghnött — 14 ör
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__252.png	0.7576466202735901	Suma
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__298.png	0.9857288599014282	Koor — 3 mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__462.png	0.9153594970703125	Slaffan I önsebo
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__464.png	0.9531174302101135	Koor — 2 mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__492.png	0.8273085355758667	och skallmena medh vår 4e
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__523.png	0.8894485831260681	Kopp — 2 ℔b:
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__624.png	0.9167439341545105	Domtha:
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__659.png	0.6173309683799744	Tent psz:
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__743.png	0.8140870332717896	Lyding
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__900.png	0.9682143330574036	— 15 mk 2 ör
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__989.png	0.9432622194290161	penn: — 20 mk 3 ör
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1059.png	0.8960103392601013	oxe i st — 1½ mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1111.png	0.9685642123222351	Koor 2 st — 2 mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1205.png	0.8084926009178162	1 årikigr— 1 str — ore
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1371.png	0.9592668414115906	itt skiut — ½ march
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1413.png	0.8381935954093933	k: afftrad och alla vt
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1601.png	0.9564557671546936	års gamul 5 — 5 öre
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1636.png	0.9809827208518982	tuårs nöt 5 — 10 öre
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1663.png	0.9879056215286255	Peningar — 37 mkr
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1799.png	0.5689555406570435	Suma aff Bense Tchn
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1909.png	0.7456480860710144	Kleliass i Bnskebo 3 mk 3 ör
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1991.png	0.6536117792129517	Oluff Monßla kine bdan9 mkr 10 ör
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1996.png	0.16464535892009735	fördtin
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__1998.png	0.4791679084300995	Stycdben
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2090.png	0.9529252052307129	Sölff — 27½ lod
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2164.png	0.9592564702033997	Khop — 4 ℔
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2190.png	0.8918787240982056	2 års v: nöt — 4
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2224.png	0.8233569860458374	Khop — 1 ℔r
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2324.png	0.8907727003097534	Khop — 3 t
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2386.png	0.8977035880088806	Hustru Barebro i Nih
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2443.png	0.9569312930107117	Pennr — 68 mk 5 ör
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2501.png	0.9874424338340759	Får — 2
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2512.png	0.9005448222160339	Penr — 10 mk ½ ör
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2523.png	0.9250927567481995	Suinn — 3
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2549.png	0.9101111888885498	Kiör — 52
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2721.png	0.9036783576011658	Liendh Löp — 5 mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__2921.png	0.9934912323951721	Kopp — 9 mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3002.png	0.9933086037635803	Sölff — 10 lott
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3077.png	0.9987714290618896	1 års nöth — 1 str
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3082.png	0.9521530866622925	Tienden Löp — 4 mkr 7½ öre
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3102.png	0.9656275510787964	Gether — 8 str
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3277.png	0.9455286860466003	Kopp — 3½ ℔
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3280.png	0.9757255911827087	1 års wng — 2
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3481.png	0.8689544796943665	Neels Anders
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3530.png	0.9899317622184753	Kor — 2
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3545.png	0.9906208515167236	gett — 6
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3563.png	0.9936022758483887	1 ars — 2
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3695.png	0.8921306729316711	Pennr — 73 mk 6 ör
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3737.png	0.9178348779678345	Söpp —
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3822.png	0.7251433730125427	Walar — 1 sttr
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3830.png	0.22983799874782562	käl, att wy gwarlige och ill t fll       
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3885.png	0.9960018992424011	Kopp —
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3966.png	0.7918261289596558	ähr eller skall någott wara bortglömet, eller Undanstukade Liä
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__3989.png	0.9710836410522461	penr — 13 mkr 2 öre
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4011.png	0.9640974998474121	2 årssluther och quiger —
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4077.png	0.9258456826210022	Mäßing
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4104.png	0.7765715718269348	aill 4 dhr, såsom Jone skattningen hafwer anlangit e Och at wy
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4152.png	0.8117597103118896	wtgiorde per 1 mk 2 ör
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4168.png	0.8968445062637329	per Hanss Kop 5 mkr Kör 4. Löp — 41 mk 7 öre
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4337.png	0.8494178056716919	Kiör —
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4376.png	0.5285775661468506	Hndrch åkons Kp 2 tb Kiör 3 tyårs qit 1 får 5 Sod 1 för 1 mkr 5
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4585.png	0.3752376139163971	dan Balamprt thn 1 hun anm 7r
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4642.png	0.8408499956130981	Sölff Schall, som vigiordh
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4841.png	0.8388291597366333	Ooh nitsz — 1½ mkr 2 öra
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4862.png	0.7784906625747681	Tienthe pennina som aff utogiffuen off
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__4936.png	0.8323982954025269	Olff örnsson — peningr — 12 mkr
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5100.png	0.8586366772651672	per Simanszo — 3 lod — 38 mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5139.png	0.9016668200492859	Hustru anna — 1½ lod — 18½ mkr
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5148.png	0.8425179123878479	Oluff perszo — 1 q3 1ort — 14 mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5169.png	0.9276976585388184	Oluff Nilsson — 0 — 5 mkr
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5243.png	0.32636892795562744	Rumrun
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5391.png	0.9250508546829224	Liuder
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5483.png	0.9726646542549133	Sölff — 3 Lod
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5549.png	0.903712272644043	Sölff — 1½ quit:
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5605.png	0.9542619585990906	Sölff — 1 lodh
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5723.png	0.7879687547683716	Köp
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5800.png	0.7503394484519958	Gåthe gårdz at I glstade ocd och bett.
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5889.png	0.808355450630188	Kneet
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5951.png	0.8436596393585205	Låp penn — 8 mk
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5978.png	0.9583509564399719	oxa 2 Kiör 4 om 2 år — 1 Får 4 Suin
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__5997.png	0.9089676737785339	ppenn — 30 mk 7 öre
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__6041.png	0.8212085366249084	Niels Hibidson i grrdzby haffr Kåp 1½ tb kö
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__6051.png	0.9375743865966797	om 3 år 5 om et år 2 Får 2 Sui
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__6233.png	0.9343907833099365	Koor — 4. Stutor och auigor om 4 år — 2. om 2 år
+/lists/images/val/alvsborgs_losen_lines__alvsborgs_losen_lines_1.parquet__6256.png	0.17986926436424255	do
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__106.png	0.7996822595596313	in Lådepenningar 10 Dr Söllfwur Wydt
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__167.png	0.7527592182159424	10 D: 20/
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__232.png	0.5811357498168945	Rächringh frd Låkperningarn, Och sisken de Uty
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__322.png	0.8980374932289124	blifwit skyldig den tyjden han wijd 1 Swarnbacka Bruk
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__477.png	0.5863880515098572	hans Kongl. Mayjt allerndigte förding ck ettet on
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__555.png	0.9704442024230957	Sallmon Nillßon i interesse för det Järnet i 2ne åhr
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__623.png	0.7470254898071289	måhh
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__655.png	0.9037792682647705	852 D. 8 öre Koppmynt, som Hammarsmeden Petter
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__675.png	0.9433349370956421	ken skullden å 852 Dr 8 öre Kopparmynt hos Mademe
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__750.png	0.9519439935684204	re skulldens tändighete, hwilket han nu ey gitte, utan
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__808.png	0.7612236738204956	annan gång willia förskaffa, och till den nde rärte
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__831.png	0.8881437182426453	kunde än för skiälig kunde ansa, ty pålades kärande paten
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__956.png	0.8612038493156433	som han der haft hafwandes ick desa mindre
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1131.png	0.6280752420425415	för med raff af först bemte Fördning flage
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1134.png	0.6677218675613403	skall bortskuulit 4 str 3 d och botkändt
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1210.png	0.7363837361335754	faren tog Cristion och biryz honom öfwer ett
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1255.png	0.7257720232009888	kannand I anledning af Patrorer, hy
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1267.png	0.9371131062507629	mar ting hållit i Kiärmarboda, närwarande
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1292.png	0.8766490817070007	3. Framtidde kohlmätaren Olf Perßon i beies
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1320.png	0.8812332153320312	son ock Loos Bengtsen wid KortParsten
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1432.png	0.9156718850135803	i Mark, emoot hwidde icke något jaf
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1503.png	0.9056863188743591	sampt tagit honom: håret ock dragit honom
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1561.png	0.9315164089202881	gynnelße ifrån d. 1. January 174. dock för detta
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1664.png	0.7936818599700928	ett tiberera och befrija.
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1696.png	0.8649746775627136	799
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1768.png	0.91350919008255	de han sig el förekar att däs intet
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1938.png	0.9509972333908081	S. d. kiärade BrukzPatron H. Adam Jacobsson
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__1977.png	0.9317190051078796	mar Lars Anderson af sitt öfwerjärn er¬
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2184.png	0.9295123219490051	H. Kierström
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2243.png	0.7138654589653015	13 263
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2262.png	0.9392899870872498	H. Robsam.
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2281.png	0.8819859623908997	12.9
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2366.png	0.9749748706817627	därföre blifwa answarig, med mera hwar
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2386.png	0.9914096593856812	bemälte bortkomne järnet, de bortkomne
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2401.png	0.9473595023155212	angående oloflig och förbuan kohl Ho¬
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2416.png	0.9656764268875122	höfdingen Funk, den efterrättelse,
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2440.png	0.9532255530357361	detta ock så till sammans hänger.
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2455.png	0.9609323740005493	giort deras mästari stycken, samt undergått
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2660.png	0.9114592671394348	dem låfliga Hammartingzrätten begiär
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2665.png	0.9057057499885559	och hwad han hafwer af andraga Tyde
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2671.png	0.9323700070381165	och talar, eller han ielencumpera H. Majoren
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2747.png	0.9758469462394714	nom han kan om sin skyldighet blifwa
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2765.png	0.9672768712043762	achtigt swar at lemna, hwar efter ho
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2772.png	0.9311473369598389	skyldig at swara hwar och en in för nå¬
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2833.png	0.9855642318725586	gen med flera widlöstigheter uti den
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__2905.png	0.9781650304794312	at som uti stämbningarne alle mål böra
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__3150.png	0.8158458471298218	H Bergmästaren tillsardtes Hammr smera
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__3338.png	0.8889824748039246	richtigt sliutz enhållande emellan sig ock hå
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__3409.png	0.8550605177879333	hende, och således ey för denne gen
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__3669.png	0.9205189347267151	Sransponterat
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__3671.png	0.8321936726570129	fincker Frederich Hermanst.
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__3777.png	0.994986891746521	jemte
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__4083.png	0.9314954876899719	åhrfihlar af Patrone
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__4096.png	0.9697181582450867	blifwit war se det
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__4352.png	0.9639716744422913	begiärte sniuta expenter
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__4506.png	0.9417644143104553	nens Wälborne H.r Adam
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__4566.png	0.9073545932769775	Smeden Hindrich Hindrids
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__4648.png	0.9465189576148987	hållande medagen hands under
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__4709.png	0.8459019660949707	brätten honom br Olofßon
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__4808.png	0.9614582061767578	ifrån Bruktwarit i
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__4861.png	0.9901086091995239	emot, emedan han hwar
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__5163.png	0.9168052673339844	blifwa påßlige karla
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__5282.png	0.8916124105453491	expensis. uti supra
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__5535.png	0.19077980518341064	11
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__5582.png	0.797122061252594	högsta ombud.
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__5591.png	0.8117139935493469	17.12.
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__5690.png	0.4964856207370758	som ia
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__5890.png	0.916038990020752	honom Gragorßon skala willna hafwa
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6050.png	0.922520637512207	måhl.
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6175.png	0.7710530161857605	13.9
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6261.png	0.9845248460769653	watnet intet löper fåfängt förbi¬
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6337.png	0.752443253993988	der 29 Meu
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6411.png	0.9247973561286926	de Contract. betygar
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6429.png	0.7412897348403931	auctives Landshrdinget ibtets i Öre
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6473.png	0.9692931175231934	350.
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6492.png	0.7481357455253601	seber 1739 till lagst utkörande cemuterad
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6532.png	0.7474547028541565	men på ther händelsen som stånghtens hog
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6535.png	0.6531400680541992	Comtissorier tht sys, hurtil en tyrs aftreson
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6656.png	0.6313217282295227	gjort men pr, decs tersos sikadt Pögas, at
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6686.png	0.7040395140647888	hammrtingzRräten gifwit sam fitt samme on sktäd
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__6830.png	0.8758165836334229	Lindes och Rams Bergs Bengsu
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__7272.png	0.9129248261451721	Anders Andersen.
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__7333.png	0.9014164209365845	Mäster.
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__7617.png	0.9491493105888367	wiß ärtig afgift i Spannemål
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__7638.png	0.950853705406189	1703 års HammarSmeds Ordning
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__7648.png	0.9795691967010498	både Käranden och Swaranden i
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__7935.png	0.8999463319778442	kommer att ärlägans, blifwe
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__8182.png	0.07583555579185486	4
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__8237.png	0.9787863492965698	Wahlbom, så framt han i denne
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__8246.png	0.5330460667610168	Fi 1mt. R. framrädde qaten latare
+/lists/images/val/bergmastaren_i_nora_htr_lines__bergmastaren_i_nora_htr_lines_1.parquet__8321.png	0.9276561737060547	annan qwittad och uphäfwe
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__75.png	0.9979025721549988	andra öfwerlägga, begaf iag
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__258.png	0.9687981605529785	at igenombryta och sällan folar att
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__296.png	0.9873927235603333	Alla desse orter äro Malmslag och
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__304.png	0.9989021420478821	är funnen till drageligast och den
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__336.png	0.9871219396591187	och under Noberg med Lecheberget Schieffern
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__729.png	0.9655691385269165	2 skålpund giör 4 stycken 13 Centner eller 11
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__955.png	0.9601996541023254	gen klyfwas i trenne stycken
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__1027.png	0.9991723299026489	utskickningen är skiedd drifwer
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__1251.png	0.960074782371521	så ymnige at de utan stor bekostnad
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__1399.png	0.9857823252677917	mera håller, och mycket mer an
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__1588.png	0.9991858005523682	wer dertill.
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__1666.png	0.9694266319274902	är warder brackt, så at det blif-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__1798.png	0.9923236966133118	ten slagg deruti intetet Sillfwer
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__1993.png	0.9843206405639648	ren uti smältningen utbrackt
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__2011.png	0.9809556603431702	uti sig sielfwa kies /: såsom hohen-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__2137.png	0.9438640475273132	10 Centner Kiesig Kopparer 1/2 löd-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__2419.png	0.9721280336380005	Sålunda warder med glantzertzen
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__2574.png	0.9456542730331421	Thet 5816 Cent:r darin 161 qv:r 12 loth
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__3224.png	0.9953175783157349	mande giöra sig om deras Wärk
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__3342.png	0.9902609586715698	af Schläckenwäldiske något eller
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__3392.png	0.9874470233917236	goda arbetare icke äre så seega och
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__3780.png	0.9877924919128418	nar äro på Bok-sulan faller ett på
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__4126.png	0.9130829572677612	sima Lundament och trunnor efter
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__4405.png	0.9485014081001282	förr är förmält en gål och tiod
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__4434.png	0.9704077243804932	rer såsom et Leer eller Smöria,
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__4508.png	0.9889808297157288	nets och Creaturens mation
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__4761.png	0.9633838534355164	des mäst i 3 och 1/3 R:dr dahl. och sällan
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__5264.png	0.9403954744338989	mast närmare intill Beniske
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__5314.png	0.9992807507514954	ganden den nyttan, at han innan
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__5594.png	0.9968330264091492	för Kopparen ifrån Hamburg
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__6022.png	0.9630667567253113	Die grosse Musseln mit den platten
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__6470.png	0.9823167324066162	Städerne, där rebellerne åter nu
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__6578.png	0.9702818393707275	Keysaren
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__7134.png	0.9670292735099792	Och den 3:de Sladsbetiente af Borg-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__7437.png	0.9540634155273438	1. Vergeisen C: 2 d: 1 handfemstl. 8 de
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__7844.png	0.9957388043403625	och de 115 Centner frischlech tillslagen,
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__7982.png	0.9891746640205383	hafwer fri gång öfwer härden,
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__8046.png	0.9962002635002136	mera, då ock fordras 2 till 2 1/2
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__8268.png	0.9990728497505188	åter afbrännes och Slaggen
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__8362.png	0.9984647035598755	ning förbrukas, men Slaggen
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__8456.png	0.9905710220336914	kare drifwas. Under forman
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__8588.png	0.9925460815429688	på sidan med järnbläck war
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__8642.png	0.9970799684524536	100 barer Malm at lefwerera
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__8843.png	0.9848302006721497	af järn, som på sidorne Caciliterade
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__8919.png	0.995867133140564	Detta warder om lördagen i 2:ne
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__9029.png	0.9089483618736267	lön af hwar degel 4 eller 500 qv:r
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__9392.png	0.9988400936126709	de ungerske Bergwärken att
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__10085.png	0.9991037249565125	det småningom stelnar, hwar-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__10229.png	0.9981672167778015	smältas och såsom tillförenne
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__11036.png	0.9913031458854675	i Saxen, Hartz och andra Tyska
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__11243.png	0.9690990447998047	lägenhet altid differerar.
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__11443.png	0.8924793601036072	Sono Corenti 273.
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__11453.png	0.8944528698921204	mera C giör migliare i Ven:
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__11641.png	0.9802095293998718	lehanda slags Skjk och försällies
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__11655.png	0.864784836769104	Da Cavallo Barattochini a L 6 il myl:
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__12110.png	0.9762728214263916	Hamdrar som har ock där wid
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__12221.png	0.9821500778198242	af de till Rom förde aquaducter.
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__12993.png	0.9994614124298096	tillförenne haft ansenlige
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__13223.png	0.9896650314331055	mission Swerige förrättat, som
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__13285.png	0.9838270545005798	blifwer försänd, hwarefter han
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__13525.png	0.9605928063392639	Achatii fällt uti hwilcka dåck det
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__13543.png	0.9206909537315369	gen inruxne, hwarwid et Sahl-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__13576.png	0.9887160658836365	rige arbetade allenast om Win-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__14592.png	0.9804629683494568	Turkarne blef borttagit och
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__14698.png	0.9946964383125305	med Capitainerne af Gallioner-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__14783.png	0.9989258050918579	sielfwa sådan handtering med
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__15128.png	0.9607768058776855	werwärk med Hyttor, Bol-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__15312.png	0.9994121193885803	af lång tid anlagt särdeles
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__15783.png	0.9599115252494812	så långt som ådran råcker,
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__15991.png	0.9661350846290588	af en gråberg art så friable
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__16050.png	0.975274384021759	af roken wid allehanda wader;
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__16070.png	0.9587330222129822	öpet öga uti fördegelen som
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__16117.png	0.9404116868972778	uup och bredt hwarmed all nalm
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__16200.png	0.9449264407157898	ka med Barmastern döma och o
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__16371.png	0.9499596357345581	kjhlhackor lätteligen afbry-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__16499.png	0.9983233213424683	annars jord at nederslå ef-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__16541.png	0.9987563490867615	let till 3 fot i fyrkant och nedre
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__16581.png	0.9650287628173828	ler de smärre giosar af 1/4 alns
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__16691.png	0.9942523241043091	som till allehanda stora Spikar
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__16815.png	0.9955584406852722	starkaste till 2 1/2 qwarter. 1. 6
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__17071.png	0.9632819890975952	både kostsammare och beswäd-
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__17348.png	0.9655978679656982	ga och igemeen hwar Masugn
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__17794.png	0.9800803065299988	lunkashire warder funnen
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__18066.png	0.978600025177002	wäster 1 fot i 5 fötter och hade
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__18697.png	0.9846284985542297	länder ock utskieppas, hwilket
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__18763.png	0.8599416017532349	Swänske wästindien til åt
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__18774.png	0.9901643991470337	som Compagnie-Husen giör sig
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__19059.png	0.9809997081756592	wed en skärfsåg i sådan
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__19139.png	0.9988424181938171	intet dugelig är, utan af
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__19261.png	0.9980316162109375	sig bör igenomslagne
+/lists/images/val/bergskollegium_relationer_och_skrivelser_lines__bergskollegium_relationer_och_skrivelser_lines_3.parquet__19411.png	0.9975215196609497	Masugnen gaf på detta
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__111.png	0.8948886394500732	ung hordande från nämnde stad, wid namn Hawe
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__138.png	0.8167969584465027	Wafpentoidern
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__178.png	0.9732330441474915	Jag har glömt nemna att wid intogo qvarter, wid ankom¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__279.png	0.9305450916290283	köp. Wår surprese, wid den notien som
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__508.png	0.7978174686431885	jag började att klindra dupå. Wys komma
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__514.png	0.9691106677055359	drefter kom en ung man, och vid det jag
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__660.png	0.8947279453277588	dylika Egullgrager
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__685.png	0.9554761648178101	kunnat bestämma. Det är wäl in¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__722.png	0.5962339043617249	häri
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__801.png	0.9193698167800903	En angenäm och wurtrakt utsigt, lördiga filt,
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__893.png	0.9118435382843018	skall wara en af de skönsta uti Eeropa¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__978.png	0.9474716186523438	man han war, hvad goda, ädla och stora plan¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1001.png	0.933281660079956	detsamma som jag nu i dag lämnar. Seenen med lika
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1061.png	0.8364664912223816	så lömon de den ma en högnigen sjelfsvädig.
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1089.png	0.9241030812263489	na twinge åter innom sett fängsel em tacksam
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1164.png	0.9482741951942444	jast den 2de Aug. ty men hade sagt oss att
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1194.png	0.975334107875824	nad för mina ögon. Så litet var den med
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1240.png	0.9782780408859253	inskrifva sig på posten, och ärhållit
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1251.png	0.917352020740509	upptogs en Dreodener Jungfre, som ärkött platsen
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1347.png	0.8933025002479553	Wi upp¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1371.png	0.9553900361061096	oss beträdd, måtte wår resa i detta land ägo, jämnförebewis den
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1541.png	0.8453475832939148	Den 15te Mon.
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1664.png	0.9822524785995483	räcklig sysselsättning för eftermidd. kunna jag derigenom ej
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1679.png	0.9319723844528198	som öfvade sig  i denna konst. Under skridskon varo fasta
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1818.png	0.9774444103240967	flitigt, alla gamla bruk och drigter som för längesedan
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1874.png	0.8900635242462158	af alla närvarande, Därrast utmärkte sig ett ej obetyd
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__1963.png	0.9527205228805542	ser, deremot är denna brist genom Hesen ovanliga Höjhet
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2069.png	0.9760316610336304	hvar och en ett sådan nöje skall man vid an¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2079.png	0.9863109588623047	en wiss anstrykning, som man säger af melan¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2117.png	0.9528137445449829	wårt partu lätt fattadt och wi wände det adelmodiga
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2282.png	0.9074922800064087	ta armar öfver Presternes hufvuden, fråntog Pefvorune¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2322.png	0.9526553153991699	Sedan på afståned hörer man dånet af dets nedstörtande
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2486.png	0.9179999828338623	och landswägas.
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2584.png	0.948898196220398	namn var Osof Andersson. Wi helsade naturligt
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2588.png	0.962631106376648	funno wi blott en vå matros. Han bad oss sliga
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2654.png	0.9798975586891174	Litligheten af rörelsen är förvånande. Staden äger
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2725.png	0.9618644118309021	som ej hyrkes wara utan uppfortran visade sig
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2748.png	0.9256424903869629	axdar. Hjulen äro af järn. Hastigheten äro aldelesatro¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2751.png	0.8732427954673767	oen den staska precipieen. du flere gänger man
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2833.png	0.9787108302116394	egen wilja. Oalaset kostade honom emedlertid
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__2993.png	0.947097659111023	bedrifter oaktadt innan atresan vilkoret af en
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3062.png	0.9110091328620911	Rapolean wistats men som vinden tyckes öka
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3171.png	0.9341909885406494	för vår Prest min skrämsel och dyptäckten
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3180.png	0.8710166215896606	för färden hit, glada att med en 1ifrones förlus
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3208.png	0.9671484231948853	kände det såsom varande Cousen till honom så
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3280.png	0.9646247029304504	som de besjungit. Hvarthan man sänder bukken
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3504.png	0.962380588054657	i öfverflod. Ingo ytterligheter begingos oaktadt
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3670.png	0.717143177986145	hit
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3678.png	0.9807867407798767	ansigtena som äro till finnandes i wagnarne.
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3896.png	0.9433032870292664	rad af en månad Betjenter i granna lioreer, med
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3932.png	0.9309753775596619	krogar, en annan i blott hvitt ateren i rödt
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__3945.png	0.9408519864082336	långt skägg, etc. Cardinalerne äfven klädda i Syp¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4109.png	0.9647523164749146	dedt till uppförningen af 14 små chapelli som vi nu så¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4238.png	0.9436841011047363	märmor, hvilka man endast på knä kanna upp¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4438.png	0.8928530812263489	lande honom döande suelpterad af le Gros. Hufvudet kände
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4503.png	0.7930307984352112	Såsom Rius dent genom den ryktsare mekall
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4518.png	0.9591270685195923	finner uti St Pellers kyrka i mosaique. Den första
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4552.png	0.955754816532135	med
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4728.png	0.9590291976928711	den aflidnes
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4849.png	0.8627174496650696	at ofd 2ne eller en lång silfvernal andra åter
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4886.png	0.9823057055473328	skulle besvära denna frågan. ty hvarföre äro
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4889.png	0.9674535393714905	Vi afreste då och ankomma hit, föret kl. 12
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__4945.png	0.9779278039932251	uti åskådningens fortsättning. Jag tror att om
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5176.png	0.9538537859916687	samma. När wid Jani båge sågo wi lämningarne
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5251.png	0.8629676103591919	så ryktbara dalen och lunden der han höls såmsta
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5406.png	0.9570327401161194	en den mut tjenliga Lokal. Sämt en timma
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5564.png	0.9620606303215027	framsidan af Sarcophagen är en bas-relief som föreställes
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5607.png	0.9724655151367188	genom flere trappor anländer man till lanternan, klotel
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5688.png	0.9459661841392517	uti midten är 2ne fördjupningar en rättilig denandra
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5733.png	0.9744759798049927	har den alltid, innom sig sjelfs, funnit tillräckliga medel
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5745.png	0.9571422934532166	domar och prydnader. Dessutom kan man väl sågo att det
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5788.png	0.9966444969177246	Sådane äro
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5935.png	0.9148664474487305	att gå till hvila. Huru wi hittels funnit ställningen
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__5972.png	0.9096493721008301	fyrwerkeriet. Kl. 7 gafs destill signal. Utom några
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__6008.png	0.9740038514137268	är blifvit förorsakade, trog jag min mats ur skolan och
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__6096.png	0.9378775954246521	man är vittne till bära alla stämpeln af lättseninga
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__6345.png	0.9605380892753601	axeln; näsdukar och Hattar drojos upp och bars i handen
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__6507.png	0.9484647512435913	srede badett kamrater med mig på Karlberg, således
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__6554.png	0.9704689979553223	tiden på aftonyrar ej särdeles lyckligt, något parti skul¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__6569.png	0.9817429184913635	Härifrån sagades wi nästan genast wid inkomsten på dör
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__6684.png	0.9499220252037048	rutine i Sällskapslifvets finare och mera invecklade aencer
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__6749.png	0.9350509643554688	dårar som tro att dylika faker äro tillfyllest att sätta ett
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__6750.png	0.980427622795105	fullkomligt nall i jämnlikhet med förtjensten, som derpå
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__6864.png	0.9061998128890991	mittront ut einement en Vaudewilles et dansert
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__7065.png	0.942436933517456	och Skädespelare smärma dit ymnigare är annor
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__7270.png	0.8999829292297363	brörder widd namn sågt hvilka ägde en stor meka¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__7465.png	0.9738998413085938	Hennet lik blef nedsatt uti denna källare, och ännu
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__7535.png	0.9871160387992859	Hans
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__7589.png	0.95546954870224	nytta funna jamnföra, och under jämnförelsen bil¬
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__7779.png	0.8618118166923523	mölsfro
+/lists/images/val/carl_fredrik_pahlmans_resejournaler_lines__carl_fredrik_pahlmans_resejournaler_lines_1.parquet__7849.png	0.9336031079292297	Huru chikanerad, kan ej en gadtorgen resande blifva som
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__370.png	0.9564856290817261	theß redan tagne författningar granskar
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__416.png	0.9510053992271423	och förhindra än werkeligen befrämjar
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__1144.png	0.9653545022010803	och förfarenhet trodde sig wara sig wäxne,
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__1217.png	0.9682085514068604	härutinnan ej må wara kraftlösk,
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__1289.png	0.9944122433662415	6 Exemplar aflemnas, Af hwilka
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__1381.png	0.9686161875724792	we, dels genom Commissionairer i
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__1499.png	0.8797534108161926	§: 12.
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__1519.png	0.9683474898338318	las, på sätt som wära för detta utgång¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__1564.png	0.998508095741272	tets ytterligare Betänkande, sig för¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__2010.png	0.9958676099777222	följa den nummer och ordning uti hwilken
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__2424.png	0.9972968697547913	mänhetens uplysning, kan hafwa nödigt
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__2425.png	0.9895837903022766	med et eller annat publigt eller privat
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__3045.png	0.9847657084465027	um derå förläna.
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__3220.png	0.8034525513648987	upmintrar snillen, för
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__3578.png	0.9604315757751465	stemer. Hwarsom häremot
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__3668.png	0.8723840713500977	de 8.7.
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__3979.png	0.8579216599464417	år 1/43 förmar.
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__4489.png	0.8888940215110779	overation eller
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__4632.png	0.8555802702903748	i de 3ne första Sö
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__4690.png	0.9539695978164673	Herr Lagmannen Baron
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__5260.png	0.9527424573898315	blique Bibliothequer, samt uti Can¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__5542.png	0.9293417930603027	Auctorens eget rötno, och Censor icke behöf¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__5544.png	0.9963645935058594	ra, än hwad som theruti finnes wara
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__5798.png	0.9220619797706604	sig, ämn uti andra mål, såsom
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__5808.png	0.9954262375831604	wara hugad at genom trycket
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__5943.png	0.9621700048446655	Utskott d. 12. Novembe.
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__6077.png	0.9878291487693787	dantag af hwad otillåteligt
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__6295.png	0.9536880850791931	gar protocoll; domar och ut¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__6327.png	0.9578744769096375	til Parterne å ämse sidon ut¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__6695.png	0.9908875226974487	le afhålla sig ifrån the ytterligare
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__6767.png	0.963636577129364	Betankande, som wäl project wil
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__6997.png	0.9558458924293518	blifwit, så wore och wißer
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__7174.png	0.9453649520874023	för then bästa säkerhet emot alla the
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__7467.png	0.8482610583305359	myndigheten
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__7584.png	0.9665152430534363	detaul wara nog Sense och intagande,
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__7780.png	0.5162917971611023	rin¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__7904.png	0.9186356067657471	tionen Men theße tillfälligt wis i
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__8029.png	0.997776448726654	to förebygga, men theremot icke
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__8333.png	0.9422674179077148	han som bedröfwelig Sanning
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__8435.png	0.9597410559654236	lystare samtid prunkar med
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__8705.png	0.9895520806312561	gat, till fullfölljande af
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__8730.png	0.8411927819252014	är ett
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__8768.png	0.9244379997253418	Såframt desicke förut af någon
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__8803.png	0.7920067310333252	ademie eller Gymnagum dä
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__8964.png	0.8242353796958923	2o Att båla ett ordenteligat
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9033.png	0.9086482524871826	wentyr uti dess tanka alldrig
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9074.png	0.9065238833427429	uppehåll en med dess egenhän¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9197.png	0.9876836538314819	som till det språkets tolkning
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9227.png	0.9724519848823547	med ded elljest därifrån af
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9232.png	0.9817129969596863	person, som de därtill pröfwa
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9247.png	0.9351315498352051	8.
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9276.png	0.9316102862358093	ingen Censor Publicus tillstär¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9345.png	0.9907422661781311	skior och kreatur äro anförde
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9433.png	0.6633536219596863	i Aegpexer,
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9504.png	0.9230226874351501	hang ock förlopp må kienna
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9759.png	0.6631976962089539	drgjap med
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9818.png	0.8701849579811096	som efter föria waknligheter
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9970.png	0.9417088031768799	trycket utgifwa något Lednon
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__9996.png	0.9618715047836304	deras efterrättelse, som af å
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__10043.png	0.9880732297897339	de låta sine arbeten efter
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__10077.png	0.9220583438873291	420
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__10372.png	0.9140490889549255	de kunngiörelser.
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__10417.png	0.9626597762107849	påskrift sitt egit och ortens
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__10531.png	0.8309585452079773	och nytta
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__10596.png	0.9595378041267395	427
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__10971.png	0.997932493686676	anmärkning, ändring och til¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__10974.png	0.9815691709518433	utkast jemwäl i thenna del
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__11189.png	0.9881395101547241	ta ämne om Skrif- och tryck-
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__11254.png	0.9066932797431946	frihet, som ingen fri medßor
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__11417.png	0.9182767868041992	6
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__11701.png	0.9702268838882446	Phelationer, samt alla om
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__11753.png	0.9835886359214783	stor rättighet öfwer Riksdags
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__11874.png	0.959997296333313	gar: Lagar utan minsta altention och
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__11898.png	0.9517555236816406	staplas: Om de äro och blifwa mu¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__12021.png	0.9935782551765442	der jag mig med detta Memorial och
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__12212.png	0.9853171110153198	bare, ware sig omröstningar ifrån
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__12436.png	0.9781972765922546	Detta ämne fördelar sig i twänne Huf¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__12642.png	0.992445170879364	frånwarande sprida sina tankar til flere
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__12941.png	0.9166563153266907	uti 1 Art: 4 §. ålagde äro,
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__13087.png	0.9540420770645142	ta skriffter ocki arbåten, öf¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__13174.png	0.9152303338050842	nat ock åhr, försummas
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__13292.png	0.6412138342857361	etta gt etc: Ap:
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__13302.png	0.9748505353927612	sta sorgfällighet förehaft, har
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__13677.png	0.9473544955253601	ett ganska
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__13787.png	0.7778204679489136	sielf
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__13798.png	0.9752898216247559	hushållningen och spersam¬
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__13864.png	0.8364424705505371	les förqwäfjas, at mången for
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__14083.png	0.9699233174324036	skilt project rörande Censuren
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__14207.png	0.9696422219276428	Protocolls Deputation behagat. Kong. Majts och
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__14645.png	0.9834437370300293	på många år, och således kan herigenom man
+/lists/images/val/frihetstidens_utskottshandlingar_lines__frihetstidens_utskottshandlingar_lines_1.parquet__14687.png	0.9465896487236023	egne understå sig at uplägga dem, hwilket i
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__24.png	0.9511078596115112	Kongl. Rätten lätt sigh och förelisa om
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__30.png	0.8791053891181946	att bloden begynt rinna, bediandes doch en¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__45.png	0.4704602360725403	ha VP: Hlff. P. R. Ph. SG. S. I J. L. SN. P O4I.
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__54.png	0.491179883480072	hr P. 9F. PR G. G. A. BG. L. J. C. P.t. Otl.
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__81.png	0.8983467817306519	då Sen medh kenna, skulle efter befalningh
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__130.png	0.8852313160896301	man doch icke hafwer någon expreste lass. con¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__144.png	0.9572155475616455	broder, och som dhetta ähr om assinitas in tertio
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__224.png	0.8447492718696594	ger igen icke höllie bewikt dhettar tillna¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__250.png	0.7421168684959412	som Bel: dhet 9. Cap. Kongl. Ul säger att om
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__272.png	0.8802438378334045	och som har ioneurrera attskillige
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__311.png	0.5550455451011658	botarn hen set vectovris bö¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__344.png	0.8226069211959839	framom sonßtogp, hafwa dhe af ordt or¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__361.png	0.8367773294448853	skall både bundernest och foldeteomas lösa
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__405.png	0.7738561630249023	hennest beskylningh, och henor Sanlbonn
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__415.png	0.9587235450744629	dhet förfundh som hon hafwer giordt
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__427.png	0.9140378832817078	nat i annat om qwinfolcke bikemera och
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__447.png	0.5878272652626038	lag
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__454.png	0.7864118218421936	andra gode herrarne, sammaledes hr Linsonstarg
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__488.png	0.8296785354614258	dhem han henne itte kunnat bery¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__503.png	0.7150858044624329	hefdingen dömbit eftter oedzligh rätt
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__504.png	0.7879757285118103	hafwandes och målßäge edhen sin säkt
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__514.png	0.8464663624763489	giöra skade föhn dher före eftter dhet.
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__518.png	0.8238088488578796	dhet sikfa giort, och således jare strick
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__520.png	0.8324868679046631	skyldig, dömke honom, som minte
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__547.png	0.6431527137756348	warit att allyga slyke försämelen be¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__552.png	0.6471237540245056	förefades en Cmnal ol från Mån /
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__583.png	0.8204267024993896	som 3ne andre Bergers afledne barn
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__612.png	0.7853963375091553	np applicerms emot Lieutnanten Brogad
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__712.png	0.5565155744552612	Hr Afsi orne Olrck och Aascen, i antende till
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__714.png	0.8414674997329712	qvardering tunningar, samt föruti warit i god så
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__773.png	0.8852138519287109	d. 4 Maj 1716.
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__818.png	0.8918448090553284	ste
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__835.png	0.979551374912262	dra, det skall Oluf Jonsson Wållman
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__852.png	0.7406119704246521	rätten likmåtigt 1.23. Cap. dräpen. 13. m. w. K.
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__860.png	0.9163655042648315	Fryanders ordres Gådt till Särnbacken att
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__911.png	0.9350928068161011	begångit omtelt hor, bör plikta 80 Dr
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__951.png	0.9526242017745972	då hon uthstod sitt straff för det han 2ne
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__966.png	0.9211806058883667	skylt Sadellmakaren Hans bak och des hufru
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__972.png	0.9682826399803162	honom bred handen och ledde honom
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__993.png	0.45705270767211914	aldeles
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1002.png	0.89017254114151	Lorhale. Resp. i förstonne, och de
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1067.png	0.8890665769577026	derpå Kyrckioplikt¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1073.png	0.6227807402610779	H. Ass. 265. E. B. R. HS. N. SB. Sl. N. A. St.
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1096.png	0.9055758118629456	gande, om dedra Biönne Larßon för be¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1098.png	0.9464626908302307	skall befryas från döden. Hit appliverar
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1165.png	0.7640422582626343	wärit Tiurätten har dents lemnat
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1176.png	0.9686129093170166	måhl en widare att underställa.
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1183.png	0.9580639600753784	kyrckioplikt, och afbedia sitt brott
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1241.png	0.8663104772567749	i söndagar på Plichtepallen och sedan
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1293.png	0.9251855611801147	så kommer den af Tinggrestning pan¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1303.png	0.994408369064331	Biörnsdotter, som han dock påstår wara
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1340.png	0.9766114950180054	dom öfwer förafskedade Soldat en Abraham
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1386.png	0.9445170164108276	utan at det utslälja Bort gådt, hwar¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1415.png	0.9754270911216736	tadt, at Anders ey allenast fattadt och
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1419.png	0.8857003450393677	d. 1 febr. 1730.
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1452.png	0.9748172760009766	guts; Fördenskull har TingsRätten
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1455.png	0.9190243482589722	Kierstin Knutsdotter befint härutin¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1456.png	0.9636374711990356	nen;
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1560.png	0.8890334367752075	ehrhållit Kong. Majts nådigste Ende att
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1611.png	0.885550320148468	i Hritaryd uthöga till Maan ock
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1656.png	0.8723438382148743	H. Lagman S: Auseen
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1678.png	0.9919022917747498	at han bör därföre längre uti förwar hål¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1681.png	0.9063644409179688	garnas resol. som d. 20 Martii sidstl.ne afftet
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1700.png	0.9808136224746704	föröfwat, det Enkorne äfwen tilstått, samt
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1711.png	0.9541005492210388	at när goßarne icke kunnat skwäla haf¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1715.png	0.9903702735900879	så har Tingzrätten i anledning af Kong.
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1721.png	0.9349134564399719	Nilßon och Botwid Larßon til döden, Mey
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1736.png	0.9791771173477173	rättens dom andragne skiähl, samt
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1792.png	0.9721184968948364	och Lars Anderßöner i Wiggarum, som
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1802.png	0.9362435340881348	på högra kinkenet, et på näsan, och högra
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1894.png	0.93917316198349	Tingzrätten har altså efter 1655 årsstraff
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1976.png	0.9909804463386536	rens attest nog bewist, at Seßa som war
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__1990.png	0.9361239075660706	kommens död, men uti mitt samwete
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2088.png	0.9836424589157104	gen bekännelse uti handelsmannen
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2120.png	0.9597082138061523	och sedan hwaridera undergå
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2139.png	0.8294971585273743	skrifftas
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2221.png	0.9385201334953308	Högwälborne Hr Baron och Pru¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2237.png	0.975818932056427	med Trättjo par Spö, Tre slag af hwart
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2263.png	0.9178034663200378	wåcla som d. 20 Junii sidst.ne hoos Professo¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2524.png	0.918107807636261	Ekka, och då Pehr skall swarat nog ej
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2551.png	0.9375844597816467	och den senare, at skiuta honom i hiäl, men
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2573.png	0.8937844634056091	nes Swärfader H. mannen Olof Petsson
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2580.png	0.9768028259277344	ordningen de anno 1698 pålagt hwar
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2596.png	0.8608959913253784	öfwer ungadrängen Haken olofwen an¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2598.png	0.8946500420570374	at hålan som af angdens mißförsten
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2615.png	0.8197799921035767	de och Hertarsmans Nils Oloffrus senat Swä¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2618.png	0.8959609866142273	nilhre så wäl som mördaren Anders Swen¬
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2650.png	0.9756351113319397	och bemte Marin Larsdotter andra
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2654.png	0.9308330416679382	Men elljest har Hanna förklara
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2666.png	0.9934305548667908	understält.
+/lists/images/val/gota_hovratt_lines__gota_hovratt_lines_1.parquet__2682.png	0.9026367664337158	hon intet annat tämkt, enskaf¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__400.png	0.9783639907836914	gripne vinteröfverrocken, som
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__531.png	0.9985311031341553	och från Carlberg tillgripne
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__702.png	0.996465265750885	får jag meddela, att sedan de
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__841.png	0.9798081517219543	hon förklarat sig villig att till Eder
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__1043.png	0.8879124522209167	Härmed meddelas att förre vt
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__1310.png	0.9622787237167358	tal för rår; att han ej sett Johan
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__1341.png	0.8755905628204346	Aom efterspaningarnes ut¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__1540.png	0.954436182975769	risten Osca Fredinand Johansson
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__1688.png	0.9676002860069275	tager vara från Axel tillgripne,
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__1719.png	0.9824805855751038	Den 24 i denna månad har Skogvaktaren Benjamin
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__2053.png	0.9923129081726074	drycker berusad antagligen förstört dem
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__2208.png	0.9259312152862549	Till Besakningsfefslhafvaren
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__2237.png	0.7684445977210999	met
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__2476.png	0.9318116307258606	år 1889 anträffade händelse möjl¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__2485.png	0.8976778984069824	gripit i 9 p. 8 omförmälde plånbok¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__2554.png	0.9723719954490662	att Nyström antingen
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__2605.png	0.9919396638870239	sons häktande för ouppgjorda affärer
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__2649.png	0.933931291103363	Nyström en samma person
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__2832.png	0.9924933910369873	Samtlige dessa personer hafva
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__2866.png	0.7922053337097168	rande Gabeika Anna Mara" nå¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__3060.png	0.8606423139572144	Angereda Sn för omkring 3 vecko sedan
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__3242.png	0.9239248633384705	den 24 år gammal, af meder
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__3299.png	0.9584473967552185	holm, det han den 29 ds afrest
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__3465.png	0.9473075270652771	vid häktninger innehaft en del
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__3472.png	0.9697791934013367	far huruvida
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__4106.png	0.9969532489776611	dela upplysning huruvida vid nå¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__4289.png	0.9846538305282593	No 37
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__4406.png	0.9958512783050537	hållandet underrätta Eder, med
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__4689.png	0.989102303981781	Till svar å Eder till Poliskn aflät¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__4777.png	0.9931303858757019	en svart klädesväst utan krage med
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__4782.png	0.8760961294174194	med
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__4886.png	0.9262178540229797	Förre Polisen,
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__5121.png	0.9728676080703735	behof åtgå
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__5297.png	0.9703250527381897	förhör, farnekat all kännedom
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__5345.png	0.9862552285194397	man, som samtidigt varit anstäld
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__5438.png	0.9908742904663086	Köpenhamn
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__5765.png	0.99920254945755	samt
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__6040.png	0.9975197315216064	vid Mellangrand i Stockholm haf¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__6244.png	0.968153178691864	och försålt hästen.
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__6281.png	0.9931456446647644	rens minnesböcker rörande Maria
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__6307.png	0.7889789938926697	jjortonådige
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__6378.png	0.993381142616272	Erik Johansen, som här, i anledning
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__6422.png	0.9928175806999207	dröja sig, så att han icke
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__6610.png	0.9911304712295532	No 19 vid Torggatan har härstädes anmält
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__6665.png	0.9394475817680359	Bönderid i Säfve socken på Glinne¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__7020.png	0.9214312434196472	måtte varda till mig öfverhem¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__7071.png	0.9814272522926331	No 53.
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__7118.png	0.9870769381523132	För biträdande barnmorskan Hustru
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__7177.png	0.9629577398300171	men härtill komma andra
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__7595.png	0.9558090567588806	att då Hustru T. ämnal, genast
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__7864.png	0.9665924310684204	öfverrocken; samt å Majornas.
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__7894.png	0.9819650650024414	pantsatt en del af det här
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__8611.png	0.7830850481987	sanna
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__8851.png	0.9304280281066895	r Cederborg.
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__9250.png	0.8805802464485168	kring på kragarne och suynt. Ja¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__9528.png	0.8740885853767395	Jag för hadmed anhålla att ni ville
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__9651.png	0.9385331869125366	månad här i staden.
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__9899.png	0.9206278324127197	under sitt vistande hos stade
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__10431.png	0.9818693399429321	denne
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__10740.png	0.9531515836715698	de icke sett
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__10953.png	0.907243013381958	i byru Kylin i Wemeltofta socken af
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__11174.png	0.9436662197113037	Till Herr Stadsfiskalen N. Aphan¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__11359.png	0.9422814846038818	hvars befälhafvare jag i skrifvelse
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__11528.png	0.964867353439331	Till svar å Eder
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__11802.png	0.9875755310058594	han
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__11952.png	0.9806383848190308	och liten till väseten, vid afvikandet
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__11970.png	0.9498154520988464	allmänt arbete
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__12270.png	0.9698387384414673	med bantåg afrest från Stock¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__12317.png	0.9840450882911682	att Junnarsson, som under Andersens vistet¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__12716.png	0.9542039036750793	E. Hellström
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__12859.png	0.9802473187446594	att hon den 20 Mars 1876 hitflyttat från
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__12948.png	0.9512625932693481	begifvit sig till böräldrahemmet i Ödsmåls
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__12969.png	0.9861939549446106	ge socken, för detta ändamål uttagit sitt prent¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__13041.png	0.9724646806716919	Handsfabrikören A. F. Johanssons fabrik¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__13107.png	0.8627493977546692	Öfrer hvad sålunda förekommit skulle appot till Pkn af¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__13300.png	0.9006496667861938	jemte tillygg af 900 Rr. för ett hiträde
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__13317.png	0.7956966757774353	45 o B. F. den 5 Febr. 1869;
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__13834.png	0.8966599702835083	bott dels hos en nu afliden handtvrkare med
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__13977.png	0.13038460910320282	D0 EC86816688
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__14078.png	0.4481718838214874	bilgi,
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__14565.png	0.9819250702857971	blifvit derstädes häktad och inne¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__14631.png	0.9361481666564941	hans svärfader torparen Nils An¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__14691.png	0.9612184166908264	i Johas Johannesson öfverensstämmer
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__14700.png	0.8745757937431335	ka natten till den 2/2 härstädes
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__14761.png	0.9444151520729065	rödlätt ansigtsfärg och ena tunna¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__14783.png	0.9982276558876038	No 29
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__15505.png	0.7978360056877136	5 tu långa
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__15657.png	0.998859703540802	En obekant mansperson, som upp¬
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__15718.png	0.9912818670272827	No 94
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__16357.png	0.8077502846717834	torde derför böra abfereväser
+/lists/images/val/goteborgs_poliskammare_fore_1900_lines__goteborgs_poliskammare_fore_1900_lines_19.parquet__16559.png	0.9909843802452087	ändamål genomvandrat större delen
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__22.png	0.9006052613258362	och inya peningr, thett
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__26.png	0.9221054911613464	Anders y hula ord querna
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__28.png	0.9570420980453491	något male ifrå Jöns Nielson
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__43.png	0.9584982991218567	blomte peningr 4 daler
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__52.png	0.8993136882781982	Öffuer lim aff bummersa
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__55.png	0.9301813244819641	hon flälit, et lakan, en
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__56.png	0.8498786687850952	seek, et bändakläde, och möke
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__60.png	0.9575464129447937	Cemmenar Anders Anderson
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__73.png	0.9158461689949036	Kongen och stoden 4 mk
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__75.png	0.9169779419898987	lönade par beneson för pette
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__87.png	0.9156208634376526	som han köpre aff suen påderson
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__93.png	0.9643961191177368	suens Andre gången
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__96.png	0.8802281022071838	den ädelig wetbördig Par pibbing
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__120.png	0.8295543789863586	Jen then Arlige må biörn
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__123.png	0.8827457427978516	hans som affdömde at te
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__133.png	0.9098939895629883	mäster och Råd torbiörn y
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__140.png	0.9208329319953918	suenson y kommesio bleff
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__149.png	0.8623241782188416	jamte Suru Suenson för
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__156.png	0.7201616764068604	Erstina Broga tot.
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__181.png	0.8236645460128784	5 mk
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__199.png	0.9381878972053528	tolson gård, hur och Jon
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__227.png	0.9176933169364929	fallie, och Enäden wåre lägen
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__265.png	0.8669771552085876	par beneson
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__274.png	0.9671025276184082	Michel Nielson
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__279.png	0.8954446315765381	Niels paßmeson, med oprettea
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__286.png	0.8823477625846863	och giore Aldrin Antingan bolt
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__290.png	0.8557612895965576	Ten Andre dömdes och fördette
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__291.png	0.9855142831802368	han hade och stålet en hest.
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__335.png	0.8827095031738281	nares y dalen.
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__380.png	0.8775176405906677	man miches siffrison
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__404.png	0.9312379360198975	strömne, och huar någor sätter
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__461.png	0.967547595500946	för äran skull.
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__475.png	0.8900428414344788	vnre Jon Larißon för han
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__553.png	0.9804956912994385	niels y flaskebo för han
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__554.png	0.8791590929031372	sla bemt skomakare slene
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__563.png	0.9238515496253967	igiskan så han skulle sua¬
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__571.png	0.8919070363044739	i skåt huatt år så lenge
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__596.png	0.8185997605323792	och han lät henne öll til wa
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__597.png	0.9425672888755798	och bad dem wara welkoma
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__611.png	0.9721238613128662	städes wåre, och effwer han
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__668.png	0.7752600908279419	och werderas til hopa för 19 odel
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__674.png	0.6337953805923462	e Gunne Lärrenso till thes the
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__682.png	0.8107953667640686	för hulbit honom see loff och pryo till twöig rydh
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__695.png	0.7001093029975891	Gistaffmedt Gudz nåde Swrigost: 16 12
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__732.png	0.41826191544532776	Ty Gusaf ette dh wed onige och och en
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__735.png	0.8807243704795837	opå Hakestada, then 14 dagen January; Anno wi 15430
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__745.png	0.7041938900947571	Söris och woendis ri Londgh S: f / 4.51
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__778.png	0.8816685080528259	guusth och nåde haffwe vnde och effterlåtidt i szom wi och
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__786.png	0.8858881592750549	annerstådz ech war thz helst ware sunde 1 Her i Rätit 1 och
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__808.png	0.8035838007926941	såhe bör att gör. Ther i ile effteher rätthe
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__829.png	0.6954773664474487	Juby Anno re th.
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__839.png	0.7961578369140625	nigheren, som bdi fort öneopingh Stadt byggie och
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__844.png	0.7799615263938904	hwad deck i oss på Tronone wägne skyllige och plych¬
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__851.png	0.7891020178794861	Ööt och Wend Konung.
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__863.png	0.8686310052871704	Westerårs 5 January Anno 6 §1
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__877.png	0.8012867569923401	eder fögh ochtes, voten i mene , att win anlen skola
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__882.png	0.8392016291618347	skole i ware förlämher att betale oss then reller
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__901.png	0.8459616303443909	till Spetalenn ther I Jeneköpingz Hundrede wark
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__903.png	0.8795217275619507	otn the förthenskuldt wår begären att
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__907.png	0.8817061185836792	behoff som thz the farige bast och nyttigest bleffue
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__919.png	0.7699384689331055	heted kon Hr persone opå wår gårdh Upsala than
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__922.png	0.7888805866241455	Peder Gudmundzson och Måns Benchtsson perid
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__942.png	0.7937191128730774	icke länger begare mere fryheter then
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__949.png	0.8094311952590942	Öll, och mått efter skährgthet opå nå¬
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__963.png	0.904250979423523	peldh med nette att willtale haffr Shå efter
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__980.png	0.6544248461723328	N:27.
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__988.png	0.7902490496635437	Egerföre äge wägt gunstige ny kye och begära,
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1000.png	0.8242977857589722	udy wrkopstad Jenblöpningh, haffue på thet underdånig
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1003.png	0.7982409000396729	korne till någonn förmheringh och förbättringh, othen
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1005.png	0.930609941482544	tillåffwertyre fördrffuet, om till sådane beswäringer
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1009.png	0.801138162612915	Stadz beswäringe wille förekomme, och udy tyd aff haf
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1064.png	0.8727632761001587	Göll, Maat och andre nödtoreffter (. Och schalt her effwer
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1092.png	0.6458874940872192	doch she the som edy sine eigne weref thest och wigh
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1093.png	0.3980247974395752	förande ähre, bekommen för hppnn s
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1097.png	0.9226928353309631	att förordne och tillskicke ther i Staden Dästgiffwere
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1105.png	0.4341372549533844	Bnder ubrth Seret.
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1128.png	0.7851879000663757	pingh thennsz Marti Anno p 80: redi walet
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1134.png	0.8625654578208923	sårer och Dienere Här medh förstå att thenne breffwersor
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1148.png	0.7882133722305298	stolleförb:te Jahnn krught tillfridz, för thett hann
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1168.png	0.8142362236976624	til wdi Lander och bruke theus Handel emor Lagn, thesligest at besöke
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1171.png	0.8226267695426941	wår förgder som sielfu brukie handil, Oller och är minge Haffue
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1174.png	0.8583002090454102	tig ther som en hant aff thens tgin beränkiande hafue förandret
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1193.png	0.8549530506134033	hafue, måtte aldeles oförkiänckie rodi alle theus arickler
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1195.png	0.6230338215827942	fimmes kondt enot Suediges fager, wåre rorångne i
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1208.png	0.8952032327651978	warin hafuer som anthen sielff någit lansköp brun
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1212.png	0.8828157186508179	dy todi wart begemendz tid på thet wittande
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1222.png	0.7649366855621338	Thett fullkomligen qwöite, deh till iqvanner wiste, Haffu wy
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1233.png	0.8995414972305298	wedzon, Haffuer för oß ödmiukeligen land beriätte, att
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1251.png	0.8822701573371887	guddomlige förhyn, så och medh Konunge may war
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1255.png	0.8543657064437866	peligz framledne Berig Adolfs af Bolstens dowter,
+/lists/images/val/jonkopings_radhusratt_och_magistrat_lines__jonkopings_radhusratt_och_magistrat_lines_1.parquet__1288.png	0.8577417135238647	dagh, oßh Underdånligen beföcht om förbältningh och Cenfi¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__73.png	0.9122011661529541	12
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__127.png	0.5913827419281006	skalten har den intet talz widh, y heller wit tallgare
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__521.png	0.8996337652206421	sons emillan Hotherus procesterade
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__943.png	0.8381510972976685	Lärkeringe förbleden d. 22 Jus bekänt
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__1181.png	0.9693600535392761	bede och swor Jemmerligen sigh all¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__1393.png	0.9716448187828064	han kunde blifry för sådan hans stora
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__1593.png	0.9680445194244385	Sterbhuuß wägnar emoth Kongl. Artollerie
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__1653.png	0.9160223007202148	tahlning förbundne.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__2137.png	0.8494691848754883	hwad hygen anbehangar, Togh
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__2550.png	0.9396843314170837	Anders Ander Bon fol. 15. 21. 25.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__2563.png	0.8232638835906982	Bengt Tigerhielm Jol 88.91
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__2757.png	0.9644249081611633	intet drettandes om han skrifwit sitt nampn der
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__2902.png	0.9793992042541504	des, Smeden Jurgen Mand, hans hustru och
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__2991.png	0.9145462512969971	Juckaren Annerepp, Serg: Blixten Felt sin
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__3096.png	0.19748933613300323	Ano 169 d 8 Auguti hil ä a  
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__3219.png	0.986825704574585	December
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__3580.png	0.940549373626709	ler Eder intet för bättre, när myntet törs
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__3908.png	0.8980218768119812	uppwyt affskiedz Paß om hans wälför.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__4145.png	0.813962459564209	iqurest.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__4207.png	0.904329240322113	obligation af d. 12. Octob. 686. hwarom d 3
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__4213.png	0.9120948910713196	war KogzRätten och skiälucht det Nyman
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__4260.png	0.9843875169754028	wore han eller hon; Ey eller om des för¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__4672.png	0.9271765351295471	wa lägges målet sängar, kan Lieut:n intet
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__4710.png	0.9153397083282471	gud nu wore Brolofwat, och behöfdes nu intet men
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__4737.png	0.906093180179596	ner förr penningar och andre fertiedlar, hwil¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__5081.png	0.9752224683761597	Grams Syster kommit till henne en gång
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__5113.png	0.8577591776847839	ge gångar proberade, der med att wijsa at
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__5149.png	0.9668515920639038	någon ted; Tykunde Rätten henne intet der
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__5187.png	0.9296547770500183	gång eftter någre dagars ståene igenlöst,
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__5371.png	0.9744371771812439	de hon det Catharina Fagg war henne skylldig 50
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__5528.png	0.967736542224884	dröjde med andra Salvan till des Sången och
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__5568.png	0.8495342135429382	Miner Cl: Sacil. Serg. Blixterfelt.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__5773.png	0.9620913863182068	med sig, i det Skiött på Slutße
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__6001.png	0.8796064853668213	Marin Lars dr der Matßons och p¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__6325.png	0.9394643306732178	Anrep emot Lantmätaren Wrehman
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__6425.png	0.8968756794929504	gått hit i domsalen Tr War Myrman
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__6528.png	0.9362350702285767	i lyfstyden uprättat och underskrifwait
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__6730.png	0.9433181881904602	betalning, hwar emot Lind eter säger
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__7259.png	0.797784149646759	89.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__8442.png	0.9861828684806824	med intet widare befattar.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__8595.png	0.9580063223838806	rerne stundeligen beswärat; Fördenskull
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__8768.png	0.9922541975975037	dem emellan der det skiedde, allenast
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__8994.png	0.9886795282363892	med Skiällsord dem emellan före¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__9002.png	0.9180400967597961	förelagd d. 24 May, i det han d. 26 epusdems hin¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__9233.png	0.8733621835708618	kallare dören Up och tappade 1 kanna Öhl, wah¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__9344.png	0.8715911507606506	handlangarens tehr Åber som efwenwull¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__9633.png	0.9536740779876709	med 40 pro Centum Straf, hwilken derb hans
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__9656.png	0.9255911707878113	Broman, Lådmakare Gesällen Gusta
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__9719.png	0.932625949382782	egen goße samma gångupläst Tyghuset
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__9854.png	0.892370343208313	Maijus.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__9865.png	0.9442887902259827	Joham Brandt, Adolph Sten¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__10155.png	0.9544717073440552	Hars större sakerheet skull genom
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__10365.png	0.8805873990058899	Fru Jacobschiölmh Attest af d. 19 Junii
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__10805.png	0.9571570754051208	Klockaren Albrecht Hunter instälte sig
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__11039.png	0.9903666377067566	re förestältes Anna Swensdotters bekännelse, sampt
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__11174.png	0.9623314738273621	handå book bedyra uti Anna Swensdotters närwaro,
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__11389.png	0.9887914061546326	företaga, samt efter inhämtande
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__11409.png	0.9288415312767029	ock som Hustru Landstedts föreburne
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__11479.png	0.9790344834327698	honom redan aflagde wittnes Ed, hwars
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__11511.png	0.97357177734375	I anseende till hwilcket alt Björn
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__11533.png	0.9927575588226318	the anledningar som wid thenna
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__11689.png	0.9685388207435608	återkomne artilleristen wid Waxholms
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__11846.png	0.9851829409599304	utan har begifwit sig hit hwaräst
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__11892.png	0.8961783051490784	wist i förmågo af 19. Cap: 3. § Mißs
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__12072.png	0.9715772271156311	som igankände dem för the samma;
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__12463.png	0.31985801458358765	N.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__12820.png	0.6919136047363281	154
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__13213.png	0.917747437953949	förloppe wid then händelse be¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__13661.png	0.9700644612312317	samfärdighet Jungfru Gran
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__13741.png	0.9482229948043823	Rigementet utCommenderade.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__13836.png	0.9730535745620728	rorne på sidorne om theras
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__14028.png	0.9902392625808716	han hit till Stockholm blifwit
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__14275.png	0.9500494003295898	Regeten Lind som befants af gan¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__14747.png	0.9938364028930664	af
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__14851.png	0.982079029083252	som ock för hwad han under sin
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__14997.png	0.9640640616416931	År 1792.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__15324.png	0.9825577139854431	ne månad berörde mål
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__15391.png	0.9476624727249146	sedel och Adrerp, hade ingen misk¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__15442.png	0.9923287034034729	Den 16 Januarii
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__15602.png	0.9543380737304688	Compagnie No 26 Erk Eklund förekommo
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__16217.png	0.9101030230522156	at spännena warit skulna.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__16342.png	0.9786434769630432	sig till minnes wid hwad tid the
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__16639.png	0.9265744686126709	År 1792.
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__16784.png	0.9678211808204651	at wid thet tillförene utsatte
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__16924.png	0.9652870893478394	des lämnades företorde åt henne
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__17058.png	0.9066285490989685	sab. Nris 37. och 38 belägne Egendommar
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__17677.png	0.7510700225830078	st trefotspanna
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__17767.png	0.9910948872566223	tig för det hon ej fått något
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__18289.png	0.9933198094367981	tagit wärfning; hwar¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__18346.png	0.9834970831871033	Sundberg på Sma Da¬
+/lists/images/val/krigshovrattens_dombocker_lines__krigshovrattens_dombocker_lines_1.parquet__18519.png	0.8569596409797668	namnd Sahn, att för sig göra red¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__139.png	0.9923015236854553	Skomakaren Christian Dedeman
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__189.png	0.9773232340812683	S. d. Uplästes Secreterarens Ädl och
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__249.png	0.927735447883606	S. d. Uppå Af. Lieutenantens Samuel A¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__521.png	0.9744155406951904	Holsten berättade, att sedan han skrift¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__765.png	0.987847626209259	någon annan på hans wägnar, de o¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__1097.png	0.9857438802719116	S: d: Uplästes Auditeurens och vice Härads¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__1315.png	0.978590726852417	Hultman få emot stäldborgen berde
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__1532.png	0.9938660264015198	och bemälte fru Öfwerstinna sig deröfwer
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__1752.png	0.9959825873374939	hållne resten af peningarne med de
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__1771.png	0.9959213733673096	Större rummet.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__2251.png	0.9684091210365295	äfwen sig anmält, ej ännu wijst
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__2266.png	0.9743083715438843	HofRätten sig yttrade, att samte
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__2367.png	0.9862743616104126	att henne i så måtto biträde;
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__2485.png	0.9646347165107727	michaeli afflyttia then så kalla¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__2906.png	0.937553346157074	underskrifwit, och somsGrefwen
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__3070.png	0.9550414681434631	Bengt
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__3160.png	0.9214645624160767	klara, wid 10 D.r Smt wite.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__3416.png	0.9619283080101013	ce twist creditorerne emellan måtte anslås¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__3801.png	0.8817114233970642	sig at han bor i Wästergiothla
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__3891.png	0.5498015284538269	S. R illz Latzron SahasCpaditoler meodt hwafwa din Exepli¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__3931.png	0.887671709060669	extraderat.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__4163.png	0.9937393069267273	rande husfru; Och Resolverades
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__4277.png	0.9750173687934875	det någon i Prästebordets wäg¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__4481.png	0.9305799007415771	uti Capitainens LÄdnl och manhaftig Mär¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__4551.png	0.8525993227958679	Ten 4 Julii
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__5032.png	0.9926244020462036	penninge påster, som wid en efter¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__5057.png	0.9941485524177551	förmyndare och afledne Vice Pastoras
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__5106.png	0.9405984878540039	ses och Guldenhofs resolutioner, af then 6te
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__5614.png	0.9976403713226318	Större Rummet.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__6154.png	0.9597550630569458	tijo deler Silfwermynts wite.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__6275.png	0.983655571937561	then 28 September.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__6311.png	0.9968116283416748	åhr, i anseende thertill, at
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__6584.png	0.9873578548431396	Och skulle thetta extractum protocolli,
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__6664.png	0.9687860012054443	från han åtskillige Em¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__6903.png	0.9325612187385559	ursäckt.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__6926.png	0.9704196453094482	Phr Anderßons i lifstiden till
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__7140.png	0.8977543115615845	omaen som uti Kong. Hofrätten,
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__7191.png	0.9409657120704651	för en annan Simpel fordran, som
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__7335.png	0.9894040822982788	men hustru Anna Eriksdot¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__8062.png	0.8083308339118958	S. d: uplästes af ne H.r Commarice Rå¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__8092.png	0.9596788883209229	Johan Herlin. Sven Gestrin Johan
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__8639.png	0.9960811138153076	Wälbördig Nils Broman utgif¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__8640.png	0.9943398237228394	wit skuldebref, samt til Ausul¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__9088.png	0.9680699706077576	vemor 1728, til hustru Leijel betala
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__9674.png	0.9832596182823181	Den 16 Februarii
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__9675.png	0.9979988932609558	men Zetterman och Schmidt un¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__9688.png	0.9749904274940491	tigade, skulle öfwerskåttet med
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__9720.png	0.9794592261314392	Kammarherren Stierncrona
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__9804.png	0.9632262587547302	skyndesammast och utan uppe¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__9829.png	0.958996057510376	1747 och 1748; fördenskul påstår
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__10562.png	0.9629130959510803	se Borgenärer til Erik Anderßons
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__10749.png	0.9988304972648621	han efter Kong. Hofrättens be¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__10784.png	0.9893834590911865	slycht, å den andra sidan, angde
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__11115.png	0.9591913819313049	månad ingifne skrikt äfwen
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__11491.png	0.9827320575714111	Melander ingifwen Suppliqve, at
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__11652.png	0.9970122575759888	Brase berättat sig hafwa undfådt
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__11668.png	0.9787347912788391	Isaac Olivecrona, Samuel Roselius,
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__12221.png	0.9732192158699036	må anses hafwa sitt wad förlo¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__12301.png	0.9745649695396423	selius. Pehr Franc Johan
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__12731.png	0.9940090775489807	ten kunde med det första
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__13492.png	0.9627441167831421	April sidst.ne sielf widgått
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__13558.png	0.9232420921325684	Anders Johansson i Norebys ge¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__13996.png	0.969538688659668	samt Brinck med flere, så ock
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__14024.png	0.9017255902290344	Er Brandberg
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__14030.png	0.9214198589324951	Handelsmannen Carles och Claes rill
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__14319.png	0.9667748808860779	wore den, at något document
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__14642.png	0.21842548251152039	St
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__14804.png	0.9891429543495178	Crom, som icke, til följe af Kong.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__14824.png	0.9431126713752747	i Westeråho.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__14912.png	0.9924713373184204	de persedlar, som hon emot¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__15170.png	0.9927821755409241	den 11 Decembr. 1754 intecknade
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__15437.png	0.9919939041137695	lånet under den tiden skjeds,
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__15554.png	0.9633146524429321	uppehållen hos Herr Öfwertost Di¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__15559.png	0.9632467031478882	och Hofwunkaren Ädel och Wälbördig
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__15580.png	0.978355348110199	Nils Steemman.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__15799.png	0.9748340845108032	Protocoll från Westeråhs sit
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__15935.png	0.9523816704750061	Cronstedt.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__16607.png	0.8549785614013672	Cörnflgentiske concuiss saken,
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__16791.png	0.9087225794792175	atdragas, innan jaken tilslute¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__17042.png	0.9693078398704529	HofRättens godsfinnande är wor¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__17866.png	0.9807733297348022	Brym af Advocaten Wälbe¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__17892.png	0.8591797947883606	o Annere Församling, jut
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__18175.png	0.9765989780426025	S: D: Uplästes den af Poß In¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__18222.png	0.9697469472885132	blad, effter bilagd fullmäckt, af åt¬
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__19435.png	0.9058517813682556	Matto Danielsson och Olof Larsson
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__19525.png	0.9060928821563721	damöter aftrådde
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__19669.png	0.9873383045196533	d. 2 October.
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__19769.png	0.9714959263801575	Å Hörstedts wägnar ingafs
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__19870.png	0.99690181016922	sidenten samt Riddaren
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__19983.png	0.9792236685752869	stående afsta; så giordes anstalt
+/lists/images/val/svea_hovratt_lines__svea_hovratt_lines_2.parquet__20098.png	0.926439642906189	upsände waktmästaren
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__429.png	0.8057354092597961	Höghwalbohne Herre, Swrngs Rykes Radh
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__1087.png	0.9513005614280701	liuga på henne
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__1333.png	0.8216040134429932	Blåkulla fört, emedhan hom war så gnl om sin kropo som Skap oct Wänska
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__1925.png	0.9756545424461365	collet, utom hwilkas när
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__1949.png	0.12806735932826996	sario salae åd
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__1967.png	0.8799575567245483	sakningen åtskilliga i¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__2137.png	0.8014131784439087	9 Dr Smt Testor Joh: Dracke
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__2470.png	0.7733587622642517	uthwdan, bohra härdeligen och Pohan 2 åd¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__2543.png	0.4854619801044464	profres
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__3066.png	0.9684498906135559	sampt Justition icke må cluderas och
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__3077.png	0.6155042052268982	Gutaf Jotenson
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__3139.png	0.9682390689849854	tillfärlige huadh farliget ähr befara, medh månge
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__3207.png	0.8707401752471924	genast wortgått
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__3250.png	0.7260742783546448	sihlsbegän som de andrat de
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__3536.png	0.9783663749694824	borde wara, samt tilsatt
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__3600.png	0.9930445551872253	i sin säng sig lagt.
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__3760.png	0.9094275236129761	en kiäpp och sedan han dem
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__3992.png	0.9440239667892456	et grufwel. Sathans wärck och anfäcstning, som länder han icke
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4006.png	0.9319878220558167	röger sin harm emoot menniskiors barn: Men the som i then
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4030.png	0.9219903945922852	på et wist rum, eftter hwillket när the ransakas, finne på
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4138.png	0.7241765260696411	Om deta kan sickia för barnen i oskyllige gioner sambe
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4322.png	0.9608961343765259	eller tringa dem till att giöra märkeliga mallfica,
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4352.png	0.34944948554039	Man finne intet så ofta fale soch lfrrso
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4457.png	0.9498187899589539	med dem, hwilka skiähl och flere inga dre hölla för
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4511.png	0.7620090246200562	och drahla pel pucstigiar inblla något sitt tien
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4565.png	0.9130504727363586	fens sin emillan i alle Ciumstantier, då gåller
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4738.png	0.9499682784080505	såtet enfaldigt min meningh tillkienna, hwarföre
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__4926.png	0.8942505717277527	öweß sak intet hafwa welat wtöya den strengare
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__5349.png	0.9426671862602234	kunna blifwa frällste ifrån den, hwar uppå Kåhnan
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__5362.png	0.9855850338935852	wydh dheras nekande, men dhe som bekiänna wille
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__5486.png	0.25521692633628845	och tagat dea bahan tatt tett en  n e 
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__5571.png	0.9653889536857605	dag, eller annat uti der medh dhe komma alle rydandes
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__5990.png	0.8880863785743713	släpte, refererardes siof på Krebell att han
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__6863.png	0.8916646242141724	Rätten lät först infalla Satzman
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__7442.png	0.9585509896278381	Uti detta spökerne har Christina Johans dot
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__7554.png	0.9668692946434021	wara olikt, at den ju icke och så wa¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__7982.png	0.9561733603477478	bekjennelse kunde marit nu icke bain¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__7985.png	0.9576334953308105	Tings rätten tog thetta mål uti öfwer¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__8013.png	0.9524373412132263	sig hon på fotan, och för till at taga hol¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__8255.png	0.9239039421081543	kan lände henne till wäl fortjens äga,
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__8272.png	0.8972768187522888	trenne särskite personer, at hwilcka hon
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__8565.png	0.9872284531593323	rerat den af Kierstin om¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__8573.png	0.9221421480178833	Kierstin Ohls dotter nekar
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__8928.png	0.965620219707489	then ondas wiste fasliga gestalt,
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__9078.png	0.9768049716949463	ingen annan orsak, än then Olof
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__9189.png	0.9976773858070374	har de redan warit färdige, att
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__9433.png	0.9851709604263306	förhållit sig ganska illa, som ey bättre
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__9456.png	0.9928221702575684	Bengt Nilßon blef tilfrågad huru
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__9474.png	0.9470523595809937	ängå derefter; och när han kom till
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__9912.png	0.969065248966217	wårdßon förmådt henne dertil, och om hon
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__9940.png	0.9393463134765625	annan lösning; thertil swarade Catrina nedi, och
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__10351.png	0.9212735891342163	Börje tillfrågades widare om
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__10470.png	0.9306612014770508	nådt Bengta till att tiga der
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__10852.png	0.9222295880317688	samma
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__11238.png	0.9443960785865784	en blodz hustru i Christzanobel af bledin¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__11485.png	0.9871470928192139	ögon om han åstundat; Och fast thetide
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__11502.png	0.9715275764465332	digheter, samt efter den anledning 11
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__11848.png	0.9872368574142456	att berätta.
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__11872.png	0.9797564148902893	ibland flere, närwarande Siömanshustrun
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__11890.png	0.9561792016029358	på Torget och gråt bitterligen, då råka
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__12005.png	0.9910113215446472	ra åter när hon haft det så mycket hon
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__12181.png	0.9873049259185791	Stina Debois tillstånd werkeligen sig så
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__12260.png	0.975739061832428	Torparen Eric Johansson i Nymålen
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__12531.png	0.9751806855201721	rande mål, på det hon måtte komma
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__12612.png	0.9023255705833435	ning
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__13011.png	0.9910111427307129	men huru han åtskillige gånger slagit
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__13192.png	0.8258951902389526	wari ryggen, och föröfrigit ine
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__13675.png	0.8670574426651001	Den 1 Julii1761
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__13721.png	0.9638373255729675	bör henne weder
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__14056.png	0.9388705492019653	pohers dotter, och nebar, at hon skall meta
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__14321.png	0.9596933722496033	till Narwen migh herifrån at begifwa. Så förorsa
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__14932.png	0.7744502425193787	Slott Rovenmar.
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__15262.png	0.9818641543388367	det mästa de kunde, fattande mig öfwer
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__15336.png	0.9430301785469055	niskia
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__15420.png	0.9698333740234375	ian och Strömberg, stundom och för Hans
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__15487.png	0.7758016586303711	Birck
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__15753.png	0.8675939440727234	Ay Sockes Kyrikan och ickesofomnatten, warar
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__15766.png	0.9423364400863647	skar i fingret eller teknade henne på ögat, det hon vete¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__15892.png	0.8627238869667053	Jon Olufson ibidem: p 15 åhr gamel
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__15994.png	0.9402619004249573	garstufwun baak om Wääfstolarna, leer och haf¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__16091.png	0.8852252960205078	dnom må andran till exempol tilbarligen straffat
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__16317.png	0.5808897614479065	bbadh af Bysten till af träde uthi sin föra ndigen och frfe
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__16370.png	0.9388551712036133	sägre iag, och will inttet bekänna.
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__16430.png	0.8763863444328308	skadt äsr, att dhe finnas i daras destiet, som icker igh hafwa
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__16530.png	0.15045055747032166	Krin Halfes dotter och der t  a e
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__16734.png	0.877036988735199	Lars Mörlingh.
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__16867.png	0.9094034433364868	lit uti Leysands Tings¬
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__17605.png	0.7166968584060669	Bengt dörn och H.r Sacel:n her Gustaf Sparter?
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__17662.png	0.8349775075912476	och yffte skåll låtia saningen komma i daglinsek
+/lists/images/val/trolldomskommissionen_lines__trolldomskommissionen_lines_2.parquet__17831.png	0.8357349634170532	föräddarns

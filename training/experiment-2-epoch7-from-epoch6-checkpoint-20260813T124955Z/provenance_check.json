@@ -1,0 +1,19 @@
+{
+  "checked_at": "2026-08-13T12:49:55Z",
+  "checkpoint_readable_and_zip_valid": true,
+  "checkpoint_sha256": "885937e525b47ca0e4f9370747387bf8c31413a2fff017ece7eb7068e7445f6b",
+  "checkpoint_extra": {
+    "tokenizer_present": true,
+    "config_present": true
+  },
+  "parent_checkpoint_path": "C:\\Users\\denni\\OneDrive\\Desktop\\ArchiveTrust_HCR\\training\\experiment-2-seven-epochs-20260812T173551Z\\run-state\\epoch_output\\epoch_1\\recommended\\best_val",
+  "is_experiment_2_epoch6_checkpoint": true,
+  "checked_against_rejected_dirs": [
+    "C:\\Users\\denni\\OneDrive\\Desktop\\ArchiveTrust_HCR\\training\\loghi-swedish-v1",
+    "C:\\Users\\denni\\OneDrive\\Desktop\\ArchiveTrust_HCR\\training\\full-corpus-20260802T044250Z",
+    "C:\\Users\\denni\\OneDrive\\Desktop\\ArchiveTrust_HCR\\training\\experiment-1-continuous-epoch-20260803T192146Z",
+    "C:\\Users\\denni\\OneDrive\\Desktop\\ArchiveTrust_HCR\\.loghi-upstream\\pretrained-models\\loghi-htr\\generic-2023-02-15"
+  ],
+  "not_derived_from_pretrained_or_experiment_1": true,
+  "passed": true
+}
