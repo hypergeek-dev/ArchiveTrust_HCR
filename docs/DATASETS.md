@@ -9,7 +9,7 @@ external dataset becomes a benchmark.
 | Loghi training splits (train / val 1000 lines / sealed test 810 lines) | Manifests deleted in commit f0de635 | Only hashes survive: dataset `fc21a708…`, train `e12796a0…`, val `92f74011c568…` | Val produced CER 0.0998 / WER 0.3273. The sealed test was never evaluated and cannot be rebuilt without the corpus. |
 | `dataset-rgb/` | Repo root (gitignored) | 766 page PNGs in 31 volume folders (14 GB, RGB, mostly double-page spreads). **No transcriptions.** | **`NO_GROUND_TRUTH / NOT_AN_ACCURACY_BENCHMARK`.** Used only for the mechanical dry run (see below). Inspection correctly reports `gt.none_found`. No CER/WER may ever be computed or quoted on it. |
 | Reliability-screening segmentation and crops | `docs/experiments/technical-reliability-screening/full-run/reliability-2026-07-31/` (crops gitignored) | Florence-2 line boxes for 60 `dataset-rgb` pages (2,678 lines). No GT. | Segmentation input for the dry run (`scripts/dryrun_segmentation_from_reliability.py`). |
-| External benchmark set (from a colleague): `svea-hovratt-2026-09` | `benchmark-data/incoming/svea-hovratt-2026-09/` | **Delivered 2026-09-27.** Candidate built, not frozen: provenance questions open. | The independent Loghi-vs-Lion benchmark. See the section below. |
+| External benchmark set (from a colleague): `svea-hovratt-2026-09` | `benchmark-data/incoming/svea-hovratt-2026-09/` | **Delivered and frozen 2026-09-27** as `svea-hovratt-2026-09-primary` (6,486 lines); provenance partly unavailable, see below. | The independent Loghi-vs-Lion benchmark. See the section below. |
 
 ## dataset-rgb mechanical dry run (NO_GROUND_TRUTH / NOT_AN_ACCURACY_BENCHMARK)
 
@@ -51,8 +51,15 @@ pages, 6,486 lines, 213,824 characters, 37,545 words**:
 
 Caveat: all 140 pages have Transkribus status `IN_PROGRESS`; none is `GT` or `FINAL`.
 
-It is not frozen. The provenance questions are in
-`benchmark-data/work/svea-hovratt-2026-09/PROVENANCE.md`.
+It was **frozen** on 2026-09-27, before any model run, as `benchmark/svea-hovratt-2026-09-primary`:
+manifest `7c47b9ee…`, decisions `24c815be…`, `FROZEN.json` `ffd2a22f…`.
+
+- The transcriptions were made by students.
+- Provenance status: PROVENANCE UNAVAILABLE / CANNOT BE RESOLVED FROM SOURCE. The remaining
+  convention questions cannot be answered.
+- The benchmark measures agreement with the supplied reference transcription.
+- Details are in `benchmark-data/work/svea-hovratt-2026-09/PROVENANCE.md`, and in `FROZEN.json`
+  under `dataset_card`.
 
 ## Training corpus search
 

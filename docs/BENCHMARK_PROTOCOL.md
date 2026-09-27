@@ -191,11 +191,32 @@ only the delivery and the inspection findings.
 - **Caveat: Transkribus status.** All 140 kept pages carry Transkribus page status `IN_PROGRESS`;
   none is `GT` or `FINAL`. The GT is used as delivered. Every report on this benchmark states this
   caveat.
-- **Freeze gate.** Do not freeze until the provider's answers on the transcription conventions are
-  recorded in `work/svea-hovratt-2026-09/PROVENANCE.md`: `[???]`, diplomatic vs normalized,
-  line-end hyphenation and `ß`.
-  - After the answers are in, rebuild if needed and freeze.
-  - Make no GT or method changes after the freeze.
+- **Provenance limitation (2026-09-27).** The transcriptions were made by students in Transkribus.
+  - The supplying teacher has no complete transcription guideline and no detailed provenance trail
+    for the students' work. There is no organised way to get authoritative answers from the
+    transcribers.
+  - The questions about the conventions are therefore closed, unanswered, as **PROVENANCE
+    UNAVAILABLE / CANNOT BE RESOLVED FROM SOURCE**. This covers `[???]` and unbracketed `??`/`???`,
+    diplomatic vs normalized transcription, line-end hyphenation, `ß`, per-collection guidelines,
+    and the meaning of `IN_PROGRESS`.
+  - No answers are inferred.
+- **What the benchmark measures.** Agreement with the supplied reference transcription, used as
+  delivered, subject only to D1–D5. It is not accuracy against an independently adjudicated or
+  certified diplomatic ground truth.
+- **Caveat: transcription convention.** The student guidelines are unavailable. The convention
+  audit shows differences between collections.
+- **Caveat: charset.** Characters outside Loghi's 124-character output set (`æ` ×2, `¼` ×1) stay
+  in the benchmark. They count as ordinary errors when Loghi cannot emit them.
+- **Spot-check lines.** Some lines stay in the primary set unchanged. These are the audit's
+  convention examples: single `?`, unusual line-end hyphenation, and line-final `¬`. They are not
+  reviewed against model predictions before the primary run.
+- **Frozen 2026-09-27, before any model run,** as `benchmark/svea-hovratt-2026-09-primary`
+  (`--official`; code commit `779f4c3`, clean tree).
+  - Manifest `7c47b9ee…`, decisions `24c815be…`.
+  - 5 documents, 140 pages, 6,486 lines, 213,824 characters and 37,545 words.
+  - `FROZEN.json` embeds these rules and caveats as `dataset_card`. The decisions file is copied
+    into the frozen benchmark.
+  - No GT or method changes are allowed after the freeze.
 
 ## 4. Line images and segmentation
 

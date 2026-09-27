@@ -16,7 +16,10 @@ Snapshot: 2026-09-27.
     The assets were verified by download and re-hash on 2026-09-27. The provenance record is
     `docs/models/loghi-swedish-scratch-exp2-epoch7.MODEL_MANIFEST.json`.
 - **Next goal:** an independent benchmark of that model against Riksarkivet's Swedish Lion Libre, on
-  an external GT dataset from a colleague that has not arrived yet.
+  the external GT dataset `svea-hovratt-2026-09`.
+  - It is frozen as `benchmark/svea-hovratt-2026-09-primary` (6,486 lines; 2026-09-27; see
+    `docs/DATASETS.md`).
+  - No model has been run on it yet.
   - The harness is `src/archivetrust/htr/benchmark/`.
   - The method is `docs/BENCHMARK_PROTOCOL.md`. Its locked decisions (§1a) are Lion
     `generation_config` and Loghi beam 10.
@@ -30,7 +33,8 @@ changes.
 
 | Check | State (2026-09-27) |
 | --- | --- |
-| Harness tests (`tests/htr/benchmark`) | pass (73) |
+| Harness tests (`tests/htr/benchmark`) | pass (82) |
+| Frozen benchmark `svea-hovratt-2026-09-primary` | verified: 6,486 lines, manifest `7c47b9ee…`, all files read-only |
 | Loghi checkpoint hashes | match; backed up externally |
 | dataset-rgb mechanical dry run (build) | done: 60 pages → 2,678 crops, deterministic, no findings |
 | Python environment | `.venv` rebuilt: Python 3.13.15, see `docs/benchmark-environment.txt` |
