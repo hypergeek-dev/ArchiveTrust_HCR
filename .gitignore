@@ -245,3 +245,8 @@ training/preflight-check/
 # Superseded prepared runs: kept on disk as audit evidence, but their contents are regenerable
 # and already described in docs/audits/. Not tracked.
 training/_superseded_prepared_runs/
+
+# Independent Loghi-vs-Lion benchmark data (docs/BENCHMARK_PROTOCOL.md): incoming deliveries,
+# derived work, frozen benchmarks and prediction reports. Contains third-party archive images and
+# GT; frozen manifests are identified by SHA-256 recorded in each report, not by git.
+benchmark-data/

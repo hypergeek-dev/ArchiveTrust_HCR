@@ -1,0 +1,85 @@
+{
+  "schema": "archivetrust-model-manifest/1",
+  "model_id": "loghi-swedish-scratch-exp2-epoch7",
+  "project": "ArchiveTrust",
+  "training_mode": "scratch",
+  "training_mode_evidence": "Experiment 2 used ScratchEpochRunner (src/archivetrust/htr/training/scratch_epoch_runner.py): no /model mount, `--model recommended`, randomly initialized VGSL model.",
+  "experiment": "Experiment 2",
+  "epoch": 7,
+  "checkpoint_selection": "best_val of the single-epoch epoch-7 continuation from Experiment 2's own epoch-6 checkpoint",
+  "validation": {
+    "cer": 0.0998,
+    "wer": 0.3273,
+    "cer_exact": 0.09976548139697028,
+    "wer_exact": 0.327321911632101,
+    "lines": 1000,
+    "total_reference_chars": 31554,
+    "total_edits": 3148,
+    "validation_manifest_sha256": "92f74011c568b04798c9c53725311633f2df2ea4fb8c408e1d73b4f197cea85c",
+    "decoding": {
+      "beam_width": 10,
+      "greedy": false,
+      "batch_size": 16,
+      "seed": 42,
+      "corpus_file": null
+    },
+    "decoding_source": "lap-evaluation/lap1_best_val/config.json (Loghi's own record of the evaluation arguments)",
+    "caveat": "In-distribution validation (1000 held-out lines from the same Riksarkivet HF collections used for training). It is NOT a baseline or expected score for any external benchmark."
+  },
+  "primary_decoding": {
+    "beam_width": 10,
+    "greedy": false,
+    "batch_size": 16,
+    "seed": 42,
+    "note": "The checkpoint config.json records beam_width 1, but Loghi reads it only with --config_file, which the reference evaluation did not pass; beam 10 was the CLI default used."
+  },
+  "charset_size": 124,
+  "tokenizer_token_count": 126,
+  "files": {
+    "model.keras": {
+      "sha256": "7a11df10b943330fe93c7fbf2ddb0584a75539ecb6b1da06dcaa3a5c39f17572",
+      "size_bytes": 368525198
+    },
+    "config.json": {
+      "sha256": "54b6f6856a2441f1e6fb0e22521d06d290977df296be2b029d7eede0276508c7",
+      "size_bytes": 20588
+    },
+    "tokenizer.json": {
+      "sha256": "a6cb9dfe416c36d0d04caa35f8e3381606ea0e473acab56e18d5ec3be825d01e",
+      "size_bytes": 1959
+    }
+  },
+  "model_format": "Keras 3 .keras (zip) saved by Loghi-HTR; with config.json and tokenizer.json in one directory, as Loghi expects for --model",
+  "architecture": {
+    "loghi_model_name": "recommended",
+    "vgsl_spec_recommended": "None,None,64,1 Cr3,3,24 Mp2,2,2,2 Bn Cr3,3,48 Bn Cr3,3,96 Mp2,2,2,2 Bn Cr3,3,96 Mp2,2,2,2 Bn Rc3 Bl512 D50 Bl512 D50 Bl512 D50 Bl512 D50 Bl512 D50 Fs<len(tokenizer)>",
+    "input": "grayscale, height 64",
+    "loghi_htr_commit": "c24c745e9aeb287bedeb6b4edee670ae5c81a3cd",
+    "container_image": "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8"
+  },
+  "training": {
+    "run_id": "loghi_training_run_e45c88d9c7a94f149cd53438751bae1b",
+    "dataset": "riksarkivet_swedish_lion_libre_training_data",
+    "dataset_sha256": "fc21a70825650927edcae753a20411cef8e4344e2c22bcbcaed1c0038b9b97b0",
+    "train_manifest_sha256": "e12796a02c868d849b9e113a4b415f94ff483fe2148c1c58d17cd36eba4af46f",
+    "train_line_count": 562123,
+    "excluded_test_line_count": 810,
+    "parent_checkpoint_sha256": "885937e525b47ca0e4f9370747387bf8c31413a2fff017ece7eb7068e7445f6b",
+    "configuration_sha256": "fb67d77fa6ceee2bfcd491fdb7cd4ef19162aa8c4630a9e0bf30642d2d7c89db",
+    "legacy_method_id_label": "loghi_swedish_finetuned_v1",
+    "legacy_method_id_note": "Label carried over from the earlier fine-tuning pipeline; it does not mean this model was fine-tuned from a pretrained model."
+  },
+  "git": {
+    "training_launch_commit": "7545f99bfaf703f9ec96c0fc7fe7977a7717f747",
+    "training_launch_repository_dirty": true,
+    "finalization_commit": "f0de6356cdb45c572b0cdd4cae04387b65419cd1",
+    "finalization_commit_subject": "Finalize Experiment 2 at epoch 7, add epoch 2-7 continuation reports, prune superseded training artifacts"
+  },
+  "provenance_notes": [
+    "Training ran 2026-08-13 on the original machine (C:\\Users\\denni\\OneDrive\\Desktop\\ArchiveTrust_HCR).",
+    "The checkpoint was copied to H:\\ArchiveTrust_HCR 2 on 2026-09-26; the hashes still match the lap-evaluation record.",
+    "The training/val split manifests were deleted in commit f0de635; only their hashes survive.",
+    "This package is a byte-identical copy of the checkpoint directory. It is not a modified or re-saved model."
+  ],
+  "created_at": "2026-09-27T00:19:41Z"
+}

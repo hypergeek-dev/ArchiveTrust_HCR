@@ -41,6 +41,7 @@ class SwedishLionWorkerFacade(Protocol):
         processor_model_id: str,
         processor_revision: str | None,
         num_beams: int,
+        generation_kwargs: dict | None = None,
     ) -> SwedishLionWorkerResult: ...
 
 
@@ -117,6 +118,7 @@ class _RealSwedishLionFacade:
         processor_model_id: str,
         processor_revision: str | None,
         num_beams: int,
+        generation_kwargs: dict | None = None,
     ) -> SwedishLionWorkerResult:
         import torch  # noqa: PLC0415
         from PIL import Image, UnidentifiedImageError  # noqa: PLC0415
@@ -165,7 +167,13 @@ class _RealSwedishLionFacade:
                 # (`htrflow-swedish-htr/pipeline.yaml`'s `WordLevelTrOCR` step in
                 # `hypergeek-dev/rigsarkivet_hcr_test`, verified by reading it directly) -- not an
                 # invented decoding configuration.
-                generated_ids = model.generate(pixel_values, num_beams=num_beams)
+                # `generation_kwargs`, when given, is the complete explicit decoding configuration
+                # (the independent benchmark pins every parameter so nothing is inherited silently
+                # from generation_config.json); otherwise the adapter's historical call is unchanged.
+                if generation_kwargs is not None:
+                    generated_ids = model.generate(pixel_values, **generation_kwargs)
+                else:
+                    generated_ids = model.generate(pixel_values, num_beams=num_beams)
         except torch.OutOfMemoryError as exc:
             return SwedishLionWorkerResult(ok=False, category="cuda_oom", message=str(exc))
         except Exception as exc:  # noqa: BLE001

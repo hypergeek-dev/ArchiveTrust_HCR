@@ -28,6 +28,7 @@ import hashlib
 import json
 import os
 import tempfile
+from collections.abc import Sequence
 from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict
@@ -259,7 +260,7 @@ def save_lap_evaluation(path: Path, evaluation: LapEvaluation) -> None:
 
 def build_inference_argv(
     *, image_ref: str, model_host: Path, output_host: Path, inference_list_host: Path,
-    batch_size: int, gpu_flag: str = "all",
+    batch_size: int, gpu_flag: str = "all", extra_volumes: Sequence[str] = (), extra_args: Sequence[str] = (),
 ) -> list[str]:
     """Inference-only container invocation, mirroring `container_epoch_runner.py`'s mount discipline:
     the list file's *parent* is mounted at `/lists`, because the image paths inside the list are
@@ -267,12 +268,17 @@ def build_inference_argv(
     real reason the training runner documents -- the tokenizer loader writes `tokenizer.json` back
     into it when loading a legacy checkpoint. Host paths are passed through unchanged, matching that
     runner: the Windows Docker CLI handles `D:\\...`-style paths in `-v` mounts itself.
+
+    `extra_volumes` (`host:container[:ro]` specs) and `extra_args` (appended main.py flags) let the
+    independent benchmark mount its frozen line images and pin decoding explicitly (`--beam_width`).
     """
+    volumes = [arg for spec in extra_volumes for arg in ("-v", spec)]
     return [
         "docker", "run", "--rm", "--gpus", gpu_flag,
         "-v", f"{model_host}:/model",
         "-v", f"{output_host}:/output",
         "-v", f"{inference_list_host.parent}:/lists:ro",
+        *volumes,
         "--entrypoint", "python3", image_ref, "main.py",
         "--model", "/model",
         "--inference_list", f"/lists/{inference_list_host.name}",
@@ -280,6 +286,7 @@ def build_inference_argv(
         "--output", "/output",
         "--batch_size", str(batch_size),
         "--gpu", "0",
+        *extra_args,
     ]
 
 

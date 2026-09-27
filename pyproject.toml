@@ -40,10 +40,18 @@ archivetrust-admin = "archivetrust.admin.cli:main"
 archivetrust-worker = "archivetrust.worker.service:main"
 archivetrust-bootstrap = "archivetrust.bootstrap.cli:main"
 archivetrust-full-run = "archivetrust.htr.training.full_run.cli:main"
+archivetrust-benchmark = "archivetrust.htr.benchmark.cli:main"
 
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
+]
+# The independent Loghi-vs-Lion benchmark (htr/benchmark/, docs/BENCHMARK_PROTOCOL.md): pyarrow reads
+# Parquet deliveries with embedded images and streams the HF training corpus into the overlap
+# index. Optional, lazy-imported: inspection, build, freeze and scoring of file-based deliveries do
+# not need it. (The training pipeline also uses pyarrow without having declared it.)
+benchmark = [
+    "pyarrow>=14",
 ]
 # The PySide6 desktop client (Human Review application). Deliberately optional: the domain, the
 # Learning Platform services, and the ViewModels have zero GUI dependency, so the whole system
