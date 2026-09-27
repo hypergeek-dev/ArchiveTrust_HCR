@@ -30,7 +30,7 @@ The point of the project is not that the hobby model beat Lion. It did not. The 
 - **Training corpus:** ~562,123 Swedish handwritten text-line images from 11 archival collections, assembled from [Riksarkivet's public training-data collection for Swedish Lion Libre](https://huggingface.co/collections/Riksarkivet/training-data-for-swedish-lion-libre)
 - **Internal validation:** CER **0.0998**, WER **0.3273**
 - **Decoder:** beam width 10
-- **Checkpoint:** frozen and backed up in the GitHub Release `model-loghi-swedish-scratch-exp2-epoch7`
+- **Model release:** final checkpoint, tokenizer, configuration and provenance manifest are available in the [ArchiveTrust Loghi Swedish Scratch Model — Experiment 2 Epoch 7 release](https://github.com/hypergeek-dev/ArchiveTrust_HCR/releases/tag/model-loghi-swedish-scratch-exp2-epoch7)
 
 The epoch-7 checkpoint has a documented caveat: it is a verified weights-only continuation from epoch 6 after a long continuous run crashed, so its optimizer/LR continuity differs from epochs 1-6.
 
