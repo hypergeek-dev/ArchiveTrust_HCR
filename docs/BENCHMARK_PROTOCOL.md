@@ -66,7 +66,7 @@ benchmark-data/incoming/<source>        delivered data. Never written by the har
    inspect  -> work/<source>/inspection/ inspection.md, inspection.json, findings.jsonl
    build    -> work/<source>/candidate/  lines/, manifest.jsonl, review_queue.jsonl, excluded.jsonl, build.json
    (human)  -> work/<source>/decisions.jsonl
-   freeze   -> benchmark/<id>/           lines/, manifest.jsonl, FROZEN.json (read-only, never overwritten)
+   freeze   -> benchmark/<id>/           lines/, manifest.jsonl, decisions.jsonl, FROZEN.json (read-only, never overwritten)
    run      -> reports/<run>/predictions/{loghi,lion}.jsonl + .run.json (immutable)
    score    -> reports/<run>/scores.json, line_scores_*.jsonl, report.md
    overlap  -> overlap/<id>/overlap.json (training-contamination signals)
@@ -300,7 +300,7 @@ Each stage records its own provenance:
 
 | Record | Contents |
 | --- | --- |
-| `FROZEN.json` | Manifest SHA-256, build record hash, decisions hash, delivery tree hash, normalization protocol, crop policy, exclusion counts |
+| `FROZEN.json` | Manifest SHA-256, build record hash, decisions hash (the decisions file is copied beside it and re-hashed by `verify`), delivery tree hash, normalization protocol, scoring rules, crop policy, line/character/word counts, exclusion counts, code commit and dirty state, and an optional `dataset_card` (`freeze --dataset-card`) with model-independent provenance status and caveats |
 | `*.run.json` | Model identity and decoding, backend environment (checkpoint hashes, container reference and argv; or torch/transformers versions, device and GPU), predictions SHA-256 |
 | `scores.json` | Scoring and metrics versions |
 

@@ -350,7 +350,10 @@ def _tree_digest(root: Path) -> dict:
 
 
 def freeze(candidate_dir: Path, frozen_dir: Path, *, benchmark_id: str, exclude_unresolved: bool = False,
-           official: bool = False) -> dict:
+           official: bool = False, dataset_card: dict | None = None) -> dict:
+    """dataset_card: model-independent facts about the reference (provenance status, caveats, delivery-specific
+    eligibility rules), embedded verbatim in FROZEN.json. The decisions file the candidate was built from is copied
+    next to the manifest so the decision state can be reconstructed from the frozen benchmark alone."""
     from archivetrust.htr.benchmark.scoring import scoring_record  # noqa: PLC0415 -- scoring -> inference -> build
 
     candidate_dir, frozen_dir = Path(candidate_dir), Path(frozen_dir)
@@ -389,6 +392,10 @@ def freeze(candidate_dir: Path, frozen_dir: Path, *, benchmark_id: str, exclude_
     _write_jsonl(partial / "excluded_at_freeze.jsonl", unresolved)
     shutil.copyfile(candidate_dir / "build.json", partial / "build.json")
     shutil.copyfile(candidate_dir / "excluded.jsonl", partial / "excluded_by_decision.jsonl")
+    if build["decisions"]["path"]:
+        shutil.copyfile(build["decisions"]["path"], partial / "decisions.jsonl")
+        if sha256_file(partial / "decisions.jsonl") != build["decisions"]["sha256"]:
+            raise BuildError(f"{build['decisions']['path']} changed since the candidate was built; rebuild first")
     record = {
         "schema": FROZEN_SCHEMA,
         "benchmark_id": benchmark_id,
@@ -398,6 +405,7 @@ def freeze(candidate_dir: Path, frozen_dir: Path, *, benchmark_id: str, exclude_
         "documents": len({line.document_id for line in lines}),
         "pages": len({(line.document_id, line.page_id) for line in lines}),
         "reference_characters": sum(len(line.gt_canonical) for line in lines),
+        "reference_words": sum(len(line.gt_canonical.split()) for line in lines),
         "crop_policies": sorted({line.crop.policy for line in lines}),
         "normalization_protocol": PROTOCOL_ID,
         "scoring": scoring_record(),
@@ -410,6 +418,8 @@ def freeze(candidate_dir: Path, frozen_dir: Path, *, benchmark_id: str, exclude_
         "provenance": record_provenance,
         "rule": "Frozen before any model output was seen. Results on this benchmark are pre-adaptation results.",
     }
+    if dataset_card is not None:
+        record["dataset_card"] = dataset_card
     (partial / "FROZEN.json").write_text(json.dumps(record, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     partial.rename(frozen_dir)
     for path in frozen_dir.rglob("*"):
@@ -427,6 +437,10 @@ def verify_frozen(frozen_dir: Path) -> tuple[dict, list[BenchmarkLine], list[Fin
     if actual != record["manifest_sha256"]:
         findings.append(Finding(severity="blocker", code="frozen.manifest_changed",
                                 message=f"manifest sha256 {actual} != recorded {record['manifest_sha256']}"))
+    decisions = frozen_dir / "decisions.jsonl"
+    if decisions.exists() and sha256_file(decisions) != record["decisions_sha256"]:
+        findings.append(Finding(severity="blocker", code="frozen.decisions_changed",
+                                message=f"decisions sha256 {sha256_file(decisions)} != recorded {record['decisions_sha256']}"))
     lines = read_manifest(frozen_dir / "manifest.jsonl")
     if len(lines) != record["lines"]:
         findings.append(Finding(severity="blocker", code="frozen.line_count", message=f"{len(lines)} lines != recorded {record['lines']}"))

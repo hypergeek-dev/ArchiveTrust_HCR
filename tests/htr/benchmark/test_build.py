@@ -53,8 +53,11 @@ def test_decisions_resolve_review_items_and_freeze_is_immutable(tmp_path):
     assert by_key["l3"].gt_canonical == "Maj" and by_key["l3"].normalization_applied == ("human_correction",)
     assert by_key["l3"].source_metadata["gt_source_missing"] is True
 
-    record = freeze(tmp_path / "cand", tmp_path / "bench" / "b1", benchmark_id="b1")
+    record = freeze(tmp_path / "cand", tmp_path / "bench" / "b1", benchmark_id="b1",
+                    dataset_card={"provenance_status": "partial"})
     assert record["lines"] == 3 and record["decisions_sha256"] == sha256_file(decisions)
+    assert sha256_file(tmp_path / "bench/b1/decisions.jsonl") == record["decisions_sha256"]
+    assert record["dataset_card"] == {"provenance_status": "partial"} and record["reference_words"] == 4
     assert record["provenance"]["official"] is False
     assert record["scoring"]["primary"] == "raw" and "line_end_hyphen_harmonized" in record["scoring"]["sensitivity"]
     _, lines, findings = verify_frozen(tmp_path / "bench" / "b1")
@@ -89,6 +92,28 @@ def test_verify_detects_tampering(tmp_path):
     image.write_bytes(line_png("changed", seed=9))
     _, _, findings = verify_frozen(frozen)
     assert [f.code for f in findings] == ["image.hash_mismatch"]
+
+
+def test_verify_detects_changed_decisions_copy(tmp_path):
+    src = _line_source(tmp_path / "incoming" / "s1")
+    decisions = _decide(tmp_path / "d.jsonl", {"target": "docA/lines/l3", "action": "exclude", "reason": "no GT"})
+    build_candidate(src, tmp_path / "cand", dataset_id="ds1", source_id="s1", decisions_path=decisions)
+    frozen = tmp_path / "bench" / "b1"
+    record = freeze(tmp_path / "cand", frozen, benchmark_id="b1", exclude_unresolved=True)
+    assert "dataset_card" not in record
+    (frozen / "decisions.jsonl").chmod(0o666)
+    (frozen / "decisions.jsonl").write_text("# edited after freeze\n", encoding="utf-8")
+    _, _, findings = verify_frozen(frozen)
+    assert [f.code for f in findings] == ["frozen.decisions_changed"]
+
+
+def test_freeze_refuses_decisions_changed_after_build(tmp_path):
+    src = _line_source(tmp_path / "incoming" / "s1")
+    decisions = _decide(tmp_path / "d.jsonl", {"target": "docA/lines/l3", "action": "exclude", "reason": "no GT"})
+    build_candidate(src, tmp_path / "cand", dataset_id="ds1", source_id="s1", decisions_path=decisions)
+    decisions.write_text(decisions.read_text(encoding="utf-8") + "# later edit\n", encoding="utf-8")
+    with pytest.raises(BuildError, match="changed since the candidate was built"):
+        freeze(tmp_path / "cand", tmp_path / "bench" / "b1", benchmark_id="b1", exclude_unresolved=True)
 
 
 def test_page_xml_build_crops_from_polygons(tmp_path):

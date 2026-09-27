@@ -71,8 +71,9 @@ def cmd_freeze(args) -> int:
     from archivetrust.htr.benchmark.build import freeze  # noqa: PLC0415
 
     layout = _layout(args)
+    card = json.loads(Path(args.dataset_card).read_text(encoding="utf-8")) if args.dataset_card else None
     record = freeze(layout.candidate_dir(args.source_id), layout.frozen_dir(args.benchmark_id), benchmark_id=args.benchmark_id,
-                    exclude_unresolved=args.exclude_unresolved, official=args.official)
+                    exclude_unresolved=args.exclude_unresolved, official=args.official, dataset_card=card)
     print(f"frozen {record['lines']} lines -> {layout.frozen_dir(args.benchmark_id)}\nmanifest sha256 {record['manifest_sha256']}")
     return 0
 
@@ -258,6 +259,7 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("benchmark_id")
     p.add_argument("--exclude-unresolved", action="store_true")
     p.add_argument("--official", action="store_true")
+    p.add_argument("--dataset-card", help="JSON file of model-independent reference facts/caveats, embedded in FROZEN.json")
     p.set_defaults(func=cmd_freeze)
 
     p = sub.add_parser("verify")
