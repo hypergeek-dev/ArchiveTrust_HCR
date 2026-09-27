@@ -22,7 +22,9 @@ Read first: `docs/PROJECT_STATE.md`, then `docs/BENCHMARK_PROTOCOL.md` and `docs
 
 - Harness: `src/archivetrust/htr/benchmark/`. CLI: `python -m archivetrust.htr.benchmark --help`.
   Tests: `tests/htr/benchmark/`.
-- Tests: `PYTHONPATH=src python -m pytest -q tests/htr/benchmark`.
-- Readiness: `.\scripts\check_benchmark.ps1 [-Python <path>] [-Benchmark <id>]`.
-- The repo `.venv` is broken (copied from another machine). Use a fresh venv, or pass `-Python`.
+- Tests: `.venv\Scripts\python.exe -m pytest -q tests/htr/benchmark`.
+- Readiness: `.\scripts\check_benchmark.ps1 [-Benchmark <id>]`.
+- `.venv` was rebuilt on 2026-09-27 (Python 3.13, CUDA torch). The rebuild procedure is in
+  `docs/PROJECT_STATE.md`. Keep the CUDA torch install last. `.venv-satrn` is still broken, but
+  the benchmark does not need it.
 - `.env` holds `HF_TOKEN`. Never print it.

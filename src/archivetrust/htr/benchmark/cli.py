@@ -190,6 +190,8 @@ def readiness(layout: BenchmarkLayout, benchmark_id: str | None = None) -> list[
     except (ModelIdentityError, OSError) as exc:
         rows.append(("FAIL", "Loghi checkpoint", str(exc)[:300]))
     ok, detail = _probe(["docker", "info", "--format", "{{.ServerVersion}}"])
+    # `docker info` exits 0 with an empty version when the engine pipe exists but the backend is down.
+    ok = ok and bool(detail.strip())
     rows.append(("PASS" if ok else "FAIL", "docker daemon",
                  f"server {detail}" if ok else (detail or "not reachable -- start Docker Desktop")))
     if ok:

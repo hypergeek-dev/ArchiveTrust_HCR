@@ -30,15 +30,35 @@ changes.
 
 | Check | State (2026-09-27) |
 | --- | --- |
-| Harness tests (`tests/htr/benchmark`) | pass |
+| Harness tests (`tests/htr/benchmark`) | pass (73) |
 | Loghi checkpoint hashes | match; backed up externally |
 | dataset-rgb mechanical dry run (build) | done: 60 pages → 2,678 crops, deterministic, no findings |
-| Python environment | being rebuilt (`.venv`, Python 3.13) |
-| Lion (torch / transformers) | pending environment rebuild |
-| Docker / pinned Loghi image | **pending**: Windows virtualisation must be enabled before Docker Desktop can run |
-| NVIDIA GPU | RTX 3070 8 GB visible |
+| Python environment | `.venv` rebuilt: Python 3.13.15, see `docs/benchmark-environment.txt` |
+| Lion smoke inference | **pass**: 5 dry-run lines, `generation_config`, CUDA, torch 2.13.0+cu130, transformers 4.49.0 (no accuracy measured) |
+| Docker / pinned Loghi image / Loghi smoke | **pending**. Docker Desktop is installed, but its engine answers HTTP 500 because WSL 2 is not installed. Firmware virtualisation (SVM) is already on. Fix: `wsl --install` in an admin shell, reboot, start Docker Desktop, `docker pull` the pinned digest. |
+| NVIDIA GPU | RTX 3070 8 GB, driver 616.92, visible to torch |
 | HF training corpus (overlap check) | not found on any mounted drive, so the contamination check is partial |
 | External dataset | not delivered |
+
+## Rebuilding the benchmark environment
+
+```powershell
+uv venv .venv --python 3.13 --seed          # or: py -3.13 -m venv .venv
+.venv\Scripts\python.exe -m pip install -e ".[dev,benchmark,transformers]" "transformers==4.49.0"
+# last, so that timm's torchvision cannot replace the CUDA build with a CPU-only torch from PyPI:
+.venv\Scripts\python.exe -m pip install "torch==2.13.0" "torchvision==0.28.0" --index-url https://download.pytorch.org/whl/cu130
+```
+
+These versions match the source machine's reference freeze. The `gui`, `watch` and `dashboard`
+extras are not needed for the benchmark.
+
+In this environment the full repository suite has 33 failures and 6 errors. None of them are in
+the benchmark:
+
+- `pypdfium2` and `pywin32` are used by rendering, geometry validation, interop and the ACL tests,
+  but are not declared in `pyproject.toml`.
+- The SATRN tests and SATRN baselines need `.venv-satrn`, which is still a broken copy from the old
+  machine.
 
 ## Historical material kept on purpose
 
