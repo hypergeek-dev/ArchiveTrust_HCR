@@ -135,7 +135,7 @@ flowchart TD
 
 ### 6.1 Training corpus
 
-The final training work used roughly **562,123 Swedish handwritten line images** drawn from **11 archival collections**.
+The final training work used roughly **562,123 Swedish handwritten line images** drawn from **11 archival collections**. The corpus was assembled from Riksarkivet's publicly released datasets in [Training data for Swedish Lion Libre](https://huggingface.co/collections/Riksarkivet/training-data-for-swedish-lion-libre), the public collection Riksarkivet used in creating Swedish Lion Libre.
 
 The training history matters because several apparently small engineering details materially changed what an "epoch" or "training run" meant.
 
@@ -432,6 +432,12 @@ Distinguished University Teacher, InfraVis Faculty
 LinkedIn: <https://www.linkedin.com/in/anders-hast-15536372/>
 
 Special thanks to Anders Hast for his contribution to the project's research direction and for supplying the dataset used for the final independent benchmark. His input was an important part of the project's development from a general OCR trust system into a focused Swedish HTR research effort.
+
+### Riksarkivet
+
+ArchiveTrust's training corpus was assembled from Riksarkivet's publicly released historical handwriting line datasets in [Training data for Swedish Lion Libre](https://huggingface.co/collections/Riksarkivet/training-data-for-swedish-lion-libre).
+
+Special thanks to Riksarkivet for making this material publicly available. Access to these datasets made it possible to train the project's Swedish Loghi model from scratch at a scale that would otherwise have been impractical for an independent project.
 
 ### Tools and open systems
 
