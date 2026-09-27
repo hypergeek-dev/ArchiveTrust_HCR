@@ -1,0 +1,89 @@
+{
+  "adapter": {
+    "id": "page_xml",
+    "scores": {
+      "alto_xml": 0.472,
+      "line_pairs": 0.0,
+      "page_xml": 0.472,
+      "tabular": 0.0
+    },
+    "version": "1"
+  },
+  "build_version": "1",
+  "built_at_utc": "2026-09-27T09:21:20Z",
+  "counts": {
+    "excluded": 5930,
+    "included": 4627,
+    "review": 0,
+    "source_lines": 10557,
+    "unresolved_dataset_findings": 0
+  },
+  "crop_policy": "bbox_v1",
+  "dataset_id": "svea-hovratt-2026-09",
+  "decisions": {
+    "count": 1245,
+    "path": "H:\\ArchiveTrust_HCR 2\\benchmark-data\\work\\svea-hovratt-2026-09\\decisions.jsonl",
+    "sha256": "c32103e3ed7c450cdad0b7e81a0223552b31f5c1bbb0feeb83dbd22d8c5d4206"
+  },
+  "inspection_verdict": "needs_review",
+  "manifest_sha256": "e43ee895851036f47e92801ce9aa5ca102c22a1f67d8c15225d41261c5d5b8e1",
+  "normalization_protocol": {
+    "explicitly_not_applied": [
+      "whitespace collapsing or outer-whitespace stripping (flagged for review instead)",
+      "case folding",
+      "punctuation removal or substitution",
+      "diacritic removal",
+      "historical-character replacement (e.g. long s, abbreviation marks)",
+      "abbreviation expansion or spelling modernization",
+      "removal of characters outside any model's vocabulary"
+    ],
+    "prediction_rules": [
+      "unicode_nfc",
+      "strip_outer_whitespace"
+    ],
+    "protocol_id": "gt-normalization/1",
+    "rules": {
+      "human_correction": "Transcription replaced by a recorded pre-freeze reviewer decision (never informed by model output).",
+      "strip_file_line_terminator": "One trailing newline that terminates a per-line .txt file is removed (file format, not text).",
+      "unicode_nfc": "Unicode NFC composition (code-point spelling only; no visible change)."
+    }
+  },
+  "provenance": {
+    "git": {
+      "checked_paths": [
+        "src",
+        "scripts",
+        "pyproject.toml"
+      ],
+      "commit": "cdf83079cc4caea4cd00343d555534f4248a9cdd",
+      "dirty": true,
+      "dirty_path_count": 3,
+      "dirty_paths": [
+        "scripts/benchmark_completeness_audit.py",
+        "scripts/benchmark_convention_audit.py",
+        "scripts/benchmark_image_review_sample.py"
+      ]
+    },
+    "official": false,
+    "runtime": {
+      "machine": "AMD64",
+      "packages": {
+        "numpy": "2.5.3",
+        "pillow": "12.3.0",
+        "pyarrow": "25.0.1",
+        "pydantic": "2.13.5",
+        "torch": "2.13.0+cu130",
+        "transformers": "4.49.0"
+      },
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.15"
+    },
+    "timestamp_utc": "2026-09-27T09:21:20Z"
+  },
+  "source_dir": "H:\\ArchiveTrust_HCR 2\\benchmark-data\\incoming\\svea-hovratt-2026-09",
+  "source_id": "svea-hovratt-2026-09",
+  "source_tree": {
+    "files": 1618,
+    "sha256": "ae80127b0504d8bc5544dd3676df97c40cd9b09bd96b47b0d4fc88408baa0894"
+  }
+}

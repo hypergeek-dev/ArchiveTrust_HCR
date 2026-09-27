@@ -1,0 +1,23 @@
+{
+  "lines_checked": 6504,
+  "index_meta": {
+    "overlap_version": "1",
+    "built_at_utc": "2026-09-27T07:43:47Z",
+    "shards": 2,
+    "shard_names_sha256": "011bf3824db8c0aa1dffc842d6b0edf089cc451f7851776b62fd377cd47588bf",
+    "counts": {
+      "rows": 40983,
+      "rows_without_decodable_image": 0
+    }
+  },
+  "signal_counts": {},
+  "lines_with_strong_signal": 0,
+  "best_dhash_distance_histogram_(12=12+)": {
+    "8": 10,
+    "9": 29,
+    "10": 59,
+    "11": 181,
+    "12": 6225
+  },
+  "caveat": "No match is not proof of no overlap."
+}

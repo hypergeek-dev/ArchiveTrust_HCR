@@ -1,0 +1,24 @@
+{
+  "batch_size_1_reference_repeat": {
+    "n_lines": 100,
+    "n_differ": 0,
+    "differing_line_ids": []
+  },
+  "companion_context_within_condition_repeats": {
+    "context_narrow": {
+      "n_targets": 16,
+      "n_differ_across_3_repeats": 0,
+      "differing_line_ids": []
+    },
+    "context_wide": {
+      "n_targets": 16,
+      "n_differ_across_3_repeats": 0,
+      "differing_line_ids": []
+    },
+    "context_normal": {
+      "n_targets": 16,
+      "n_differ_across_3_repeats": 0,
+      "differing_line_ids": []
+    }
+  }
+}

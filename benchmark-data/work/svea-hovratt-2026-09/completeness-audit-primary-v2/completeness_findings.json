@@ -1,0 +1,627 @@
+{
+  "summary": {
+    "pct_source_line_regions_with_gt": 100.0,
+    "pct_retained_pages_with_full_eligible_gt_coverage": 100.0,
+    "pages_with_unfinished_tails": 0,
+    "pages_with_internal_gaps": 0,
+    "pages_with_whole_untranscribed_regions": 0,
+    "retained_lines_with_deterministic_placeholder_candidates": 0,
+    "crop_text_extreme_outliers": 55,
+    "page_alto_major_disagreements": 0,
+    "duplicate_or_version_conflicts": 10,
+    "pages_likely_uncorrected_recognition_output": 0,
+    "retained_lines_on_likely_uncorrected_pages": 0,
+    "pages_ambiguous_recognition_signals": 11,
+    "pages_mixed_line_end_convention": 0,
+    "manual_spotcheck_items": 61
+  },
+  "findings": [
+    {
+      "id": "S0",
+      "label": "DETERMINISTIC",
+      "rule": "every source TextLine of the retained pages is either retained, excluded by a recorded decision, or unaccounted; every manifest line is found in the PAGE-XML",
+      "count": 0,
+      "denominator": 4686,
+      "percent": 0.0,
+      "collections": [
+        "4502443",
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "page_completeness.csv",
+      "interpretation_limits": "a non-zero count would mean the audit cannot map source lines to the benchmark"
+    },
+    {
+      "id": "C1",
+      "label": "DETERMINISTIC",
+      "rule": "source TextLines (geometry) on retained pages carrying non-empty GT",
+      "count": 4686,
+      "denominator": 4686,
+      "percent": 100.0,
+      "collections": [
+        "4502443",
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 105,
+      "examples": [],
+      "output": "page_completeness.csv",
+      "interpretation_limits": "Every page was run through a recognition model (Creator: Jaemtlands_domsagas_M1), which fills every line. Line coverage therefore cannot distinguish corrected from uncorrected text (see T1-T4)."
+    },
+    {
+      "id": "C2",
+      "label": "DETERMINISTIC",
+      "rule": "retained pages where every source line carries GT",
+      "count": 105,
+      "denominator": 105,
+      "percent": 100.0,
+      "collections": [
+        "4502443",
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "page_completeness.csv",
+      "interpretation_limits": "same limit as C1"
+    },
+    {
+      "id": "C3",
+      "label": "DETERMINISTIC",
+      "rule": "pages whose reading-order sequence ends in >= 2 lines without GT",
+      "count": 0,
+      "denominator": 105,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "unfinished_tails.csv",
+      "interpretation_limits": "same limit as C1"
+    },
+    {
+      "id": "C4",
+      "label": "DETERMINISTIC",
+      "rule": "runs of lines without GT between lines with GT (internal gaps)",
+      "count": 0,
+      "denominator": 105,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "internal_gaps.csv",
+      "interpretation_limits": "same limit as C1"
+    },
+    {
+      "id": "C5",
+      "label": "HEURISTIC",
+      "rule": "GT lines with <= 3 non-space chars",
+      "count": 162,
+      "denominator": 4686,
+      "percent": 3.457,
+      "collections": [
+        "4502443",
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 92,
+      "examples": [],
+      "output": "page_completeness.csv",
+      "interpretation_limits": "short lines are usually genuine (numbers, catchwords, 'd.', single words); they are listed, not concluded"
+    },
+    {
+      "id": "R1",
+      "label": "DETERMINISTIC",
+      "rule": "text regions with no lines or no line carrying GT",
+      "count": 0,
+      "denominator": 215,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "region_coverage.csv",
+      "interpretation_limits": "a region without lines may be a layout-analysis artefact, not an untranscribed text block"
+    },
+    {
+      "id": "R2",
+      "label": "DETERMINISTIC",
+      "rule": "region type labels (PAGE @type or structure tag)",
+      "count": 215,
+      "denominator": 215,
+      "percent": 100.0,
+      "collections": [
+        "4502443",
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 105,
+      "examples": [
+        "(none): 215"
+      ],
+      "output": "region_coverage.csv",
+      "interpretation_limits": "without type labels, marginalia/headings can only be approximated geometrically (R3)"
+    },
+    {
+      "id": "R3",
+      "label": "HEURISTIC",
+      "rule": "regions narrower than 0.25 of the page width (possible marginalia/headings) and their GT coverage",
+      "count": 10,
+      "denominator": 215,
+      "percent": 4.651,
+      "collections": [
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 10,
+      "examples": [
+        "0001_DSC_0370/r1: 1/1 lines with GT",
+        "0010_DSC_0381/r3: 1/1 lines with GT",
+        "0012_DSC_0384/r3: 1/1 lines with GT",
+        "0038_DSC_0420/r3: 1/1 lines with GT",
+        "0039_DSC_0421/r3: 1/1 lines with GT",
+        "0041_DSC_0423/r4: 1/1 lines with GT",
+        "0003_DSC_0335/r3: 1/1 lines with GT",
+        "0007_DSC_0340/r3: 1/1 lines with GT"
+      ],
+      "output": "region_coverage.csv",
+      "interpretation_limits": "narrow regions carry GT at the same rate as main regions if coverage is ~100%; no omitted region type"
+    },
+    {
+      "id": "R4",
+      "label": "HEURISTIC",
+      "rule": "regions with unsegmented space below their last line >= 3.0 x median line height (text that may have no line geometry at all)",
+      "count": 0,
+      "denominator": 215,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "region_coverage.csv + manual queue",
+      "interpretation_limits": "region polygons are often drawn generously; the page image decides"
+    },
+    {
+      "id": "T5",
+      "label": "DETERMINISTIC",
+      "rule": "region-level TextEquiv differs from the region's line texts joined by newlines",
+      "count": 0,
+      "denominator": 215,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "region_coverage.csv",
+      "interpretation_limits": "Transkribus normally keeps both in sync; a mismatch shows an alternative text version, not which is newer"
+    },
+    {
+      "id": "O1",
+      "label": "HEURISTIC",
+      "rule": "retained lines with |robust z| >= 4.0 of log(non-space chars / (crop w/h)) within their collection, or crop aspect >= 6.0 with <= 2 chars",
+      "count": 55,
+      "denominator": 4627,
+      "percent": 1.189,
+      "collections": [
+        "4502443",
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 43,
+      "examples": [
+        "0009_DSC_0442/line_1638890141661_2347 text_short_for_crop z=-14.26 '13.'",
+        "0025_DSC_0403/line_1638779204101_491 text_short_for_crop z=-10.81 'un-'",
+        "0025_DSC_0403/r1l43 text_long_for_crop z=8.7 'wererat den Pähr Olsson igen m'",
+        "0032_DSC_0368/r2l22 text_short_for_crop z=-8.33 'om'",
+        "0005_DSC_0453/r1l30 text_short_for_crop z=-7.29 'men'",
+        "0012_DSC_0345/r2l20 text_short_for_crop z=-7.1 'up-'",
+        "0007_DSC_0340/r2l21 text_short_for_crop z=-7.07 'man'",
+        "0006_DSC_0339/r1l21 text_short_for_crop z=-7.02 'på'"
+      ],
+      "output": "crop_text_outliers.csv",
+      "interpretation_limits": "per-collection medians: {'4502443': {'median_chars_per_height_unit': 4.965, 'mad_log': 0.2162}, '4502444': {'median_chars_per_height_unit': 4.7, 'mad_log': 0.1798}, '4502445': {'median_chars_per_height_unit': 4.265, 'mad_log': 0.2228}, '4502446': {'median_chars_per_height_unit': 4.16, 'mad_log': 0.1923}}. Short catchwords and numbers on wide polygons are normal; long text on short crops can be a baseline/polygon issue, not a GT issue."
+    },
+    {
+      "id": "PH_P01_repeated_question_marks",
+      "label": "DETERMINISTIC",
+      "rule": "P01_repeated_question_marks in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P02_repeated_dots",
+      "label": "DETERMINISTIC",
+      "rule": "P02_repeated_dots in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P03_ellipsis_char",
+      "label": "DETERMINISTIC",
+      "rule": "P03_ellipsis_char in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P04_underscore",
+      "label": "DETERMINISTIC",
+      "rule": "P04_underscore in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P05_repeated_hyphens_or_dashes",
+      "label": "DETERMINISTIC",
+      "rule": "P05_repeated_hyphens_or_dashes in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P06_todo_like",
+      "label": "DETERMINISTIC",
+      "rule": "P06_todo_like in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P07_xxx",
+      "label": "DETERMINISTIC",
+      "rule": "P07_xxx in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P08_angle_brackets",
+      "label": "DETERMINISTIC",
+      "rule": "P08_angle_brackets in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P09_square_brackets",
+      "label": "DETERMINISTIC",
+      "rule": "P09_square_brackets in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P10_empty_brackets",
+      "label": "DETERMINISTIC",
+      "rule": "P10_empty_brackets in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P11_xml_escape_debris",
+      "label": "DETERMINISTIC",
+      "rule": "P11_xml_escape_debris in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P12_replacement_char",
+      "label": "DETERMINISTIC",
+      "rule": "P12_replacement_char in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P13_object_replacement_char",
+      "label": "DETERMINISTIC",
+      "rule": "P13_object_replacement_char in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P14_single_question_mark",
+      "label": "HEURISTIC",
+      "rule": "P14_single_question_mark in retained lines",
+      "count": 6,
+      "denominator": 4627,
+      "percent": 0.13,
+      "collections": [
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 5,
+      "examples": [
+        "0010_DSC_0443/r1l34: '?' in 'nerades enär han såldt tröyan? S. Samma '",
+        "0004_DSC_0374/r1l7: '?' in 'med någon annan hafft tilsåld?'",
+        "0006_DSC_0377/r1l5: '?' in 'hwem henne belägrat? Swde. Ney,'",
+        "0026_DSC_0404/r2l18: '?' in 'henne giorde? Sw. ingen ting, uthan'",
+        "0015_DSC_0348/r1l17: '?' in 'slykt wägrat? Illi sw.de alla Näy'",
+        "0015_DSC_0348/r2l12: '?' in 'undsättning? att hoos de ing'"
+      ],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P15_double_space",
+      "label": "HEURISTIC",
+      "rule": "P15_double_space in retained lines",
+      "count": 20,
+      "denominator": 4627,
+      "percent": 0.432,
+      "collections": [
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 10,
+      "examples": [
+        "0011_DSC_0444/line_1638890683809_2700: 'å  E' in 'Pehr Joensson på  Edhe finnes hafwa gådt'",
+        "0001_DSC_0370/r2l23: '.  1' in 'skillingen med 40. Daler.  16. Smt. ärla'",
+        "0011_DSC_0383/r2l18: '.  K' in 'lön 6. Daler.  Kmt. '",
+        "0011_DSC_0383/r2l5: '.  K' in 'sagdt 18. Daler.  Kmt.'",
+        "0013_DSC_0385/r2l18: '.  S' in 'ra och i expenser 1. Daler.  Smt. med fö'",
+        "0013_DSC_0385/r2l19: '.  S' in 'och wyte 3. Daler.  Smt. med slykt här e'",
+        "0013_DSC_0385/r2l8: 'n  1' in 'Aldenstund Lars Johansson i Ammeren  10.'",
+        "0014_DSC_0386/line_1638275548717_472: '.  e' in 'lånat på detta hem. 70 RiksDaler.  effte'"
+      ],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "PH_P16_dangling_open_bracket_at_end",
+      "label": "DETERMINISTIC",
+      "rule": "P16_dangling_open_bracket_at_end in retained lines",
+      "count": 0,
+      "denominator": 4627,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "placeholder_inventory.csv",
+      "interpretation_limits": "a match is a candidate marker, not proof of an unfinished line; context is in the CSV"
+    },
+    {
+      "id": "T6",
+      "label": "DETERMINISTIC",
+      "rule": "TextLines with more than one TextEquiv (alternative text versions)",
+      "count": 0,
+      "denominator": 4686,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "page_completeness.csv",
+      "interpretation_limits": "only the exported transcript version is present in the delivery"
+    },
+    {
+      "id": "X1",
+      "label": "DETERMINISTIC",
+      "rule": "pages where PAGE and ALTO differ in line ids or by > 2% non-space characters (or ALTO missing)",
+      "count": 0,
+      "denominator": 105,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "page_alto_comparison.csv",
+      "interpretation_limits": "ALTO was exported from the same Transkribus transcript (2023); agreement shows export consistency, not transcription correctness"
+    },
+    {
+      "id": "X2",
+      "label": "DETERMINISTIC",
+      "rule": "lines whose whitespace-collapsed text differs between PAGE and ALTO",
+      "count": 0,
+      "denominator": 4686,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "page_alto_comparison.csv",
+      "interpretation_limits": "same limit as X1"
+    },
+    {
+      "id": "V1",
+      "label": "DETERMINISTIC",
+      "rule": "duplicate page images / Transkribus pageIds / imageIds across all 14 export jobs, and duplicate filenames within a retained collection",
+      "count": 10,
+      "denominator": 237,
+      "percent": 4.219,
+      "collections": [
+        "4502439",
+        "4502440",
+        "4502443",
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 10,
+      "examples": [
+        "identical_page_image_sha256 x2 retained=1 distinct_texts=2 [4502439 | 4502445]",
+        "identical_page_image_sha256 x2 retained=1 distinct_texts=2 [4502439 | 4502446]",
+        "identical_page_image_sha256 x2 retained=1 distinct_texts=2 [4502439 | 4502443]",
+        "identical_page_image_sha256 x2 retained=1 distinct_texts=2 [4502440 | 4502445]",
+        "identical_page_image_sha256 x2 retained=1 distinct_texts=2 [4502439 | 4502444]",
+        "same_transkribus_imageId x2 retained=1 distinct_texts=2 [4502439 | 4502446]",
+        "same_transkribus_imageId x2 retained=1 distinct_texts=2 [4502439 | 4502445]",
+        "same_transkribus_imageId x2 retained=1 distinct_texts=2 [4502440 | 4502445]"
+      ],
+      "output": "version_conflicts.csv",
+      "interpretation_limits": "only one transcript version per page is exported; older versions are not visible"
+    },
+    {
+      "id": "T1",
+      "label": "DETERMINISTIC",
+      "rule": "PAGE-XML Creator lists an HTR model and layout-analysis tools (names only)",
+      "count": 105,
+      "denominator": 105,
+      "percent": 100.0,
+      "collections": [
+        "4502443",
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 105,
+      "examples": [
+        "/net_tf/LA73_249_0mod360.pb | Jaemtlands_domsagas_M1+(htr_id=13685) | de.uros.citlab.module.baseline2polygon.B2PSeamMultiOriented x105"
+      ],
+      "output": "recognition_provenance.csv",
+      "interpretation_limits": "shows the pages were machine-recognised at some point, not whether the text was corrected afterwards"
+    },
+    {
+      "id": "T2",
+      "label": "HEURISTIC",
+      "rule": "pages whose last save followed the previous save in the same document within <= 1.0 s per line (machine speed) AND that carry no student convention (0 line-final '-' and 0 lines with [ or ??): likely recognition output that was never corrected",
+      "count": 0,
+      "denominator": 105,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "recognition_provenance.csv",
+      "interpretation_limits": "0 retained lines are on these pages. The timing shows only the LAST save; the absence of '-' and editorial marks is indirect. The page images must confirm (manual queue)."
+    },
+    {
+      "id": "T3",
+      "label": "MANUAL SPOT-CHECK ONLY",
+      "rule": "pages with exactly one of the two T2 signals",
+      "count": 11,
+      "denominator": 105,
+      "percent": 10.476,
+      "collections": [
+        "4502443",
+        "4502444",
+        "4502446"
+      ],
+      "pages_affected": 11,
+      "examples": [
+        "4502443 p04 ambiguous_machine_speed_save_with_student_edits",
+        "4502443 p05 ambiguous_machine_speed_save_with_student_edits",
+        "4502443 p06 ambiguous_machine_speed_save_with_student_edits",
+        "4502443 p08 ambiguous_machine_speed_save_with_student_edits",
+        "4502444 p04 ambiguous_machine_speed_save_with_student_edits",
+        "4502444 p05 ambiguous_machine_speed_save_with_student_edits",
+        "4502444 p08 ambiguous_machine_speed_save_with_student_edits",
+        "4502444 p10 ambiguous_machine_speed_save_with_student_edits"
+      ],
+      "output": "recognition_provenance.csv + manual queue",
+      "interpretation_limits": "a fast final save after correction is possible; a page can also genuinely contain no hyphenated line-ends"
+    },
+    {
+      "id": "T4",
+      "label": "HEURISTIC",
+      "rule": "pages mixing line-final '-' and '¬' (correction possibly stopped partway down the page)",
+      "count": 0,
+      "denominator": 105,
+      "percent": 0.0,
+      "collections": [],
+      "pages_affected": 0,
+      "examples": [],
+      "output": "recognition_provenance.csv",
+      "interpretation_limits": "a student may also have used both marks deliberately"
+    },
+    {
+      "id": "T7",
+      "label": "HEURISTIC",
+      "rule": "share of word tokens (>= 3 letters, lowercased) on a page that never occur in the training-reference vocabulary (20114 types); median per collection and T2 class",
+      "count": null,
+      "denominator": null,
+      "percent": null,
+      "collections": [
+        "4502443",
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "pages_affected": 105,
+      "examples": [
+        "4502443 ambiguous_machine_speed_save_with_student_edits: median 0.291 (n=4)",
+        "4502443 edited: median 0.292 (n=4)",
+        "4502444 ambiguous_machine_speed_save_with_student_edits: median 0.309 (n=5)",
+        "4502444 edited: median 0.312 (n=10)",
+        "4502445 edited: median 0.230 (n=49)",
+        "4502446 ambiguous_machine_speed_save_with_student_edits: median 0.255 (n=2)",
+        "4502446 edited: median 0.229 (n=31)"
+      ],
+      "output": "recognition_provenance.csv",
+      "interpretation_limits": "uncorrected recognition output should raise the rate, but so do names, places and the spelling of an earlier year; compare within a document, not across"
+    }
+  ]
+}

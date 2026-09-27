@@ -1,0 +1,53 @@
+{
+  "diagnostic_id": "true-seqlen-decode-v1",
+  "scope": "Causal follow-up to batch-invariance-v1: implement and test the smallest possible decoder-only fix (true per-sample CTC sequence_length), gated by re-running the exact frozen 100-line batch-invariance matrix before any full-corpus run.",
+  "protected_artifacts_hash_before_and_after": {
+    "manifest_sha256": "e43ee895851036f47e92801ce9aa5ca102c22a1f67d8c15225d41261c5d5b8e1",
+    "frozen_json_sha256": "3b6eadc6e408eb434c8d2f007cb1ef1e9f1efb41b990799873b1bb6f9c835917",
+    "official_scores_json_sha256": "e99412287a2fb57e2fe2e32efe8361555a50901151219b50a5f18fba8e9dee01",
+    "official_loghi_predictions_sha256": "9aed0d6e2d3bcd73c116d813af15e82e191da04f39f54b094eb8ce1098feadb4",
+    "official_lion_predictions_sha256": "aef14754070f8ff037818a3689ef75f9966df7e2be60e1c8193975826e34450c",
+    "gap_analysis_md_sha256": "730c9102838911ee9a76d7c8ef0045f92383a686d1c88289ec9d68f7ce3cac40",
+    "padding_diagnostic_md_sha256": "b91e414412880f45757ede2b3a0b690e0fabc675c0a0d98904de6dd503283fd5",
+    "batch_invariance_md_sha256": "b9e350007a7f0a595479fdbabf13f2d137c636774ace404fdd9f6eb0ec60d88e",
+    "loghi_checkpoint_file_sha256": {
+      "model.keras": "7a11df10b943330fe93c7fbf2ddb0584a75539ecb6b1da06dcaa3a5c39f17572",
+      "config.json": "54b6f6856a2441f1e6fb0e22521d06d290977df296be2b029d7eede0276508c7",
+      "tokenizer.json": "a6cb9dfe416c36d0d04caa35f8e3381606ea0e473acab56e18d5ec3be825d01e"
+    },
+    "verification_method": "re-hashed directly from disk independently in this session (not taken from any prior cached value); identical before the diagnostic's dry-run, before the smoke test, and after the full 12-condition matrix re-run",
+    "unchanged": true
+  },
+  "docker_image_digest": "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+  "code_commit": "8a2902a (clean working tree throughout)",
+  "official_beam_width": 10,
+  "official_seed": 42,
+  "official_batch_size": 16,
+  "steps_performed": {
+    "0_dry_run_safety_phase": "PASS -- protected hashes verified, isolated dir created with no path collisions, no-inference dry run printed a plan without a docker call, tiny 4-line smoke test ran successfully through the patched container with hashes unchanged before/after",
+    "1_derive_true_sequence_lengths": "done -- direct tensor measurement of the -10 batch-padding sentinel column, not a re-derived formula (see true_sequence_length_config.json)",
+    "2_implement_decoder_fix": "done -- 3 files patched via read-only bind mount, no image rebuild, no other behavior changed",
+    "3_unit_tests_A_C": "done, all PASS (synthetic, run inside container)",
+    "4_reproduce_frozen_100_line_batch_invariance_matrix_with_fix": "done -- same batch_test_manifest.jsonl, same companion_groups.json, same 12 conditions as batch-invariance-v1, same beam_width/seed",
+    "5_gate_check": "FAILED -- batch-composition dependence did NOT disappear (see batch_invariance_after_fix_summary.json); per the preregistered stopping rule, the full 4,627-line corrected benchmark run was NOT performed",
+    "6_full_corpus_diagnostic_run": "NOT PERFORMED (gated out at step 5)",
+    "7_scoring_against_official_baseline": "NOT PERFORMED (no corrected predictions exist to score)"
+  },
+  "artifacts_produced": [
+    "true_sequence_length_config.json", "run_record.json", "dry_run_plan.json",
+    "smoke_test_run/ (container_stdout.txt, container_stderr.txt, smoke_test_results.json, lists/, output/)",
+    "patch/ (decoding.py, threading.py, modes_utils.py, test_true_seqlen.py -- hashed copies of the applied fix and its unit tests)",
+    "batch_matrix_runs/ (raw per-condition stdout/stderr/results for all 12 conditions)",
+    "batch_matrix_results.json", "batch_invariance_after_fix.csv", "batch_invariance_after_fix_summary.json"
+  ],
+  "artifacts_not_produced_and_why": {
+    "prediction_diff.csv": "requires a full-corpus corrected run, which was gated out",
+    "empty_output_comparison.csv": "requires a full-corpus corrected run, which was gated out",
+    "length_bias_comparison.json": "requires a full-corpus corrected run, which was gated out",
+    "geometry_comparison.csv": "requires a full-corpus corrected run, which was gated out",
+    "scores.json": "requires a full-corpus corrected run, which was gated out"
+  },
+  "official_and_prior_diagnostic_evidence": "untouched -- svea-hovratt-v2-primary-20260927T102311Z, GAP_ANALYSIS.md, loghi-minwidth-padding-v1/, and batch-invariance-v1/ were never read for writing, only re-hashed for verification, and their staged_checkpoint copies (if any existed from prior sessions) were not touched by this diagnostic",
+  "verdict": "MECHANISM_INCOMPLETE",
+  "branch_status": "INFERENCE/BATCHING BRANCH CLOSED (this specific fix attempt); a residual, unexplained batch-composition-dependence mechanism remains and would need separate future investigation, not undertaken in this task"
+}

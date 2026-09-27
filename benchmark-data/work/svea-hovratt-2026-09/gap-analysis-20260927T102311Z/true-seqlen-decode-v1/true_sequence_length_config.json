@@ -1,0 +1,24 @@
+{
+  "diagnostic_id": "true-seqlen-decode-v1",
+  "label": "SECONDARY POST-BENCHMARK CAUSAL FOLLOW-UP -- attempts a minimal decoder-only fix so each Loghi sample is CTC-decoded with its own true post-network sequence length instead of the batch's uniform max. Does not modify GT, official predictions, crops, image preprocessing, beam width, or the pinned checkpoint/image.",
+  "mechanism_fix": {
+    "root_cause_being_fixed": "utils/decoding.py:decode_batch_predictions sets input_len = np.ones(pred.shape[0]) * pred.shape[1] -- every sample in a batch is CTC-decoded with the same sequence_length, equal to the batch's own max-width timestep count.",
+    "approach": "Measure each sample's true content width directly from the actual input tensor (not re-derived from a resize/padding formula), since tf.data's padded_batch fills batch-added padding with the exact sentinel constant -10 (data/manager.py:_create_dataset), which real normalized image content never equals. A width column that is -10 across every height/channel position is unambiguously batch-added padding; batch padding is always a trailing suffix. Convert the resulting true content width to a timestep count via the confirmed 8x downsampling factor (3 stride-2 maxpool stages), clamp to [1, batch_timesteps], and pass this per-sample vector into decode_batch_predictions as sequence_lengths.",
+    "files_patched_via_readonly_bind_mount_no_image_rebuild": [
+      {"container_path": "/src/loghi-htr/src/utils/decoding.py", "sha256": "5036d940d5a7ab78c64c567646b74ec0b79d5cfae2c7b14364f445cd9848d5a4", "change": "decode_batch_predictions gains an optional sequence_lengths parameter; uses it in place of the uniform pred.shape[1] when provided. Behavior is unchanged when sequence_lengths is None."},
+      {"container_path": "/src/loghi-htr/src/utils/threading.py", "sha256": "568e448e9d267a79274fbb69573fa3b8c9263611fd920bfb027433bcb64a72d5", "change": "DecodingWorker.run() and .stop() unpack a 5-tuple (added true_seq_lens) instead of 4, and pass sequence_lengths=true_seq_lens to decode_batch_predictions."},
+      {"container_path": "/src/loghi-htr/src/modes/utils.py", "sha256": "7c9d7d660361ea944c798865946fda8ac4a76554b44c105a1ff3e20293e47d25", "change": "process_batches computes true_width per sample from the images tensor's -10 padding columns, maps to true_seq_lens via ceil(width/8) clamped to the batch's own timestep count, and includes it as a 5th element in the queue payload sent to decode workers."}
+    ],
+    "unmodified": ["model weights/checkpoint", "logits computation", "image preprocessing/resize/normalization", "tokenizer", "beam_width", "seed", "batch_size", "scoring code", "official manifest/predictions"],
+    "container_image_unchanged": "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8 (same pinned digest; patch files applied only via -v read-only bind mounts at container start, not baked into the image)"
+  },
+  "unit_tests": {
+    "location": "patch/test_true_seqlen.py, run inside the pinned container",
+    "A_width_detection_mixed_batch": "PASS -- per-sample true width correct and companion-independent",
+    "B_padding_timesteps_excluded_from_decode": "PASS -- buggy(uniform)='ac' fixed(true_len)='a'",
+    "C_same_crop_invariant_to_companions_synthetic": "PASS -- narrow='bd' wide='bd' (synthetic logits)",
+    "D_regression_on_real_previously_confirmed_changed_lines": "see batch_invariance_after_fix.csv / batch_invariance_after_fix_summary.json -- FAILED on real crops (see verdict)"
+  },
+  "dry_run_safety_gate": "PASS (see dry_run_plan.json and smoke_test_run/smoke_test_results.json)",
+  "stopping_point": "MECHANISM INCOMPLETE at the preregistered gate (frozen 100-line batch-invariance matrix re-run). Per the task's stopping rule, the full 4,627-line corrected diagnostic run was NOT performed."
+}

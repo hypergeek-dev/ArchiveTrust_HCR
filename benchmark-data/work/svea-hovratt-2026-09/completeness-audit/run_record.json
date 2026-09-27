@@ -1,0 +1,69 @@
+{
+  "source_id": "svea-hovratt-2026-09",
+  "benchmark_id": "svea-hovratt-2026-09-primary",
+  "benchmark_dir": "benchmark-data/benchmark/svea-hovratt-2026-09-primary",
+  "frozen_json_sha256": "ffd2a22f6baad4a771a196381ba9c96f2fdb18239957db9f051cf90e0152584a",
+  "manifest_sha256": "7c47b9eebdc26b1f6583698678132a50d6e27d3578d4d4c7dfd03e2a49c11aa0",
+  "excluded_by_decision_sha256": "44605b4ce4d5e2d61e17e82b3c8d5fced0556ad9fb0d6e26a44f637c5d9547cc",
+  "decisions_sha256": "24c815be33917b354c67390c1e43f26673ceca5d77721b1ca84fd99c645ff521",
+  "retained_pages": 140,
+  "source_lines": 6546,
+  "retained_lines": 6486,
+  "training_vocabulary_files": [
+    {
+      "name": "svea_hovratt_lines_1.parquet",
+      "bytes": 3442066047,
+      "rows": 20800
+    },
+    {
+      "name": "svea_hovratt_lines_2.parquet",
+      "bytes": 3168440371,
+      "rows": 20183
+    }
+  ],
+  "script": "scripts/benchmark_completeness_audit.py",
+  "script_sha256": "e73a5a0f359c9ad8a2b11eb897159d81c4956d9ad9f01d811c94dbf1e48bb3d9",
+  "git_commit": "cdf83079cc4caea4cd00343d555534f4248a9cdd",
+  "git_code_dirty_paths": [
+    " M scripts/benchmark_completeness_audit.py",
+    " M scripts/benchmark_convention_audit.py",
+    "?? scripts/benchmark_image_review_sample.py",
+    "?? scripts/benchmark_manifest_diff.py"
+  ],
+  "constants": {
+    "ET": "<module 'xml.etree.ElementTree' from 'C:\\\\Users\\\\ize_c\\\\AppData\\\\Roaming\\\\uv\\\\python\\\\cpython-3.13.15-windows-x86_64-none\\\\Lib\\\\xml\\\\etree\\\\ElementTree.py'>",
+    "SHORT_MAX_CHARS": 3,
+    "MIN_TAIL_LINES": 2,
+    "ROBUST_Z": 4.0,
+    "WIDE_ASPECT": 6.0,
+    "WIDE_MAX_CHARS": 2,
+    "NARROW_REGION_WIDTH_FRAC": 0.25,
+    "REGION_BOTTOM_GAP_LINE_HEIGHTS": 3.0,
+    "BATCH_MAX_SEC_PER_LINE": 1.0,
+    "ALTO_CHAR_DIFF_FRAC": 0.02,
+    "SEED": 20260927,
+    "NORMAL_PAGES_PER_COLLECTION": 2,
+    "MAX_OUTLIER_LINES_IN_QUEUE": 40,
+    "OOV_MIN_LETTERS": 3,
+    "OOV_TOKEN": "re.compile('[^\\\\W\\\\d_]{3,}')",
+    "HUMAN_MARKER": "re.compile('\\\\[|\\\\?{2,}')",
+    "PLACEHOLDER_RULES": "{'P01_repeated_question_marks': ('DETERMINISTIC', re.compile('\\\\?{2,}')), 'P02_repeated_dots': ('DETERMINISTIC', re.compile('\\\\.{2,}')), 'P03_ellipsis_char': ('DETERMINISTIC', re.compile('…')), 'P04_underscore': ('DETERMINISTIC', re.compile('_')), 'P05_repeated_hyphens_or_dashes': ('DETERMINISTIC', re.compile('[-‐‑–—¬]{2,}')), 'P06_todo_like': ('DETERMINISTIC', re.compile('(?i)\\\\b(todo|fixme|tbd)\\\\b', re.IGNORECASE)), 'P07_xxx': ('DETERMINISTIC', re.compile('(?i)x{3,}', re.IGNORECASE)), 'P08_angle_brackets': ('DETERMINISTIC', re.compile('<[^>]*>|[<>]')), 'P09_square_brackets': ('DETERMINISTIC', re.compile('\\\\[[^\\\\]]*\\\\]|[\\\\[\\\\]]')), 'P10_empty_brackets': ('DETERMINISTIC', re.compile('\\\\[\\\\s*\\\\]|\\\\(\\\\s*\\\\)|\\\\{\\\\s*\\\\}')), 'P11_xml_escape_debris': ('DETERMINISTIC', re.compile('&(amp|lt|gt|quot|apos|#\\\\d+|#x[0-9a-fA-F]+);')), 'P12_replacement_char': ('DETERMINISTIC', re.compile('�')), 'P13_object_replacement_char': ('DETERMINISTIC', re.compile('￼')), 'P14_single_question_mark': ('HEURISTIC', re.compile('(?<!\\\\?)\\\\?(?!\\\\?)')), 'P15_double_space': ('HEURISTIC', re.compile('\\\\S {2,}\\\\S')), 'P16_dangling_open_bracket_at_end': ('DETERMINISTIC', re.compile('[\\\\[(<{]\\\\s*$'))}"
+  },
+  "outputs": [
+    "COMPLETENESS_AUDIT.md",
+    "collection_completeness.csv",
+    "completeness_findings.json",
+    "crop_text_outliers.csv",
+    "internal_gaps.csv",
+    "manual_spotcheck.html",
+    "manual_spotcheck_queue.csv",
+    "page_alto_comparison.csv",
+    "page_completeness.csv",
+    "placeholder_inventory.csv",
+    "recognition_provenance.csv",
+    "region_coverage.csv",
+    "unfinished_tails.csv",
+    "version_conflicts.csv"
+  ],
+  "generated_at_utc": "2026-09-27T09:24:20Z"
+}

@@ -1,0 +1,119 @@
+{
+  "backend_environment": {
+    "argv": [
+      "docker",
+      "run",
+      "--rm",
+      "--gpus",
+      "all",
+      "-v",
+      "H:\\ArchiveTrust_HCR 2\\benchmark-data\\dryrun\\dataset-rgb-dryrun\\work\\loghi\\staged_checkpoint:/model",
+      "-v",
+      "H:\\ArchiveTrust_HCR 2\\benchmark-data\\dryrun\\dataset-rgb-dryrun\\work\\loghi\\output:/output",
+      "-v",
+      "H:\\ArchiveTrust_HCR 2\\benchmark-data\\dryrun\\dataset-rgb-dryrun\\work\\loghi\\lists:/lists:ro",
+      "-v",
+      "H:\\ArchiveTrust_HCR 2\\benchmark-data\\dryrun\\dataset-rgb-dryrun:/benchmark:ro",
+      "--entrypoint",
+      "python3",
+      "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+      "main.py",
+      "--model",
+      "/model",
+      "--inference_list",
+      "/lists/inference_list.txt",
+      "--results_file",
+      "/output/results.txt",
+      "--output",
+      "/output",
+      "--batch_size",
+      "16",
+      "--gpu",
+      "0",
+      "--beam_width",
+      "10",
+      "--seed",
+      "42"
+    ],
+    "checkpoint": {
+      "checkpoint_dir": "H:\\ArchiveTrust_HCR 2\\training\\experiment-2-epoch7-from-epoch6-checkpoint-20260813T124955Z\\run-state\\epoch_output\\epoch_1\\recommended\\best_val",
+      "file_sha256": {
+        "config.json": "54b6f6856a2441f1e6fb0e22521d06d290977df296be2b029d7eede0276508c7",
+        "model.keras": "7a11df10b943330fe93c7fbf2ddb0584a75539ecb6b1da06dcaa3a5c39f17572",
+        "tokenizer.json": "a6cb9dfe416c36d0d04caa35f8e3381606ea0e473acab56e18d5ec3be825d01e"
+      },
+      "verified": true
+    },
+    "container_image": "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8"
+  },
+  "dryrun_id": "dataset-rgb-dryrun",
+  "finished_at_utc": "2026-09-27T01:11:47Z",
+  "label": "NO_GROUND_TRUTH / NOT_AN_ACCURACY_BENCHMARK",
+  "limited_to": 5,
+  "lines": 5,
+  "manifest_sha256": "eb57f9bcdf11f1734f1a8c9a2fbd93a734dcf466b83e41f0fc77c93ea5f2ae11",
+  "model": {
+    "decoding": {
+      "batch_size": 16,
+      "beam_width": 10,
+      "greedy": false,
+      "seed": 42
+    },
+    "decoding_profile": "validated",
+    "family": "loghi-htr",
+    "model_id": "loghi-swedish-scratch-exp2-epoch7",
+    "pinned": {
+      "backup_release": "https://github.com/hypergeek-dev/ArchiveTrust_HCR/releases/tag/model-loghi-swedish-scratch-exp2-epoch7",
+      "checkpoint_relative_path": "training/experiment-2-epoch7-from-epoch6-checkpoint-20260813T124955Z/run-state/epoch_output/epoch_1/recommended/best_val",
+      "container_image": "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+      "file_sha256": {
+        "config.json": "54b6f6856a2441f1e6fb0e22521d06d290977df296be2b029d7eede0276508c7",
+        "model.keras": "7a11df10b943330fe93c7fbf2ddb0584a75539ecb6b1da06dcaa3a5c39f17572",
+        "tokenizer.json": "a6cb9dfe416c36d0d04caa35f8e3381606ea0e473acab56e18d5ec3be825d01e"
+      },
+      "input": "grayscale, height 64 (VGSL input None,None,64,1); resizing done by the container's own loader",
+      "loghi_htr_commit": "c24c745e9aeb287bedeb6b4edee670ae5c81a3cd",
+      "reference_validation": {
+        "caveat": "in-distribution validation split; not comparable to an external benchmark",
+        "cer": 0.0998,
+        "decoding": "beam_width 10, greedy false (lap-evaluation/lap1_best_val/config.json)",
+        "lines": 1000,
+        "wer": 0.3273
+      }
+    }
+  },
+  "predictions_file": "loghi.jsonl",
+  "predictions_sha256": "837481d30b0a994b668e74f069c415597c1a0da9ea3c0aabc4a874b140ad13cf",
+  "provenance": {
+    "git": {
+      "checked_paths": [
+        "src",
+        "scripts",
+        "pyproject.toml"
+      ],
+      "commit": "62b9007108b075c9aea94b1d61092ff61a3b4211",
+      "dirty": false,
+      "dirty_path_count": 0,
+      "dirty_paths": []
+    },
+    "official": false,
+    "runtime": {
+      "machine": "AMD64",
+      "packages": {
+        "numpy": "2.5.3",
+        "pillow": "12.3.0",
+        "pyarrow": "25.0.1",
+        "pydantic": "2.13.5",
+        "torch": "2.13.0+cu130",
+        "transformers": "4.49.0"
+      },
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.15"
+    },
+    "timestamp_utc": "2026-09-27T01:11:47Z"
+  },
+  "started_at_utc": "2026-09-27T01:11:28Z",
+  "status_counts": {
+    "ok": 5
+  }
+}

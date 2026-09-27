@@ -1,0 +1,11 @@
+{
+  "total_lines": 4627,
+  "insufficient_timestep_lines": 154,
+  "insufficient_rate": 0.03328290468986384,
+  "empty_and_insufficient": 2,
+  "empty_and_sufficient": 69,
+  "insufficient_but_not_empty": 152,
+  "insufficient_but_not_empty_mean_cer": 0.7755941497197808,
+  "mean_slack_empty_lines": 6.830985915492958,
+  "mean_slack_non_empty_lines": 18.741000877963124
+}

@@ -1,0 +1,78 @@
+{
+  "old": {
+    "dir": "benchmark-data/benchmark/svea-hovratt-2026-09-primary",
+    "manifest_sha256": "7c47b9eebdc26b1f6583698678132a50d6e27d3578d4d4c7dfd03e2a49c11aa0",
+    "documents": 5,
+    "pages": 140,
+    "lines": 6486,
+    "characters": 213824,
+    "words": 37545
+  },
+  "new": {
+    "dir": "benchmark-data/work/svea-hovratt-2026-09/candidate",
+    "manifest_sha256": "e43ee895851036f47e92801ce9aa5ca102c22a1f67d8c15225d41261c5d5b8e1",
+    "documents": 4,
+    "pages": 105,
+    "lines": 4627,
+    "characters": 166201,
+    "words": 28872
+  },
+  "difference": {
+    "documents": -1,
+    "pages": -35,
+    "lines": -1859,
+    "characters": -47623,
+    "words": -8673
+  },
+  "removed_lines": 1859,
+  "added_lines": 0,
+  "changed_retained_lines": 0,
+  "retained_lines_identical": 4627,
+  "removed_characters": 47623,
+  "removed_words": 8673,
+  "removed_lines_by_document": {
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349": 1661,
+    "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3": 198
+  },
+  "removed_pages": [
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0001_DSC_0549",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0002_DSC_0550",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0003_DSC_0551",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0004_DSC_0552",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0005_DSC_0553",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0006_DSC_0554",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0007_DSC_0555",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0008_DSC_0556",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0009_DSC_0557",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0010_DSC_0558",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0011_DSC_0559",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0012_DSC_0560",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0013_DSC_0561",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0014_DSC_0562",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0015_DSC_0563",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0016_DSC_0564",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0017_DSC_0565",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0018_DSC_0566",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0019_DSC_0567",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0020_DSC_0568",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0021_DSC_0569",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0022_DSC_0570",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0023_DSC_0571",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0024_DSC_0572",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0025_DSC_0573",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0026_DSC_0574",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0027_DSC_0575",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0028_DSC_0576",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0029_DSC_0577",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0030_DSC_0578",
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349/0031_DSC_0579",
+    "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0009_DSC_0457",
+    "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0010_DSC_0458",
+    "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0011_DSC_0459",
+    "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0012_DSC_0460"
+  ],
+  "pages_partly_removed": [],
+  "documents_removed_entirely": [
+    "Svea_Hovraett_etc_export_job_4502442_858109_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1708_-59a94349"
+  ]
+}

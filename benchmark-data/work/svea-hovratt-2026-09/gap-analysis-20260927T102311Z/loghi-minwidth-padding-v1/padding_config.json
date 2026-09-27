@@ -1,0 +1,62 @@
+{
+  "diagnostic_id": "loghi-minwidth-padding-v1",
+  "label": "SECONDARY POST-BENCHMARK DIAGNOSTIC / IMPROVED INFERENCE VARIANT -- not the official benchmark, does not replace it",
+  "preregistered_before_seeing": "any padded-crop inference or scoring result; only architecture probing (vgsl_timestep_probe.py) and geometry/GT-length facts already published in GAP_ANALYSIS.md and ctc_timestep_summary.json were used to set MIN_WIDTH",
+  "hypothesis": "Ensuring a minimum horizontal input width (hence a minimum CTC timestep budget) reduces Loghi's empty-output and under-production failure modes on short/narrow line crops, specifically because narrow crops leave the model little timestep margin above the bare CTC minimum, and a weakly-trained (scratch) model is disproportionately likely to collapse to a degenerate/empty output when that margin is tight -- not because the correct answer is architecturally unrepresentable (only 2/71 official empty lines are strictly T < T_min).",
+
+  "architecture_derivation": {
+    "vgsl_spec": "None,None,64,1 Cr3,3,24 Mp2,2,2,2 Bn Cr3,3,48 Bn Cr3,3,96 Mp2,2,2,2 Bn Cr3,3,96 Mp2,2,2,2 Bn Rc3 Bl512 D50 Bl512 D50 Bl512 D50 Bl512 D50 Bl512 D50 Fs92",
+    "source": "confirmed identical between training/scratch_epoch_runner.py's RECOMMENDED_VGSL_SPEC and the live pinned container's get_model_library()['recommended']",
+    "instrumentation_method": "built the real 'recommended' model inside the pinned container (loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8) via VGSLModelGenerator and ran 25 real forward passes on synthetic zero tensors at widths 8..900; confirmed input axis order empirically as (batch, width[None], height[64], channels[1])",
+    "empirical_result": "T_timesteps = ceil(resized_width / 8), exact fit across all 25 probed widths (three Mp2,2,2,2 stride-2 maxpool stages give an exact 8x horizontal downsampling; Cr* conv layers use 'same' padding; Bl512 LSTM layers do not change the time axis)",
+    "resize_rule": "the model resizes every crop to fixed height 64 with the width scaled proportionally: resized_width = original_crop_width * 64 / original_crop_height",
+    "ctc_minimum_alignment": "T_min = L + R, where L = reference character length and R = count of immediately-adjacent repeated-character pairs in the reference (a blank must separate two adjacent identical labels or CTC repeat-collapse merges them)",
+    "empirical_sufficiency_check_on_official_run": {
+      "source_file": "../ctc_timestep_summary.json",
+      "total_lines": 4627,
+      "structurally_insufficient_lines_corpuswide": 154,
+      "of_71_empty_outputs_strictly_insufficient": 2,
+      "of_71_empty_outputs_technically_sufficient": 69,
+      "mean_slack_empty_lines": 6.83,
+      "mean_slack_non_empty_lines": 18.74,
+      "honest_caveat": "the strict CTC-impossibility mechanism explains only 2/71 empty outputs; the remaining association is a margin/confidence effect (empty lines have far less slack on average), not an architectural impossibility. The padding experiment tests this softer, partially-supported mechanism, not a hard sufficiency claim."
+    }
+  },
+
+  "min_width_derivation": {
+    "rule": "derived entirely from geometry (image_width/image_height, a preprocessing/dataset property) and reference-length facts (GT transcription length, a dataset/problem-specification property). Never used loghi_status, loghi_empty, or loghi_cer -- i.e. never chosen by trying candidate widths against benchmark performance.",
+    "inputs": {
+      "narrow_population_definition": "lines with official image_width < 100px (n=164)",
+      "narrow_population_T_min_p95": 7,
+      "reference_note": "p95 used instead of the single max (33, one line) to avoid one outlier dictating the global constant",
+      "healthy_population_definition": "lines with official image_width >= 200px (n=4288, clearly not width-starved)",
+      "healthy_population_slack_p25": 12,
+      "reference_note_2": "p25 (lower quartile, a conservative reference) of the healthy population's own T-minus-T_min slack, used as the 'comfortable margin' target rather than its median or mean",
+      "worst_case_height_reference_px": 95,
+      "reference_note_3": "p99 of narrow-line heights, so the derivation is conservative even for the tallest narrow crops (taller crop => smaller resized_width => smaller T for a fixed padded original width)"
+    },
+    "formula": "needed_T = narrow_T_min_p95 + healthy_slack_p25 = 7 + 12 = 19; resized_width_needed = needed_T * 8 = 152; MIN_WIDTH = ceil(resized_width_needed * worst_case_height / 64) = ceil(152 * 95 / 64) = 226px",
+    "rounding": "rounded up to 230px as a clean, slightly more conservative constant",
+    "MIN_WIDTH_px": 230,
+    "applies_to": "the original (pre-Loghi-resize) crop width, before the container's internal resize-to-height-64 step",
+    "uncertainty_statement": "the exact width->timestep transformation (T=ceil(resized_width/8)) and the CTC minimum (T_min=L+R) are exactly derived from code/theory, not guessed. The MARGIN target (19 timesteps of slack) is a judgment call, explicitly using conservative (p95/p25/p99) rather than central statistics, and is stated here as such rather than hidden."
+  },
+
+  "padding_rule": {
+    "name": "symmetric background padding, no rescaling",
+    "condition": "apply only if official image_width < MIN_WIDTH_px (230)",
+    "action": "pad_total = MIN_WIDTH_px - original_width; pad_left = pad_total // 2; pad_right = pad_total - pad_left (any odd leftover pixel goes right); handwriting pixels are copied unchanged and centered, never stretched, rescaled, rotated, contrast-enhanced, or denoised; height is never changed",
+    "fill_value_rule": "per-line, data-derived from the crop's own image content only (never GT-dependent): the mean RGB colour of a 2px-wide strip at that line's own left edge and right edge (whichever side is being padded uses that side's own edge-strip mean; if a side needs padding but has no source pixels on that side because pad covers the full former edge region, it uses the same crop's opposite-edge strip as fallback -- in practice every crop has both edges available since padding only adds pixels, never removes them)",
+    "unaffected_lines": "lines with official image_width >= 230px are copied byte-identical (same PNG bytes, same hash) into the derived crop set; no exceptions expected or observed",
+    "png_encoding": "identical to the official crop policy: PIL PNG save with optimize=False, compress_level=6 (imaging.PNG_SAVE_KWARGS), same RGB mode",
+    "gt_and_ids_unchanged": "line_id, page_id, document_id, gt_canonical, gt_canonical_sha256, and eligibility are copied unmodified from the official manifest; only line_image_path (to the derived crop) and image_width/image_sha256 (for padded lines) are recomputed"
+  },
+
+  "run_scope": {
+    "model_run": "Loghi only, same checkpoint/profile/beam width 10/Docker image digest/tokenizer/runtime as the official primary run",
+    "lion_rerun": "none -- official Lion predictions are used as the fixed reference throughout",
+    "run_id": "svea-hovratt-v2-diag-loghi-minwidth-padding-20260927",
+    "official_flag": false,
+    "overwrite_policy": "never overwrites benchmark-data/reports/svea-hovratt-v2-primary-20260927T102311Z/ or any file in ../ (the Phase C gap-analysis directory); all new outputs live under this loghi-minwidth-padding-v1/ subdirectory"
+  }
+}

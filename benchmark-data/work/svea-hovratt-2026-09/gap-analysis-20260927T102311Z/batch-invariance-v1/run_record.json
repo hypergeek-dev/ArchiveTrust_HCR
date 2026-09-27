@@ -1,0 +1,44 @@
+{
+  "diagnostic_id": "batch-invariance-v1",
+  "label": "SECONDARY POST-BENCHMARK DIAGNOSTIC -- tests batch-composition/batch-size invariance of Loghi inference; does not modify GT, official predictions, or crops",
+  "scope": "narrowly scoped to the primary question: does Loghi produce the same prediction for a fixed input image regardless of batch size, ordering, or companion geometry",
+  "official_evidence_verified_before_running": {
+    "manifest_sha256": "e43ee895851036f47e92801ce9aa5ca102c22a1f67d8c15225d41261c5d5b8e1",
+    "matches_frozen_json": true,
+    "official_loghi_prediction_sha256": "9aed0d6e2d3bcd73c116d813af15e82e191da04f39f54b094eb8ce1098feadb4",
+    "loghi_checkpoint_file_sha256": {
+      "config.json": "54b6f6856a2441f1e6fb0e22521d06d290977df296be2b029d7eede0276508c7",
+      "model.keras": "7a11df10b943330fe93c7fbf2ddb0584a75539ecb6b1da06dcaa3a5c39f17572",
+      "tokenizer.json": "a6cb9dfe416c36d0d04caa35f8e3381606ea0e473acab56e18d5ec3be825d01e"
+    },
+    "docker_image_digest": "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+    "code_commit": "8a2902a8c8614d29b0252ab1858a8c1c7338c5bd",
+    "code_dirty": false,
+    "official_beam_width": 10,
+    "official_batch_size": 16,
+    "official_seed": 42
+  },
+  "test_set": {
+    "size": 100,
+    "manifest_file": "batch_test_manifest.jsonl",
+    "selection_rule": "4 mandatory changed-but-byte-identical lines (from the loghi-minwidth-padding-v1 unchanged-lines check) + 20 narrow empty-output lines (width<100px, seed 20260927 sample of 42) + 20 narrow non-empty lines (width<100px, same seed, sample of 122) + 39 normal-width controls (width 600-850px, same seed, sample of full pool) + 17 very-wide lines (width>850px, entire population -- only 17 exist). Frozen before any batch-condition inference was run.",
+    "seed": 20260927
+  },
+  "conditions_run": {
+    "ref_bs1": {"batch_size": 1, "order": "natural (frozen sample order)", "repeats": 2, "purpose": "batch-invariance reference + baseline determinism check"},
+    "bs2": {"batch_size": 2, "order": "natural", "repeats": 1},
+    "bs4": {"batch_size": 4, "order": "natural", "repeats": 1},
+    "bs8": {"batch_size": 8, "order": "natural", "repeats": 1},
+    "bs16_natural": {"batch_size": 16, "order": "natural", "repeats": 1},
+    "ord_reverse_bs16": {"batch_size": 16, "order": "reversed", "repeats": 1},
+    "ord_width_asc_bs16": {"batch_size": 16, "order": "width ascending", "repeats": 1},
+    "ord_width_desc_bs16": {"batch_size": 16, "order": "width descending", "repeats": 1},
+    "ord_shuffled_bs16": {"batch_size": 16, "order": "fixed-seed (20260927) shuffle", "repeats": 1},
+    "context_narrow": {"batch_size": 16, "composition": "10 targets + 6 narrow (width<100px) companions", "repeats": 3},
+    "context_wide": {"batch_size": 16, "composition": "10 targets + 6 very-wide (width>850px) companions", "repeats": 3},
+    "context_normal": {"batch_size": 16, "composition": "10 targets + 6 normal (width 600-850px) companions", "repeats": 3}
+  },
+  "model_identity": "loghi-swedish-scratch-exp2-epoch7 (same pinned checkpoint/container/beam width/seed as the official run)",
+  "note": "Stopping rule condition A (reproducible batch-composition/batch-size effect) was met after this matrix; no further conditions were run, per the task's explicit hard limits.",
+  "unaltered_inputs": "all conditions read directly from the frozen official benchmark crops (benchmark-data/benchmark/svea-hovratt-2026-09-primary-v2); no new image transformation was created; GT and official predictions were never modified."
+}

@@ -1,0 +1,58 @@
+{
+  "source_id": "svea-hovratt-2026-09",
+  "manifest_sha256": "e43ee895851036f47e92801ce9aa5ca102c22a1f67d8c15225d41261c5d5b8e1",
+  "candidate_lines": 4627,
+  "build_json_sha256": "0d30ffcdbad422afdd07dbf0b7a923c27cd9a09ee4da0b17769b3ca00a21af59",
+  "training_files": [
+    {
+      "name": "svea_hovratt_lines_1.parquet",
+      "bytes": 3442066047,
+      "rows": 20800
+    },
+    {
+      "name": "svea_hovratt_lines_2.parquet",
+      "bytes": 3168440371,
+      "rows": 20183
+    }
+  ],
+  "script_sha256": "3c0d981c14dc57f89774e4f0bbfa60c0a1c35bdec40fc6565b6f322cb9e6956d",
+  "constants": {
+    "ET": "<module 'xml.etree.ElementTree' from 'C:\\\\Users\\\\ize_c\\\\AppData\\\\Roaming\\\\uv\\\\python\\\\cpython-3.13.15-windows-x86_64-none\\\\Lib\\\\xml\\\\etree\\\\ElementTree.py'>",
+    "HYPHEN_LIKE": "-¬=⸗‐‑–—",
+    "SENTENCE_END": ".!?",
+    "TOKEN": "re.compile('[^\\\\W\\\\d_]+')",
+    "MAX_ABBR_LETTERS": 4,
+    "ABBR_TOKEN": "re.compile('(?<![^\\\\W\\\\d_])([^\\\\W\\\\d_]{1,4})([.:])(?=\\\\s|$|[,;)\\\\]])')",
+    "ABBR_MIN_COUNT": 3,
+    "EDITORIAL_RULES": "{'E1_square_brackets': ('DETERMINISTIC', re.compile('\\\\[[^\\\\]]*\\\\]')), 'E2_curly_braces': ('DETERMINISTIC', re.compile('\\\\{[^}]*\\\\}')), 'E3_angle_brackets': ('DETERMINISTIC', re.compile('<[^>]*>')), 'E4_parentheses': ('HEURISTIC', re.compile('\\\\([^)]*\\\\)')), 'E5_question_mark_touching_letter': ('HEURISTIC', re.compile('[^\\\\W\\\\d_]\\\\?|\\\\?[^\\\\W\\\\d_]')), 'E6_ellipsis': ('DETERMINISTIC', re.compile('…|\\\\.\\\\.\\\\.')), 'E7_unbalanced_bracket': ('DETERMINISTIC', re.compile('^[^\\\\[]*\\\\]|\\\\[[^\\\\]]*$')), 'E9_repeated_question_marks': ('DETERMINISTIC', re.compile('\\\\?{2,}'))}",
+    "EDITORIAL_TAGS": [
+      "unclear",
+      "gap",
+      "sic",
+      "comment",
+      "supplied",
+      "del",
+      "add"
+    ],
+    "ABBR_TAGS": [
+      "abbrev"
+    ],
+    "HISTORICAL_SPELLING": "{'hw- (hwar, hwilken)': re.compile('\\\\bhw'), 'qw- (qwinna)': re.compile('\\\\bqw'), 'dh (medh, godh)': re.compile('dh'), 'fw (hafwa, af)': re.compile('fw'), 'ff (aff, ...)': re.compile('ff'), 'ck word-final': re.compile('ck\\\\b'), 'æ': re.compile('æ'), 'ß': re.compile('ß'), 'ſ long s': re.compile('ſ')}",
+    "PERSONAL_KEYS": "{'user', 'uploader', 'creator_email', 'userid', 'uploaderid', 'owner', 'email', 'username'}",
+    "TRAINING_TEXT_COLUMN": "transcription"
+  },
+  "outputs": [
+    "abbreviation_candidates.csv",
+    "audit_findings.json",
+    "capitalization_profile.csv",
+    "collection_comparison.csv",
+    "editorial_markup.csv",
+    "hyphenation_analysis.csv",
+    "manual_review_queue.csv",
+    "metadata_summary.json",
+    "punctuation_profile.csv",
+    "run_record.json",
+    "unicode_inventory.csv"
+  ],
+  "generated_at_utc": "2026-09-27T09:34:40Z"
+}

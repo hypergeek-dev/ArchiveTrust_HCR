@@ -1,0 +1,12 @@
+{
+  "ref_bs1_reproducibility_n_differ": 0,
+  "bs16_natural_vs_bs1_n_changed": 40,
+  "bs16_natural_vs_bs1_pct_changed": 40.0,
+  "companion_context_within_condition_n_differ": {
+    "context_narrow": 0,
+    "context_wide": 0,
+    "context_normal": 0
+  },
+  "companion_context_across_context_n_differ_among_targets": 2,
+  "n_targets": 10
+}

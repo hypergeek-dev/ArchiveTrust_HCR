@@ -1,0 +1,1285 @@
+{
+  "run_id": "svea-hovratt-v2-primary-20260927T102311Z",
+  "report_dir": "benchmark-data/reports/svea-hovratt-v2-primary-20260927T102311Z",
+  "status": "OFFICIAL_PRIMARY_RUN",
+  "benchmark_identity": {
+    "benchmark_id": "svea-hovratt-2026-09-primary-v2",
+    "manifest_sha256": "e43ee895851036f47e92801ce9aa5ca102c22a1f67d8c15225d41261c5d5b8e1",
+    "frozen_json_sha256": "3b6eadc6e408eb434c8d2f007cb1ef1e9f1efb41b990799873b1bb6f9c835917",
+    "decisions_sha256": "c32103e3ed7c450cdad0b7e81a0223552b31f5c1bbb0feeb83dbd22d8c5d4206",
+    "documents": 4,
+    "pages": 105,
+    "lines": 4627,
+    "reference_characters": 166201,
+    "reference_words": 28872,
+    "frozen_at_utc": "2026-09-27T09:35:38Z",
+    "superseded_benchmark": "svea-hovratt-2026-09-primary (SUPERSEDED - DO NOT USE FOR PRIMARY ACCURACY BENCHMARK)"
+  },
+  "models": {
+    "loghi": {
+      "decoding": {
+        "batch_size": 16,
+        "beam_width": 10,
+        "greedy": false,
+        "seed": 42
+      },
+      "decoding_profile": "validated",
+      "family": "loghi-htr",
+      "model_id": "loghi-swedish-scratch-exp2-epoch7",
+      "pinned": {
+        "backup_release": "https://github.com/hypergeek-dev/ArchiveTrust_HCR/releases/tag/model-loghi-swedish-scratch-exp2-epoch7",
+        "checkpoint_relative_path": "training/experiment-2-epoch7-from-epoch6-checkpoint-20260813T124955Z/run-state/epoch_output/epoch_1/recommended/best_val",
+        "container_image": "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+        "file_sha256": {
+          "config.json": "54b6f6856a2441f1e6fb0e22521d06d290977df296be2b029d7eede0276508c7",
+          "model.keras": "7a11df10b943330fe93c7fbf2ddb0584a75539ecb6b1da06dcaa3a5c39f17572",
+          "tokenizer.json": "a6cb9dfe416c36d0d04caa35f8e3381606ea0e473acab56e18d5ec3be825d01e"
+        },
+        "input": "grayscale, height 64 (VGSL input None,None,64,1); resizing done by the container's own loader",
+        "loghi_htr_commit": "c24c745e9aeb287bedeb6b4edee670ae5c81a3cd",
+        "reference_validation": {
+          "caveat": "in-distribution validation split; not comparable to an external benchmark",
+          "cer": 0.0998,
+          "decoding": "beam_width 10, greedy false (lap-evaluation/lap1_best_val/config.json)",
+          "lines": 1000,
+          "wer": 0.3273
+        }
+      },
+      "container_image": "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8"
+    },
+    "lion": {
+      "decoding": {
+        "do_sample": false,
+        "early_stopping": true,
+        "length_penalty": 2.0,
+        "max_length": 256,
+        "no_repeat_ngram_size": 3,
+        "num_beams": 4
+      },
+      "decoding_profile": "generation_config",
+      "family": "trocr",
+      "model_id": "riksarkivet-swedish-lion-libre",
+      "pinned": {
+        "hf_model": "Riksarkivet/trocr-base-handwritten-hist-swe-2",
+        "hf_model_revision": "aa79fcb1850bf3155ebc442570d6c6bfc0ac8100",
+        "hf_processor": "microsoft/trocr-base-handwritten",
+        "hf_processor_revision": "eaacaf452b06415df8f10bb6fad3a4c11e609406",
+        "input": "RGB, TrOCR ViT processor 384x384, mean/std 0.5",
+        "processor_equivalence": "image processor, vocab.json and merges.txt verified identical to the model repo's own",
+        "training_data_note": "trained on the same public Riksarkivet HF line collections as the Loghi training corpus"
+      },
+      "backend_environment": {
+        "device_used": "cuda",
+        "gpu_name": "NVIDIA GeForce RTX 3070",
+        "model_revision": "aa79fcb1850bf3155ebc442570d6c6bfc0ac8100",
+        "software_environment": {
+          "torch": "2.13.0+cu130",
+          "transformers": "4.49.0"
+        }
+      }
+    }
+  },
+  "raw_primary_metrics": {
+    "lion": {
+      "cer": 0.18419865103098057,
+      "cer_line_end_hyphen_harmonized": 0.18232140600838742,
+      "cer_whitespace_normalized": 0.18408843369578953,
+      "char_deletions": 9468,
+      "char_edits": 30614,
+      "char_insertions": 3220,
+      "char_substitutions": 17926,
+      "empty_predictions": 0,
+      "exact_line_accuracy": 0.07326561486924574,
+      "failed_or_missing_lines": 0,
+      "lines": 4627,
+      "mean_line_cer_macro": 0.2058248405839959,
+      "reference_characters": 166201,
+      "reference_words": 28872,
+      "status_counts": {
+        "ok": 4627
+      },
+      "wer": 0.4363050706566916,
+      "wer_line_end_hyphen_harmonized": 0.42979357162648935,
+      "wer_whitespace_normalized": 0.4363050706566916,
+      "word_deletions": 1203,
+      "word_edits": 12597,
+      "word_insertions": 419,
+      "word_substitutions": 10975
+    },
+    "loghi": {
+      "cer": 0.3270016425893948,
+      "cer_line_end_hyphen_harmonized": 0.3255636247676007,
+      "cer_whitespace_normalized": 0.3270891377473959,
+      "char_deletions": 32506,
+      "char_edits": 54348,
+      "char_insertions": 762,
+      "char_substitutions": 21080,
+      "empty_predictions": 71,
+      "exact_line_accuracy": 0.008861033066781931,
+      "failed_or_missing_lines": 0,
+      "lines": 4627,
+      "mean_line_cer_macro": 0.3524421469614207,
+      "reference_characters": 166201,
+      "reference_words": 28872,
+      "status_counts": {
+        "empty": 71,
+        "ok": 4556
+      },
+      "wer": 0.6752909393183707,
+      "wer_line_end_hyphen_harmonized": 0.6729010806317539,
+      "wer_whitespace_normalized": 0.6752909393183707,
+      "word_deletions": 4601,
+      "word_edits": 19497,
+      "word_insertions": 97,
+      "word_substitutions": 14799
+    }
+  },
+  "d5_sensitivity_note": "SECONDARY SENSITIVITY ANALYSIS -- NOT PRIMARY RESULT. cer_line_end_hyphen_harmonized / wer_line_end_hyphen_harmonized fields inside raw_primary_metrics are the D5 scores; everything else in that block is raw/primary.",
+  "confidence_intervals": {
+    "cluster_unit": "page",
+    "clusters": 105,
+    "interval": "95% percentile",
+    "paired_differences": {
+      "lion__vs__loghi": {
+        "cer": {
+          "ci95": [
+            -0.15252067659768406,
+            -0.13298702276096233
+          ],
+          "difference": "lion minus loghi",
+          "share_of_resamples_a_lower": 1.0
+        },
+        "wer": {
+          "ci95": [
+            -0.252836417429254,
+            -0.22598423369539336
+          ],
+          "difference": "lion minus loghi",
+          "share_of_resamples_a_lower": 1.0
+        }
+      }
+    },
+    "per_model": {
+      "lion": {
+        "cer": [
+          0.17290555211947517,
+          0.1964533877572149
+        ],
+        "wer": [
+          0.4224651008697295,
+          0.4507182892469525
+        ]
+      },
+      "loghi": {
+        "cer": [
+          0.3116020576666522,
+          0.3425244103549333
+        ],
+        "wer": [
+          0.6595251008369216,
+          0.6907045845187851
+        ]
+      }
+    },
+    "samples": 2000,
+    "seed": 20260927
+  },
+  "pairwise": {
+    "a": "lion",
+    "b": "loghi",
+    "catastrophic": {
+      "both": 442,
+      "lion": 481,
+      "loghi": 982
+    },
+    "categories": {
+      "both_correct": 25,
+      "both_wrong_equal_edits": 287,
+      "both_wrong_identically": 38,
+      "both_wrong_lion_better": 3576,
+      "both_wrong_loghi_better": 371,
+      "only_lion_correct": 314,
+      "only_loghi_correct": 16
+    },
+    "disagreement_sample": {
+      "lion_much_better": [
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0007_DSC_0440/line_1638889589548_2023",
+          "lion": "att intächten effter giord förwandling warit, kiöpa uti",
+          "lion_edits": 12,
+          "loghi": "b",
+          "loghi_edits": 56,
+          "reference": "att intächten effter giord förwandling måtte skie på det"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0008_DSC_0456/r1l13",
+          "lion": "hoos Probsten att undergå förgds och utewarning till båt",
+          "lion_edits": 8,
+          "loghi": "hågn wällarnglabe",
+          "loghi_edits": 47,
+          "reference": "hoos Probsten att undergå förhör och åthwarning tillbät-"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0013_DSC_0446/r2l30",
+          "lion": "Officerarnes ordres hålla husesyn, men enär der till Knut så fins öre nog",
+          "lion_edits": 10,
+          "loghi": "firarus onusfåll fisammäretill Kntsifusbma",
+          "loghi_edits": 48,
+          "reference": "Officerarnes ordres hålla Husesyn, men enär der till kommit så finns bra nog."
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0007_DSC_0440/line_1638889589533_2015",
+          "lion": "förra rätt underrättade om denne proviant skiutz hu¬",
+          "lion_edits": 9,
+          "loghi": "leletim d",
+          "loghi_edits": 45,
+          "reference": "wara rätt underrättade om denne Proriant Skiutz dhe"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0003_DSC_0436/r1l46",
+          "lion": "effter sluten Räckning och undersatte bomännen d. 2 febr.",
+          "lion_edits": 7,
+          "loghi": "sån Rnlingoch annat banh",
+          "loghi_edits": 42,
+          "reference": "effter sluten Rächning och undersatte bomärcke d. 2. Febr."
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0003_DSC_0451/r1l17",
+          "lion": "laga å wästra sidan af åkerhagarna af the Jonsse",
+          "lion_edits": 9,
+          "loghi": "ålla re smölesgnamå",
+          "loghi_edits": 41,
+          "reference": "baka å wästra sydan af åkerhagarna af Pehr Joenson"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0005_DSC_0453/r1l12",
+          "lion": "hans dotters arf och Joen Hemmingzons föräldt hafwa",
+          "lion_edits": 21,
+          "loghi": "n hamn wam",
+          "loghi_edits": 53,
+          "reference": "Hansdotters arf och Joen Hemmingssons fordran till 32 Daler."
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0002_DSC_0450/r1l2",
+          "lion": "näst boende tillhållet, då märta tillstör haf:r",
+          "lion_edits": 13,
+          "loghi": "inte lisme uti hafln",
+          "loghi_edits": 44,
+          "reference": "näst boende tillhållet, då märeta tillstår hafft kundskap"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0003_DSC_0451/r1l14",
+          "lion": "af Erich Eliasson och Elia Swensson än welat",
+          "lion_edits": 12,
+          "loghi": "en",
+          "loghi_edits": 43,
+          "reference": "af Erich Ehrsson och Elias Swensson, öfwer så"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0007_DSC_0440/line_1638889589548_2017",
+          "lion": "Ländzman efter Rättens resolution å tinget in Humb",
+          "lion_edits": 6,
+          "loghi": "ir otocs tesklatten i tillagt ideas",
+          "loghi_edits": 37,
+          "reference": "Ländzman effter Rättens resolution å tinget in Decemb."
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0003_DSC_0451/r1l20",
+          "lion": "finnes det Pehr Joensson slagit 2ne inne.",
+          "lion_edits": 10,
+          "loghi": "a sagt r S",
+          "loghi_edits": 40,
+          "reference": "finnes det Pehr Joensson slagit 2.ne åhr in uppå"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0007_DSC_0440/line_1638889700049_2072",
+          "lion": "dhå kunna förundes at uhr Margazinet den uttaga och",
+          "lion_edits": 8,
+          "loghi": "l     eseaeet clrretitna och",
+          "loghi_edits": 38,
+          "reference": "dhe kunna förbiudas at uhr Magazinet den uttaga ord"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0001_DSC_0370/r2l13",
+          "lion": "Septembr 1701: att kiöpa till ordell, och",
+          "lion_edits": 7,
+          "loghi": "Jan 14 A ligstuoch vid",
+          "loghi_edits": 37,
+          "reference": "2. Septembr. 1701. att kiöpa till adell, och"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0003_DSC_0451/r1l1",
+          "lion": "ifrån och att han skulle kunna han hustro",
+          "lion_edits": 16,
+          "loghi": "s mul",
+          "loghi_edits": 45,
+          "reference": "ifrån och att han skulle kläda Rygghudan och dem"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0003_DSC_0451/r1l12",
+          "lion": "af män, men af Pehr Joenson wara gångit",
+          "lion_edits": 19,
+          "loghi": "",
+          "loghi_edits": 48,
+          "reference": "af gode män, men af Pehr Joensson på ösköt höger"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0003_DSC_0436/r1l48",
+          "lion": "54 D 28 /: 5: Rassmus Hanßon i Påhlågen på lijkte sätt",
+          "lion_edits": 17,
+          "loghi": "Ao Jåßans honßon Pylihmultsa",
+          "loghi_edits": 46,
+          "reference": "54 Daler. 28/. 5. Rassmuss Hansson i Påhlåhsen på lyka sätt"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0007_DSC_0440/line_1638889589548_2019",
+          "lion": "1712 äfwen will låta gå effter Rättet för större richa¬",
+          "lion_edits": 9,
+          "loghi": "otill låta på frr ita förhenoih",
+          "loghi_edits": 38,
+          "reference": "1712. äfwen will låta gå effter Skåttet för större richtigt-"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0011_DSC_0444/r1l25",
+          "lion": "på Ede, dock deraf Spilckopparne afdragas om andel",
+          "lion_edits": 7,
+          "loghi": "påloh udeskillganswdssan",
+          "loghi_edits": 36,
+          "reference": "på Edhe, dock deraf Spillkopparne afdragas som dhe"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0005_DSC_0453/r1l2",
+          "lion": "tillståndt intresse sig bestiga till Ersk förwälborne domb och 7",
+          "lion_edits": 30,
+          "loghi": "och Abes 3 S",
+          "loghi_edits": 58,
+          "reference": "tillkändt interesse sig bestiga till sex tyo femb Daler Sölw. mt."
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0005_DSC_0453/r1l7",
+          "lion": "måtte gå i betahlning, och Joen Henricsson manet som",
+          "lion_edits": 13,
+          "loghi": "ganm a ansammatsom",
+          "loghi_edits": 41,
+          "reference": "måtte gå i betahlning, och Joen Hemmingsson i walla"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0006_DSC_0454/r1l3",
+          "lion": "Nills barnsson förehöltz hwad sådant borde det han wähl",
+          "lion_edits": 17,
+          "loghi": "hane fr en t",
+          "loghi_edits": 45,
+          "reference": "Nills Hansson förehöltz hwadh sådant hade för swarheet"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0032_DSC_0411/r3l9",
+          "lion": "Företogz den långl. tienst emellan Capiten 26",
+          "lion_edits": 3,
+          "loghi": "Rydzlichtrf mellan sapte Bo¬",
+          "loghi_edits": 31,
+          "reference": "Företogs den långl. tienst emellan Capitein 26."
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0009_DSC_0442/line_1638890141692_2369",
+          "lion": "hwilken mannen sedan 1712 in Marti henne igenlösa,",
+          "lion_edits": 4,
+          "loghi": "nann sden 17n Matz huwälät",
+          "loghi_edits": 31,
+          "reference": "hwilcken mannen sedan 1712 in Martj henne igenlöste"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0009_DSC_0442/r1l27",
+          "lion": "dhe andra giorde Logance till dhen som gryn fördt och wid",
+          "lion_edits": 6,
+          "loghi": "hanm gen kanetil dhen som gyr frka",
+          "loghi_edits": 33,
+          "reference": "dhe andra giorde Leverence till dhen som gryn fördt och wi-"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0010_DSC_0443/r1l20",
+          "lion": "igenlyta men intet skedde, uthan Simonsson tog tröija uti",
+          "lion_edits": 10,
+          "loghi": "gulste mu ate kaan bisesantatagma",
+          "loghi_edits": 37,
+          "reference": "igenbyta men intet skedde, uthan Winsenson tog tröyan uth"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0002_DSC_0450/r1l13",
+          "lion": "Kyrckioherden i hörsamblingen kommit omgänge.",
+          "lion_edits": 12,
+          "loghi": "hl smm kammnga",
+          "loghi_edits": 38,
+          "reference": "och kyrkioherden i församblingen kommit om något"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0005_DSC_0453/r1l6",
+          "lion": "lägandomb stadat till Spin Penningen i Walla",
+          "lion_edits": 33,
+          "loghi": "wl",
+          "loghi_edits": 59,
+          "reference": "ägendomb stadgat till Sex tio femb Daler. Sölfw.mt. nu mehra"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0005_DSC_0453/r1l9",
+          "lion": "förbehållen Pant få i bristning 6 öre förnär lösen",
+          "lion_edits": 22,
+          "loghi": "hr n n",
+          "loghi_edits": 48,
+          "reference": "förbehållen Pant att få i besittning i Emädan Rassmun"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0006_DSC_0454/r1l7",
+          "lion": "nu i denna Biörn, hwar öfwer Jon Biörsson sig beswärckt",
+          "lion_edits": 9,
+          "loghi": "o lmno a frdon Bäßa sig besr",
+          "loghi_edits": 35,
+          "reference": "nu i denne höst, hwar öfwer Joen Biörsson sig beswärar,"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0008_DSC_0456/r1l8",
+          "lion": "tienst medh hon medh bemället med antagande Swärmodren",
+          "lion_edits": 17,
+          "loghi": "n  nenkarnden",
+          "loghi_edits": 43,
+          "reference": "tienst medh hemmans bruuket undantagandes Swärmoderen."
+        }
+      ],
+      "loghi_much_better": [
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0011_DSC_0383/line_1638269466359_17",
+          "lion": "sig bekommit. Iembandes Borge",
+          "lion_edits": 28,
+          "loghi": "iigemelend, och seden aldag",
+          "loghi_edits": 13,
+          "reference": "till ångermanland, och sedan aldrig"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0024_DSC_0358/r2l6",
+          "lion": "till bemälte hafans att wijd samma",
+          "lion_edits": 30,
+          "loghi": "et, nekade n der till n",
+          "loghi_edits": 15,
+          "reference": "genheet, nekade nu der till, och eme-"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0024_DSC_0401/r2l5",
+          "lion": "... och så¬",
+          "lion_edits": 25,
+          "loghi": "ahr med honom tag, och så",
+          "loghi_edits": 12,
+          "reference": "blandelse med honom fry, och så-"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0039_DSC_0421/r2l7",
+          "lion": "fördt htt samtyckia och dyrkhu¬",
+          "lion_edits": 28,
+          "loghi": "git hoo tienn amat Mo¬",
+          "loghi_edits": 15,
+          "reference": "lofwat hoo. tiäna, allenast Mo-"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0009_DSC_0442/line_1638890141661_2347",
+          "lion": "Såsom Sigrid Markusdotter tillslädes kommen examinerande",
+          "lion_edits": 56,
+          "loghi": "Eu Sgud markusdot tillsads kommen examnarali",
+          "loghi_edits": 44,
+          "reference": "13."
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0029_DSC_0407/r1l6",
+          "lion": "i alla tillwärk för slikt giöra",
+          "lion_edits": 19,
+          "loghi": "te alla tillyka uti denne gen¬",
+          "loghi_edits": 7,
+          "reference": "ka alla tillyka uti denne gierning"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0018_DSC_0392/r1l1",
+          "lion": "beswärde",
+          "lion_edits": 33,
+          "loghi": "fingeGådmären hig i tage",
+          "loghi_edits": 22,
+          "reference": "skillige giäldenärne här i tingelaget"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0026_DSC_0404/r2l3",
+          "lion": "Swarandes det Pähr Olßon för honom",
+          "lion_edits": 33,
+          "loghi": "hr cefentrade bagkon",
+          "loghi_edits": 22,
+          "reference": "Yttermehra confronterades Drag. Broman"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0034_DSC_0413/r2l6",
+          "lion": "sa kiort, som Bonden",
+          "lion_edits": 25,
+          "loghi": "oden, hwilken wande Capten",
+          "loghi_edits": 14,
+          "reference": "till Swedie, hwilken Bonde Capitein"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0041_DSC_0423/r3l2",
+          "lion": "Öfwerlaplikt, blef med stånden",
+          "lion_edits": 30,
+          "loghi": "Hnderlagdt eykalle udet",
+          "loghi_edits": 19,
+          "reference": "Bostället underlagdt, ey heller är det"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0044_DSC_0426/r2l10",
+          "lion": "har med han begifwit, och dy saker",
+          "lion_edits": 21,
+          "loghi": "ed hon honom instänkde,",
+          "loghi_edits": 10,
+          "reference": "hwar med han honom instämdt,"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0021_DSC_0398/r2l7",
+          "lion": "förr tills således 9 d.48 som h:r",
+          "lion_edits": 26,
+          "loghi": "lefwande såedes 9 Dr som H. H¬",
+          "loghi_edits": 16,
+          "reference": "blifwandes således 9. Daler. 22. som H. Hans"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0046_DSC_0428/r2l7",
+          "lion": "af honom wid d. 22 May:tts 689.",
+          "lion_edits": 24,
+          "loghi": "som wid KrogzRegmentet",
+          "loghi_edits": 14,
+          "reference": "ve hemman wid Drag. Regementet,"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0008_DSC_0341/r2l2",
+          "lion": "85 sig förlijtningen att för¬",
+          "lion_edits": 19,
+          "loghi": "sfölykningen angåente, ath h",
+          "loghi_edits": 9,
+          "reference": "sig förlykningen angående, att Pähr"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0021_DSC_0355/r2l13",
+          "lion": "nämnde alldenast förordning",
+          "lion_edits": 23,
+          "loghi": "Comes Alenningstuufwer",
+          "loghi_edits": 13,
+          "reference": "om Cronones Allmening sträfwer"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0007_DSC_0440/r1l4",
+          "lion": "Emot smälte sidan wähl att förrutt",
+          "lion_edits": 37,
+          "loghi": "amt fördenna såochl öße Swarade",
+          "loghi_edits": 28,
+          "reference": "gazinet, fördenskull worda nu så wähl desse swarande"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0039_DSC_0421/r2l5",
+          "lion": "som han öfwerstädes med Pijgans",
+          "lion_edits": 22,
+          "loghi": "y ofwerandes, att i hans",
+          "loghi_edits": 13,
+          "reference": "Eeden upp refererandes, att i hans"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0045_DSC_0427/r2l4",
+          "lion": "af a:o 65: det i anseende till kunna",
+          "lion_edits": 31,
+          "loghi": "Sos förmedanbenes",
+          "loghi_edits": 22,
+          "reference": "Gen. Sparres förmedling bref af d."
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0014_DSC_0447/r1l4",
+          "lion": "Augusti 1712 förstånga belägga,",
+          "lion_edits": 32,
+          "loghi": "Augusti 11 fintag och någa nammandesmnde",
+          "loghi_edits": 24,
+          "reference": "Augustj 1712 företogs och noga examinerades, men Swen-"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0007_DSC_0378/r1l4",
+          "lion": "S: d: henne kunde",
+          "lion_edits": 19,
+          "loghi": "nu welat S. D: henne Kul¬",
+          "loghi_edits": 11,
+          "reference": "och welat s. v. henne knulla."
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0011_DSC_0383/r3l4",
+          "lion": "af d. 31 sist.m:t.",
+          "lion_edits": 28,
+          "loghi": "N E mil Ols hon nder",
+          "loghi_edits": 20,
+          "reference": "Fader med Daniel Olss Swär Moders"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0049_DSC_0432/r2l2",
+          "lion": "St. blef utfunnes tyder legat till",
+          "lion_edits": 28,
+          "loghi": "henderne fickorn t",
+          "loghi_edits": 20,
+          "reference": "intet. Swaranderne förklarade att"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0026_DSC_0361/r2l4",
+          "lion": "Hr dhe bekallande och af Hl. Probsten",
+          "lion_edits": 29,
+          "loghi": "de Rokmalt sade att iwäulig¬",
+          "loghi_edits": 21,
+          "reference": "ägde. Nathanel sade, att de woro bäg-"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0006_DSC_0439/r1l29",
+          "lion": "tiensten skul des Barnen blijfwa, men som sådan",
+          "lion_edits": 13,
+          "loghi": "tiensken till des Barnen blystora, men som sådan",
+          "loghi_edits": 6,
+          "reference": "teinster till des barnen bly stora, men som sådan"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0007_DSC_0440/line_1638889589517_1986",
+          "lion": "sampte anmält medh klockan att förra at sluten",
+          "lion_edits": 35,
+          "loghi": "smtil Mingn indrättat att frantsuta",
+          "loghi_edits": 28,
+          "reference": "som samtel. Allmogen underättade att Proriant Skiutzen"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0007_DSC_0378/r2l1",
+          "lion": "resten, då han sagdt det",
+          "lion_edits": 28,
+          "loghi": "alan att den sysa en",
+          "loghi_edits": 21,
+          "reference": "fölliande relation, att de wysat henne"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0013_DSC_0385/r1l1",
+          "lion": "härstädes för 8 dagar",
+          "lion_edits": 29,
+          "loghi": "kmförgen,mandes hy",
+          "loghi_edits": 22,
+          "reference": "honom, för än nu, warandes dhe qui-"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0016_DSC_0390/r2l5",
+          "lion": "Hörda Tullingsdahl och på Lorige och Swänsson",
+          "lion_edits": 28,
+          "loghi": "Sdack sölpå haus wäp¬",
+          "loghi_edits": 21,
+          "reference": "Jonas Frysdahl och på hans wägnar"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0017_DSC_0391/r2l10",
+          "lion": "Fiscalen Wälb.de och Kronan Bönderne Wälborne",
+          "lion_edits": 28,
+          "loghi": "Celen Wälb: Jand Frjdahlen",
+          "loghi_edits": 21,
+          "reference": "på Fiscaler Wälb. Jonas Frysdahls wäg-"
+        },
+        {
+          "line_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0017_DSC_0391/r2l6",
+          "lion": "sin mindre nämnde.",
+          "lion_edits": 26,
+          "loghi": "ferfor det påmnn derfir",
+          "loghi_edits": 19,
+          "reference": "han intet mehra att påminna derföre"
+        }
+      ]
+    },
+    "error_profile": {
+      "lion": {
+        "tags": {
+          "abbreviation_word": 2116,
+          "case": 832,
+          "diacritic": 277,
+          "digit": 707,
+          "letter": 19824,
+          "punctuation": 3808,
+          "spacing": 2474,
+          "special_character": 576
+        },
+        "top_confusions": [
+          [
+            " →∅",
+            981
+          ],
+          [
+            "e→∅",
+            819
+          ],
+          [
+            "s→∅",
+            731
+          ],
+          [
+            ".→∅",
+            703
+          ],
+          [
+            "a→∅",
+            563
+          ],
+          [
+            ".→:",
+            557
+          ],
+          [
+            "a→e",
+            541
+          ],
+          [
+            "l→∅",
+            504
+          ],
+          [
+            "n→∅",
+            469
+          ],
+          [
+            "r→∅",
+            454
+          ],
+          [
+            "∅→i",
+            428
+          ],
+          [
+            "y→j",
+            348
+          ],
+          [
+            "i→∅",
+            347
+          ],
+          [
+            "o→∅",
+            333
+          ],
+          [
+            "d→∅",
+            326
+          ],
+          [
+            "t→∅",
+            325
+          ],
+          [
+            "e→a",
+            324
+          ],
+          [
+            "s→ß",
+            320
+          ],
+          [
+            "-→¬",
+            312
+          ],
+          [
+            "h→∅",
+            311
+          ],
+          [
+            "f→∅",
+            293
+          ],
+          [
+            "∅→ ",
+            285
+          ],
+          [
+            "o→a",
+            243
+          ],
+          [
+            "∅→e",
+            207
+          ],
+          [
+            "m→∅",
+            199
+          ],
+          [
+            "m→n",
+            195
+          ],
+          [
+            "-→∅",
+            180
+          ],
+          [
+            "∅→t",
+            177
+          ],
+          [
+            ",→∅",
+            177
+          ],
+          [
+            "∅→n",
+            171
+          ],
+          [
+            "n→m",
+            164
+          ],
+          [
+            "a→o",
+            158
+          ],
+          [
+            "H→h",
+            157
+          ],
+          [
+            "o→e",
+            140
+          ],
+          [
+            "k→∅",
+            136
+          ],
+          [
+            "c→∅",
+            129
+          ],
+          [
+            "r→n",
+            129
+          ],
+          [
+            "∅→s",
+            128
+          ],
+          [
+            "∅→l",
+            125
+          ],
+          [
+            "w→∅",
+            123
+          ]
+        ]
+      },
+      "loghi": {
+        "tags": {
+          "abbreviation_word": 3429,
+          "case": 647,
+          "diacritic": 432,
+          "digit": 1193,
+          "letter": 38863,
+          "punctuation": 4003,
+          "spacing": 4919,
+          "special_character": 862
+        },
+        "top_confusions": [
+          [
+            " →∅",
+            3744
+          ],
+          [
+            "e→∅",
+            2978
+          ],
+          [
+            "a→∅",
+            2014
+          ],
+          [
+            "s→∅",
+            1829
+          ],
+          [
+            "n→∅",
+            1814
+          ],
+          [
+            "r→∅",
+            1724
+          ],
+          [
+            "l→∅",
+            1666
+          ],
+          [
+            "t→∅",
+            1649
+          ],
+          [
+            "i→∅",
+            1402
+          ],
+          [
+            ".→∅",
+            1346
+          ],
+          [
+            "d→∅",
+            1189
+          ],
+          [
+            "o→∅",
+            1131
+          ],
+          [
+            "a→e",
+            1024
+          ],
+          [
+            "h→∅",
+            905
+          ],
+          [
+            "f→∅",
+            813
+          ],
+          [
+            "m→∅",
+            649
+          ],
+          [
+            "c→∅",
+            520
+          ],
+          [
+            "s→ß",
+            499
+          ],
+          [
+            "ä→∅",
+            497
+          ],
+          [
+            "g→∅",
+            489
+          ],
+          [
+            ",→∅",
+            480
+          ],
+          [
+            "w→∅",
+            471
+          ],
+          [
+            "k→∅",
+            452
+          ],
+          [
+            "å→∅",
+            449
+          ],
+          [
+            "ö→∅",
+            439
+          ],
+          [
+            "u→∅",
+            381
+          ],
+          [
+            "a→o",
+            331
+          ],
+          [
+            "m→n",
+            328
+          ],
+          [
+            "n→m",
+            305
+          ],
+          [
+            "p→∅",
+            291
+          ],
+          [
+            "-→∅",
+            254
+          ],
+          [
+            "e→a",
+            245
+          ],
+          [
+            "o→a",
+            242
+          ],
+          [
+            "-→¬",
+            239
+          ],
+          [
+            "o→e",
+            237
+          ],
+          [
+            "b→∅",
+            230
+          ],
+          [
+            "y→∅",
+            228
+          ],
+          [
+            "1→∅",
+            226
+          ],
+          [
+            "e→i",
+            216
+          ],
+          [
+            "H→h",
+            211
+          ]
+        ]
+      }
+    },
+    "lines": 4627,
+    "lines_a_fewer_edits": 3890,
+    "lines_b_fewer_edits": 387
+  },
+  "failure_counts": {
+    "lion": {
+      "failed_or_missing": 0,
+      "empty": 0
+    },
+    "loghi": {
+      "failed_or_missing": 0,
+      "empty": 71
+    }
+  },
+  "per_document_results": [
+    {
+      "document": "4502443",
+      "document_id": "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3",
+      "lines": 397,
+      "reference_characters": 18529,
+      "reference_words": 3086,
+      "lion": {
+        "cer": 0.18819148362027094,
+        "wer": 0.45495787427090084,
+        "failed_or_missing_lines": 0,
+        "empty_predictions": 0
+      },
+      "loghi": {
+        "cer": 0.3976469318365805,
+        "wer": 0.7355800388852884,
+        "failed_or_missing_lines": 0,
+        "empty_predictions": 8
+      },
+      "pairwise_point_difference_lion_minus_loghi": {
+        "cer": -0.20945544821630957,
+        "wer": -0.2806221646143876
+      }
+    },
+    {
+      "document": "4502444",
+      "document_id": "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491",
+      "lines": 776,
+      "reference_characters": 37812,
+      "reference_words": 6227,
+      "lion": {
+        "cer": 0.14117211467259072,
+        "wer": 0.40324393769070177,
+        "failed_or_missing_lines": 0,
+        "empty_predictions": 0
+      },
+      "loghi": {
+        "cer": 0.30834126732254313,
+        "wer": 0.6932712381564156,
+        "failed_or_missing_lines": 0,
+        "empty_predictions": 10
+      },
+      "pairwise_point_difference_lion_minus_loghi": {
+        "cer": -0.1671691526499524,
+        "wer": -0.2900273004657138
+      }
+    },
+    {
+      "document": "4502445",
+      "document_id": "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a",
+      "lines": 2137,
+      "reference_characters": 68549,
+      "reference_words": 12279,
+      "lion": {
+        "cer": 0.23580212694568847,
+        "wer": 0.4844042674484893,
+        "failed_or_missing_lines": 0,
+        "empty_predictions": 0
+      },
+      "loghi": {
+        "cer": 0.3582838553443522,
+        "wer": 0.6823845590031762,
+        "failed_or_missing_lines": 0,
+        "empty_predictions": 35
+      },
+      "pairwise_point_difference_lion_minus_loghi": {
+        "cer": -0.12248172839866373,
+        "wer": -0.19798029155468688
+      }
+    },
+    {
+      "document": "4502446",
+      "document_id": "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f",
+      "lines": 1317,
+      "reference_characters": 41311,
+      "reference_words": 7280,
+      "lion": {
+        "cer": 0.1361622812326015,
+        "wer": 0.37554945054945055,
+        "failed_or_missing_lines": 0,
+        "empty_predictions": 0
+      },
+      "loghi": {
+        "cer": 0.26048752148338217,
+        "wer": 0.6223901098901099,
+        "failed_or_missing_lines": 0,
+        "empty_predictions": 18
+      },
+      "pairwise_point_difference_lion_minus_loghi": {
+        "cer": -0.12432524025078068,
+        "wer": -0.24684065934065935
+      }
+    }
+  ],
+  "prediction_hashes": {
+    "lion": {
+      "file": "lion.jsonl",
+      "sha256": "aef14754070f8ff037818a3689ef75f9966df7e2be60e1c8193975826e34450c"
+    },
+    "loghi": {
+      "file": "loghi.jsonl",
+      "sha256": "9aed0d6e2d3bcd73c116d813af15e82e191da04f39f54b094eb8ce1098feadb4"
+    }
+  },
+  "overlap_check": {
+    "benchmark_id": "svea-hovratt-2026-09-primary-v2",
+    "caveat": "No match is not proof of no overlap: re-cropped, re-scanned or re-transcribed material evades these checks.",
+    "checked_at_utc": "2026-09-27T10:56:43Z",
+    "index": {
+      "meta": {
+        "built_at_utc": "2026-09-27T07:43:47Z",
+        "counts": {
+          "rows": 40983,
+          "rows_without_decodable_image": 0
+        },
+        "overlap_version": "1",
+        "shard_names_sha256": "011bf3824db8c0aa1dffc842d6b0edf089cc451f7851776b62fd377cd47588bf",
+        "shards": 2
+      },
+      "path": "benchmark-data\\overlap\\svea-hovratt-training-index.sqlite",
+      "sha256": "de8c798885fb9638954f62f7097d2567b9d857e32165aa637419bac098c9ddf3"
+    },
+    "lines_checked": 4627,
+    "lines_too_short_for_text_check": 402,
+    "lines_with_strong_signal": 0,
+    "manifest_sha256": "e43ee895851036f47e92801ce9aa5ca102c22a1f67d8c15225d41261c5d5b8e1",
+    "min_text_chars": 20,
+    "overlap_version": "1",
+    "signal_counts": {}
+  },
+  "sanity_check_lines_from_completeness_audit": [
+    {
+      "line_id_prefix": "Svea_Hovraett_etc_export_job_4502442.../.../p30/r2l3",
+      "prior_manual_observation": "image appeared to read 'Carl Grips'; supplied GT said 'Carl Grims'",
+      "in_v2": false,
+      "reason": "document 4502442 excluded whole by D6 (superseded v1 only)"
+    },
+    {
+      "line_id_prefix": "Svea_Hovraett_etc_export_job_4502443.../.../p10/r2l29",
+      "prior_manual_observation": "image appeared to read 'Häradzhöfdingen'; supplied GT said 'Hindran gaff ingen'",
+      "in_v2": false,
+      "reason": "4502443 pages 9-12 excluded by D6 (superseded v1 only)"
+    }
+  ],
+  "code_and_runtime_provenance": {
+    "git": {
+      "checked_paths": [
+        "src",
+        "scripts",
+        "pyproject.toml"
+      ],
+      "commit": "8a2902a8c8614d29b0252ab1858a8c1c7338c5bd",
+      "dirty": false,
+      "dirty_path_count": 0,
+      "dirty_paths": []
+    },
+    "official": true,
+    "runtime": {
+      "machine": "AMD64",
+      "packages": {
+        "numpy": "2.5.3",
+        "pillow": "12.3.0",
+        "pyarrow": "25.0.1",
+        "pydantic": "2.13.5",
+        "torch": "2.13.0+cu130",
+        "transformers": "4.49.0"
+      },
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.15"
+    },
+    "timestamp_utc": "2026-09-27T10:55:33Z"
+  },
+  "loghi_run_provenance": {
+    "git": {
+      "checked_paths": [
+        "src",
+        "scripts",
+        "pyproject.toml"
+      ],
+      "commit": "8a2902a8c8614d29b0252ab1858a8c1c7338c5bd",
+      "dirty": false,
+      "dirty_path_count": 0,
+      "dirty_paths": []
+    },
+    "official": true,
+    "runtime": {
+      "machine": "AMD64",
+      "packages": {
+        "numpy": "2.5.3",
+        "pillow": "12.3.0",
+        "pyarrow": "25.0.1",
+        "pydantic": "2.13.5",
+        "torch": "2.13.0+cu130",
+        "transformers": "4.49.0"
+      },
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.15"
+    },
+    "timestamp_utc": "2026-09-27T10:23:37Z"
+  },
+  "lion_run_provenance": {
+    "git": {
+      "checked_paths": [
+        "src",
+        "scripts",
+        "pyproject.toml"
+      ],
+      "commit": "8a2902a8c8614d29b0252ab1858a8c1c7338c5bd",
+      "dirty": false,
+      "dirty_path_count": 0,
+      "dirty_paths": []
+    },
+    "official": true,
+    "runtime": {
+      "machine": "AMD64",
+      "packages": {
+        "numpy": "2.5.3",
+        "pillow": "12.3.0",
+        "pyarrow": "25.0.1",
+        "pydantic": "2.13.5",
+        "torch": "2.13.0+cu130",
+        "transformers": "4.49.0"
+      },
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.15"
+    },
+    "timestamp_utc": "2026-09-27T10:25:32Z"
+  },
+  "scored_at_utc": "2026-09-27T10:55:33Z",
+  "scoring_version": "2",
+  "metrics_version": 1
+}

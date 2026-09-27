@@ -1,0 +1,269 @@
+{
+  "collections": {
+    "4502442": {
+      "collection_name": "Svea_Hovra╠êtt_ÔÇô_Advokatfiskalen_Ja╠êmtlands_la╠ên_(1708)_320_ÔÇô_350_",
+      "document_metadata_xml": {
+        "colId": "126885",
+        "colName": "<redacted: present>",
+        "crowdsourcing": "false",
+        "description": "<redacted: present>",
+        "docId": "858109",
+        "elearning": "false",
+        "fimgStoreColl": "TrpDoc_DEA_858109",
+        "nrOfDocuments": "0",
+        "nrOfPages": "31",
+        "origDocId": "0",
+        "pageId": "32194495",
+        "status": "0",
+        "thumbUrl": "https://files.transkribus.eu/Get?fileType=thumb&id=YHFSSKCOLDRPBLILZYQLXBAD",
+        "title": "Svea Hovrätt – Advokatfiskalen Jämtlands län (1708) 320 – 350",
+        "uploadTimestamp": "1638976730833",
+        "uploader": "<redacted: present>",
+        "uploaderId": "<redacted: present>",
+        "url": "https://files.transkribus.eu/Get?fileType=view&id=YHFSSKCOLDRPBLILZYQLXBAD"
+      },
+      "line_custom_tag_counts": {
+        "readingOrder": 1661
+      },
+      "lines_in_candidate": 1661,
+      "page_xml_creator": {
+        "<redacted: contains @>": 31
+      },
+      "page_xml_element_counts": {
+        "Baseline": 1662,
+        "Coords": 1749,
+        "Created": 31,
+        "Creator": 31,
+        "LastChange": 31,
+        "Metadata": 31,
+        "OrderedGroup": 31,
+        "Page": 31,
+        "PcGts": 31,
+        "ReadingOrder": 31,
+        "RegionRefIndexed": 87,
+        "TextEquiv": 1749,
+        "TextLine": 1662,
+        "TextRegion": 87,
+        "TranskribusMetadata": 31,
+        "Unicode": 1749
+      },
+      "pages": 31,
+      "textlines_with_textequiv_conf": 0,
+      "transkribus_page_status": {
+        "IN_PROGRESS": 31
+      }
+    },
+    "4502443": {
+      "collection_name": "Svea_Hovra╠êtt_ÔÇô_Advokatfiskalen_Ja╠êmtlands_la╠ên_(1713)_372_ÔÇô_383_",
+      "document_metadata_xml": {
+        "colId": "126885",
+        "colName": "<redacted: present>",
+        "crowdsourcing": "false",
+        "description": "<redacted: present>",
+        "docId": "858057",
+        "elearning": "false",
+        "fimgStoreColl": "TrpDoc_DEA_858057",
+        "nrOfDocuments": "0",
+        "nrOfPages": "12",
+        "origDocId": "0",
+        "pageId": "32185579",
+        "status": "0",
+        "thumbUrl": "https://files.transkribus.eu/Get?fileType=thumb&id=EKPUFYPJQNHFDXKXFSCTWWIG",
+        "title": "Svea Hovrätt – Advokatfiskalen Jämtlands län (1713) 372 – 383",
+        "uploadTimestamp": "1638972889522",
+        "uploader": "<redacted: present>",
+        "uploaderId": "<redacted: present>",
+        "url": "https://files.transkribus.eu/Get?fileType=view&id=EKPUFYPJQNHFDXKXFSCTWWIG"
+      },
+      "line_custom_tag_counts": {
+        "readingOrder": 595
+      },
+      "lines_in_candidate": 595,
+      "page_xml_creator": {
+        "<redacted: contains @>": 12
+      },
+      "page_xml_element_counts": {
+        "Baseline": 607,
+        "Coords": 629,
+        "Created": 12,
+        "Creator": 12,
+        "LastChange": 12,
+        "Metadata": 12,
+        "OrderedGroup": 12,
+        "Page": 12,
+        "PcGts": 12,
+        "ReadingOrder": 12,
+        "RegionRefIndexed": 22,
+        "TextEquiv": 629,
+        "TextLine": 607,
+        "TextRegion": 22,
+        "TranskribusMetadata": 12,
+        "Unicode": 629
+      },
+      "pages": 12,
+      "textlines_with_textequiv_conf": 0,
+      "transkribus_page_status": {
+        "IN_PROGRESS": 12
+      }
+    },
+    "4502444": {
+      "collection_name": "Svea_Hovra╠êtt_ÔÇô_Advokatfiskalen_Ja╠êmtlands_la╠ên_(1713)_103_ÔÇô_117",
+      "document_metadata_xml": {
+        "colId": "126885",
+        "colName": "<redacted: present>",
+        "crowdsourcing": "false",
+        "description": "<redacted: present>",
+        "docId": "855910",
+        "elearning": "false",
+        "fimgStoreColl": "TrpDoc_DEA_855910",
+        "nrOfDocuments": "0",
+        "nrOfPages": "15",
+        "origDocId": "0",
+        "pageId": "31982372",
+        "status": "0",
+        "thumbUrl": "https://files.transkribus.eu/Get?fileType=thumb&id=NWLQNNTGVDBNDZNGPJRTEQKZ",
+        "title": "Svea Hovrätt – Advokatfiskalen Jämtlands län (1713) 103 – 117",
+        "uploadTimestamp": "1638874827605",
+        "uploader": "<redacted: present>",
+        "uploaderId": "<redacted: present>",
+        "url": "https://files.transkribus.eu/Get?fileType=view&id=NWLQNNTGVDBNDZNGPJRTEQKZ"
+      },
+      "line_custom_tag_counts": {
+        "readingOrder": 776
+      },
+      "lines_in_candidate": 776,
+      "page_xml_creator": {
+        "<redacted: contains @>": 15
+      },
+      "page_xml_element_counts": {
+        "Baseline": 801,
+        "Coords": 833,
+        "Created": 15,
+        "Creator": 15,
+        "LastChange": 15,
+        "Metadata": 15,
+        "OrderedGroup": 15,
+        "Page": 15,
+        "PcGts": 15,
+        "ReadingOrder": 15,
+        "RegionRefIndexed": 29,
+        "TextEquiv": 833,
+        "TextLine": 804,
+        "TextRegion": 29,
+        "TranskribusMetadata": 15,
+        "Unicode": 833
+      },
+      "pages": 15,
+      "textlines_with_textequiv_conf": 0,
+      "transkribus_page_status": {
+        "IN_PROGRESS": 15
+      }
+    },
+    "4502445": {
+      "collection_name": "Svea_Hovra╠êtt_-_Advokatfiskalen_Ja╠êmtlands_la╠ên_(1702)_366_-_414",
+      "document_metadata_xml": {
+        "colId": "126885",
+        "colName": "<redacted: present>",
+        "crowdsourcing": "false",
+        "description": "<redacted: present>",
+        "docId": "845640",
+        "elearning": "false",
+        "fimgStoreColl": "TrpDoc_DEA_845640",
+        "nrOfDocuments": "0",
+        "nrOfPages": "49",
+        "origDocId": "0",
+        "pageId": "31301967",
+        "status": "0",
+        "thumbUrl": "https://files.transkribus.eu/Get?fileType=thumb&id=HNXFXIJBYAHJGUYGYRFACOZF",
+        "title": "Svea Hovrätt - Advokatfiskalen Jämtlands län (1702) 366 - 414",
+        "uploadTimestamp": "1638188599864",
+        "uploader": "<redacted: present>",
+        "uploaderId": "<redacted: present>",
+        "url": "https://files.transkribus.eu/Get?fileType=view&id=HNXFXIJBYAHJGUYGYRFACOZF"
+      },
+      "line_custom_tag_counts": {
+        "readingOrder": 2137
+      },
+      "lines_in_candidate": 2137,
+      "page_xml_creator": {
+        "<redacted: contains @>": 49
+      },
+      "page_xml_element_counts": {
+        "Baseline": 2136,
+        "Coords": 2248,
+        "Created": 49,
+        "Creator": 49,
+        "LastChange": 49,
+        "Metadata": 49,
+        "OrderedGroup": 49,
+        "Page": 49,
+        "PcGts": 49,
+        "ReadingOrder": 49,
+        "RegionRefIndexed": 103,
+        "TextEquiv": 2248,
+        "TextLine": 2145,
+        "TextRegion": 103,
+        "TranskribusMetadata": 49,
+        "Unicode": 2248
+      },
+      "pages": 49,
+      "textlines_with_textequiv_conf": 0,
+      "transkribus_page_status": {
+        "IN_PROGRESS": 49
+      }
+    },
+    "4502446": {
+      "collection_name": "Svea_Hovra╠êtt_-_Advokatfiskalens_Ja╠êmtlands_la╠ên_(1702)_124-156",
+      "document_metadata_xml": {
+        "colId": "126885",
+        "colName": "<redacted: present>",
+        "crowdsourcing": "false",
+        "description": "<redacted: present>",
+        "docId": "842250",
+        "elearning": "false",
+        "fimgStoreColl": "TrpDoc_DEA_842250",
+        "nrOfDocuments": "0",
+        "nrOfPages": "33",
+        "origDocId": "0",
+        "pageId": "31171971",
+        "status": "0",
+        "thumbUrl": "https://files.transkribus.eu/Get?fileType=thumb&id=DHGZGBZECHHNZGWVBYQZFOBR",
+        "title": "Svea Hovrätt - Advokatfiskalens Jämtlands län (1702) 124-156",
+        "uploadTimestamp": "1637845056470",
+        "uploader": "<redacted: present>",
+        "uploaderId": "<redacted: present>",
+        "url": "https://files.transkribus.eu/Get?fileType=view&id=DHGZGBZECHHNZGWVBYQZFOBR"
+      },
+      "line_custom_tag_counts": {
+        "readingOrder": 1317
+      },
+      "lines_in_candidate": 1317,
+      "page_xml_creator": {
+        "<redacted: contains @>": 33
+      },
+      "page_xml_element_counts": {
+        "Baseline": 1328,
+        "Coords": 1396,
+        "Created": 33,
+        "Creator": 33,
+        "LastChange": 33,
+        "Metadata": 33,
+        "OrderedGroup": 33,
+        "Page": 33,
+        "PcGts": 33,
+        "ReadingOrder": 33,
+        "RegionRefIndexed": 68,
+        "TextEquiv": 1396,
+        "TextLine": 1328,
+        "TextRegion": 68,
+        "TranskribusMetadata": 33,
+        "Unicode": 1396
+      },
+      "pages": 33,
+      "textlines_with_textequiv_conf": 0,
+      "transkribus_page_status": {
+        "IN_PROGRESS": 33
+      }
+    }
+  }
+}

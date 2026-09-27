@@ -1,0 +1,78 @@
+{
+  "backend_environment": {
+    "device_used": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 3070",
+    "model_revision": "aa79fcb1850bf3155ebc442570d6c6bfc0ac8100",
+    "software_environment": {
+      "torch": "2.13.0+cu130",
+      "transformers": "4.49.0"
+    }
+  },
+  "benchmark": {
+    "benchmark_id": "svea-hovratt-2026-09-primary-v2",
+    "frozen_dir": "H:\\ArchiveTrust_HCR 2\\benchmark-data\\benchmark\\svea-hovratt-2026-09-primary-v2",
+    "frozen_record_sha256": "3b6eadc6e408eb434c8d2f007cb1ef1e9f1efb41b990799873b1bb6f9c835917",
+    "manifest_sha256": "e43ee895851036f47e92801ce9aa5ca102c22a1f67d8c15225d41261c5d5b8e1"
+  },
+  "decoding_rationale": "What the model card's `model.generate(pixel_values)` does: the pinned generation_config.json, spelled out.",
+  "finished_at_utc": "2026-09-27T10:54:32Z",
+  "limited_to": null,
+  "lines": 4627,
+  "model": {
+    "decoding": {
+      "do_sample": false,
+      "early_stopping": true,
+      "length_penalty": 2.0,
+      "max_length": 256,
+      "no_repeat_ngram_size": 3,
+      "num_beams": 4
+    },
+    "decoding_profile": "generation_config",
+    "family": "trocr",
+    "model_id": "riksarkivet-swedish-lion-libre",
+    "pinned": {
+      "hf_model": "Riksarkivet/trocr-base-handwritten-hist-swe-2",
+      "hf_model_revision": "aa79fcb1850bf3155ebc442570d6c6bfc0ac8100",
+      "hf_processor": "microsoft/trocr-base-handwritten",
+      "hf_processor_revision": "eaacaf452b06415df8f10bb6fad3a4c11e609406",
+      "input": "RGB, TrOCR ViT processor 384x384, mean/std 0.5",
+      "processor_equivalence": "image processor, vocab.json and merges.txt verified identical to the model repo's own",
+      "training_data_note": "trained on the same public Riksarkivet HF line collections as the Loghi training corpus"
+    }
+  },
+  "prediction_outer_whitespace_stripped": 34,
+  "predictions_file": "lion.jsonl",
+  "predictions_sha256": "aef14754070f8ff037818a3689ef75f9966df7e2be60e1c8193975826e34450c",
+  "provenance": {
+    "git": {
+      "checked_paths": [
+        "src",
+        "scripts",
+        "pyproject.toml"
+      ],
+      "commit": "8a2902a8c8614d29b0252ab1858a8c1c7338c5bd",
+      "dirty": false,
+      "dirty_path_count": 0,
+      "dirty_paths": []
+    },
+    "official": true,
+    "runtime": {
+      "machine": "AMD64",
+      "packages": {
+        "numpy": "2.5.3",
+        "pillow": "12.3.0",
+        "pyarrow": "25.0.1",
+        "pydantic": "2.13.5",
+        "torch": "2.13.0+cu130",
+        "transformers": "4.49.0"
+      },
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.15"
+    },
+    "timestamp_utc": "2026-09-27T10:25:32Z"
+  },
+  "started_at_utc": "2026-09-27T10:25:32Z",
+  "status_counts": {
+    "ok": 4627
+  }
+}

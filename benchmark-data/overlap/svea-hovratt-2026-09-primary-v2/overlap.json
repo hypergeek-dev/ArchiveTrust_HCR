@@ -1,0 +1,26 @@
+{
+  "benchmark_id": "svea-hovratt-2026-09-primary-v2",
+  "caveat": "No match is not proof of no overlap: re-cropped, re-scanned or re-transcribed material evades these checks.",
+  "checked_at_utc": "2026-09-27T10:56:43Z",
+  "index": {
+    "meta": {
+      "built_at_utc": "2026-09-27T07:43:47Z",
+      "counts": {
+        "rows": 40983,
+        "rows_without_decodable_image": 0
+      },
+      "overlap_version": "1",
+      "shard_names_sha256": "011bf3824db8c0aa1dffc842d6b0edf089cc451f7851776b62fd377cd47588bf",
+      "shards": 2
+    },
+    "path": "benchmark-data\\overlap\\svea-hovratt-training-index.sqlite",
+    "sha256": "de8c798885fb9638954f62f7097d2567b9d857e32165aa637419bac098c9ddf3"
+  },
+  "lines_checked": 4627,
+  "lines_too_short_for_text_check": 402,
+  "lines_with_strong_signal": 0,
+  "manifest_sha256": "e43ee895851036f47e92801ce9aa5ca102c22a1f67d8c15225d41261c5d5b8e1",
+  "min_text_chars": 20,
+  "overlap_version": "1",
+  "signal_counts": {}
+}

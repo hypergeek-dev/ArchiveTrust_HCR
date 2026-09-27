@@ -1,0 +1,13 @@
+{
+  "label": "SECONDARY DIAGNOSTIC -- NOT PRIMARY RESULT. Official Loghi result (beam width 10) is unchanged.",
+  "hypothesis_preregistered": "If Loghi's corpus-wide under-production (deletion-heavy edits, median prediction/reference length ratio 0.86) and its 71 empty outputs are a beam-search-width artifact, a narrower beam (greedy, beam=1) should make both worse or unchanged, and there is no supported profile above beam=10 to test the opposite direction with the current model_registry.py. This tests only whether beam width in the range actually used (1 vs 10) explains any material part of the gap.",
+  "run_id": "svea-hovratt-v2-diag-loghi-greedy-20260927T102311Z",
+  "profile": "greedy (beam_width=1, greedy=true)",
+  "official": false,
+  "result": {
+    "loghi_beam1_greedy": {"cer": 0.3300, "wer": 0.6761, "empty_outputs": 91, "char_deletions": 33065, "char_substitutions": 20973, "char_insertions": 809},
+    "loghi_beam10_official": {"cer": 0.3270, "wer": 0.6753, "empty_outputs": 71, "char_deletions": 32506, "char_substitutions": 21080, "char_insertions": 762},
+    "delta_beam10_minus_beam1": {"cer_pp": -0.30, "wer_pp": -0.08, "empty_outputs": -20}
+  },
+  "conclusion": "Beam width 10 is already marginally better than greedy on every measure (lower CER/WER, fewer empty outputs, fewer deletions) -- confirming beam 10 as the right primary choice, not something to change. But the effect size is tiny (0.30 percentage points of CER) against a 14.3-point gap to Lion, and the empty-output count only drops from 91 to 71, not to zero. Beam width does not materially explain the gap or the empty-output phenomenon; both persist essentially unchanged across the only two supported profiles. This is evidence AGAINST a decoding-configuration explanation and points toward a cause upstream of decoding (preprocessing/architecture/training), not the search width."
+}

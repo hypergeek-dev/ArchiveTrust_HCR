@@ -246,7 +246,71 @@ training/preflight-check/
 # and already described in docs/audits/. Not tracked.
 training/_superseded_prepared_runs/
 
-# Independent Loghi-vs-Lion benchmark data (docs/BENCHMARK_PROTOCOL.md): incoming deliveries,
-# derived work, frozen benchmarks and prediction reports. Contains third-party archive images and
-# GT; frozen manifests are identified by SHA-256 recorded in each report, not by git.
-benchmark-data/
+# Independent Loghi-vs-Lion benchmark data (docs/BENCHMARK_PROTOCOL.md). Methodology, decisions,
+# diagnostics, configs, hashes, run records and small result summaries ARE tracked, so the
+# benchmark's technical story is reconstructable without the raw data. What stays out: raw
+# deliveries/reference copies, derived line-crop images, regenerable per-run working directories
+# (staged checkpoints, raw container logs already described by the summaries above), the
+# regenerable overlap index, and any file that embeds verbatim third-party GT transcription text
+# (same sensitivity class as the frozen manifests, which are identified by SHA-256 recorded in
+# each report, not by git).
+
+# raw deliveries and the untouched training-reference copy
+benchmark-data/incoming/
+benchmark-data/training-reference/
+
+# derived line-crop images (regenerable from the frozen manifest + source images)
+benchmark-data/benchmark/svea-hovratt-2026-09-primary/lines/
+benchmark-data/benchmark/svea-hovratt-2026-09-primary-v2/lines/
+benchmark-data/dryrun/dataset-rgb-dryrun/lines/
+benchmark-data/work/svea-hovratt-2026-09/candidate/lines/
+benchmark-data/work/svea-hovratt-2026-09/gap-analysis-20260927T102311Z/loghi-minwidth-padding-v1/derived_crops/
+
+# regenerable per-run working directories (staged checkpoints / raw container logs; already
+# summarized by the tracked report.md, scores.json, run_record.json, and *_comparison/*_results
+# files alongside each one)
+benchmark-data/dryrun/dataset-rgb-dryrun/work/
+benchmark-data/reports/svea-hovratt-v2-diag-loghi-greedy-20260927T102311Z/work/
+benchmark-data/reports/svea-hovratt-v2-primary-20260927T102311Z/work/
+benchmark-data/work/svea-hovratt-2026-09/gap-analysis-20260927T102311Z/loghi-minwidth-padding-v1/work/
+benchmark-data/work/svea-hovratt-2026-09/gap-analysis-20260927T102311Z/batch-invariance-v1/runs/
+benchmark-data/work/svea-hovratt-2026-09/gap-analysis-20260927T102311Z/true-seqlen-decode-v1/batch_matrix_runs/
+benchmark-data/work/svea-hovratt-2026-09/gap-analysis-20260927T102311Z/true-seqlen-decode-v1/smoke_test_run/
+
+# regenerable overlap index (rebuildable from training-reference + benchmark manifests)
+benchmark-data/overlap/svea-hovratt-training-index.sqlite
+
+# files that embed verbatim third-party GT transcription text
+benchmark-data/benchmark/svea-hovratt-2026-09-primary/manifest.jsonl
+benchmark-data/benchmark/svea-hovratt-2026-09-primary-v2/manifest.jsonl
+benchmark-data/dryrun/dataset-rgb-dryrun/manifest.jsonl
+benchmark-data/work/svea-hovratt-2026-09/candidate/manifest.jsonl
+benchmark-data/reports/svea-hovratt-v2-diag-loghi-greedy-20260927T102311Z/line_scores_lion.jsonl
+benchmark-data/reports/svea-hovratt-v2-diag-loghi-greedy-20260927T102311Z/line_scores_loghi.jsonl
+benchmark-data/reports/svea-hovratt-v2-primary-20260927T102311Z/line_scores_lion.jsonl
+benchmark-data/reports/svea-hovratt-v2-primary-20260927T102311Z/line_scores_loghi.jsonl
+benchmark-data/work/svea-hovratt-2026-09/editorial_markup_review.jsonl
+benchmark-data/work/svea-hovratt-2026-09/editorial_markup_review.v1.jsonl
+benchmark-data/work/svea-hovratt-2026-09/completeness-audit/crop_text_outliers.csv
+benchmark-data/work/svea-hovratt-2026-09/completeness-audit/manual_spotcheck_queue.csv
+benchmark-data/work/svea-hovratt-2026-09/completeness-audit/manual_spotcheck.html
+benchmark-data/work/svea-hovratt-2026-09/completeness-audit/placeholder_inventory.csv
+benchmark-data/work/svea-hovratt-2026-09/completeness-audit-primary-v2/crop_text_outliers.csv
+benchmark-data/work/svea-hovratt-2026-09/completeness-audit-primary-v2/manual_spotcheck_queue.csv
+benchmark-data/work/svea-hovratt-2026-09/completeness-audit-primary-v2/manual_spotcheck.html
+benchmark-data/work/svea-hovratt-2026-09/completeness-audit-primary-v2/placeholder_inventory.csv
+benchmark-data/work/svea-hovratt-2026-09/convention-audit/editorial_markup.csv
+benchmark-data/work/svea-hovratt-2026-09/convention-audit/manual_review_queue.csv
+benchmark-data/work/svea-hovratt-2026-09/convention-audit/abbreviation_candidates.csv
+benchmark-data/work/svea-hovratt-2026-09/convention-audit-primary-v2/editorial_markup.csv
+benchmark-data/work/svea-hovratt-2026-09/convention-audit-primary-v2/manual_review_queue.csv
+benchmark-data/work/svea-hovratt-2026-09/convention-audit-primary-v2/abbreviation_candidates.csv
+benchmark-data/work/svea-hovratt-2026-09/image-review/assessments.csv
+benchmark-data/work/svea-hovratt-2026-09/image-review/sample.csv
+benchmark-data/work/svea-hovratt-2026-09/image-review/sample.html
+benchmark-data/work/svea-hovratt-2026-09/image-review/sample_record.json
+benchmark-data/work/svea-hovratt-2026-09/v1-v2-diff/added_lines.csv
+benchmark-data/work/svea-hovratt-2026-09/v1-v2-diff/changed_lines.csv
+benchmark-data/work/svea-hovratt-2026-09/v1-v2-diff/removed_lines.csv
+benchmark-data/work/svea-hovratt-2026-09/gap-analysis-20260927T102311Z/empty_outputs_detail.json
+benchmark-data/work/svea-hovratt-2026-09/gap-analysis-20260927T102311Z/loghi-minwidth-padding-v1/padding_empty_outputs.csv

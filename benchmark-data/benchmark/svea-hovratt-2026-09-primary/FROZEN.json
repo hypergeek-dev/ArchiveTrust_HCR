@@ -1,0 +1,196 @@
+{
+  "benchmark_id": "svea-hovratt-2026-09-primary",
+  "build_sha256": "116726108c1d03fa36c1e6dd2ed7f960474d48bbd830b4a6d09fddca35dd2b5a",
+  "crop_policies": [
+    "bbox_v1"
+  ],
+  "dataset_card": {
+    "card_version": "1",
+    "caveats": {
+      "charset": "Characters outside Loghi's output charset remain and count normally as errors if Loghi cannot emit them: {'æ': 2, '¼': 1}.",
+      "editorial_uncertainty": "D4b excludes lines matching \\?{2,}; a single '?' is retained; excluded GT text is unchanged and preserved outside the primary set.",
+      "hyphenation": "Raw scoring is primary. A separately labelled secondary sensitivity score treats only line-final ¬ and line-final - as equivalent; internal ¬ or - remain different.",
+      "source_status": "All 140 pages are marked IN_PROGRESS in Transkribus; none is marked GT/FINAL. This does not invalidate the dataset but limits the certainty of the reference transcription.",
+      "transcription_convention": "The student transcription guidelines are unavailable. The deterministic convention audit shows convention differences between collections. The supplied GT is the reference as delivered."
+    },
+    "counts": {
+      "characters": 213824,
+      "crop_clamped_lines": 7,
+      "d4b_unbracketed_placeholder_lines": 18,
+      "documents": 5,
+      "editorial_review_queue_lines": 59,
+      "excluded_lines_by_rule": {
+        "D1": 3774,
+        "D2": 238,
+        "D4b": 59
+      },
+      "lines": 6486,
+      "lines_per_export_job": {
+        "4502442": 1661,
+        "4502443": 595,
+        "4502444": 776,
+        "4502445": 2137,
+        "4502446": 1317
+      },
+      "pages": 140,
+      "words": 37545
+    },
+    "eligibility_rules": {
+      "D1": "keep only export jobs 4502442-4502446 (transcribed Svea Hovratt); samples and collections with no/insufficient GT excluded by page; lines without GT excluded",
+      "D2": "TRAINING_VALIDATION_SET_* collections (4502439, 4502440) excluded completely",
+      "D3": "PAGE-XML is authoritative",
+      "D4a": "outer whitespace trimmed (gt = gt_source.strip()); nothing else changed; gt_source preserved",
+      "D4b": {
+        "examples": [
+          "???",
+          "??",
+          "oppbur???",
+          "21???"
+        ],
+        "regex": "\\?{2,}",
+        "rule": "lines with editorial markup such as [???], and lines whose delivered GT matches the regex below (two or more consecutive '?', anywhere, including embedded forms), are excluded from primary and held in the editorial review queue with their text unchanged",
+        "single_question_mark": "retained"
+      },
+      "kept_as_supplied": [
+        "characters outside Loghi's charset",
+        "identical transcriptions on different images",
+        "crops clamped to the page raster (flagged crop_clamped)"
+      ],
+      "spot_check_lines": "Convention-audit spot-check lines (single '?', unusual line-end hyphenation, line-final ¬) stay in primary unchanged; they are not tuned and are not reviewed against model predictions before the primary run."
+    },
+    "measures": "agreement with the supplied reference transcription (accuracy against the supplied reference), not accuracy against an independently adjudicated or formally certified diplomatic ground truth",
+    "model_runs_before_freeze": "none",
+    "provenance": {
+      "answered": {
+        "Q1 used to train/validate/test Lion, Transkribus or Riksarkivet-derived models": "no (supplier, 2026-09-27)",
+        "Q4 sample documents intended": "no (project owner, 2026-09-27); excluded by D1"
+      },
+      "facts": [
+        "The supplier has no complete documented transcription guideline and no detailed provenance trail for the individual student transcriptions.",
+        "The supplier provided the best information available.",
+        "No organized mechanism exists to obtain authoritative answers from the original transcribers.",
+        "Undocumented conventions are not inferred; the GT is used as delivered, subject only to the pre-registered exclusions and transformations below."
+      ],
+      "status": "PROVENANCE UNAVAILABLE / CANNOT BE RESOLVED FROM SOURCE",
+      "supplied_by": "the teacher of the students (the supplier), as a Transkribus export delivered 2026-09-27",
+      "training_overlap_check": [
+        "Partial: against the Svea Hovratt training subset only (40,983 lines), not the whole training corpus.",
+        "No identical line images; no near-identical images (dHash threshold 4, nearest >= 8).",
+        "No exact or normalized transcription overlap of 20+ characters.",
+        "Word 4-gram overlap 0.1%, consistent with common legal phrasing.",
+        "Same court and era, different series."
+      ],
+      "transcribed_by": "students, in Transkribus",
+      "unanswerable": [
+        "Q2 what the two TRAINING_VALIDATION_SET_* collections are and which models used them (excluded regardless, D2)",
+        "Q3 meaning of [???] and of unbracketed ??/??? (excluded, D4b)",
+        "Q5 diplomatic vs normalized transcription; line-end hyphenation (- vs ¬); ß",
+        "whether the collections were transcribed under different guidelines (audit: line-end ¬ vs -, ':' as abbreviation mark and 'dh' spellings differ by collection)",
+        "whether the Transkribus status IN_PROGRESS is meaningful"
+      ]
+    },
+    "reconstruction": {
+      "convention_audit": {
+        "findings_sha256": "7efd98ee78ac465a2596b648684336adf1569762507721c44cf585ca76019667",
+        "run_record_sha256": "c7c6e570e45ae8ea8eb2bb32f12c7fd64b00f176ccd408b08d3db59cc9d88f97",
+        "script": "scripts/benchmark_convention_audit.py",
+        "script_sha256": "a74056a10bc7772d0984c90bb72ed1555d81bc54f3ddbc7156e97abae3ee8963"
+      },
+      "decision_generator_sha256": "079ad27ea2bad50dfd66b65c47969c16bd737b2cbd7e0b28526e061d7181e291",
+      "decisions_file": "decisions.jsonl (copied into the frozen benchmark; sha256 = decisions_sha256)",
+      "editorial_review_queue_sha256": "43eca30a1d2ea6ab264cfffa363096f93eeeb1ffbf166cb89bfc5b3fcc73e889",
+      "superseded_decisions_sha256": "a534138b4068086f87fc071c3cc11d6c108a821c2afb0103ebe34ac3efb78718"
+    },
+    "scoring": {
+      "D5_sensitivity": {
+        "line_end_hyphen_harmonized": "a line-final '¬' is replaced by '-' in reference and prediction before scoring; internal hyphens and every other character are untouched"
+      },
+      "not_normalized": "ß, ';', spelling, punctuation and all other characters",
+      "primary": "raw CER/WER against canonical GT"
+    },
+    "source": {
+      "adapter": {
+        "id": "page_xml",
+        "scores": {
+          "alto_xml": 0.472,
+          "line_pairs": 0.0,
+          "page_xml": 0.472,
+          "tabular": 0.0
+        },
+        "version": "1"
+      },
+      "delivery_id": "svea-hovratt-2026-09",
+      "delivery_tree": {
+        "files": 1618,
+        "sha256": "ae80127b0504d8bc5544dd3676df97c40cd9b09bd96b47b0d4fc88408baa0894"
+      },
+      "export_jobs_in_primary": [
+        "4502442",
+        "4502443",
+        "4502444",
+        "4502445",
+        "4502446"
+      ],
+      "format": "PAGE-XML (adapter page_xml chosen explicitly, D3; ALTO files unused)",
+      "transkribus_page_status": {
+        "IN_PROGRESS": 140
+      }
+    }
+  },
+  "dataset_id": "svea-hovratt-2026-09",
+  "decisions_sha256": "24c815be33917b354c67390c1e43f26673ceca5d77721b1ca84fd99c645ff521",
+  "documents": 5,
+  "excluded_by_decision": 4071,
+  "excluded_unresolved_at_freeze": 0,
+  "frozen_at_utc": "2026-09-27T08:40:52Z",
+  "lines": 6486,
+  "manifest_sha256": "7c47b9eebdc26b1f6583698678132a50d6e27d3578d4d4c7dfd03e2a49c11aa0",
+  "normalization_protocol": "gt-normalization/1",
+  "pages": 140,
+  "provenance": {
+    "git": {
+      "checked_paths": [
+        "src",
+        "scripts",
+        "pyproject.toml"
+      ],
+      "commit": "779f4c317f410414708508b7dea296ec6b19e271",
+      "dirty": false,
+      "dirty_path_count": 0,
+      "dirty_paths": []
+    },
+    "official": true,
+    "runtime": {
+      "machine": "AMD64",
+      "packages": {
+        "numpy": "2.5.3",
+        "pillow": "12.3.0",
+        "pyarrow": "25.0.1",
+        "pydantic": "2.13.5",
+        "torch": "2.13.0+cu130",
+        "transformers": "4.49.0"
+      },
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.15"
+    },
+    "timestamp_utc": "2026-09-27T08:40:18Z"
+  },
+  "reference_characters": 213824,
+  "reference_words": 37545,
+  "rule": "Frozen before any model output was seen. Results on this benchmark are pre-adaptation results.",
+  "schema": "benchmark-frozen/1",
+  "scoring": {
+    "primary": "raw",
+    "scoring_version": "2",
+    "secondary": [
+      "whitespace_normalized"
+    ],
+    "sensitivity": {
+      "line_end_hyphen_harmonized": "a line-final '¬' is replaced by '-' in reference and prediction before scoring; internal hyphens and every other character are untouched"
+    }
+  },
+  "source_tree": {
+    "files": 1618,
+    "sha256": "ae80127b0504d8bc5544dd3676df97c40cd9b09bd96b47b0d4fc88408baa0894"
+  }
+}

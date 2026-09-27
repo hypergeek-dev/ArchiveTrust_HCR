@@ -1,0 +1,514 @@
+{
+  "adapter": {
+    "chosen": "page_xml",
+    "scores": {
+      "alto_xml": 0.472,
+      "line_pairs": 0.0,
+      "page_xml": 0.472,
+      "tabular": 0.0
+    },
+    "version": "1"
+  },
+  "findings_summary": {
+    "blocking": false,
+    "counts_by_code": {
+      "dup.identical_text": 6,
+      "format.scores": 1,
+      "fs.os_junk": 865,
+      "fs.unused_file": 201,
+      "gt.empty": 3,
+      "gt.missing": 3428,
+      "gt.multiple_spaces": 32,
+      "gt.outer_whitespace": 1128,
+      "gt.possible_editorial_markup": 41,
+      "gt.whitespace_only": 1,
+      "layout.no_lines": 25,
+      "layout.no_reading_order": 25,
+      "layout.polygon_out_of_bounds": 7
+    },
+    "counts_by_severity": {
+      "blocker": 0,
+      "info": 923,
+      "needs_review": 4560,
+      "warning": 280
+    }
+  },
+  "inspection_version": "1",
+  "normalization_protocol": {
+    "explicitly_not_applied": [
+      "whitespace collapsing or outer-whitespace stripping (flagged for review instead)",
+      "case folding",
+      "punctuation removal or substitution",
+      "diacritic removal",
+      "historical-character replacement (e.g. long s, abbreviation marks)",
+      "abbreviation expansion or spelling modernization",
+      "removal of characters outside any model's vocabulary"
+    ],
+    "prediction_rules": [
+      "unicode_nfc",
+      "strip_outer_whitespace"
+    ],
+    "protocol_id": "gt-normalization/1",
+    "rules": {
+      "human_correction": "Transcription replaced by a recorded pre-freeze reviewer decision (never informed by model output).",
+      "strip_file_line_terminator": "One trailing newline that terminates a per-line .txt file is removed (file format, not text).",
+      "unicode_nfc": "Unicode NFC composition (code-point spelling only; no visible change)."
+    }
+  },
+  "source_dir": "H:\\ArchiveTrust_HCR 2\\benchmark-data\\incoming\\svea-hovratt-2026-09",
+  "stats": {
+    "character_inventory": {
+      " ": {
+        "count": 34937,
+        "name": "SPACE"
+      },
+      "&": {
+        "count": 1,
+        "name": "AMPERSAND"
+      },
+      "(": {
+        "count": 1,
+        "name": "LEFT PARENTHESIS"
+      },
+      ")": {
+        "count": 1,
+        "name": "RIGHT PARENTHESIS"
+      },
+      "+": {
+        "count": 2,
+        "name": "PLUS SIGN"
+      },
+      ",": {
+        "count": 2300,
+        "name": "COMMA"
+      },
+      "-": {
+        "count": 788,
+        "name": "HYPHEN-MINUS"
+      },
+      ".": {
+        "count": 3450,
+        "name": "FULL STOP"
+      },
+      "/": {
+        "count": 76,
+        "name": "SOLIDUS"
+      },
+      "0": {
+        "count": 203,
+        "name": "DIGIT ZERO"
+      },
+      "1": {
+        "count": 761,
+        "name": "DIGIT ONE"
+      },
+      "2": {
+        "count": 504,
+        "name": "DIGIT TWO"
+      },
+      "3": {
+        "count": 311,
+        "name": "DIGIT THREE"
+      },
+      "4": {
+        "count": 192,
+        "name": "DIGIT FOUR"
+      },
+      "5": {
+        "count": 137,
+        "name": "DIGIT FIVE"
+      },
+      "6": {
+        "count": 320,
+        "name": "DIGIT SIX"
+      },
+      "7": {
+        "count": 198,
+        "name": "DIGIT SEVEN"
+      },
+      "8": {
+        "count": 171,
+        "name": "DIGIT EIGHT"
+      },
+      "9": {
+        "count": 175,
+        "name": "DIGIT NINE"
+      },
+      ":": {
+        "count": 164,
+        "name": "COLON"
+      },
+      ";": {
+        "count": 2,
+        "name": "SEMICOLON"
+      },
+      "=": {
+        "count": 46,
+        "name": "EQUALS SIGN"
+      },
+      "?": {
+        "count": 180,
+        "name": "QUESTION MARK"
+      },
+      "A": {
+        "count": 260,
+        "name": "LATIN CAPITAL LETTER A"
+      },
+      "B": {
+        "count": 530,
+        "name": "LATIN CAPITAL LETTER B"
+      },
+      "C": {
+        "count": 342,
+        "name": "LATIN CAPITAL LETTER C"
+      },
+      "D": {
+        "count": 326,
+        "name": "LATIN CAPITAL LETTER D"
+      },
+      "E": {
+        "count": 508,
+        "name": "LATIN CAPITAL LETTER E"
+      },
+      "F": {
+        "count": 230,
+        "name": "LATIN CAPITAL LETTER F"
+      },
+      "G": {
+        "count": 163,
+        "name": "LATIN CAPITAL LETTER G"
+      },
+      "H": {
+        "count": 749,
+        "name": "LATIN CAPITAL LETTER H"
+      },
+      "I": {
+        "count": 101,
+        "name": "LATIN CAPITAL LETTER I"
+      },
+      "J": {
+        "count": 368,
+        "name": "LATIN CAPITAL LETTER J"
+      },
+      "K": {
+        "count": 234,
+        "name": "LATIN CAPITAL LETTER K"
+      },
+      "L": {
+        "count": 424,
+        "name": "LATIN CAPITAL LETTER L"
+      },
+      "M": {
+        "count": 595,
+        "name": "LATIN CAPITAL LETTER M"
+      },
+      "N": {
+        "count": 333,
+        "name": "LATIN CAPITAL LETTER N"
+      },
+      "O": {
+        "count": 266,
+        "name": "LATIN CAPITAL LETTER O"
+      },
+      "P": {
+        "count": 533,
+        "name": "LATIN CAPITAL LETTER P"
+      },
+      "Q": {
+        "count": 5,
+        "name": "LATIN CAPITAL LETTER Q"
+      },
+      "R": {
+        "count": 343,
+        "name": "LATIN CAPITAL LETTER R"
+      },
+      "S": {
+        "count": 910,
+        "name": "LATIN CAPITAL LETTER S"
+      },
+      "T": {
+        "count": 157,
+        "name": "LATIN CAPITAL LETTER T"
+      },
+      "U": {
+        "count": 47,
+        "name": "LATIN CAPITAL LETTER U"
+      },
+      "V": {
+        "count": 35,
+        "name": "LATIN CAPITAL LETTER V"
+      },
+      "W": {
+        "count": 97,
+        "name": "LATIN CAPITAL LETTER W"
+      },
+      "Y": {
+        "count": 7,
+        "name": "LATIN CAPITAL LETTER Y"
+      },
+      "Z": {
+        "count": 9,
+        "name": "LATIN CAPITAL LETTER Z"
+      },
+      "[": {
+        "count": 42,
+        "name": "LEFT SQUARE BRACKET"
+      },
+      "]": {
+        "count": 41,
+        "name": "RIGHT SQUARE BRACKET"
+      },
+      "a": {
+        "count": 15158,
+        "name": "LATIN SMALL LETTER A"
+      },
+      "b": {
+        "count": 2240,
+        "name": "LATIN SMALL LETTER B"
+      },
+      "c": {
+        "count": 2552,
+        "name": "LATIN SMALL LETTER C"
+      },
+      "d": {
+        "count": 9941,
+        "name": "LATIN SMALL LETTER D"
+      },
+      "e": {
+        "count": 20093,
+        "name": "LATIN SMALL LETTER E"
+      },
+      "f": {
+        "count": 5924,
+        "name": "LATIN SMALL LETTER F"
+      },
+      "g": {
+        "count": 5013,
+        "name": "LATIN SMALL LETTER G"
+      },
+      "h": {
+        "count": 7774,
+        "name": "LATIN SMALL LETTER H"
+      },
+      "i": {
+        "count": 9578,
+        "name": "LATIN SMALL LETTER I"
+      },
+      "j": {
+        "count": 301,
+        "name": "LATIN SMALL LETTER J"
+      },
+      "k": {
+        "count": 3283,
+        "name": "LATIN SMALL LETTER K"
+      },
+      "l": {
+        "count": 9946,
+        "name": "LATIN SMALL LETTER L"
+      },
+      "m": {
+        "count": 5611,
+        "name": "LATIN SMALL LETTER M"
+      },
+      "n": {
+        "count": 16648,
+        "name": "LATIN SMALL LETTER N"
+      },
+      "o": {
+        "count": 8252,
+        "name": "LATIN SMALL LETTER O"
+      },
+      "p": {
+        "count": 1791,
+        "name": "LATIN SMALL LETTER P"
+      },
+      "q": {
+        "count": 67,
+        "name": "LATIN SMALL LETTER Q"
+      },
+      "r": {
+        "count": 12591,
+        "name": "LATIN SMALL LETTER R"
+      },
+      "s": {
+        "count": 11581,
+        "name": "LATIN SMALL LETTER S"
+      },
+      "t": {
+        "count": 15269,
+        "name": "LATIN SMALL LETTER T"
+      },
+      "u": {
+        "count": 3229,
+        "name": "LATIN SMALL LETTER U"
+      },
+      "v": {
+        "count": 188,
+        "name": "LATIN SMALL LETTER V"
+      },
+      "w": {
+        "count": 3212,
+        "name": "LATIN SMALL LETTER W"
+      },
+      "x": {
+        "count": 84,
+        "name": "LATIN SMALL LETTER X"
+      },
+      "y": {
+        "count": 1568,
+        "name": "LATIN SMALL LETTER Y"
+      },
+      "z": {
+        "count": 461,
+        "name": "LATIN SMALL LETTER Z"
+      },
+      " ": {
+        "count": 165,
+        "name": "NO-BREAK SPACE"
+      },
+      "§": {
+        "count": 34,
+        "name": "SECTION SIGN"
+      },
+      "¨": {
+        "count": 1,
+        "name": "DIAERESIS"
+      },
+      "¬": {
+        "count": 58,
+        "name": "NOT SIGN"
+      },
+      "°": {
+        "count": 4,
+        "name": "DEGREE SIGN"
+      },
+      "¼": {
+        "count": 1,
+        "name": "VULGAR FRACTION ONE QUARTER"
+      },
+      "½": {
+        "count": 35,
+        "name": "VULGAR FRACTION ONE HALF"
+      },
+      "Ä": {
+        "count": 3,
+        "name": "LATIN CAPITAL LETTER A WITH DIAERESIS"
+      },
+      "Å": {
+        "count": 17,
+        "name": "LATIN CAPITAL LETTER A WITH RING ABOVE"
+      },
+      "Ö": {
+        "count": 24,
+        "name": "LATIN CAPITAL LETTER O WITH DIAERESIS"
+      },
+      "ß": {
+        "count": 4,
+        "name": "LATIN SMALL LETTER SHARP S"
+      },
+      "ä": {
+        "count": 3242,
+        "name": "LATIN SMALL LETTER A WITH DIAERESIS"
+      },
+      "å": {
+        "count": 3508,
+        "name": "LATIN SMALL LETTER A WITH RING ABOVE"
+      },
+      "æ": {
+        "count": 2,
+        "name": "LATIN SMALL LETTER AE"
+      },
+      "ö": {
+        "count": 2962,
+        "name": "LATIN SMALL LETTER O WITH DIAERESIS"
+      },
+      "ü": {
+        "count": 8,
+        "name": "LATIN SMALL LETTER U WITH DIAERESIS"
+      },
+      "–": {
+        "count": 2,
+        "name": "EN DASH"
+      },
+      "—": {
+        "count": 4,
+        "name": "EM DASH"
+      },
+      "„": {
+        "count": 8,
+        "name": "DOUBLE LOW-9 QUOTATION MARK"
+      },
+      "…": {
+        "count": 1,
+        "name": "HORIZONTAL ELLIPSIS"
+      }
+    },
+    "collections": {},
+    "documents": 13,
+    "files": 753,
+    "files_by_extension": {
+      ".jpg": 236,
+      ".png": 1,
+      ".txt": 14,
+      ".xml": 502
+    },
+    "gt_characters": 235013,
+    "gt_length": {
+      "max": 77,
+      "median": 34,
+      "min": 0,
+      "n": 7129,
+      "p05": 3,
+      "p95": 55
+    },
+    "line_image_height_px": null,
+    "lines": 10557,
+    "lines_with_gt": 7129,
+    "loghi_out_of_vocabulary": {
+      "characters": {
+        "[": {
+          "count": 42,
+          "name": "LEFT SQUARE BRACKET"
+        },
+        "]": {
+          "count": 41,
+          "name": "RIGHT SQUARE BRACKET"
+        },
+        "°": {
+          "count": 4,
+          "name": "DEGREE SIGN"
+        },
+        "¼": {
+          "count": 1,
+          "name": "VULGAR FRACTION ONE QUARTER"
+        },
+        "æ": {
+          "count": 2,
+          "name": "LATIN SMALL LETTER AE"
+        },
+        "„": {
+          "count": 8,
+          "name": "DOUBLE LOW-9 QUOTATION MARK"
+        },
+        "…": {
+          "count": 1,
+          "name": "HORIZONTAL ELLIPSIS"
+        }
+      },
+      "lines_affected": 57,
+      "occurrences": 99,
+      "rate": 0.0004212532923710603
+    },
+    "pages": 212,
+    "segmentation": {
+      "images_without_line_gt": 0,
+      "lines_by_image_kind": {
+        "page": 10557
+      },
+      "mode": "crop_from_source_polygons",
+      "page_lines_with_coords": 10557
+    },
+    "unused_files": 279
+  },
+  "verdict": "needs_review"
+}

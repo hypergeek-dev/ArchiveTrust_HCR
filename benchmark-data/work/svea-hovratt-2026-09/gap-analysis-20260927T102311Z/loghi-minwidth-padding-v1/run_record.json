@@ -1,0 +1,121 @@
+{
+  "run_id": "svea-hovratt-v2-diag-loghi-minwidth-padding-20260927",
+  "label": "SECONDARY POST-BENCHMARK DIAGNOSTIC / IMPROVED INFERENCE VARIANT",
+  "official": false,
+  "diagnostic_id": "loghi-minwidth-padding-v1",
+  "note": "Loghi only, run on the loghi-minwidth-padding-v1 derived (padded) crop set. Official Loghi/Lion predictions and the official benchmark are untouched. GT/manifest identity unchanged; only crop pixels for 350/4627 lines were padded before this run.",
+  "model_identity": {
+    "checkpoint_relative_path": "training/experiment-2-epoch7-from-epoch6-checkpoint-20260813T124955Z/run-state/epoch_output/epoch_1/recommended/best_val",
+    "file_sha256": {
+      "model.keras": "7a11df10b943330fe93c7fbf2ddb0584a75539ecb6b1da06dcaa3a5c39f17572",
+      "config.json": "54b6f6856a2441f1e6fb0e22521d06d290977df296be2b029d7eede0276508c7",
+      "tokenizer.json": "a6cb9dfe416c36d0d04caa35f8e3381606ea0e473acab56e18d5ec3be825d01e"
+    },
+    "container_image": "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+    "loghi_htr_commit": "c24c745e9aeb287bedeb6b4edee670ae5c81a3cd",
+    "input": "grayscale, height 64 (VGSL input None,None,64,1); resizing done by the container's own loader",
+    "reference_validation": {
+      "cer": 0.0998,
+      "wer": 0.3273,
+      "lines": 1000,
+      "decoding": "beam_width 10, greedy false (lap-evaluation/lap1_best_val/config.json)",
+      "caveat": "in-distribution validation split; not comparable to an external benchmark"
+    },
+    "backup_release": "https://github.com/hypergeek-dev/ArchiveTrust_HCR/releases/tag/model-loghi-swedish-scratch-exp2-epoch7"
+  },
+  "decoding_profile": {
+    "profile_id": "validated",
+    "parameters": {
+      "beam_width": 10,
+      "greedy": false,
+      "batch_size": 16,
+      "seed": 42
+    }
+  },
+  "backend_environment": {
+    "checkpoint": {
+      "checkpoint_dir": "H:\\ArchiveTrust_HCR 2\\training\\experiment-2-epoch7-from-epoch6-checkpoint-20260813T124955Z\\run-state\\epoch_output\\epoch_1\\recommended\\best_val",
+      "file_sha256": {
+        "model.keras": "7a11df10b943330fe93c7fbf2ddb0584a75539ecb6b1da06dcaa3a5c39f17572",
+        "config.json": "54b6f6856a2441f1e6fb0e22521d06d290977df296be2b029d7eede0276508c7",
+        "tokenizer.json": "a6cb9dfe416c36d0d04caa35f8e3381606ea0e473acab56e18d5ec3be825d01e"
+      },
+      "verified": true
+    },
+    "container_image": "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+    "argv": [
+      "docker",
+      "run",
+      "--rm",
+      "--gpus",
+      "all",
+      "-v",
+      "H:\\ArchiveTrust_HCR 2\\benchmark-data\\work\\svea-hovratt-2026-09\\gap-analysis-20260927T102311Z\\loghi-minwidth-padding-v1\\work\\loghi_padded_run\\staged_checkpoint:/model",
+      "-v",
+      "H:\\ArchiveTrust_HCR 2\\benchmark-data\\work\\svea-hovratt-2026-09\\gap-analysis-20260927T102311Z\\loghi-minwidth-padding-v1\\work\\loghi_padded_run\\output:/output",
+      "-v",
+      "H:\\ArchiveTrust_HCR 2\\benchmark-data\\work\\svea-hovratt-2026-09\\gap-analysis-20260927T102311Z\\loghi-minwidth-padding-v1\\work\\loghi_padded_run\\lists:/lists:ro",
+      "-v",
+      "H:\\ArchiveTrust_HCR 2\\benchmark-data\\work\\svea-hovratt-2026-09\\gap-analysis-20260927T102311Z\\loghi-minwidth-padding-v1\\derived_crops:/benchmark:ro",
+      "--entrypoint",
+      "python3",
+      "loghi/docker.htr:latest@sha256:414fc89ac574a61fd745836ad9852842759bf3cf7046e4549ae96315ff9132e8",
+      "main.py",
+      "--model",
+      "/model",
+      "--inference_list",
+      "/lists/inference_list.txt",
+      "--results_file",
+      "/output/results.txt",
+      "--output",
+      "/output",
+      "--batch_size",
+      "16",
+      "--gpu",
+      "0",
+      "--beam_width",
+      "10",
+      "--seed",
+      "42"
+    ]
+  },
+  "started_at": "2026-09-27T11:57:36Z",
+  "finished_at": "2026-09-27T11:59:14Z",
+  "provenance": {
+    "official": false,
+    "git": {
+      "commit": "8a2902a8c8614d29b0252ab1858a8c1c7338c5bd",
+      "dirty": false,
+      "dirty_paths": [],
+      "dirty_path_count": 0,
+      "checked_paths": [
+        "src",
+        "scripts",
+        "pyproject.toml"
+      ]
+    },
+    "runtime": {
+      "python": "3.13.15",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "machine": "AMD64",
+      "packages": {
+        "pillow": "12.3.0",
+        "pydantic": "2.13.5",
+        "pyarrow": "25.0.1",
+        "numpy": "2.5.3",
+        "torch": "2.13.0+cu130",
+        "transformers": "4.49.0"
+      }
+    },
+    "timestamp_utc": "2026-09-27T11:59:14Z"
+  },
+  "prediction_file": "benchmark-data\\work\\svea-hovratt-2026-09\\gap-analysis-20260927T102311Z\\loghi-minwidth-padding-v1\\predictions\\loghi_padded.jsonl",
+  "prediction_file_sha256": "e98a76439c5371a8fbeee8df3b6eb98c21dbf4260dfcdf59bbaf048a6ee1a508",
+  "lines": 4627,
+  "status_counts": {
+    "ok": 4489,
+    "empty": 138,
+    "failed": 0,
+    "missing": 0
+  }
+}

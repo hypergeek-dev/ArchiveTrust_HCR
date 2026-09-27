@@ -1,0 +1,75 @@
+{
+  "backend_environment": {
+    "device_used": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 3070",
+    "model_revision": "aa79fcb1850bf3155ebc442570d6c6bfc0ac8100",
+    "software_environment": {
+      "torch": "2.13.0+cu130",
+      "transformers": "4.49.0"
+    }
+  },
+  "dryrun_id": "dataset-rgb-dryrun",
+  "finished_at_utc": "2026-09-27T00:51:32Z",
+  "label": "NO_GROUND_TRUTH / NOT_AN_ACCURACY_BENCHMARK",
+  "limited_to": 5,
+  "lines": 5,
+  "manifest_sha256": "eb57f9bcdf11f1734f1a8c9a2fbd93a734dcf466b83e41f0fc77c93ea5f2ae11",
+  "model": {
+    "decoding": {
+      "do_sample": false,
+      "early_stopping": true,
+      "length_penalty": 2.0,
+      "max_length": 256,
+      "no_repeat_ngram_size": 3,
+      "num_beams": 4
+    },
+    "decoding_profile": "generation_config",
+    "family": "trocr",
+    "model_id": "riksarkivet-swedish-lion-libre",
+    "pinned": {
+      "hf_model": "Riksarkivet/trocr-base-handwritten-hist-swe-2",
+      "hf_model_revision": "aa79fcb1850bf3155ebc442570d6c6bfc0ac8100",
+      "hf_processor": "microsoft/trocr-base-handwritten",
+      "hf_processor_revision": "eaacaf452b06415df8f10bb6fad3a4c11e609406",
+      "input": "RGB, TrOCR ViT processor 384x384, mean/std 0.5",
+      "processor_equivalence": "image processor, vocab.json and merges.txt verified identical to the model repo's own",
+      "training_data_note": "trained on the same public Riksarkivet HF line collections as the Loghi training corpus"
+    }
+  },
+  "predictions_file": "lion.jsonl",
+  "predictions_sha256": "df80cce09c5a8db492b82cac79e8ebba1977cea16d2f18fc887955627f45c994",
+  "provenance": {
+    "git": {
+      "checked_paths": [
+        "src",
+        "scripts",
+        "pyproject.toml"
+      ],
+      "commit": "c899c81ac339d2d666873fce3983583a6ec2fa6d",
+      "dirty": true,
+      "dirty_path_count": 1,
+      "dirty_paths": [
+        "src/archivetrust/htr/benchmark/cli.py"
+      ]
+    },
+    "official": false,
+    "runtime": {
+      "machine": "AMD64",
+      "packages": {
+        "numpy": "2.5.3",
+        "pillow": "12.3.0",
+        "pyarrow": "25.0.1",
+        "pydantic": "2.13.5",
+        "torch": "2.13.0+cu130",
+        "transformers": "4.49.0"
+      },
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.15"
+    },
+    "timestamp_utc": "2026-09-27T00:51:32Z"
+  },
+  "started_at_utc": "2026-09-27T00:50:13Z",
+  "status_counts": {
+    "ok": 5
+  }
+}

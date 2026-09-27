@@ -1,0 +1,7 @@
+group,tokens,line_initial_tokens,line_initial_capitalized_pct,after_sentence_end_tokens,after_sentence_end_capitalized_pct,mid_sentence_tokens,mid_sentence_capitalized_pct,all_caps_tokens_len2plus
+4502443,3004,381,26.247,112,53.571,2511,23.736,0
+4502444,6012,730,20.959,261,47.51,5021,18.243,0
+4502445,11780,2026,19.102,1031,55.189,8723,16.749,2
+4502446,7068,1237,18.189,469,58.422,5362,16.412,2
+candidate_total,27864,4374,19.776,1873,54.832,21617,17.824,4
+training_ref,176331,39486,33.898,8365,60.12,128480,31.724,21

@@ -1,0 +1,375 @@
+[
+  {
+    "id": "M1",
+    "label": "DETERMINISTIC",
+    "rule": "count TranskribusMetadata@status per page",
+    "matches": 140,
+    "collections": [
+      "4502442",
+      "4502443",
+      "4502444",
+      "4502445",
+      "4502446"
+    ],
+    "examples": [
+      "4502442: {'IN_PROGRESS': 31}",
+      "4502443: {'IN_PROGRESS': 12}",
+      "4502444: {'IN_PROGRESS': 15}",
+      "4502445: {'IN_PROGRESS': 49}",
+      "4502446: {'IN_PROGRESS': 33}"
+    ],
+    "output": "metadata_summary.json",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "M2",
+    "label": "DETERMINISTIC",
+    "rule": "Transkribus custom tags on candidate TextLines (name counts)",
+    "matches": 0,
+    "collections": [
+      "4502442",
+      "4502443",
+      "4502444",
+      "4502445",
+      "4502446"
+    ],
+    "examples": [
+      "4502442: {'readingOrder': 1661}",
+      "4502443: {'readingOrder': 595}",
+      "4502444: {'readingOrder': 776}",
+      "4502445: {'readingOrder': 2137}",
+      "4502446: {'readingOrder': 1317}"
+    ],
+    "output": "metadata_summary.json",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "M3",
+    "label": "DETERMINISTIC",
+    "rule": "TextLine/TextEquiv elements carrying a @conf attribute (machine-recognition trace)",
+    "matches": 0,
+    "collections": [],
+    "examples": [
+      "4502442: 0",
+      "4502443: 0",
+      "4502444: 0",
+      "4502445: 0",
+      "4502446: 0"
+    ],
+    "output": "metadata_summary.json",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "U1",
+    "label": "DETERMINISTIC",
+    "rule": "candidate GT code points not in the Loghi charset",
+    "matches": 3,
+    "collections": [
+      "4502442",
+      "4502445"
+    ],
+    "examples": [
+      "'¼' x1",
+      "'æ' x2"
+    ],
+    "output": "unicode_inventory.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "U2",
+    "label": "DETERMINISTIC",
+    "rule": "combining marks, control/format/private-use chars or non-ASCII spaces in candidate GT",
+    "matches": 0,
+    "collections": [],
+    "examples": [],
+    "output": "unicode_inventory.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "U3",
+    "label": "DETERMINISTIC",
+    "rule": "chars with >= 50 occurrences in training_ref and 0 in candidate",
+    "matches": 4,
+    "collections": [
+      "training_ref"
+    ],
+    "examples": [
+      "';' x1100",
+      "'ß' x1077",
+      "'ü' x102",
+      "'é' x92"
+    ],
+    "output": "unicode_inventory.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "H1",
+    "label": "DETERMINISTIC",
+    "rule": "lines whose canonical GT ends with '-'",
+    "matches": 725,
+    "collections": [
+      "4502443",
+      "4502444",
+      "4502445",
+      "4502446"
+    ],
+    "examples": [
+      "4502442: 0",
+      "4502443: 52",
+      "4502444: 77",
+      "4502445: 447",
+      "4502446: 149"
+    ],
+    "output": "hyphenation_analysis.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "H2",
+    "label": "DETERMINISTIC",
+    "rule": "lines whose canonical GT ends with '¬'",
+    "matches": 54,
+    "collections": [
+      "4502442",
+      "4502443"
+    ],
+    "examples": [
+      "4502442: 45",
+      "4502443: 9",
+      "4502444: 0",
+      "4502445: 0",
+      "4502446: 0"
+    ],
+    "output": "hyphenation_analysis.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "H3",
+    "label": "HEURISTIC",
+    "rule": "line ends with '-' or '¬' and the next line (same page, next reading order) starts lowercase = word continues (hyphenation)",
+    "matches": 731,
+    "collections": [
+      "4502442",
+      "4502443",
+      "4502444",
+      "4502445",
+      "4502446"
+    ],
+    "examples": [],
+    "output": "hyphenation_analysis.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "H4",
+    "label": "MANUAL REVIEW REQUIRED",
+    "rule": "line ends with a hyphen-like mark but the next line starts uppercase/other: hyphenation or dash?",
+    "matches": 36,
+    "collections": [
+      "4502442",
+      "4502445",
+      "4502446"
+    ],
+    "examples": [
+      "e första och andra dagen Läns- || Man och sedan Häradz",
+      "Gulle Pärsson i Lund dess Säx- || Manna Eedh.",
+      "en till henne med några Nämde- || Män resa till henne,",
+      "aller med födzletyden, dy war- || 373",
+      "lät innestå, warandes öfwer- || 60 åhr sedan han gic"
+    ],
+    "output": "manual_review_queue.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "H5",
+    "label": "DETERMINISTIC",
+    "rule": "collections using both '-' and '¬' line-finally",
+    "matches": 1,
+    "collections": [
+      "4502443"
+    ],
+    "examples": [
+      "4502442: '-' 0, '¬' 45",
+      "4502443: '-' 52, '¬' 9",
+      "4502444: '-' 77, '¬' 0",
+      "4502445: '-' 447, '¬' 0",
+      "4502446: '-' 149, '¬' 0"
+    ],
+    "output": "hyphenation_analysis.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "C1",
+    "label": "HEURISTIC",
+    "rule": "share of mid-sentence letter tokens starting uppercase (token not line-initial and not after '.!?'); high values fit unnormalized early-modern capitalization",
+    "matches": null,
+    "collections": [
+      "4502442",
+      "4502443",
+      "4502444",
+      "4502445",
+      "4502446",
+      "candidate_total",
+      "training_ref"
+    ],
+    "examples": [
+      "4502442: 9.381%",
+      "4502443: 19.448%",
+      "4502444: 18.243%",
+      "4502445: 16.749%",
+      "4502446: 16.412%"
+    ],
+    "output": "capitalization_profile.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "A1",
+    "label": "HEURISTIC",
+    "rule": "tokens of 1..4 letters followed by '.' or ':' occurring >= 3 times in the candidate (abbreviations kept unexpanded)",
+    "matches": 986,
+    "collections": [
+      "4502442",
+      "4502443",
+      "4502444",
+      "4502445",
+      "4502446"
+    ],
+    "examples": [
+      "d. x152",
+      "H. x145",
+      "ell. x79",
+      "Smt. x70",
+      "hoo. x41"
+    ],
+    "output": "abbreviation_candidates.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "A2",
+    "label": "DETERMINISTIC",
+    "rule": "Transkribus 'abbrev' tags on candidate lines",
+    "matches": 0,
+    "collections": [
+      "4502442",
+      "4502443",
+      "4502444",
+      "4502445",
+      "4502446"
+    ],
+    "examples": [],
+    "output": "abbreviation_candidates.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "E1_square_brackets@excluded_markup_review",
+    "label": "DETERMINISTIC",
+    "rule": "E1_square_brackets in excluded_markup_review lines",
+    "matches": 41,
+    "collections": [
+      "4502443",
+      "4502444",
+      "4502445",
+      "4502446"
+    ],
+    "examples": [
+      "'[???]' x38",
+      "'[skoo?]' x1",
+      "'[…]' x1",
+      "'[dee???]' x1"
+    ],
+    "output": "editorial_markup.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "E5_question_mark_touching_letter@candidate",
+    "label": "HEURISTIC",
+    "rule": "E5_question_mark_touching_letter in candidate lines",
+    "matches": 6,
+    "collections": [
+      "4502444",
+      "4502445",
+      "4502446"
+    ],
+    "examples": [
+      "'t?' x2",
+      "'n?' x1",
+      "'d?' x1",
+      "'e?' x1",
+      "'g?' x1"
+    ],
+    "output": "editorial_markup.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "E5_question_mark_touching_letter@excluded_markup_review",
+    "label": "HEURISTIC",
+    "rule": "E5_question_mark_touching_letter in excluded_markup_review lines",
+    "matches": 4,
+    "collections": [
+      "4502444",
+      "4502446"
+    ],
+    "examples": [
+      "'r?' x1",
+      "'i?' x1",
+      "'o?' x1",
+      "'e?' x1"
+    ],
+    "output": "editorial_markup.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "E6_ellipsis@excluded_markup_review",
+    "label": "DETERMINISTIC",
+    "rule": "E6_ellipsis in excluded_markup_review lines",
+    "matches": 1,
+    "collections": [
+      "4502446"
+    ],
+    "examples": [
+      "'…' x1"
+    ],
+    "output": "editorial_markup.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "E9_repeated_question_marks@excluded_markup_review",
+    "label": "DETERMINISTIC",
+    "rule": "E9_repeated_question_marks in excluded_markup_review lines",
+    "matches": 58,
+    "collections": [
+      "4502443",
+      "4502444",
+      "4502445",
+      "4502446"
+    ],
+    "examples": [
+      "'???' x56",
+      "'??' x2"
+    ],
+    "output": "editorial_markup.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  },
+  {
+    "id": "S1",
+    "label": "HEURISTIC",
+    "rule": "historical spelling markers per 1000 words (regexes in HISTORICAL_SPELLING); similar rates in candidate and training_ref fit diplomatic (unmodernized) spelling in both",
+    "matches": null,
+    "collections": [
+      "4502442",
+      "4502443",
+      "4502444",
+      "4502445",
+      "4502446",
+      "candidate_total",
+      "training_ref"
+    ],
+    "examples": [
+      "hist_hw- (hwar, hwilken)_per1000_words: cand 11.932 / train 10.656",
+      "hist_qw- (qwinna)_per1000_words: cand 0.506 / train 0.497",
+      "hist_dh (medh, godh)_per1000_words: cand 16.806 / train 0.26",
+      "hist_fw (hafwa, af)_per1000_words: cand 21.361 / train 23.374",
+      "hist_ff (aff, ...)_per1000_words: cand 18.591 / train 9.672"
+    ],
+    "output": "collection_comparison.csv",
+    "script": "scripts/benchmark_convention_audit.py"
+  }
+]

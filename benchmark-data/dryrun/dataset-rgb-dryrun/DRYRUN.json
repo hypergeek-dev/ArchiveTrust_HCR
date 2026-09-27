@@ -1,0 +1,50 @@
+{
+  "created_at_utc": "2026-09-27T00:32:47Z",
+  "crop_policy": "bbox_v1",
+  "dryrun_id": "dataset-rgb-dryrun",
+  "findings": {},
+  "label": "NO_GROUND_TRUTH / NOT_AN_ACCURACY_BENCHMARK",
+  "lines": 2678,
+  "manifest_sha256": "eb57f9bcdf11f1734f1a8c9a2fbd93a734dcf466b83e41f0fc77c93ea5f2ae11",
+  "pages_cropped": 60,
+  "pages_dir": "dataset-rgb",
+  "pages_requested": 60,
+  "provenance": {
+    "git": {
+      "checked_paths": [
+        "src",
+        "scripts",
+        "pyproject.toml"
+      ],
+      "commit": "f0de6356cdb45c572b0cdd4cae04387b65419cd1",
+      "dirty": true,
+      "dirty_path_count": 6,
+      "dirty_paths": [
+        "pyproject.toml",
+        "src/archivetrust/htr/training/full_run/lap_evaluation.py",
+        "src/archivetrust/providers/swedish_lion/facade.py",
+        "scripts/check_benchmark.ps1",
+        "scripts/dryrun_segmentation_from_reliability.py",
+        "src/archivetrust/htr/benchmark/"
+      ]
+    },
+    "official": false,
+    "runtime": {
+      "machine": "AMD64",
+      "packages": {
+        "pillow": "12.3.0",
+        "pyarrow": "25.0.1",
+        "pydantic": "2.13.5"
+      },
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.13.15"
+    },
+    "timestamp_utc": "2026-09-27T00:32:47Z"
+  },
+  "schema": "benchmark-dryrun/1",
+  "segmentation_file": "C:\\Users\\ize_c\\AppData\\Local\\Temp\\claude\\h--ArchiveTrust-HCR-2\\e206c0e9-992e-4abb-ab80-ce58a31b401f\\scratchpad\\dataset-rgb-segmentation.jsonl",
+  "segmentation_sha256": "78638d51b9406afe7cb1da948017ec1083ae3a6b7c508729f2bf1c396eb59dfb",
+  "segmentation_sources": [
+    "florence2_line_od@48a18ecb7e6815c3a7d33dff53133ea87a33053f (reliability-2026-07-31)"
+  ]
+}

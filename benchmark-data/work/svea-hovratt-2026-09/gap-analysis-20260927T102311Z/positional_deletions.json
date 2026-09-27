@@ -1,0 +1,37 @@
+{
+  "bins": "10 equal bins of normalized reference position (0=start,1=end); value = deletion count",
+  "loghi": [
+    7551,
+    3741,
+    2578,
+    2499,
+    2358,
+    2190,
+    2828,
+    3784,
+    4977,
+    0
+  ],
+  "lion": [
+    2120,
+    753,
+    631,
+    655,
+    692,
+    678,
+    798,
+    1201,
+    1940,
+    0
+  ],
+  "cross_check_total_edits_vs_official": {
+    "loghi": [
+      54348,
+      54348
+    ],
+    "lion": [
+      30614,
+      30614
+    ]
+  }
+}

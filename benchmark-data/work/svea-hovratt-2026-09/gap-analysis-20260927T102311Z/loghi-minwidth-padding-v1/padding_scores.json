@@ -1,0 +1,693 @@
+{
+  "label": "SECONDARY POST-BENCHMARK DIAGNOSTIC / IMPROVED INFERENCE VARIANT -- does not replace the official result",
+  "official_reference": {
+    "loghi_cer": 0.3270016425893948,
+    "lion_cer": 0.18419865103098057,
+    "gap_pp": 14.280299155841423
+  },
+  "full_corpus": {
+    "loghi_official": {
+      "lines": 4627,
+      "reference_characters": 166201,
+      "reference_words": 28872,
+      "cer": 0.3270016425893948,
+      "wer": 0.6752909393183707,
+      "char_edits": 54348,
+      "char_substitutions": 21080,
+      "char_insertions": 762,
+      "char_deletions": 32506,
+      "word_edits": 19497,
+      "word_substitutions": 14799,
+      "word_insertions": 97,
+      "word_deletions": 4601,
+      "cer_whitespace_normalized": 0.3270891377473959,
+      "wer_whitespace_normalized": 0.6752909393183707,
+      "cer_line_end_hyphen_harmonized": 0.3255636247676007,
+      "wer_line_end_hyphen_harmonized": 0.6729010806317539,
+      "exact_line_accuracy": 0.008861033066781931,
+      "mean_line_cer_macro": 0.3524421469614207,
+      "status_counts": {
+        "ok": 4556,
+        "empty": 71
+      },
+      "failed_or_missing_lines": 0,
+      "empty_predictions": 71
+    },
+    "loghi_padded": {
+      "lines": 4627,
+      "reference_characters": 166201,
+      "reference_words": 28872,
+      "cer": 0.3272242645952792,
+      "wer": 0.6747367691881407,
+      "char_edits": 54385,
+      "char_substitutions": 21003,
+      "char_insertions": 761,
+      "char_deletions": 32621,
+      "word_edits": 19481,
+      "word_substitutions": 14724,
+      "word_insertions": 82,
+      "word_deletions": 4675,
+      "cer_whitespace_normalized": 0.327311786545995,
+      "wer_whitespace_normalized": 0.6747367691881407,
+      "cer_line_end_hyphen_harmonized": 0.3257862467734851,
+      "wer_line_end_hyphen_harmonized": 0.672346910501524,
+      "exact_line_accuracy": 0.009941646855413875,
+      "mean_line_cer_macro": 0.35501902330862206,
+      "status_counts": {
+        "ok": 4489,
+        "empty": 138
+      },
+      "failed_or_missing_lines": 0,
+      "empty_predictions": 138
+    },
+    "lion": {
+      "lines": 4627,
+      "reference_characters": 166201,
+      "reference_words": 28872,
+      "cer": 0.18419865103098057,
+      "wer": 0.4363050706566916,
+      "char_edits": 30614,
+      "char_substitutions": 17926,
+      "char_insertions": 3220,
+      "char_deletions": 9468,
+      "word_edits": 12597,
+      "word_substitutions": 10975,
+      "word_insertions": 419,
+      "word_deletions": 1203,
+      "cer_whitespace_normalized": 0.18408843369578953,
+      "wer_whitespace_normalized": 0.4363050706566916,
+      "cer_line_end_hyphen_harmonized": 0.18232140600838742,
+      "wer_line_end_hyphen_harmonized": 0.42979357162648935,
+      "exact_line_accuracy": 0.07326561486924574,
+      "mean_line_cer_macro": 0.2058248405839959,
+      "status_counts": {
+        "ok": 4627
+      },
+      "failed_or_missing_lines": 0,
+      "empty_predictions": 0
+    }
+  },
+  "changed_lines_only_n350_descriptive_not_a_random_sample": {
+    "loghi_official": {
+      "lines": 350,
+      "reference_characters": 1660,
+      "reference_words": 382,
+      "cer": 0.65,
+      "wer": 1.013089005235602,
+      "char_edits": 1079,
+      "char_substitutions": 286,
+      "char_insertions": 48,
+      "char_deletions": 745,
+      "word_edits": 387,
+      "word_substitutions": 275,
+      "word_insertions": 31,
+      "word_deletions": 81,
+      "cer_whitespace_normalized": 0.65,
+      "wer_whitespace_normalized": 1.013089005235602,
+      "cer_line_end_hyphen_harmonized": 0.65,
+      "wer_line_end_hyphen_harmonized": 1.013089005235602,
+      "exact_line_accuracy": 0.04,
+      "mean_line_cer_macro": 0.7272689466229382,
+      "status_counts": {
+        "ok": 281,
+        "empty": 69
+      },
+      "failed_or_missing_lines": 0,
+      "empty_predictions": 69
+    },
+    "loghi_padded": {
+      "lines": 350,
+      "reference_characters": 1660,
+      "reference_words": 382,
+      "cer": 0.672289156626506,
+      "wer": 0.9712041884816754,
+      "char_edits": 1116,
+      "char_substitutions": 209,
+      "char_insertions": 47,
+      "char_deletions": 860,
+      "word_edits": 371,
+      "word_substitutions": 200,
+      "word_insertions": 16,
+      "word_deletions": 155,
+      "cer_whitespace_normalized": 0.672289156626506,
+      "wer_whitespace_normalized": 0.9712041884816754,
+      "cer_line_end_hyphen_harmonized": 0.672289156626506,
+      "wer_line_end_hyphen_harmonized": 0.9712041884816754,
+      "exact_line_accuracy": 0.054285714285714284,
+      "mean_line_cer_macro": 0.7613327054598062,
+      "status_counts": {
+        "empty": 136,
+        "ok": 214
+      },
+      "failed_or_missing_lines": 0,
+      "empty_predictions": 136
+    }
+  },
+  "unchanged_lines_verification": {
+    "n_unchanged": 4277,
+    "n_prediction_differs": 4,
+    "differing_line_ids_sample": [
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0010_DSC_0381/r1l12",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0028_DSC_0406/r2l18",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0042_DSC_0424/r4l28",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0021_DSC_0355/r1l1"
+    ]
+  },
+  "empty_output_fates": {
+    "total_official_empty": 71,
+    "fate_counts": {
+      "still_empty": 53,
+      "exact": 0,
+      "partially_correct": 8,
+      "non_empty_incorrect": 10,
+      "inference_failure": 0
+    }
+  },
+  "newly_introduced_empty_outputs": {
+    "count": 85,
+    "line_ids": [
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0002_DSC_0450/r1l10",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0002_DSC_0450/r2l1",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0002_DSC_0450/r2l28",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0003_DSC_0451/r2l27",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0004_DSC_0452/r2l28",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0005_DSC_0453/r1l30",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0005_DSC_0453/r2l5",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0006_DSC_0454/r2l23",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0007_DSC_0455/r1l22",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0007_DSC_0455/r2l26",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0008_DSC_0456/r1l9",
+      "Svea_Hovraett_etc_export_job_4502443_858057_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-f577f7f3/0008_DSC_0456/r2l30",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0001_DSC_0433/r1l12",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0001_DSC_0433/r1l32",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0002_DSC_0435/r1l31",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0003_DSC_0436/r1l20",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0003_DSC_0436/r1l53",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0005_DSC_0438/r1l11",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0006_DSC_0439/r1l19",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0006_DSC_0439/r1l30",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0006_DSC_0439/r2l6",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0007_DSC_0440/r1l26",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0008_DSC_0441/r1l36",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0010_DSC_0443/r1l53",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0011_DSC_0444/r1l33",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0011_DSC_0444/r1l56",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0013_DSC_0446/r1l24",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0013_DSC_0446/r2l13",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0014_DSC_0447/r1l16",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0014_DSC_0447/r2l1",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0015_DSC_0448/r1l1",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0015_DSC_0448/r1l12",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0015_DSC_0448/r1l23",
+      "Svea_Hovraett_etc_export_job_4502444_855910_Svea_Hovraett_OCo_Advokatfiskalen_Jaemtlands_laen__1713_-b58e9491/0015_DSC_0448/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0001_DSC_0370/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0001_DSC_0370/r2l24",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0002_DSC_0371/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0003_DSC_0372/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0006_DSC_0377/r2l24",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0007_DSC_0378/r1l18",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0010_DSC_0381/r2l22",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0010_DSC_0381/r3l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0012_DSC_0384/r3l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0013_DSC_0385/r1l21",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0013_DSC_0385/r2l2",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0016_DSC_0390/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0018_DSC_0392/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0022_DSC_0399/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0023_DSC_0400/r2l23",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0025_DSC_0403/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0025_DSC_0403/r1l42",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0026_DSC_0404/line_1638779746959_610",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0026_DSC_0404/r2l21",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0027_DSC_0405/r2l23",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0029_DSC_0407/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0030_DSC_0408/r3l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0031_DSC_0410/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0033_DSC_0412/r2l23",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0038_DSC_0420/r2l23",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0039_DSC_0421/r3l2",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0040_DSC_0422/r2l1",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0041_DSC_0423/r4l2",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0042_DSC_0424/r3l12",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0045_DSC_0427/r2l2",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0046_DSC_0428/line_1638873339761_636",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0048_DSC_0430/r1l22",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0048_DSC_0430/r2l2",
+      "Svea_Hovraett_etc_export_job_4502445_845640_Svea_Hovraett_-_Advokatfiskalen_Jaemtlands_laen__1702__3-6edbb12a/0048_DSC_0430/r2l24",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0003_DSC_0335/r3l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0005_DSC_0337/r2l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0011_DSC_0344/r2l2",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0012_DSC_0345/r3l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0013_DSC_0346/r2l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0014_DSC_0347/r2l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0015_DSC_0348/r1l21",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0015_DSC_0348/r2l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0017_DSC_0350/r2l4",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0017_DSC_0350/r3l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0020_DSC_0353/r2l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0025_DSC_0359/r2l2",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0026_DSC_0361/r2l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0027_DSC_0362/r3l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0029_DSC_0365/r2l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0030_DSC_0366/r3l1",
+      "Svea_Hovraett_etc_export_job_4502446_842250_Svea_Hovraett_-_Advokatfiskalens_Jaemtlands_laen__1702__-7a829e7f/0032_DSC_0368/r2l1"
+    ]
+  },
+  "length_ratio_distributions": {
+    "full_corpus": {
+      "official": {
+        "n": 4627,
+        "mean": 0.8011334959737557,
+        "median": 0.8571428571428571,
+        "p10": 0.5,
+        "p25": 0.7368421052631579,
+        "p75": 0.9333333333333333,
+        "p90": 0.9714285714285714,
+        "severe_underproduction_rate": {
+          "<25%": 0.03047330883942079,
+          "<50%": 0.09206829479144153,
+          "<75%": 0.2621569051221094
+        }
+      },
+      "padded": {
+        "n": 4627,
+        "mean": 0.7938132694831228,
+        "median": 0.8571428571428571,
+        "p10": 0.5,
+        "p25": 0.7368421052631579,
+        "p75": 0.9333333333333333,
+        "p90": 0.9714285714285714,
+        "severe_underproduction_rate": {
+          "<25%": 0.045169656364815215,
+          "<50%": 0.09941646855413876,
+          "<75%": 0.26410200994164684
+        }
+      }
+    },
+    "padded_lines_only_n350": {
+      "official": {
+        "n": 350,
+        "mean": 0.5264469896350149,
+        "median": 0.5,
+        "p10": 0.0,
+        "p25": 0.25,
+        "p75": 0.8571428571428571,
+        "p90": 1.0,
+        "severe_underproduction_rate": {
+          "<25%": 0.23714285714285716,
+          "<50%": 0.48857142857142855,
+          "<75%": 0.6828571428571428
+        }
+      },
+      "padded": {
+        "n": 350,
+        "mean": 0.4296761419019823,
+        "median": 0.3333333333333333,
+        "p10": 0.0,
+        "p25": 0.0,
+        "p75": 0.8,
+        "p90": 1.0,
+        "severe_underproduction_rate": {
+          "<25%": 0.43142857142857144,
+          "<50%": 0.5857142857142857,
+          "<75%": 0.7085714285714285
+        }
+      }
+    }
+  },
+  "geometry_bucket_comparison": {
+    "by_width": [
+      {
+        "bucket": 0,
+        "n": 945,
+        "range": [
+          24.0,
+          651.0
+        ],
+        "loghi_official_mean_cer": 0.5376867348947031,
+        "loghi_padded_mean_cer": 0.5503029418713209,
+        "lion_mean_cer": 0.34426974055162723,
+        "loghi_official_empty_rate": 0.07407407407407407,
+        "loghi_padded_empty_rate": 0.14497354497354498
+      },
+      {
+        "bucket": 1,
+        "n": 935,
+        "range": [
+          652.0,
+          682.0
+        ],
+        "loghi_official_mean_cer": 0.39657633417203964,
+        "loghi_padded_mean_cer": 0.39657633417203964,
+        "lion_mean_cer": 0.2577110247349867,
+        "loghi_official_empty_rate": 0.0010695187165775401,
+        "loghi_padded_empty_rate": 0.0010695187165775401
+      },
+      {
+        "bucket": 2,
+        "n": 906,
+        "range": [
+          683.0,
+          706.0
+        ],
+        "loghi_official_mean_cer": 0.3004764273032818,
+        "loghi_padded_mean_cer": 0.30050987435659643,
+        "lion_mean_cer": 0.16486376175029177,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 3,
+        "n": 933,
+        "range": [
+          707.0,
+          740.0
+        ],
+        "loghi_official_mean_cer": 0.269392186739981,
+        "loghi_padded_mean_cer": 0.269392186739981,
+        "lion_mean_cer": 0.14050300556792317,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 4,
+        "n": 908,
+        "range": [
+          741.0,
+          936.0
+        ],
+        "loghi_official_mean_cer": 0.2513903344702273,
+        "loghi_padded_mean_cer": 0.2513579426588772,
+        "lion_mean_cer": 0.11630060803195155,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      }
+    ],
+    "by_aspect_ratio": [
+      {
+        "bucket": 0,
+        "n": 926,
+        "range": [
+          0.31645569620253167,
+          5.691666666666666
+        ],
+        "loghi_official_mean_cer": 0.642523125679094,
+        "loghi_padded_mean_cer": 0.6554309211685182,
+        "lion_mean_cer": 0.4360089490083512,
+        "loghi_official_empty_rate": 0.07667386609071274,
+        "loghi_padded_empty_rate": 0.1490280777537797
+      },
+      {
+        "bucket": 1,
+        "n": 925,
+        "range": [
+          5.693548387096774,
+          6.673076923076923
+        ],
+        "loghi_official_mean_cer": 0.35993215155507463,
+        "loghi_padded_mean_cer": 0.35993215155507463,
+        "lion_mean_cer": 0.1954670222778502,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 2,
+        "n": 925,
+        "range": [
+          6.673267326732673,
+          7.376146788990826
+        ],
+        "loghi_official_mean_cer": 0.25676113031647396,
+        "loghi_padded_mean_cer": 0.25672933381408924,
+        "lion_mean_cer": 0.13239862937861052,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 3,
+        "n": 925,
+        "range": [
+          7.376237623762377,
+          8.493827160493828
+        ],
+        "loghi_official_mean_cer": 0.2595374100878907,
+        "loghi_padded_mean_cer": 0.2595374100878907,
+        "lion_mean_cer": 0.14739548568512156,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 4,
+        "n": 926,
+        "range": [
+          8.493975903614459,
+          17.47826086956522
+        ],
+        "loghi_official_mean_cer": 0.2432613494051523,
+        "loghi_padded_mean_cer": 0.2432613494051523,
+        "lion_mean_cer": 0.11770053840113624,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      }
+    ],
+    "by_pixel_area": [
+      {
+        "bucket": 0,
+        "n": 926,
+        "range": [
+          1240.0,
+          54285.0
+        ],
+        "loghi_official_mean_cer": 0.446203648031485,
+        "loghi_padded_mean_cer": 0.45907871886615437,
+        "lion_mean_cer": 0.258883287741906,
+        "loghi_official_empty_rate": 0.07451403887688984,
+        "loghi_padded_empty_rate": 0.1468682505399568
+      },
+      {
+        "bucket": 1,
+        "n": 925,
+        "range": [
+          54312.0,
+          63356.0
+        ],
+        "loghi_official_mean_cer": 0.25287174173097626,
+        "loghi_padded_mean_cer": 0.25287174173097626,
+        "lion_mean_cer": 0.12960757970170156,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 2,
+        "n": 925,
+        "range": [
+          63360.0,
+          69870.0
+        ],
+        "loghi_official_mean_cer": 0.2802706027410881,
+        "loghi_padded_mean_cer": 0.2802706027410881,
+        "lion_mean_cer": 0.15524560827841452,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 3,
+        "n": 925,
+        "range": [
+          69871.0,
+          77376.0
+        ],
+        "loghi_official_mean_cer": 0.3144233412875038,
+        "loghi_padded_mean_cer": 0.3144233412875038,
+        "lion_mean_cer": 0.17881271244146282,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 4,
+        "n": 926,
+        "range": [
+          77380.0,
+          169035.0
+        ],
+        "loghi_official_mean_cer": 0.46821487752239493,
+        "loghi_padded_mean_cer": 0.4682158400122407,
+        "lion_mean_cer": 0.30640891473345955,
+        "loghi_official_empty_rate": 0.0021598272138228943,
+        "loghi_padded_empty_rate": 0.0021598272138228943
+      }
+    ],
+    "by_ref_chars": [
+      {
+        "bucket": 0,
+        "n": 1107,
+        "range": [
+          1.0,
+          31.0
+        ],
+        "loghi_official_mean_cer": 0.42379124536724067,
+        "loghi_padded_mean_cer": 0.43456117815215833,
+        "lion_mean_cer": 0.26213492929132987,
+        "loghi_official_empty_rate": 0.06233062330623306,
+        "loghi_padded_empty_rate": 0.12285456187895212
+      },
+      {
+        "bucket": 1,
+        "n": 938,
+        "range": [
+          32.0,
+          34.0
+        ],
+        "loghi_official_mean_cer": 0.2862871827835612,
+        "loghi_padded_mean_cer": 0.28628813296010397,
+        "lion_mean_cer": 0.17700773491214666,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 2,
+        "n": 924,
+        "range": [
+          35.0,
+          37.0
+        ],
+        "loghi_official_mean_cer": 0.3262966816538245,
+        "loghi_padded_mean_cer": 0.3262966816538245,
+        "lion_mean_cer": 0.19467767860625004,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 3,
+        "n": 774,
+        "range": [
+          38.0,
+          47.0
+        ],
+        "loghi_official_mean_cer": 0.37441600762404936,
+        "loghi_padded_mean_cer": 0.37441600762404936,
+        "lion_mean_cer": 0.22599409382377578,
+        "loghi_official_empty_rate": 0.0,
+        "loghi_padded_empty_rate": 0.0
+      },
+      {
+        "bucket": 4,
+        "n": 884,
+        "range": [
+          48.0,
+          77.0
+        ],
+        "loghi_official_mean_cer": 0.34137941648057635,
+        "loghi_padded_mean_cer": 0.34137941648057635,
+        "lion_mean_cer": 0.15987931182949747,
+        "loghi_official_empty_rate": 0.0022624434389140274,
+        "loghi_padded_empty_rate": 0.0022624434389140274
+      }
+    ]
+  },
+  "bootstrap_padded_vs_official": {
+    "cluster_unit": "page",
+    "clusters": 105,
+    "samples": 2000,
+    "seed": 20260927,
+    "interval": "95% percentile",
+    "per_model": {
+      "loghi_official": {
+        "cer": [
+          0.3116020576666522,
+          0.3425244103549333
+        ],
+        "wer": [
+          0.6595251008369216,
+          0.6907045845187851
+        ]
+      },
+      "loghi_padded": {
+        "cer": [
+          0.31181430471696486,
+          0.34275339441963487
+        ],
+        "wer": [
+          0.6589023013031402,
+          0.6899789395109805
+        ]
+      }
+    },
+    "paired_differences": {
+      "loghi_official__vs__loghi_padded": {
+        "cer": {
+          "difference": "loghi_official minus loghi_padded",
+          "ci95": [
+            -0.00042958979298984704,
+            -1.2497235014269422e-05
+          ],
+          "share_of_resamples_a_lower": 0.9815
+        },
+        "wer": {
+          "difference": "loghi_official minus loghi_padded",
+          "ci95": [
+            0.0001707308098598148,
+            0.0009582836259881876
+          ],
+          "share_of_resamples_a_lower": 0.0025
+        }
+      }
+    }
+  },
+  "bootstrap_padded_vs_lion": {
+    "cluster_unit": "page",
+    "clusters": 105,
+    "samples": 2000,
+    "seed": 20260927,
+    "interval": "95% percentile",
+    "per_model": {
+      "loghi_padded": {
+        "cer": [
+          0.31181430471696486,
+          0.34275339441963487
+        ],
+        "wer": [
+          0.6589023013031402,
+          0.6899789395109805
+        ]
+      },
+      "lion": {
+        "cer": [
+          0.17290555211947517,
+          0.1964533877572149
+        ],
+        "wer": [
+          0.4224651008697295,
+          0.4507182892469525
+        ]
+      }
+    },
+    "paired_differences": {
+      "lion__vs__loghi_padded": {
+        "cer": {
+          "difference": "lion minus loghi_padded",
+          "ci95": [
+            -0.15272021794060642,
+            -0.13315755504107718
+          ],
+          "share_of_resamples_a_lower": 1.0
+        },
+        "wer": {
+          "difference": "lion minus loghi_padded",
+          "ci95": [
+            -0.2522692181442597,
+            -0.2252913575338752
+          ],
+          "share_of_resamples_a_lower": 1.0
+        }
+      }
+    }
+  },
+  "gap_recovery": {
+    "original_gap_pp": 14.28,
+    "padded_gap_pp": 14.3,
+    "cer_improvement_pp": -0.02,
+    "wer_improvement_pp": 0.06,
+    "pct_of_original_gap_recovered": -0.16
+  }
+}
