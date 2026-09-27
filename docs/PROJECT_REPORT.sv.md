@@ -122,6 +122,8 @@ Epoch 7 har en dokumenterad metodisk reservation. Den långa kontinuerliga körn
 
 Checkpointen är verklig och verifierad, men epoch 7 är därför inte exakt samma typ av kontinuerlig träning som epoch 1-6.
 
+**Modellrelease:** Den slutliga tränade checkpointen, tokenizer, konfigurationen och provenance-manifestet finns tillgängliga i [ArchiveTrust Loghi Swedish Scratch Model — Experiment 2 Epoch 7 release](https://github.com/hypergeek-dev/ArchiveTrust_HCR/releases/tag/model-loghi-swedish-scratch-exp2-epoch7).
+
 ## 6. Steg 4: oberoende benchmark
 
 **Anders Hast** levererade ett Svea Hovrätt-material som senare användes för slutjämförelsen.
