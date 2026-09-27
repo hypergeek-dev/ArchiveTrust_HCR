@@ -1,7 +1,6 @@
 # ArchiveTrust -- agent notes
 
 Read first: `docs/PROJECT_STATE.md`, then `docs/BENCHMARK_PROTOCOL.md` and `docs/DATASETS.md`.
-`AGENTS.md` also applies (ChatGPT context-pack upkeep).
 
 ## Current phase: independent benchmark, not training
 
