@@ -25,6 +25,10 @@ The output goes to `benchmark-data/dryrun/dataset-rgb-dryrun/`. On 2026-09-27 th
 
 - Two independent builds were byte-identical.
 - The crops are pixel-identical to the reliability run's own crops.
+- Both smoke runs (5 lines each, on the same crops) returned `ok` for every line:
+  - Lion ran with `generation_config` on CUDA.
+  - Loghi ran with beam 10 and seed 42 in the pinned container digest; its checkpoint hashes
+    were verified before the run.
 
 The predictions only show that each model loads and emits text. **They are not an accuracy
 measurement.**

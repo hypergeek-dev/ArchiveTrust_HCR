@@ -35,7 +35,9 @@ changes.
 | dataset-rgb mechanical dry run (build) | done: 60 pages → 2,678 crops, deterministic, no findings |
 | Python environment | `.venv` rebuilt: Python 3.13.15, see `docs/benchmark-environment.txt` |
 | Lion smoke inference | **pass**: 5 dry-run lines, `generation_config`, CUDA, torch 2.13.0+cu130, transformers 4.49.0 (no accuracy measured) |
-| Docker / pinned Loghi image / Loghi smoke | **pending**. Docker Desktop is installed, but its engine answers HTTP 500 because WSL 2 is not installed. Firmware virtualisation (SVM) is already on. Fix: `wsl --install` in an admin shell, reboot, start Docker Desktop, `docker pull` the pinned digest. |
+| Docker | Docker Desktop, engine 29.8.0 on WSL 2 (kernel 6.18.33.2). Start Docker Desktop before a Loghi run. |
+| Pinned Loghi image | pulled by digest `sha256:414fc89a…`; `RepoDigests` and image ID match the pin (13.4 GB). The GPU is visible in the container to `nvidia-smi` and to TensorFlow 2.20. |
+| Loghi smoke inference | **pass**: 5 dry-run lines, beam 10, seed 42, no `--greedy`, checkpoint hashes verified before the run (no accuracy measured) |
 | NVIDIA GPU | RTX 3070 8 GB, driver 616.92, visible to torch |
 | HF training corpus (overlap check) | not found on any mounted drive, so the contamination check is partial |
 | External dataset | not delivered |
