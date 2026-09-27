@@ -82,7 +82,7 @@ Därefter ändrades målet: Dennis skulle inte bara jämföra modeller, utan sj�
 
 ## 5. Steg 3: träning av en svensk Loghi-modell
 
-Träningsmaterialet omfattade ungefär **562 123 textrader från 11 arkivsamlingar**.
+Träningsmaterialet omfattade ungefär **562 123 textrader från 11 arkivsamlingar**. Korpusen byggdes från Riksarkivets offentligt publicerade dataset i [Training data for Swedish Lion Libre](https://huggingface.co/collections/Riksarkivet/training-data-for-swedish-lion-libre), den publika samling som Riksarkivet använde vid utvecklingen av Swedish Lion Libre.
 
 ### Experiment 0
 
@@ -246,6 +246,12 @@ Distinguished University Teacher, InfraVis Faculty
 LinkedIn: <https://www.linkedin.com/in/anders-hast-15536372/>
 
 Ett särskilt tack till Anders Hast för hans bidrag till projektets forskningsinriktning och för att han levererade datamaterialet som användes i det slutliga oberoende benchmark-testet. Hans input var en viktig del i utvecklingen från ett generellt OCR-system för tillit och telemetri till ett fokuserat svenskt HTR-projekt.
+
+### Riksarkivet
+
+ArchiveTrusts träningskorpus byggdes från Riksarkivets offentligt publicerade historiska handskriftsdataset i [Training data for Swedish Lion Libre](https://huggingface.co/collections/Riksarkivet/training-data-for-swedish-lion-libre).
+
+Ett särskilt tack till Riksarkivet för att detta träningsmaterial gjorts offentligt tillgängligt. Dataseten gjorde det möjligt att genomföra projektets svenska scratch-träning i en omfattning som annars hade varit svår att uppnå i ett fristående projekt.
 
 ---
 
