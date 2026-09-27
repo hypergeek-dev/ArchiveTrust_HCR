@@ -27,7 +27,7 @@ The point of the project is not that the hobby model beat Lion. It did not. The 
 
 - **Model:** `loghi-swedish-scratch-exp2-epoch7`
 - **Training:** from scratch, Loghi-HTR
-- **Training corpus:** ~562,123 Swedish handwritten text-line images from 11 archival collections
+- **Training corpus:** ~562,123 Swedish handwritten text-line images from 11 archival collections, assembled from [Riksarkivet's public training-data collection for Swedish Lion Libre](https://huggingface.co/collections/Riksarkivet/training-data-for-swedish-lion-libre)
 - **Internal validation:** CER **0.0998**, WER **0.3273**
 - **Decoder:** beam width 10
 - **Checkpoint:** frozen and backed up in the GitHub Release `model-loghi-swedish-scratch-exp2-epoch7`
@@ -159,6 +159,12 @@ Distinguished University Teacher, InfraVis Faculty
 [LinkedIn](https://www.linkedin.com/in/anders-hast-15536372/)
 
 Special thanks to Anders Hast for his contribution to the project's research direction and for supplying the dataset used for the final independent benchmark.
+
+### Riksarkivet
+
+ArchiveTrust's training corpus was assembled from Riksarkivet's publicly released historical handwriting line datasets in [Training data for Swedish Lion Libre](https://huggingface.co/collections/Riksarkivet/training-data-for-swedish-lion-libre). Riksarkivet describes this collection as the publicly available training data used to create Swedish Lion Libre.
+
+Special thanks to Riksarkivet for making this training material publicly available. It made the large-scale Swedish scratch-training experiment in this project possible.
 
 ## Status
 
