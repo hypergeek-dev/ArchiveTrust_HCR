@@ -37,14 +37,19 @@ measurement.**
 
 The delivery is 14 Transkribus export jobs (PAGE-XML and ALTO with JPG pages), 237 pages and
 10,557 lines, delivered as one macOS zip. Its tree digest is `ae80127b…` over 1,618 files,
-including the `__MACOSX` metadata files. The decisions (D1–D4) are in `docs/BENCHMARK_PROTOCOL.md`
-§3.
+including the `__MACOSX` metadata files. The decisions (D1–D5, with D4b extended to unbracketed `??`/`???`) are
+in `docs/BENCHMARK_PROTOCOL.md` §3.
 
-The candidate primary set, built 2026-09-27, is **5 documents, 140 pages, 6,504 lines, 214,807
-characters, 37,733 words**:
+The candidate primary set, rebuilt 2026-09-27 after the D4b extension, is **5 documents, 140
+pages, 6,486 lines, 213,824 characters, 37,545 words**:
+
+- lines per export job: 4502442: 1,661; 4502443: 595; 4502444: 776; 4502445: 2,137; 4502446: 1,317;
+- 59 lines are held in the editorial-markup review queue.
 
 - characters are NFC code points of canonical GT, including inner spaces;
 - words are split on whitespace, as the scorer does.
+
+Caveat: all 140 pages have Transkribus status `IN_PROGRESS`; none is `GT` or `FINAL`.
 
 It is not frozen. The provenance questions are in
 `benchmark-data/work/svea-hovratt-2026-09/PROVENANCE.md`.

@@ -172,12 +172,25 @@ only the delivery and the inspection findings.
 - **D4b (editorial markup).** Lines with editorial markup such as `[???]` are excluded from the
   primary set, pending the provider's convention. They are listed in
   `work/svea-hovratt-2026-09/editorial_markup_review.jsonl`.
+  - **Extended 2026-09-27**, after the deterministic convention audit and before any model run.
+  - The rule: any line whose delivered GT matches the regex `\?{2,}` is an unreadable-text
+    placeholder. That is two or more consecutive `?` anywhere in the line, including embedded
+    forms such as `oppbur???` and `21???`.
+  - A single `?` is not affected. The GT text is not modified.
+  - Effect: 18 lines in 4502444 moved from the primary set to the review queue.
+  - The rule is recorded as reason `D4b (extended …)` on each decision and as a comment line in
+    `decisions.jsonl`. The superseded decisions are kept as `decisions.v1.jsonl`.
+  - The audit script is `scripts/benchmark_convention_audit.py`. Its outputs are in
+    `work/svea-hovratt-2026-09/convention-audit/`.
 - **Kept as supplied:**
   - characters outside Loghi's charset (they are reported as charset coverage);
   - identical transcriptions on different line images;
   - crops clamped to the page raster (flagged `crop_clamped` in the line's `source_metadata`).
 - **D5 (scoring).** The line-end hyphen sensitivity score (§6) is pre-registered. Raw scoring stays
   primary. It is recorded as a comment line in `decisions.jsonl`, and `FROZEN.json` pins it.
+- **Caveat: Transkribus status.** All 140 kept pages carry Transkribus page status `IN_PROGRESS`;
+  none is `GT` or `FINAL`. The GT is used as delivered. Every report on this benchmark states this
+  caveat.
 - **Freeze gate.** Do not freeze until the provider's answers on the transcription conventions are
   recorded in `work/svea-hovratt-2026-09/PROVENANCE.md`: `[???]`, diplomatic vs normalized,
   line-end hyphenation and `ß`.
