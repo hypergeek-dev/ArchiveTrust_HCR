@@ -17,8 +17,11 @@ Snapshot: 2026-09-27.
     `docs/models/loghi-swedish-scratch-exp2-epoch7.MODEL_MANIFEST.json`.
 - **Next goal:** an independent benchmark of that model against Riksarkivet's Swedish Lion Libre, on
   the external GT dataset `svea-hovratt-2026-09`.
-  - It is frozen as `benchmark/svea-hovratt-2026-09-primary` (6,486 lines; 2026-09-27; see
+  - It is frozen as `benchmark/svea-hovratt-2026-09-primary-v2` (4,627 lines; 2026-09-27; see
     `docs/DATASETS.md`).
+  - The first freeze, `svea-hovratt-2026-09-primary`, is superseded: it contained probable
+    uncorrected recognition output, which D6 removes. It is kept unchanged and must not be used for
+    model comparison.
   - No model has been run on it yet.
   - The harness is `src/archivetrust/htr/benchmark/`.
   - The method is `docs/BENCHMARK_PROTOCOL.md`. Its locked decisions (§1a) are Lion
@@ -34,7 +37,8 @@ changes.
 | Check | State (2026-09-27) |
 | --- | --- |
 | Harness tests (`tests/htr/benchmark`) | pass (82) |
-| Frozen benchmark `svea-hovratt-2026-09-primary` | verified: 6,486 lines, manifest `7c47b9ee…`, all files read-only |
+| Frozen benchmark `svea-hovratt-2026-09-primary-v2` (primary) | verified: 4,627 lines, manifest `e43ee895…`, all files read-only |
+| Frozen benchmark `svea-hovratt-2026-09-primary` | **superseded**; verified unchanged: 6,486 lines, manifest `7c47b9ee…` |
 | Loghi checkpoint hashes | match; backed up externally |
 | dataset-rgb mechanical dry run (build) | done: 60 pages → 2,678 crops, deterministic, no findings |
 | Python environment | `.venv` rebuilt: Python 3.13.15, see `docs/benchmark-environment.txt` |
@@ -44,7 +48,7 @@ changes.
 | Loghi smoke inference | **pass**: 5 dry-run lines, beam 10, seed 42, no `--greedy`, checkpoint hashes verified before the run (no accuracy measured) |
 | NVIDIA GPU | RTX 3070 8 GB, driver 616.92, visible to torch |
 | HF training corpus (overlap check) | not found on any mounted drive, so the contamination check is partial |
-| External dataset | not delivered |
+| External dataset | delivered 2026-09-27 (`svea-hovratt-2026-09`) |
 
 ## Rebuilding the benchmark environment
 

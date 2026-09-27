@@ -247,6 +247,29 @@ only the delivery and the inspection findings.
     in the reference set before any model inference (see D6).
   - It is kept unchanged as a historical snapshot. It is not deleted and not rewritten, and no model
     is to be run on it.
+- **v2 `svea-hovratt-2026-09-primary-v2`: the primary benchmark.** Frozen 2026-09-27T09:35:38Z,
+  before any model run (`--official`; code commit `e1e4428`, clean tree).
+  - Manifest `e43ee895…`, decisions `c32103e3…`, `FROZEN.json` `3b6eadc6…`, build `0d30ffcd…`.
+    Source tree `ae80127b…` is the same delivery as v1.
+  - 4 documents (export jobs 4502443–4502446), 105 pages, 4,627 lines, 166,201 characters and
+    28,872 words.
+  - Excluded: D1 3,774, D2 238, D4b 59, D6 1,859. Scoring version 2, `gt-normalization/1`, raw
+    primary, D5 secondary.
+  - Difference from v1 (`scripts/benchmark_manifest_diff.py`): 35 pages and 1,859 lines removed
+    (4502442: all 1,661 lines; 4502443 pp9–12: 198), 0 added. The other 4,627 lines are
+    byte-identical in manifest record and crop. That is −47,623 characters and −8,673 words.
+  - Audits of v2, each run twice with byte-identical outputs:
+    - completeness: 100% line coverage, 0 tails, 0 gaps, 0 empty regions, 0 PAGE/ALTO differences;
+      0 pages likely uncorrected and 0 mixed. The 11 fast-save pages that remain all carry student
+      edits.
+    - convention: no reference line ends in `¬`; out-of-charset `¼` ×1.
+    - overlap against the Svea Hovrätt training subset: 0 strong signals in 4,627 lines (partial
+      check, as before).
+    - Two builds produced identical manifests and crops.
+  - `FROZEN.json` embeds the v2 `dataset_card`: D1–D6, caveats, the supersession of v1, and
+    hashes of the audits, the image review and the v1→v2 diff. The decisions file is copied into
+    the frozen benchmark.
+  - No GT or method changes are allowed after this freeze.
 
 ## 4. Line images and segmentation
 

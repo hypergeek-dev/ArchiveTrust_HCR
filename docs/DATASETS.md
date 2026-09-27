@@ -9,7 +9,7 @@ external dataset becomes a benchmark.
 | Loghi training splits (train / val 1000 lines / sealed test 810 lines) | Manifests deleted in commit f0de635 | Only hashes survive: dataset `fc21a708…`, train `e12796a0…`, val `92f74011c568…` | Val produced CER 0.0998 / WER 0.3273. The sealed test was never evaluated and cannot be rebuilt without the corpus. |
 | `dataset-rgb/` | Repo root (gitignored) | 766 page PNGs in 31 volume folders (14 GB, RGB, mostly double-page spreads). **No transcriptions.** | **`NO_GROUND_TRUTH / NOT_AN_ACCURACY_BENCHMARK`.** Used only for the mechanical dry run (see below). Inspection correctly reports `gt.none_found`. No CER/WER may ever be computed or quoted on it. |
 | Reliability-screening segmentation and crops | `docs/experiments/technical-reliability-screening/full-run/reliability-2026-07-31/` (crops gitignored) | Florence-2 line boxes for 60 `dataset-rgb` pages (2,678 lines). No GT. | Segmentation input for the dry run (`scripts/dryrun_segmentation_from_reliability.py`). |
-| External benchmark set (from a colleague): `svea-hovratt-2026-09` | `benchmark-data/incoming/svea-hovratt-2026-09/` | **Delivered and frozen 2026-09-27** as `svea-hovratt-2026-09-primary` (6,486 lines); provenance partly unavailable, see below. | The independent Loghi-vs-Lion benchmark. See the section below. |
+| External benchmark set (from a colleague): `svea-hovratt-2026-09` | `benchmark-data/incoming/svea-hovratt-2026-09/` | **Delivered and frozen 2026-09-27** as `svea-hovratt-2026-09-primary-v2` (4,627 lines). The first freeze, `svea-hovratt-2026-09-primary`, is superseded. Provenance is partly unavailable; see below. | The independent Loghi-vs-Lion benchmark. See the section below. |
 
 ## dataset-rgb mechanical dry run (NO_GROUND_TRUTH / NOT_AN_ACCURACY_BENCHMARK)
 
@@ -37,22 +37,31 @@ measurement.**
 
 The delivery is 14 Transkribus export jobs (PAGE-XML and ALTO with JPG pages), 237 pages and
 10,557 lines, delivered as one macOS zip. Its tree digest is `ae80127b…` over 1,618 files,
-including the `__MACOSX` metadata files. The decisions (D1–D5, with D4b extended to unbracketed `??`/`???`) are
-in `docs/BENCHMARK_PROTOCOL.md` §3.
+including the `__MACOSX` metadata files. The decisions are in `docs/BENCHMARK_PROTOCOL.md` §3:
+D1–D5, with D4b extended to unbracketed `??`/`???`, and D6.
 
-The candidate primary set, rebuilt 2026-09-27 after the D4b extension, is **5 documents, 140
-pages, 6,486 lines, 213,824 characters, 37,545 words**:
+**Primary benchmark: `benchmark/svea-hovratt-2026-09-primary-v2`**, frozen 2026-09-27 before any
+model run. It has **4 documents, 105 pages, 4,627 lines, 166,201 characters and 28,872 words**:
 
-- lines per export job: 4502442: 1,661; 4502443: 595; 4502444: 776; 4502445: 2,137; 4502446: 1,317;
-- 59 lines are held in the editorial-markup review queue.
-
+- manifest `e43ee895…`, decisions `c32103e3…`, `FROZEN.json` `3b6eadc6…`;
+- lines per export job: 4502443: 397; 4502444: 776; 4502445: 2,137; 4502446: 1,317;
+- 59 lines are held in the editorial-markup review queue;
 - characters are NFC code points of canonical GT, including inner spaces;
 - words are split on whitespace, as the scorer does.
 
-Caveat: all 140 pages have Transkribus status `IN_PROGRESS`; none is `GT` or `FINAL`.
+D6 excludes 35 whole pages (4502442 pp1–31 and 4502443 pp9–12; 1,859 lines) as probable
+uncorrected Transkribus recognition output. The evidence is the completeness audit and a seeded
+image review; no GT was changed.
 
-It was **frozen** on 2026-09-27, before any model run, as `benchmark/svea-hovratt-2026-09-primary`:
-manifest `7c47b9ee…`, decisions `24c815be…`, `FROZEN.json` `ffd2a22f…`.
+Caveat: every page still has Transkribus status `IN_PROGRESS`; none is `GT` or `FINAL`. After D6,
+the completeness audit finds no material deterministic evidence of incomplete transcription on the
+retained pages. That is an inference, not a certification.
+
+**Superseded — do not use for primary accuracy: `benchmark/svea-hovratt-2026-09-primary`.** It
+was frozen 2026-09-27: 5 documents, 140 pages, 6,486 lines; manifest `7c47b9ee…`, decisions
+`24c815be…`, `FROZEN.json` `ffd2a22f…`. The completeness audit found likely uncorrected
+recognition output in its reference before any model run. It is kept unchanged as a historical
+snapshot.
 
 - The transcriptions were made by students.
 - Provenance status: PROVENANCE UNAVAILABLE / CANNOT BE RESOLVED FROM SOURCE. The remaining
