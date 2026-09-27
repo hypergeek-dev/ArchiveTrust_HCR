@@ -188,9 +188,38 @@ only the delivery and the inspection findings.
   - crops clamped to the page raster (flagged `crop_clamped` in the line's `source_metadata`).
 - **D5 (scoring).** The line-end hyphen sensitivity score (§6) is pre-registered. Raw scoring stays
   primary. It is recorded as a comment line in `decisions.jsonl`, and `FROZEN.json` pins it.
-- **Caveat: Transkribus status.** All 140 kept pages carry Transkribus page status `IN_PROGRESS`;
-  none is `GT` or `FINAL`. The GT is used as delivered. Every report on this benchmark states this
-  caveat.
+- **D6 (probable uncorrected recognition output), approved 2026-09-27, after the v1 freeze and
+  before any model run.** 35 whole pages are excluded from primary: export job 4502442 pages 1–31
+  and 4502443 pages 9–12 (1,859 lines).
+  - Why: every page was prefilled by a Transkribus HTR model, so a line with text is not
+    necessarily a corrected line. The completeness audit (`scripts/benchmark_completeness_audit.py`)
+    found a block of pages whose signals point to recognition output that nobody corrected.
+  - Rule (page level, from the audit's pre-declared signals; no single signal decides):
+    - the page's source document has at least one page whose last save followed the previous save
+      in that document within ≤ 1.0 s per line **and** that carries no student convention (0
+      line-final `-`, 0 lines with `[` or `??`);
+    - in such a document, a page is excluded if it carries no student convention, or if it mixes
+      line-final `-` and `¬`.
+  - Neither `IN_PROGRESS`, save time, `¬` nor text oddness is used alone.
+  - Confirmation: a seeded, stratified image review (`scripts/benchmark_image_review_sample.py`;
+    15 pages, 46 lines, compared with images only, never with model output):
+    - suspect lines: 11 likely uncorrected, 18 ambiguous, 2 corrected (the latter on 4502443 p9,
+      above its first `¬`);
+    - control lines from all four other collections: 15 corrected, none otherwise.
+    - The review is in `work/svea-hovratt-2026-09/image-review/`.
+  - `make_decisions.py` derives the page set from the audit output, pinned by SHA-256, and refuses
+    to run if the result differs from the reviewed set.
+  - 4502443 p9 is corrected at the top and uncorrected from its first `¬`. No metadata marks the
+    boundary, so the **whole page** is excluded. There are no partial pages.
+  - Lines already excluded by D1–D4b keep their earlier decision. No GT text is changed. The
+    excluded lines are preserved unchanged in `d6_excluded_lines.jsonl`, and the per-page signals
+    in `d6_pages.jsonl`.
+  - The decisions frozen with v1 are kept as `decisions.primary-v1.jsonl`. The v2 decisions are
+    those same 1,210 decisions plus the 35 D6 page decisions and a D6 comment line.
+- **Caveat: Transkribus status.** Every kept page carries Transkribus page status `IN_PROGRESS`;
+  none is `GT` or `FINAL`. The status has not been changed. After D6, the completeness audit finds
+  no material deterministic evidence of incomplete transcription on the retained pages. That is an
+  inference, not a certification. Every report on this benchmark states this caveat.
 - **Provenance limitation (2026-09-27).** The transcriptions were made by students in Transkribus.
   - The supplying teacher has no complete transcription guideline and no detailed provenance trail
     for the students' work. There is no organised way to get authoritative answers from the
@@ -201,22 +230,23 @@ only the delivery and the inspection findings.
     and the meaning of `IN_PROGRESS`.
   - No answers are inferred.
 - **What the benchmark measures.** Agreement with the supplied reference transcription, used as
-  delivered, subject only to D1–D5. It is not accuracy against an independently adjudicated or
+  delivered, subject only to D1–D6. It is not accuracy against an independently adjudicated or
   certified diplomatic ground truth.
 - **Caveat: transcription convention.** The student guidelines are unavailable. The convention
   audit shows differences between collections.
-- **Caveat: charset.** Characters outside Loghi's 124-character output set (`æ` ×2, `¼` ×1) stay
-  in the benchmark. They count as ordinary errors when Loghi cannot emit them.
+- **Caveat: charset.** Characters outside Loghi's 124-character output set stay in the benchmark
+  (v2: `¼` ×1; v1 also had `æ` ×2). They count as ordinary errors when Loghi cannot emit them.
 - **Spot-check lines.** Some lines stay in the primary set unchanged. These are the audit's
-  convention examples: single `?`, unusual line-end hyphenation, and line-final `¬`. They are not
-  reviewed against model predictions before the primary run.
-- **Frozen 2026-09-27, before any model run,** as `benchmark/svea-hovratt-2026-09-primary`
-  (`--official`; code commit `779f4c3`, clean tree).
-  - Manifest `7c47b9ee…`, decisions `24c815be…`.
-  - 5 documents, 140 pages, 6,486 lines, 213,824 characters and 37,545 words.
-  - `FROZEN.json` embeds these rules and caveats as `dataset_card`. The decisions file is copied
-    into the frozen benchmark.
-  - No GT or method changes are allowed after the freeze.
+  convention examples: single `?` and unusual line-end hyphenation. After D6, no reference line
+  ends in `¬`. They are not reviewed against model predictions before the primary run.
+- **v1 `svea-hovratt-2026-09-primary`: SUPERSEDED — DO NOT USE FOR PRIMARY ACCURACY BENCHMARK.**
+  - It was frozen 2026-09-27 before any model run (`--official`; code commit `779f4c3`, clean
+    tree): manifest `7c47b9ee…`, decisions `24c815be…`, `FROZEN.json` `ffd2a22f…`. It holds 5
+    documents, 140 pages, 6,486 lines, 213,824 characters and 37,545 words.
+  - Why it is superseded: the completeness audit identified likely uncorrected recognition output
+    in the reference set before any model inference (see D6).
+  - It is kept unchanged as a historical snapshot. It is not deleted and not rewritten, and no model
+    is to be run on it.
 
 ## 4. Line images and segmentation
 

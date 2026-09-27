@@ -22,6 +22,7 @@ import hashlib
 import html
 import json
 import math
+import os
 import random
 import re
 import statistics
@@ -167,11 +168,18 @@ def main() -> int:
     ap.add_argument("benchmark_id")
     ap.add_argument("--training-parquet-dir", type=Path, help="vocabulary source for the T7 out-of-vocabulary signal")
     ap.add_argument("--overwrite", action="store_true")
+    ap.add_argument("--out-dir", type=Path, help="output folder (default: work/<source>/completeness-audit)")
+    ap.add_argument("--benchmark-dir", type=Path, help="frozen benchmark or candidate folder to audit "
+                    "(default: benchmark/<benchmark_id>); a candidate is read from manifest.jsonl + excluded.jsonl")
     args = ap.parse_args()
     source = ROOT / "incoming" / args.source_id
     work = ROOT / "work" / args.source_id
-    frozen = ROOT / "benchmark" / args.benchmark_id
-    out = work / "completeness-audit"
+    frozen = args.benchmark_dir or ROOT / "benchmark" / args.benchmark_id
+    excluded_file = frozen / "excluded_by_decision.jsonl"
+    if not excluded_file.exists():
+        excluded_file = frozen / "excluded.jsonl"  # an unfrozen candidate
+    decisions_file = frozen / "decisions.jsonl" if (frozen / "decisions.jsonl").exists() else work / "decisions.jsonl"
+    out = args.out_dir or work / "completeness-audit"
     if out.exists() and not args.overwrite:
         print(f"{out} exists; pass --overwrite to regenerate", file=sys.stderr)
         return 1
@@ -180,7 +188,7 @@ def main() -> int:
     manifest = read_manifest(frozen / "manifest.jsonl")
     retained = {(l.gt_source_relative_path, l.source_line_ref): l for l in manifest}
     excluded = {json.loads(x)["target"]: json.loads(x)["reason"]
-                for x in (frozen / "excluded_by_decision.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()}
+                for x in excluded_file.read_text(encoding="utf-8").splitlines() if x.strip()}
     page_files = sorted({l.gt_source_relative_path for l in manifest})
     vocab: set[str] = set()
     training_files = []
@@ -638,7 +646,7 @@ def main() -> int:
     for q in final:
         ref = q[6]
         if ref.endswith(".png"):
-            src = (rel_root / "benchmark" / args.benchmark_id / ref).as_posix()
+            src = Path(os.path.relpath(frozen / ref, out)).as_posix()
         elif ref.endswith(".xml"):
             p = pages.get(ref)
             src = (rel_root / "incoming" / args.source_id / Path(ref).parent.parent / p["image_filename"]).as_posix() if p else ""
@@ -679,9 +687,11 @@ def main() -> int:
     constants = {k: (v if isinstance(v, (str, int, float)) else repr(v)) for k, v in globals().items()
                  if k.isupper() and k not in ("ROOT", "P", "A", "RO_INDEX", "EMAIL")}
     run = {"source_id": args.source_id, "benchmark_id": args.benchmark_id,
-           "frozen_json_sha256": sha256_file(frozen / "FROZEN.json"), "manifest_sha256": sha256_file(frozen / "manifest.jsonl"),
-           "excluded_by_decision_sha256": sha256_file(frozen / "excluded_by_decision.jsonl"),
-           "decisions_sha256": sha256_file(frozen / "decisions.jsonl"),
+           "benchmark_dir": frozen.as_posix(),
+           "frozen_json_sha256": sha256_file(frozen / "FROZEN.json") if (frozen / "FROZEN.json").exists() else None,
+           "manifest_sha256": sha256_file(frozen / "manifest.jsonl"),
+           "excluded_by_decision_sha256": sha256_file(excluded_file),
+           "decisions_sha256": sha256_file(decisions_file),
            "retained_pages": len(page_files), "source_lines": n_src, "retained_lines": len(feats),
            "training_vocabulary_files": training_files,
            "script": "scripts/benchmark_completeness_audit.py",

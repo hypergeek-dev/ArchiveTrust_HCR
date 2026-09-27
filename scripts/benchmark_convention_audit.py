@@ -135,11 +135,12 @@ def main() -> int:
     ap.add_argument("source_id")
     ap.add_argument("--training-parquet-dir", type=Path)
     ap.add_argument("--overwrite", action="store_true")
+    ap.add_argument("--out-dir", type=Path, help="output folder (default: work/<source>/convention-audit)")
     args = ap.parse_args()
 
     work = ROOT / "work" / args.source_id
     source = ROOT / "incoming" / args.source_id
-    out = work / "convention-audit"
+    out = args.out_dir or work / "convention-audit"
     if out.exists() and not args.overwrite:
         print(f"{out} exists; pass --overwrite to regenerate", file=sys.stderr)
         return 1
