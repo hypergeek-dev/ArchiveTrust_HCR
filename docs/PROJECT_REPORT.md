@@ -183,6 +183,8 @@ Epoch 7 has a documented caveat. A continuous seven-epoch run crashed shortly af
 
 The final model was frozen rather than continuously tuned after the result.
 
+**Model release:** The final trained checkpoint, tokenizer, configuration and provenance manifest are available in the [ArchiveTrust Loghi Swedish Scratch Model — Experiment 2 Epoch 7 release](https://github.com/hypergeek-dev/ArchiveTrust_HCR/releases/tag/model-loghi-swedish-scratch-exp2-epoch7).
+
 ### What the 9.98% CER meant
 
 It meant the model performed well on its fixed, in-distribution validation set.
@@ -393,7 +395,7 @@ Important evidence includes:
 
 - training experiment reports and run manifests;
 - checkpoint identities and hashes;
-- a GitHub Release backup of the final model;
+- the public [ArchiveTrust Loghi Swedish Scratch Model — Experiment 2 Epoch 7 release](https://github.com/hypergeek-dev/ArchiveTrust_HCR/releases/tag/model-loghi-swedish-scratch-exp2-epoch7), containing the final checkpoint, tokenizer, configuration and provenance manifest;
 - benchmark protocol and locked decisions;
 - dataset provenance and exclusion decisions;
 - frozen benchmark metadata;
