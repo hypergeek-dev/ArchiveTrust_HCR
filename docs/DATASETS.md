@@ -9,7 +9,7 @@ external dataset becomes a benchmark.
 | Loghi training splits (train / val 1000 lines / sealed test 810 lines) | Manifests deleted in commit f0de635 | Only hashes survive: dataset `fc21a708…`, train `e12796a0…`, val `92f74011c568…` | Val produced CER 0.0998 / WER 0.3273. The sealed test was never evaluated and cannot be rebuilt without the corpus. |
 | `dataset-rgb/` | Repo root (gitignored) | 766 page PNGs in 31 volume folders (14 GB, RGB, mostly double-page spreads). **No transcriptions.** | **`NO_GROUND_TRUTH / NOT_AN_ACCURACY_BENCHMARK`.** Used only for the mechanical dry run (see below). Inspection correctly reports `gt.none_found`. No CER/WER may ever be computed or quoted on it. |
 | Reliability-screening segmentation and crops | `docs/experiments/technical-reliability-screening/full-run/reliability-2026-07-31/` (crops gitignored) | Florence-2 line boxes for 60 `dataset-rgb` pages (2,678 lines). No GT. | Segmentation input for the dry run (`scripts/dryrun_segmentation_from_reliability.py`). |
-| External benchmark set (from a colleague) | `benchmark-data/incoming/<source_id>/` when it arrives | **Pending** | The independent Loghi-vs-Lion benchmark. Copy it in unchanged, then run `inspect`. |
+| External benchmark set (from a colleague): `svea-hovratt-2026-09` | `benchmark-data/incoming/svea-hovratt-2026-09/` | **Delivered 2026-09-27.** Candidate built, not frozen: provenance questions open. | The independent Loghi-vs-Lion benchmark. See the section below. |
 
 ## dataset-rgb mechanical dry run (NO_GROUND_TRUTH / NOT_AN_ACCURACY_BENCHMARK)
 
@@ -32,6 +32,22 @@ The output goes to `benchmark-data/dryrun/dataset-rgb-dryrun/`. On 2026-09-27 th
 
 The predictions only show that each model loads and emits text. **They are not an accuracy
 measurement.**
+
+## svea-hovratt-2026-09 (external GT, Transkribus export)
+
+The delivery is 14 Transkribus export jobs (PAGE-XML and ALTO with JPG pages), 237 pages and
+10,557 lines, delivered as one macOS zip. Its tree digest is `ae80127b…` over 1,618 files,
+including the `__MACOSX` metadata files. The decisions (D1–D4) are in `docs/BENCHMARK_PROTOCOL.md`
+§3.
+
+The candidate primary set, built 2026-09-27, is **5 documents, 140 pages, 6,504 lines, 214,807
+characters, 37,733 words**:
+
+- characters are NFC code points of canonical GT, including inner spaces;
+- words are split on whitespace, as the scorer does.
+
+It is not frozen. The provenance questions are in
+`benchmark-data/work/svea-hovratt-2026-09/PROVENANCE.md`.
 
 ## Training corpus search
 

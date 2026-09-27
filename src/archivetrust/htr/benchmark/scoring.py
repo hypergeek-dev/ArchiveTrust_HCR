@@ -5,6 +5,10 @@ Definitions (fixed by `SCORING_VERSION`):
   Character edits are case-, punctuation- and whitespace-sensitive.
 - Secondary ("whitespace-normalized") score: `evaluation.metrics.normalize_text` on both sides
   (NFC, whitespace runs collapsed). Reported next to the primary, never instead of it.
+- Sensitivity ("line-end hyphen harmonized") score, pre-registered 2026-09-27 before any model run:
+  the raw texts, except that a line-final `¬` is replaced by `-` on both sides, so the two
+  line-end hyphenation conventions count as equal. Nothing else changes: internal hyphens, `ß`,
+  `;` and all other characters stay as they are. Reported next to the primary, never instead of it.
 - Corpus CER = sum of character edits / sum of reference characters over *all* benchmark lines;
   failed, missing and empty predictions are included as empty hypotheses (all deletions).
   Corpus WER likewise over whitespace-split words. Mean per-line CER is reported as a secondary
@@ -27,10 +31,25 @@ from archivetrust.htr.benchmark.contract import BenchmarkLine
 from archivetrust.htr.benchmark.inference import PredictionRecord
 from archivetrust.htr.evaluation.recognition import classify_char_edits, classify_word_edits
 
-SCORING_VERSION = "1"
+SCORING_VERSION = "2"
 BOOTSTRAP_SAMPLES = 2000
 BOOTSTRAP_SEED = 20260927
 MIN_CLUSTERS = 10
+SENSITIVITY_LINE_END_HYPHEN = "line_end_hyphen_harmonized"
+SENSITIVITY_RULES = {
+    SENSITIVITY_LINE_END_HYPHEN: "a line-final '¬' is replaced by '-' in reference and prediction before scoring; "
+                                 "internal hyphens and every other character are untouched",
+}
+
+
+def harmonize_line_end_hyphen(text: str) -> str:
+    return text[:-1] + "-" if text.endswith("¬") else text
+
+
+def scoring_record() -> dict:
+    """What a frozen benchmark pins about its scoring, before any model output exists."""
+    return {"scoring_version": SCORING_VERSION, "primary": "raw", "secondary": ["whitespace_normalized"],
+            "sensitivity": SENSITIVITY_RULES}
 
 
 class ScoringError(ValueError):
@@ -58,6 +77,10 @@ class LineScore:
     norm_char_edits: int
     norm_ref_words: int
     norm_word_edits: int
+    hyph_ref_chars: int
+    hyph_char_edits: int
+    hyph_ref_words: int
+    hyph_word_edits: int
 
     @property
     def char_edits(self) -> int:
@@ -79,6 +102,9 @@ def score_line(line: BenchmarkLine, prediction: PredictionRecord) -> LineScore:
     nref, nhyp = normalize_text(ref), normalize_text(hyp)
     nchars = classify_char_edits(nref, nhyp)
     nwords = classify_word_edits(nref.split(), nhyp.split())
+    href, hhyp = harmonize_line_end_hyphen(ref), harmonize_line_end_hyphen(hyp)
+    hchars = classify_char_edits(href, hhyp)
+    hwords = classify_word_edits(href.split(), hhyp.split())
     return LineScore(
         line_id=line.line_id, document_id=line.document_id, page_id=line.page_id, collection=line.collection,
         status=prediction.status, reference=ref, prediction=hyp,
@@ -86,6 +112,8 @@ def score_line(line: BenchmarkLine, prediction: PredictionRecord) -> LineScore:
         ref_words=len(ref.split()), word_sub=words.substitutions, word_ins=words.insertions, word_del=words.deletions,
         norm_ref_chars=len(nref), norm_char_edits=nchars.substitutions + nchars.insertions + nchars.deletions,
         norm_ref_words=len(nref.split()), norm_word_edits=nwords.substitutions + nwords.insertions + nwords.deletions,
+        hyph_ref_chars=len(href), hyph_char_edits=hchars.substitutions + hchars.insertions + hchars.deletions,
+        hyph_ref_words=len(href.split()), hyph_word_edits=hwords.substitutions + hwords.insertions + hwords.deletions,
     )
 
 
@@ -118,6 +146,8 @@ def aggregate(scores: Sequence[LineScore]) -> dict:
     word_edits = sum(s.word_edits for s in scores)
     norm_chars = sum(s.norm_ref_chars for s in scores)
     norm_words = sum(s.norm_ref_words for s in scores)
+    hyph_chars = sum(s.hyph_ref_chars for s in scores)
+    hyph_words = sum(s.hyph_ref_words for s in scores)
     status = defaultdict(int)
     for s in scores:
         status[s.status] += 1
@@ -137,6 +167,8 @@ def aggregate(scores: Sequence[LineScore]) -> dict:
         "word_deletions": sum(s.word_del for s in scores),
         "cer_whitespace_normalized": sum(s.norm_char_edits for s in scores) / norm_chars if norm_chars else None,
         "wer_whitespace_normalized": sum(s.norm_word_edits for s in scores) / norm_words if norm_words else None,
+        "cer_line_end_hyphen_harmonized": sum(s.hyph_char_edits for s in scores) / hyph_chars if hyph_chars else None,
+        "wer_line_end_hyphen_harmonized": sum(s.hyph_word_edits for s in scores) / hyph_words if hyph_words else None,
         "exact_line_accuracy": sum(1 for s in scores if s.char_edits == 0) / len(scores) if scores else None,
         "mean_line_cer_macro": sum(s.cer for s in scores) / len(scores) if scores else None,
         "status_counts": dict(status),

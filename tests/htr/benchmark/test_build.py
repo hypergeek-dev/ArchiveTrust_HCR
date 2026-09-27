@@ -56,6 +56,7 @@ def test_decisions_resolve_review_items_and_freeze_is_immutable(tmp_path):
     record = freeze(tmp_path / "cand", tmp_path / "bench" / "b1", benchmark_id="b1")
     assert record["lines"] == 3 and record["decisions_sha256"] == sha256_file(decisions)
     assert record["provenance"]["official"] is False
+    assert record["scoring"]["primary"] == "raw" and "line_end_hyphen_harmonized" in record["scoring"]["sensitivity"]
     _, lines, findings = verify_frozen(tmp_path / "bench" / "b1")
     assert findings == [] and len(lines) == 3
     with pytest.raises(BuildError, match="never overwritten"):
@@ -104,6 +105,18 @@ def test_page_xml_build_crops_from_polygons(tmp_path):
     assert Image.open(io.BytesIO((tmp_path / "cand" / lines[0].line_image_path).read_bytes())).size == (650, 40)
     again = build_candidate(src, tmp_path / "cand2", dataset_id="ds1", source_id="px")
     assert again.manifest_sha256 == summary.manifest_sha256  # deterministic
+    assert "crop_clamped" not in lines[0].source_metadata
+
+
+def test_page_xml_build_flags_clamped_crops(tmp_path):
+    src = tmp_path / "incoming" / "px"
+    write(src, "doc/0001.jpg", page_jpg((800, 1000)))
+    write(src, "doc/page/0001.xml", page_xml("0001.jpg", [("l1", "Anno", box(50, 100, 700, 140)),
+                                                            ("l2", "Maj", box(50, 960, 900, 1040))]))
+    build_candidate(src, tmp_path / "cand", dataset_id="ds1", source_id="px")
+    by_key = {line.line_key: line for line in read_manifest(tmp_path / "cand/manifest.jsonl")}
+    assert "crop_clamped" not in by_key["l1"].source_metadata
+    assert by_key["l2"].source_metadata["crop_clamped"] is True and by_key["l2"].crop.bbox == (50, 960, 800, 1000)
 
 
 def test_candidate_cannot_be_written_inside_incoming(tmp_path):

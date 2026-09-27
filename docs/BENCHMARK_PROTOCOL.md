@@ -146,6 +146,44 @@ python -m archivetrust.htr.benchmark score friend-2026-v1 r1 --official
 - To freeze while lines are still in the review queue, pass `--exclude-unresolved`. The
   exclusions are recorded, and they can bias the benchmark.
 
+### Delivery `svea-hovratt-2026-09`: decisions approved 2026-09-27 (before any model run)
+
+This delivery is a Transkribus export with 14 export jobs. The decisions are generated
+deterministically by `benchmark-data/work/svea-hovratt-2026-09/make_decisions.py`. That script reads
+only the delivery and the inspection findings.
+
+- **D1 (collections).** The primary set keeps only the five transcribed Svea Hovrätt collections:
+  export jobs 4502442–4502446.
+  - Excluded by whole page:
+    - the Transkribus sample documents (German, Dutch, English, Wiener Diarium);
+    - the collections with no GT or too little GT (4502437, 4502438, 4502441).
+  - One line in a kept collection has no transcription and is excluded.
+- **D2 (held back).** Both `TRAINING_VALIDATION_SET_*` collections (4502439, 4502440) are excluded
+  completely until their provenance is confirmed.
+- **D3 (format).** PAGE-XML is the authoritative source format: `--adapter page_xml`, never
+  auto-detection. The auto-detection scores for PAGE and ALTO were tied. The ALTO files are unused.
+- **D4a (outer whitespace).** Leading and trailing whitespace is trimmed from canonical GT, and
+  nothing else changes.
+  - This is implemented as `set_gt` decisions with `gt == gt_source.strip()` and reason `D4a`. The
+    manifest therefore labels these lines `human_correction`, even though the change is a
+    deterministic trim.
+  - `gt_source` keeps the delivered text.
+  - Inner whitespace, spelling and punctuation are never changed.
+- **D4b (editorial markup).** Lines with editorial markup such as `[???]` are excluded from the
+  primary set, pending the provider's convention. They are listed in
+  `work/svea-hovratt-2026-09/editorial_markup_review.jsonl`.
+- **Kept as supplied:**
+  - characters outside Loghi's charset (they are reported as charset coverage);
+  - identical transcriptions on different line images;
+  - crops clamped to the page raster (flagged `crop_clamped` in the line's `source_metadata`).
+- **D5 (scoring).** The line-end hyphen sensitivity score (§6) is pre-registered. Raw scoring stays
+  primary. It is recorded as a comment line in `decisions.jsonl`, and `FROZEN.json` pins it.
+- **Freeze gate.** Do not freeze until the provider's answers on the transcription conventions are
+  recorded in `work/svea-hovratt-2026-09/PROVENANCE.md`: `[???]`, diplomatic vs normalized,
+  line-end hyphenation and `ß`.
+  - After the answers are in, rebuild if needed and freeze.
+  - Make no GT or method changes after the freeze.
+
 ## 4. Line images and segmentation
 
 - **Supplied line images** are copied byte-identical. Other formats are converted losslessly to
@@ -153,7 +191,8 @@ python -m archivetrust.htr.benchmark score friend-2026-v1 r1 --official
   frames go to review, because the two model stacks would decode them differently.
 - **Pages with line polygons** (PAGE, ALTO) use crop policy `bbox_v1`:
   - the polygon's bounding box is cut from the full-resolution page decoded as RGB;
-  - the box is clamped to the raster;
+  - the box is clamped to the raster. A line whose polygon runs past the raster (the same test as
+    `layout.polygon_out_of_bounds`) gets `crop_clamped: true` in `source_metadata`;
   - PNG output uses `optimize=False, compress_level=6`;
   - the geometry (rounding and clamping) is the same as `florence2_line_detector.crop_lines`. On
     2026-09-27 all 2,678 dataset-rgb dry-run crops were pixel-identical to that run's crops; only
@@ -203,7 +242,7 @@ model is.
 - Every Lion parameter is passed explicitly, so nothing is inherited silently from
   `generation_config.json`.
 
-## 6. Scoring (`scoring.py`, `SCORING_VERSION = 1`)
+## 6. Scoring (`scoring.py`, `SCORING_VERSION = 2`)
 
 - **Primary score.** Reference = `gt_canonical`. Hypothesis = prediction after NFC and removal of
   outer whitespace, applied identically to both models. The number of predictions that had outer
@@ -218,6 +257,16 @@ model is.
   every line exactly once with matching image hashes. Partial (`--limit`) runs cannot be scored.
 - **Secondary scores**: whitespace-normalized CER/WER (`evaluation.metrics.normalize_text`), exact
   line accuracy, and a macro mean of per-line CER.
+- **Sensitivity score** `line_end_hyphen_harmonized` (added in version 2, pre-registered 2026-09-27
+  before any model run on a GT benchmark):
+  - It uses the raw texts, except that a **line-final** `¬` counts as `-` in both reference and
+    prediction.
+  - Nothing else changes: internal hyphens, `ß`, `;` and all other characters stay as they are.
+  - Reason: the training data marks line-end hyphenation with `¬` (27% of lines), while the
+    `svea-hovratt-2026-09` GT uses `-` (11% of lines).
+  - The score is reported next to raw CER/WER in every report, and never replaces the primary
+    score.
+  - `FROZEN.json` pins the scoring version and this rule (`scoring`).
 - **Confidence intervals** use a 95% percentile cluster bootstrap: 2000 resamples, seed 20260927.
   - The cluster is the document if there are at least 10 documents, else the page, else the line.
     Line-level clusters are flagged as too narrow.

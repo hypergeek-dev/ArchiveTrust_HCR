@@ -47,7 +47,7 @@ from archivetrust.htr.benchmark.contract import (
 )
 from archivetrust.htr.benchmark.findings import Finding, findings_to_jsonl
 from archivetrust.htr.benchmark.imaging import crop_line, open_page_rgb, polygon_bbox, prepare_supplied_line_image, probe_image_bytes
-from archivetrust.htr.benchmark.inspection import InspectionResult, inspect_source
+from archivetrust.htr.benchmark.inspection import BOUNDS_TOLERANCE_PX, InspectionResult, inspect_source
 from archivetrust.htr.benchmark.layout import assert_outside
 from archivetrust.htr.benchmark.normalization import PROTOCOL_ID, RULE_HUMAN_CORRECTION, canonicalize_gt, protocol_record
 from archivetrust.htr.benchmark.provenance import provenance, utc_now
@@ -283,6 +283,8 @@ def _materialize(line: CandidateLine, source_dir: Path, lines_dir: Path, *, data
         bbox = polygon_bbox(line.polygon or (), width=width, height=height)
         if bbox is None:
             raise _MaterializeError("build.empty_crop", "line polygon is empty after clamping to the page raster")
+        if line.polygon and _out_of_bounds(line.polygon, width=width, height=height):
+            metadata["crop_clamped"] = True  # same test as inspection's layout.polygon_out_of_bounds
         polygon = tuple((int(round(x)), int(round(y))) for x, y in line.polygon or ())
         out_bytes = crop_line(page, bbox, polygon=polygon, mask_polygon=crop_policy == "polygon_mask_v1")  # type: ignore[arg-type]
         ext = ".png"
@@ -323,6 +325,12 @@ def _materialize(line: CandidateLine, source_dir: Path, lines_dir: Path, *, data
     )
 
 
+def _out_of_bounds(polygon, *, width: int, height: int) -> bool:
+    xs, ys = [p[0] for p in polygon], [p[1] for p in polygon]
+    return (min(xs) < -BOUNDS_TOLERANCE_PX or min(ys) < -BOUNDS_TOLERANCE_PX
+            or max(xs) > width + BOUNDS_TOLERANCE_PX or max(ys) > height + BOUNDS_TOLERANCE_PX)
+
+
 def _original_filename(line: CandidateLine) -> str:
     original = line.metadata.get("original_image_name") or line.image_path
     return str(original).replace("\\", "/").rsplit("/", 1)[-1]
@@ -343,6 +351,8 @@ def _tree_digest(root: Path) -> dict:
 
 def freeze(candidate_dir: Path, frozen_dir: Path, *, benchmark_id: str, exclude_unresolved: bool = False,
            official: bool = False) -> dict:
+    from archivetrust.htr.benchmark.scoring import scoring_record  # noqa: PLC0415 -- scoring -> inference -> build
+
     candidate_dir, frozen_dir = Path(candidate_dir), Path(frozen_dir)
     if safe_id_component(benchmark_id) != benchmark_id:
         raise BuildError(f"{benchmark_id!r} is not a safe identifier")
@@ -390,6 +400,7 @@ def freeze(candidate_dir: Path, frozen_dir: Path, *, benchmark_id: str, exclude_
         "reference_characters": sum(len(line.gt_canonical) for line in lines),
         "crop_policies": sorted({line.crop.policy for line in lines}),
         "normalization_protocol": PROTOCOL_ID,
+        "scoring": scoring_record(),
         "build_sha256": sha256_file(candidate_dir / "build.json"),
         "decisions_sha256": build["decisions"]["sha256"],
         "source_tree": build["source_tree"],

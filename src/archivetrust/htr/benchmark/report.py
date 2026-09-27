@@ -140,6 +140,12 @@ def render_report(scores: dict) -> str:
                    f"{c['failed_or_missing_lines']} | {c['status_counts'].get('empty', 0)} |")
     if boot.get("warning"):
         out += ["", f"> Warning: {boot['warning']}"]
+    out += ["", "Sensitivity score (pre-registered; **not** the primary result): line-end hyphen harmonized "
+            "(a line-final `¬` counts as `-` on both sides; nothing else changed).", "",
+            "| Model | CER raw | CER line-end hyphen harmonized | WER raw | WER line-end hyphen harmonized |", "|---|---|---|---|---|"]
+    for name, c in sorted(corpus.items()):
+        out.append(f"| {name} | {_pct(c['cer'])} | {_pct(c['cer_line_end_hyphen_harmonized'])} | "
+                   f"{_pct(c['wer'])} | {_pct(c['wer_line_end_hyphen_harmonized'])} |")
     for pair, entry in boot["paired_differences"].items():
         out += ["", f"**Paired difference ({entry['cer']['difference']})**: CER 95% CI {_ci(entry['cer']['ci95'])}, "
                 f"WER 95% CI {_ci(entry['wer']['ci95'])}. An interval that contains 0 means the benchmark does not "
